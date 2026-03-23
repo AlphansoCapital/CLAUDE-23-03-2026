@@ -1,0 +1,54 @@
+{% comment %}
+  AI & LLM Discovery Snippet
+  Renders AI-specific structured data for ChatGPT, Gemini, Claude, Grok etc.
+  Include: {% render 'ai-meta' %}
+{% endcomment %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemPage",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Urban Trend",
+    "url": "{{ shop.url }}"
+  },
+  "about": {
+    "@type": "Organization",
+    "name": "Urban Trend",
+    "description": "India's premium beauty brand — skincare, makeup & fragrance for Indian skin",
+    "foundingDate": "2010",
+    "foundingLocation": "Mumbai, India",
+    "areaServed": "IN"
+  },
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": ["h1", "h2", ".sec-title", ".pdp-title", ".ut-coll-title"]
+  }
+}
+</script>
+
+<!-- AI Shopping Actions -->
+{%- if template.name == 'product' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BuyAction",
+  "object": {
+    "@type": "Product",
+    "name": "{{ product.title | escape }}",
+    "brand": {"@type": "Brand", "name": "Urban Trend"},
+    "offers": {
+      "@type": "Offer",
+      "price": "{{ product.price | money_without_currency }}",
+      "priceCurrency": "INR",
+      "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+    }
+  },
+  "target": {
+    "@type": "EntryPoint",
+    "urlTemplate": "{{ canonical_url }}"
+  }
+}
+</script>
+{%- endif -%}
