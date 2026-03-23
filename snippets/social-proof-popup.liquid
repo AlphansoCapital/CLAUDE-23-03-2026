@@ -1,0 +1,165 @@
+{% comment %}
+  Urban Trend — Social Proof Conversion Snippet
+  Features:
+  1. Recent purchase popup (bottom left) — "Someone from Delhi just bought X"
+  2. Live viewers counter on product pages — "X people viewing this"
+  3. Stock urgency bar — "Only X left — selling fast"
+{% endcomment %}
+
+{% if template.name == 'product' %}
+
+{%- comment -%} STOCK URGENCY BAR {%- endcomment -%}
+<div id="ut-stock-urgency" style="display:none;">
+  <div class="ut-stock-bar-wrap">
+    <div class="ut-stock-bar-top">
+      <span class="ut-stock-fire">🔥</span>
+      <span class="ut-stock-text" id="ut-stock-text">Only <strong id="ut-stock-num">7</strong> left — selling fast</span>
+    </div>
+    <div class="ut-stock-track">
+      <div class="ut-stock-fill" id="ut-stock-fill"></div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%} LIVE VIEWERS {%- endcomment -%}
+<div class="ut-viewers" id="ut-viewers">
+  <span class="ut-viewers-dot"></span>
+  <span id="ut-viewers-count">12</span> people viewing this right now
+</div>
+
+{% endif %}
+
+{%- comment -%} RECENT PURCHASE POPUP {%- endcomment -%}
+<div class="ut-sp-popup" id="ut-sp-popup" style="display:none;" onclick="this.style.display='none'">
+  <div class="ut-sp-popup-inner">
+    <div class="ut-sp-avatar" id="ut-sp-avatar">R</div>
+    <div class="ut-sp-info">
+      <div class="ut-sp-name" id="ut-sp-name">Rahul from Mumbai</div>
+      <div class="ut-sp-product" id="ut-sp-product">just purchased</div>
+      <div class="ut-sp-time" id="ut-sp-time">2 minutes ago</div>
+    </div>
+    <div class="ut-sp-close" onclick="document.getElementById('ut-sp-popup').style.display='none'">×</div>
+  </div>
+</div>
+
+<style>
+/* ── STOCK URGENCY ── */
+.ut-stock-bar-wrap{padding:12px 0 16px;}
+.ut-stock-bar-top{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.ut-stock-fire{font-size:14px;}
+.ut-stock-text{font-family:'Jost',sans-serif;font-size:12px;font-weight:400;color:rgba(250,246,240,0.7);}
+.ut-stock-text strong{color:#E8C989;font-weight:600;}
+.ut-stock-track{height:4px;background:rgba(201,169,110,0.12);border-radius:2px;overflow:hidden;}
+.ut-stock-fill{height:100%;background:linear-gradient(to right,var(--ut-gold),var(--ut-gold-light));border-radius:2px;transition:width 1.2s cubic-bezier(0.22,1,0.36,1);}
+
+/* ── LIVE VIEWERS ── */
+.ut-viewers{display:flex;align-items:center;gap:7px;font-family:'Jost',sans-serif;font-size:12px;color:rgba(250,246,240,0.5);margin-bottom:14px;}
+.ut-viewers-dot{width:7px;height:7px;border-radius:50%;background:#7BC87B;flex-shrink:0;animation:ut-vdot 2s ease-in-out infinite;box-shadow:0 0 6px rgba(123,200,123,0.6);}
+@keyframes ut-vdot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.4);}}
+
+/* ── RECENT PURCHASE POPUP ── */
+.ut-sp-popup{position:fixed;bottom:24px;left:20px;z-index:9990;max-width:300px;cursor:pointer;animation:ut-sp-in 0.45s cubic-bezier(0.22,1,0.36,1);}
+@keyframes ut-sp-in{from{opacity:0;transform:translateX(-20px);}to{opacity:1;transform:translateX(0);}}
+.ut-sp-popup-inner{display:flex;align-items:center;gap:12px;background:rgba(20,18,16,0.97);border:1px solid rgba(201,169,110,0.25);padding:12px 14px;backdrop-filter:blur(12px);position:relative;box-shadow:0 8px 32px rgba(0,0,0,0.5);}
+.ut-sp-avatar{width:38px;height:38px;border-radius:50%;background:var(--ut-gold-25);border:1px solid var(--ut-border-md);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:var(--ut-gold);flex-shrink:0;}
+.ut-sp-info{flex:1;min-width:0;}
+.ut-sp-name{font-family:'Jost',sans-serif;font-size:12px;font-weight:500;color:rgba(250,246,240,0.9);margin-bottom:2px;}
+.ut-sp-product{font-family:'Jost',sans-serif;font-size:11px;font-weight:300;color:rgba(250,246,240,0.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ut-sp-time{font-family:'Jost',sans-serif;font-size:10px;color:var(--ut-gold);margin-top:2px;}
+.ut-sp-close{position:absolute;top:6px;right:8px;font-size:14px;color:rgba(250,246,240,0.3);cursor:pointer;line-height:1;transition:color 0.2s;}
+.ut-sp-close:hover{color:rgba(250,246,240,0.7);}
+
+@media(max-width:480px){
+  .ut-sp-popup{bottom:80px;left:12px;max-width:260px;}
+  .ut-sp-popup-inner{padding:10px 12px;gap:10px;}
+}
+</style>
+
+<script>
+(function(){
+
+  /* ── SOCIAL PROOF DATA ── */
+  var spData = [
+    {name:'Priya S.', city:'Mumbai',    initial:'P', product:'{{ shop.name }} Bestseller'},
+    {name:'Rahul K.', city:'Delhi',     initial:'R', product:'Just restocked item'},
+    {name:'Ananya M.',city:'Bangalore', initial:'A', product:'Top rated product'},
+    {name:'Vikram J.',city:'Pune',      initial:'V', product:'Limited edition pick'},
+    {name:'Sneha T.', city:'Chennai',   initial:'S', product:'Customer favourite'},
+    {name:'Arjun R.', city:'Hyderabad', initial:'A', product:'Trending this week'},
+    {name:'Kavya N.', city:'Kolkata',   initial:'K', product:'Most gifted item'},
+    {name:'Rohit P.', city:'Jaipur',    initial:'R', product:'Selling fast today'},
+    {name:'Divya L.', city:'Ahmedabad', initial:'D', product:'New arrival pick'},
+    {name:'Aakash B.',city:'Surat',     initial:'A', product:'Staff favourite'},
+  ];
+
+  var times = ['just now','1 min ago','2 min ago','3 min ago','5 min ago','7 min ago','8 min ago','12 min ago','15 min ago','18 min ago'];
+
+  function showPopup(){
+    var d = spData[Math.floor(Math.random()*spData.length)];
+    var t = times[Math.floor(Math.random()*4)];
+    var popup = document.getElementById('ut-sp-popup');
+    if(!popup) return;
+    document.getElementById('ut-sp-avatar').textContent = d.initial;
+    document.getElementById('ut-sp-name').textContent = d.name + ' from ' + d.city;
+    document.getElementById('ut-sp-product').textContent = d.product;
+    document.getElementById('ut-sp-time').textContent = t;
+    popup.style.display = 'block';
+    setTimeout(function(){ popup.style.display='none'; }, 5000);
+  }
+
+  /* Show first popup after 8s, then every 25-40s */
+  setTimeout(function(){
+    showPopup();
+    setInterval(showPopup, Math.random()*15000 + 25000);
+  }, 8000);
+
+  /* ── STOCK URGENCY (product pages only) ── */
+  var stockWrap = document.getElementById('ut-stock-urgency');
+  var stockNum  = document.getElementById('ut-stock-num');
+  var stockFill = document.getElementById('ut-stock-fill');
+  if(stockWrap && stockNum && stockFill){
+    /* Random low stock 4-12 */
+    var qty = Math.floor(Math.random()*9)+4;
+    var maxQty = 20;
+    var pct = Math.round((1 - qty/maxQty)*100);
+    stockNum.textContent = qty;
+    stockWrap.style.display = 'block';
+
+    /* Inject into product info after price */
+    var priceRow = document.querySelector('.ut-pdp-price-row, .ut-pdp-tax');
+    if(priceRow && priceRow.parentNode){
+      priceRow.parentNode.insertBefore(stockWrap, priceRow.nextSibling);
+    }
+
+    /* Animate bar after short delay */
+    setTimeout(function(){
+      stockFill.style.width = pct + '%';
+    }, 600);
+  }
+
+  /* ── LIVE VIEWERS (product pages only) ── */
+  var viewersEl = document.getElementById('ut-viewers');
+  var viewersCount = document.getElementById('ut-viewers-count');
+  if(viewersEl && viewersCount){
+    /* Start with random 8-24 */
+    var vCount = Math.floor(Math.random()*16)+8;
+    viewersCount.textContent = vCount;
+
+    /* Inject before ATC row */
+    var atcRow = document.querySelector('.ut-pdp-atc-row');
+    if(atcRow && atcRow.parentNode){
+      atcRow.parentNode.insertBefore(viewersEl, atcRow);
+    }
+
+    /* Fluctuate every 8-15 seconds */
+    function fluctuate(){
+      var delta = Math.floor(Math.random()*3)-1;
+      vCount = Math.max(5, Math.min(40, vCount+delta));
+      viewersCount.textContent = vCount;
+      setTimeout(fluctuate, Math.random()*7000+8000);
+    }
+    setTimeout(fluctuate, 10000);
+  }
+
+})();
+</script>
