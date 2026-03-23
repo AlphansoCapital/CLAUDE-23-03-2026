@@ -1,0 +1,58 @@
+<style>
+.ut-contact-wrap{max-width:640px;margin:0 auto;padding:80px 24px;}
+.ut-contact-title{font-family:'Cinzel',serif;font-size:clamp(24px,4vw,36px);color:var(--ut-gold);letter-spacing:0.15em;text-align:center;margin-bottom:8px;}
+.ut-contact-sub{font-family:'Jost',sans-serif;font-size:13px;color:rgba(250,246,240,0.5);text-align:center;letter-spacing:0.1em;margin-bottom:48px;}
+.ut-contact-form{display:flex;flex-direction:column;gap:16px;}
+.ut-contact-input,.ut-contact-textarea{background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.2);color:var(--ut-text);font-family:'Jost',sans-serif;font-size:14px;padding:14px 18px;letter-spacing:0.06em;outline:none;transition:border-color 0.2s;width:100%;}
+.ut-contact-input:focus,.ut-contact-textarea:focus{border-color:rgba(201,169,110,0.5);}
+.ut-contact-input::placeholder,.ut-contact-textarea::placeholder{color:rgba(250,246,240,0.25);}
+.ut-contact-textarea{min-height:140px;resize:vertical;}
+.ut-contact-btn{background:var(--ut-gold);color:var(--ut-bg);border:none;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.4em;text-transform:uppercase;padding:16px;cursor:pointer;transition:opacity 0.2s;}
+.ut-contact-btn:hover{opacity:0.85;}
+.ut-contact-info{display:flex;gap:32px;justify-content:center;margin-top:48px;flex-wrap:wrap;}
+.ut-contact-info-item{text-align:center;}
+.ut-contact-info-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.3em;color:var(--ut-gold);margin-bottom:6px;}
+.ut-contact-info-val{font-family:'Jost',sans-serif;font-size:13px;color:rgba(250,246,240,0.6);letter-spacing:0.05em;}
+</style>
+
+<div class="ut-contact-wrap">
+  <h1 class="ut-contact-title">Contact Us</h1>
+  <p class="ut-contact-sub">We respond within 24 hours · Mon–Sat 10am–6pm IST</p>
+
+  {% form 'contact' %}
+    {% if form.posted_successfully? %}
+      <p style="font-family:'Jost',sans-serif;font-size:13px;color:var(--ut-gold);text-align:center;padding:20px;border:1px solid rgba(201,169,110,0.3);">Thank you! We'll get back to you within 24 hours.</p>
+    {% else %}
+      <div class="ut-contact-form">
+        <input class="ut-contact-input" type="text" name="contact[name]" placeholder="Your Name" required>
+        <input class="ut-contact-input" type="email" name="contact[email]" placeholder="Email Address" required>
+        <input class="ut-contact-input" type="tel" name="contact[phone]" placeholder="Phone Number (optional)">
+        <textarea class="ut-contact-textarea" name="contact[body]" placeholder="How can we help you?"></textarea>
+        <button class="ut-contact-btn" type="submit">Send Message</button>
+      </div>
+    {% endif %}
+  {% endform %}
+
+  <div class="ut-contact-info">
+    <div class="ut-contact-info-item">
+      <div class="ut-contact-info-label">Email</div>
+      <div class="ut-contact-info-val">support@urbantrend.in</div>
+    </div>
+    <div class="ut-contact-info-item">
+      <div class="ut-contact-info-label">WhatsApp</div>
+      <div class="ut-contact-info-val">+91 98XXX XXXXX</div>
+    </div>
+    <div class="ut-contact-info-item">
+      <div class="ut-contact-info-label">Hours</div>
+      <div class="ut-contact-info-val">Mon–Sat 10am–6pm</div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
