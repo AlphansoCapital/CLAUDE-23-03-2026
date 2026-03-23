@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urban Trend — Vitamin E Moisturizing Gel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+:root{
+  --gold:#c9a96e;
+  --gold-lt:#dfc28a;
+  --gold-dim:rgba(201,169,110,0.45);
+  --ink:#0a0908;
+  --ink2:#111009;
+  --ink3:#161410;
+  --ink4:#1c1a16;
+  --cream:#faf6f0;
+  --cream2:rgba(250,246,240,0.65);
+  --cream3:rgba(250,246,240,0.35);
+  --cream4:rgba(250,246,240,0.18);
+  --rose:#8b3a52;
+  --rose-lt:#c07090;
+  --success:#7bc87b;
+  --border:rgba(201,169,110,0.12);
+  --border2:rgba(201,169,110,0.22);
+  --serif:'Cinzel',serif;
+  --body:'Jost',sans-serif;
+}
+
+body{background:var(--ink);color:var(--cream);font-family:var(--body);overflow-x:hidden;}
+
+/* ══ GRAIN OVERLAY ══ */
+body::before{
+  content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity:.4;
+}
+
+/* ══ NAVBAR ══ */
+.nav{
+  position:sticky;top:0;z-index:900;
+  background:rgba(10,9,8,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding:0 40px;height:64px;
+}
+.nav-logo{
+  font-family:var(--serif);font-size:14px;
+  letter-spacing:0.45em;color:var(--gold);
+  text-transform:uppercase;
+}
+.nav-links{display:flex;gap:28px;}
+.nav-link{
+  font-family:var(--serif);font-size:8px;
+  letter-spacing:0.28em;color:var(--cream3);
+  text-transform:uppercase;cursor:pointer;
+  transition:color .2s;
+}
+.nav-link:hover{color:var(--gold);}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.nav-icon{
+  font-size:16px;color:var(--cream3);
+  cursor:pointer;transition:color .2s;
+  position:relative;
+}
+.nav-icon:hover{color:var(--gold);}
+.nav-cart-badge{
+  position:absolute;top:-6px;right:-6px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--rose);color:var(--cream);
+  font-family:var(--body);font-size:9px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ══ PROMO BANNER ══ */
+.promo{
+  background:linear-gradient(90deg,rgba(139,58,82,0.9),rgba(201,169,110,0.4),rgba(139,58,82,0.9));
+  text-align:center;padding:9px 20px;
+  font-family:var(--serif);font-size:8px;
+  letter-spacing:0.32em;color:var(--cream);
+  text-transform:uppercase;
+}
+
+/* ══ PDP WRAP ══ */
+.pdp{max-width:1200px;margin:0 auto;padding:44px 40px 80px;}
+@media(max-width:960px){.pdp{grid-template-columns:1fr;padding:24px 20px 60px;}}
+
+.pdp-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:72px;align-items:start;
+}
+@media(max-width:960px){.pdp-grid{grid-template-columns:1fr;gap:36px;}}
+
+/* ══ BREADCRUMB ══ */
+.crumb{
+  font-family:var(--serif);font-size:8px;
+  letter-spacing:0.28em;color:var(--cream4);
+  text-transform:uppercase;margin-bottom:32px;
+  display:flex;align-items:center;gap:6px;
+}
+.crumb a{color:var(--cream4);cursor:pointer;transition:color .2s;}
+.crumb a:hover{color:var(--gold);}
+.crumb-sep{color:rgba(201,169,110,0.2);}
+
+/* ══ GALLERY ══ */
+.gal{position:sticky;top:84px;}
+
+.gal-main{
+  aspect-ratio:3/4;
+  background:linear-gradient(145deg,var(--ink4),var(--ink2));
+  border:1px solid var(--border);
+  overflow:hidden;position:relative;
+  cursor:zoom-in;
+}
+.gal-main-img{
+  width:100%;height:100%;object-fit:cover;
+  display:block;transition:transform .6s ease;
+}
+.gal-main:hover .gal-main-img{transform:scale(1.04);}
+
+/* SVG product placeholder */
+.gal-product-svg{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:16px;
+}
+
+.gal-discount{
+  position:absolute;top:14px;left:14px;z-index:3;
+  font-family:var(--serif);font-size:8px;letter-spacing:0.28em;
+  background:rgba(139,58,82,0.9);color:var(--cream);
+  padding:4px 12px;text-transform:uppercase;
+}
+.gal-share{
+  position:absolute;top:14px;right:14px;
+  background:rgba(10,9,8,0.65);border:1px solid var(--border2);
+  color:var(--gold);width:38px;height:38px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:3;font-size:16px;
+  backdrop-filter:blur(4px);transition:all .2s;border-radius:2px;
+}
+.gal-share:hover{background:rgba(201,169,110,0.15);}
+
+.gal-thumbs{
+  display:flex;gap:8px;margin-top:10px;
+  overflow-x:auto;padding-bottom:4px;
+}
+.gal-thumbs::-webkit-scrollbar{height:2px;}
+.gal-thumbs::-webkit-scrollbar-thumb{background:rgba(201,169,110,0.2);}
+
+.gal-thumb{
+  width:68px;height:84px;flex-shrink:0;
+  border:1px solid rgba(201,169,110,0.1);
+  cursor:pointer;overflow:hidden;
+  background:var(--ink4);transition:border-color .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.gal-thumb:hover,.gal-thumb.active{border-color:var(--gold);}
+.gal-thumb svg{width:80%;height:80%;opacity:0.7;}
+.gal-thumb.active svg{opacity:1;}
+.gal-thumb-color{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:7px;letter-spacing:0.15em;
+  color:var(--gold);
+}
+
+/* ══ INFO COLUMN ══ */
+.info{}
+
+.badge-row{margin-bottom:12px;}
+.badge{
+  font-family:var(--serif);font-size:7px;letter-spacing:0.3em;
+  text-transform:uppercase;padding:4px 10px;display:inline-block;
+  background:var(--gold);color:var(--ink);
+}
+
+.pdp-title{
+  font-family:var(--serif);
+  font-size:clamp(22px,2.6vw,32px);
+  font-weight:400;color:var(--cream);
+  letter-spacing:0.05em;line-height:1.22;
+  margin:0 0 6px;
+}
+.pdp-vendor{
+  font-family:var(--body);font-size:10px;
+  color:var(--cream4);letter-spacing:0.22em;
+  text-transform:uppercase;margin-bottom:16px;
+}
+
+.rating-row{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:18px;padding-bottom:18px;
+  border-bottom:1px solid var(--border);flex-wrap:wrap;
+}
+.stars{color:var(--gold);font-size:14px;letter-spacing:2px;}
+.score{font-family:var(--serif);font-size:13px;color:var(--gold);}
+.rcount{
+  font-family:var(--body);font-size:11px;
+  color:var(--cream3);cursor:pointer;text-decoration:underline;
+}
+.rcount:hover{color:var(--gold);}
+.verified{
+  font-family:var(--body);font-size:9px;color:var(--success);
+  border:1px solid rgba(123,200,123,0.3);padding:3px 8px;
+  letter-spacing:0.1em;
+}
+
+.price-row{
+  display:flex;align-items:baseline;gap:12px;
+  margin-bottom:5px;flex-wrap:wrap;
+}
+.price{font-family:var(--serif);font-size:32px;color:var(--gold);}
+.compare{
+  font-family:var(--body);font-size:17px;
+  color:rgba(250,246,240,0.22);text-decoration:line-through;
+}
+.save-pct{
+  font-family:var(--serif);font-size:8px;letter-spacing:0.25em;
+  color:var(--cream);background:var(--rose);padding:4px 12px;
+  text-transform:uppercase;
+}
+.tax-line{
+  font-family:var(--body);font-size:10px;
+  color:var(--cream4);letter-spacing:0.06em;margin-bottom:12px;
+}
+.emi-line{
+  font-family:var(--body);font-size:11px;
+  color:rgba(250,246,240,0.42);margin-bottom:20px;
+  padding:10px 14px;border:1px solid var(--border);
+  background:rgba(201,169,110,0.02);
+}
+.emi-line span{color:var(--gold);}
+
+/* ══ CTA SECTION ══ */
+.ut-cta{margin-top:4px;}
+
+.ut-cta-cd{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(201,169,110,0.09);
+  border:1px solid rgba(201,169,110,0.30);
+  border-radius:8px;padding:10px 16px;margin-bottom:14px;gap:10px;
+}
+.ut-cta-cd-label{
+  font-family:var(--serif);font-size:10px;
+  letter-spacing:0.12em;color:var(--gold);font-weight:600;
+}
+.ut-cta-cd-label span{color:rgba(250,246,240,0.65);}
+.ut-cta-cd-timer{display:flex;align-items:center;gap:3px;flex-shrink:0;}
+.ut-cta-cd-block{
+  text-align:center;background:rgba(0,0,0,0.45);
+  border-radius:5px;padding:4px 8px;min-width:36px;
+}
+.ut-cta-cd-block .n{
+  font-family:var(--serif);font-size:17px;font-weight:700;
+  color:#fff;display:block;line-height:1;
+}
+.ut-cta-cd-block .u{
+  font-size:7px;color:rgba(250,246,240,0.5);
+  letter-spacing:0.12em;text-transform:uppercase;
+}
+.ut-cta-cd-sep{
+  font-family:var(--serif);font-size:15px;
+  font-weight:700;color:var(--gold);padding:0 1px;
+}
+
+.ut-cta-endorse{
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;
+}
+.ut-cta-endorse-dot{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--gold);color:var(--ink);
+  font-family:var(--serif);font-size:14px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ut-cta-endorse-text{
+  font-family:var(--body);font-size:12px;color:var(--cream2);
+}
+.ut-cta-endorse-text strong{color:var(--cream);}
+
+.ut-cta-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;flex-wrap:wrap;gap:6px;
+}
+.ut-cta-stars{color:var(--gold);font-size:12px;letter-spacing:2px;}
+.ut-cta-score{font-family:var(--serif);font-size:12px;color:var(--gold);margin-left:5px;}
+.ut-cta-rcount{font-family:var(--body);font-size:11px;color:var(--cream3);margin-left:5px;text-decoration:underline;cursor:pointer;}
+.ut-cta-stock{
+  font-family:var(--body);font-size:11px;font-weight:600;
+  color:rgba(250,246,240,0.75);letter-spacing:0.05em;
+  display:flex;align-items:center;gap:5px;
+}
+.stock-dot{
+  width:7px;height:7px;background:var(--gold);border-radius:50%;
+  animation:sPulse 1.5s infinite;flex-shrink:0;
+}
+@keyframes sPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.5);}}
+
+.ut-cta-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.ut-cta-opt{
+  display:flex;align-items:center;gap:12px;
+  border:1.5px solid rgba(201,169,110,0.25);border-radius:10px;
+  padding:14px 16px;cursor:pointer;transition:all .2s;
+  position:relative;background:rgba(255,255,255,0.02);
+  user-select:none;
+}
+.ut-cta-opt:hover{border-color:rgba(201,169,110,0.55);background:rgba(201,169,110,0.04);}
+.ut-cta-opt.selected{border-color:var(--gold)!important;background:rgba(201,169,110,0.09)!important;}
+.opt-badge{
+  position:absolute;top:-10px;right:14px;
+  font-family:var(--body);font-size:10px;font-weight:700;
+  padding:2px 11px;border-radius:20px;letter-spacing:0.05em;
+}
+.bg-gold{background:var(--gold);color:var(--ink);}
+.bg-green{background:#4caf7d;color:#fff;}
+.ut-radio{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid rgba(201,169,110,0.4);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .2s;
+}
+.ut-cta-opt.selected .ut-radio{border-color:var(--gold);background:var(--gold);}
+.ut-cta-opt.selected .ut-radio::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--ink);}
+.opt-left{flex:1;}
+.opt-name{font-family:var(--body);font-size:14px;font-weight:700;color:#fff;}
+.opt-save{font-family:var(--body);font-size:11px;color:var(--gold);margin-top:2px;font-weight:600;}
+.opt-right{text-align:right;}
+.opt-price{font-family:var(--serif);font-size:16px;font-weight:700;color:#fff;display:block;}
+.opt-compare{font-family:var(--body);font-size:11px;color:rgba(250,246,240,0.35);text-decoration:line-through;display:block;}
+
+.ut-cta-refill{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(201,169,110,0.05);border:1px solid var(--border2);
+  border-radius:10px;padding:12px 14px;cursor:pointer;
+  margin-bottom:16px;transition:border-color .2s;
+}
+.ut-cta-refill:hover{border-color:rgba(201,169,110,0.4);}
+.refill-box{
+  width:18px;height:18px;border-radius:4px;
+  border:2px solid var(--gold);background:var(--gold);
+  color:var(--ink);font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;transition:all .2s;
+}
+.ut-cta-refill.off .refill-box{background:transparent;color:transparent;}
+.refill-text strong{display:block;font-family:var(--body);font-size:13px;color:#fff;margin-bottom:2px;}
+.refill-text span{font-family:var(--body);font-size:11px;color:rgba(250,246,240,0.5);}
+
+.ships{
+  font-family:var(--body);font-size:12px;
+  color:rgba(250,246,240,0.45);margin-bottom:16px;
+}
+.ships strong{color:rgba(250,246,240,0.8);}
+
+.btn-atc{
+  width:100%;background:var(--gold);color:var(--ink);border:none;
+  font-family:var(--serif);font-size:11px;letter-spacing:0.42em;
+  text-transform:uppercase;height:54px;cursor:pointer;
+  transition:all .3s;border-radius:6px;margin-bottom:10px;
+}
+.btn-atc:hover{background:var(--gold-lt);}
+.btn-atc:active{transform:scale(0.98);}
+.btn-atc.added{background:rgba(40,74,40,0.92);color:var(--success);letter-spacing:0.2em;}
+
+.btn-row{display:flex;gap:10px;margin-bottom:20px;}
+.btn-buy{
+  flex:1;background:none;
+  border:1px solid rgba(201,169,110,0.28);color:var(--gold);
+  font-family:var(--serif);font-size:10px;letter-spacing:0.38em;
+  text-transform:uppercase;height:48px;cursor:pointer;
+  transition:all .2s;border-radius:6px;
+}
+.btn-buy:hover{background:rgba(201,169,110,0.07);}
+.btn-wish{
+  width:48px;height:48px;flex-shrink:0;
+  border:1px solid rgba(201,169,110,0.2);background:none;
+  color:rgba(201,169,110,0.5);font-size:20px;cursor:pointer;
+  transition:all .2s;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+}
+.btn-wish:hover,.btn-wish.active{border-color:var(--rose);color:var(--rose);}
+
+.trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.trust-item{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--body);font-size:10px;color:rgba(250,246,240,0.42);
+  padding:8px 10px;border:1px solid rgba(201,169,110,0.07);border-radius:4px;
+  transition:border-color .2s;
+}
+.trust-item:hover{border-color:rgba(201,169,110,0.18);}
+.trust-item i{color:var(--gold);font-style:normal;font-size:13px;}
+
+/* ══ PIN CHECKER ══ */
+.pin-wrap{padding:12px 14px;border:1px solid var(--border);margin:20px 0;border-radius:4px;}
+.pin-head{font-family:var(--body);font-size:12px;color:var(--cream3);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.pin-row{display:flex;gap:8px;}
+.pin-input{
+  background:none;border:1px solid rgba(201,169,110,0.15);
+  color:var(--cream);font-family:var(--body);font-size:12px;
+  padding:8px 12px;width:130px;outline:none;border-radius:2px;
+  letter-spacing:0.06em;
+}
+.pin-input::placeholder{color:var(--cream4);}
+.pin-btn{
+  background:none;border:1px solid rgba(201,169,110,0.25);
+  color:var(--gold);font-family:var(--serif);font-size:8px;
+  letter-spacing:0.25em;padding:8px 14px;cursor:pointer;
+  text-transform:uppercase;transition:all .2s;border-radius:2px;
+}
+.pin-btn:hover{background:rgba(201,169,110,0.06);}
+.pin-result{font-family:var(--body);font-size:11px;margin-top:8px;display:none;letter-spacing:0.04em;}
+
+/* ══ ACCORDION ══ */
+.acc{border-top:1px solid var(--border);margin-top:20px;}
+.acc-item{border-bottom:1px solid var(--border);}
+.acc-btn{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  padding:15px 0;cursor:pointer;background:none;border:none;
+  font-family:var(--serif);font-size:9px;letter-spacing:0.3em;
+  color:rgba(201,169,110,0.6);text-transform:uppercase;text-align:left;
+  transition:color .2s;
+}
+.acc-btn:hover{color:var(--gold);}
+.acc-icon{font-size:18px;color:var(--gold);transition:transform .3s;flex-shrink:0;}
+.acc-btn.open .acc-icon{transform:rotate(45deg);}
+.acc-body{
+  font-family:var(--body);font-size:13px;color:rgba(250,246,240,0.52);
+  line-height:1.85;max-height:0;overflow:hidden;transition:max-height .4s ease;
+}
+.acc-body.open{max-height:400px;padding-bottom:16px;}
+.acc-body ul{padding-left:16px;}
+.acc-body li{margin-bottom:5px;}
+
+/* ══ BELOW FOLD ══ */
+.below{max-width:1200px;margin:0 auto;padding:0 40px 80px;}
+@media(max-width:768px){.below{padding:0 20px 60px;}}
+
+.section-sep{
+  height:1px;background:var(--border);
+  margin:56px 0;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;border-bottom:1px solid rgba(201,169,110,0.1);
+  margin-bottom:40px;overflow-x:auto;
+}
+.tab-btn{
+  font-family:var(--serif);font-size:9px;letter-spacing:0.28em;
+  color:rgba(201,169,110,0.4);text-transform:uppercase;
+  padding:14px 22px;cursor:pointer;
+  border-bottom:2px solid transparent;background:none;
+  border-top:none;border-left:none;border-right:none;
+  white-space:nowrap;transition:all .2s;
+}
+.tab-btn:hover{color:var(--gold);}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+/* Reviews */
+.rev-summary{
+  display:grid;grid-template-columns:160px 1fr;
+  gap:36px;margin-bottom:32px;align-items:center;
+}
+.rev-num{font-family:var(--serif);font-size:60px;color:var(--gold);line-height:1;}
+.rev-stars-big{color:var(--gold);font-size:18px;letter-spacing:3px;margin:4px 0;}
+.rev-total{font-family:var(--body);font-size:11px;color:var(--cream3);letter-spacing:0.15em;}
+.rev-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.rev-bar-lbl{font-family:var(--serif);font-size:9px;color:rgba(201,169,110,0.5);width:36px;text-align:right;flex-shrink:0;}
+.rev-bar-track{flex:1;height:4px;background:rgba(201,169,110,0.08);border-radius:2px;overflow:hidden;}
+.rev-bar-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 1.2s ease;}
+.rev-bar-cnt{font-family:var(--body);font-size:10px;color:var(--cream4);width:34px;}
+
+.rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;}
+@media(max-width:700px){.rev-grid{grid-template-columns:1fr;}}
+.rev-card{
+  background:var(--ink2);border:1px solid rgba(201,169,110,0.07);
+  padding:18px;border-radius:4px;
+}
+.rev-card-top{display:flex;justify-content:space-between;margin-bottom:8px;}
+.rev-card-stars{color:var(--gold);font-size:12px;letter-spacing:1px;}
+.rev-card-date{font-family:var(--body);font-size:10px;color:var(--cream4);}
+.rev-card-title{font-family:var(--serif);font-size:12px;color:var(--cream);letter-spacing:0.04em;margin-bottom:7px;}
+.rev-card-body{font-family:var(--body);font-size:12px;color:rgba(250,246,240,0.5);line-height:1.75;}
+.rev-card-author{font-family:var(--body);font-size:10px;color:var(--cream4);margin-top:10px;display:flex;align-items:center;gap:6px;}
+.vf{color:var(--success);font-size:9px;letter-spacing:0.08em;}
+
+/* Similar products */
+.section-label{
+  font-family:var(--serif);font-size:10px;letter-spacing:0.38em;
+  color:rgba(201,169,110,0.5);text-transform:uppercase;
+  margin-bottom:22px;display:flex;align-items:center;gap:14px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.prod-scroll{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;scrollbar-width:thin;scrollbar-color:rgba(201,169,110,0.15) transparent;}
+.prod-scroll::-webkit-scrollbar{height:3px;}
+.prod-scroll::-webkit-scrollbar-thumb{background:rgba(201,169,110,0.15);}
+
+.prod-card{
+  flex:0 0 180px;background:var(--ink2);
+  border:1px solid rgba(201,169,110,0.07);
+  text-decoration:none;transition:border-color .3s,transform .2s;
+  display:block;cursor:pointer;
+}
+.prod-card:hover{border-color:rgba(201,169,110,0.3);transform:translateY(-2px);}
+.prod-img{
+  aspect-ratio:1;
+  background:linear-gradient(145deg,var(--ink4),var(--ink2));
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+}
+.prod-info{padding:10px 12px 14px;}
+.prod-name{font-family:var(--serif);font-size:10px;color:var(--cream);margin:0 0 5px;letter-spacing:0.04em;line-height:1.35;}
+.prod-price{font-family:var(--serif);font-size:12px;color:var(--gold);}
+.prod-orig{font-family:var(--body);font-size:10px;color:var(--cream4);text-decoration:line-through;margin-left:5px;}
+
+/* ══ STICKY MOBILE BAR ══ */
+.sticky-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--ink2);border-top:1px solid var(--border2);
+  padding:10px 16px;z-index:800;
+  display:none;align-items:center;gap:10px;
+}
+@media(max-width:768px){.sticky-bar{display:flex;}}
+.sticky-name{font-family:var(--serif);font-size:11px;color:var(--cream);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sticky-price{font-family:var(--serif);font-size:13px;color:var(--gold);flex-shrink:0;}
+.sticky-btn{
+  background:var(--gold);color:var(--ink);border:none;
+  font-family:var(--serif);font-size:8px;letter-spacing:0.32em;
+  text-transform:uppercase;padding:11px 16px;cursor:pointer;flex-shrink:0;
+  border-radius:4px;
+}
+
+/* ══ TOAST ══ */
+.toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(16px);
+  background:var(--ink3);border:1px solid rgba(201,169,110,0.2);
+  color:var(--cream);font-family:var(--body);font-size:12px;
+  padding:10px 22px;border-radius:6px;opacity:0;
+  pointer-events:none;transition:all .3s;
+  white-space:nowrap;z-index:9999;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ══ ENTRY ANIMATIONS ══ */
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.fade-up.vis{opacity:1;transform:translateY(0);}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.info > *{animation:fadeIn .5s ease both;}
+.info > *:nth-child(1){animation-delay:.05s;}
+.info > *:nth-child(2){animation-delay:.1s;}
+.info > *:nth-child(3){animation-delay:.15s;}
+.info > *:nth-child(4){animation-delay:.18s;}
+.info > *:nth-child(5){animation-delay:.22s;}
+.info > *:nth-child(6){animation-delay:.26s;}
+.info > *:nth-child(7){animation-delay:.30s;}
+.info > *:nth-child(8){animation-delay:.33s;}
+.info > *:nth-child(9){animation-delay:.36s;}
+.info > *:nth-child(10){animation-delay:.40s;}
+</style>
+</head>
+<body>
+
+<!-- PROMO BANNER -->
+<div class="promo">✦ &nbsp; Free shipping on orders above ₹999 &nbsp;·&nbsp; COD available pan-India &nbsp;·&nbsp; Dermatologist tested &nbsp; ✦</div>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="nav-logo">Urban Trend</div>
+  <div class="nav-links">
+    <span class="nav-link">Skincare</span>
+    <span class="nav-link">Makeup</span>
+    <span class="nav-link">Hair</span>
+    <span class="nav-link">About</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-icon">🔍</span>
+    <span class="nav-icon">♡</span>
+    <span class="nav-icon" style="position:relative;">
+      🛍
+      <span class="nav-cart-badge">2</span>
+    </span>
+  </div>
+</nav>
+
+<!-- PDP -->
+<div class="pdp">
+
+  <!-- Breadcrumb -->
+  <nav class="crumb">
+    <a>Home</a><span class="crumb-sep">/</span>
+    <a>Skincare</a><span class="crumb-sep">/</span>
+    <span style="color:rgba(201,169,110,0.6);">Vitamin E Moisturizing Gel</span>
+  </nav>
+
+  <div class="pdp-grid">
+
+    <!-- ══ GALLERY ══ -->
+    <div class="gal">
+      <div class="gal-main" id="galMain" onclick="openZoom()">
+        <div class="gal-discount">31% Off</div>
+        <button class="gal-share" title="Share">⬆</button>
+
+        <!-- SVG product illustration (since no real image) -->
+        <div class="gal-product-svg">
+          <svg width="260" height="290" viewBox="0 0 260 290" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Jar body -->
+            <ellipse cx="130" cy="235" rx="88" ry="16" fill="rgba(201,169,110,0.08)"/>
+            <rect x="55" y="145" width="150" height="88" rx="8" fill="url(#jarGrad)"/>
+            <!-- Jar label -->
+            <rect x="68" y="158" width="124" height="62" rx="4" fill="rgba(201,169,110,0.12)" stroke="rgba(201,169,110,0.3)" stroke-width="1"/>
+            <!-- Label text lines -->
+            <rect x="85" y="168" width="90" height="2" rx="1" fill="rgba(201,169,110,0.5)"/>
+            <text x="130" y="184" font-family="serif" font-size="10" fill="rgba(201,169,110,0.9)" text-anchor="middle" letter-spacing="2">VITAMIN E</text>
+            <text x="130" y="196" font-family="serif" font-size="7.5" fill="rgba(250,246,240,0.6)" text-anchor="middle" letter-spacing="1.5">MOISTURIZING GEL</text>
+            <rect x="85" y="202" width="90" height="1" rx="0.5" fill="rgba(201,169,110,0.3)"/>
+            <text x="130" y="213" font-family="sans-serif" font-size="6" fill="rgba(250,246,240,0.35)" text-anchor="middle" letter-spacing="1">LUXURIOUS SKINCARE</text>
+            <!-- Brand logo circle -->
+            <circle cx="130" cy="165" r="7" fill="none" stroke="rgba(201,169,110,0.5)" stroke-width="1"/>
+            <text x="130" y="168.5" font-family="serif" font-size="8" fill="rgba(201,169,110,0.8)" text-anchor="middle">UT</text>
+            <!-- Lid -->
+            <rect x="48" y="128" width="164" height="22" rx="11" fill="url(#lidGrad)"/>
+            <rect x="62" y="133" width="136" height="12" rx="6" fill="rgba(255,255,255,0.06)"/>
+            <!-- Lid shine -->
+            <ellipse cx="130" cy="131" rx="60" ry="4" fill="rgba(255,255,255,0.08)"/>
+            <!-- Gel texture bubbles -->
+            <circle cx="90" cy="185" r="3" fill="rgba(201,169,110,0.06)"/>
+            <circle cx="170" cy="175" r="2" fill="rgba(201,169,110,0.06)"/>
+            <circle cx="155" cy="200" r="4" fill="rgba(201,169,110,0.04)"/>
+            <!-- Spoon -->
+            <path d="M 185 230 Q 200 210 195 195 Q 193 188 188 186 Q 183 184 180 188 Q 177 192 180 200 Q 183 208 178 220 Z" fill="url(#spoonGrad)" opacity="0.85"/>
+            <ellipse cx="184" cy="190" rx="6" ry="4" fill="rgba(201,169,110,0.3)" transform="rotate(-20 184 190)"/>
+            <!-- Gel drip from spoon -->
+            <path d="M 184 194 Q 186 202 184 210" stroke="rgba(201,169,110,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Bottom reflection -->
+            <ellipse cx="130" cy="232" rx="75" ry="6" fill="rgba(201,169,110,0.04)"/>
+            <defs>
+              <linearGradient id="jarGrad" x1="55" y1="145" x2="205" y2="233" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#2a2418"/>
+                <stop offset="50%" stop-color="#1a1610"/>
+                <stop offset="100%" stop-color="#221d14"/>
+              </linearGradient>
+              <linearGradient id="lidGrad" x1="48" y1="128" x2="212" y2="150" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#b8922a"/>
+                <stop offset="40%" stop-color="#c9a96e"/>
+                <stop offset="100%" stop-color="#a07830"/>
+              </linearGradient>
+              <linearGradient id="spoonGrad" x1="178" y1="186" x2="202" y2="230" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#c9a96e"/>
+                <stop offset="100%" stop-color="#906830"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <!-- Glow behind jar -->
+          <div style="position:absolute;bottom:60px;left:50%;transform:translateX(-50%);width:200px;height:80px;background:radial-gradient(ellipse,rgba(201,169,110,0.08),transparent 70%);pointer-events:none;"></div>
+        </div>
+
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="gal-thumbs">
+        <div class="gal-thumb active" onclick="galThumb(this,0)">
+          <svg viewBox="0 0 68 84"><rect width="68" height="84" fill="#1c1a16"/><text x="34" y="48" font-family="serif" font-size="8" fill="rgba(201,169,110,0.7)" text-anchor="middle">Front</text></svg>
+        </div>
+        <div class="gal-thumb" onclick="galThumb(this,1)">
+          <svg viewBox="0 0 68 84"><rect width="68" height="84" fill="#1c1a16"/><text x="34" y="48" font-family="serif" font-size="8" fill="rgba(201,169,110,0.7)" text-anchor="middle">Side</text></svg>
+        </div>
+        <div class="gal-thumb" onclick="galThumb(this,2)">
+          <svg viewBox="0 0 68 84"><rect width="68" height="84" fill="#1c1a16"/><text x="34" y="48" font-family="serif" font-size="7" fill="rgba(201,169,110,0.7)" text-anchor="middle">Texture</text></svg>
+        </div>
+        <div class="gal-thumb" onclick="galThumb(this,3)">
+          <svg viewBox="0 0 68 84"><rect width="68" height="84" fill="#1c1a16"/><text x="34" y="48" font-family="serif" font-size="6.5" fill="rgba(201,169,110,0.7)" text-anchor="middle">Ingreds</text></svg>
+        </div>
+        <div class="gal-thumb" onclick="galThumb(this,4)">
+          <svg viewBox="0 0 68 84"><rect width="68" height="84" fill="#1c1a16"/><text x="34" y="48" font-family="serif" font-size="7" fill="rgba(201,169,110,0.7)" text-anchor="middle">Results</text></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ INFO ══ -->
+    <div class="info">
+
+      <div class="badge-row">
+        <span class="badge">Luxury Skincare</span>
+      </div>
+
+      <h1 class="pdp-title">Vitamin E Moisturizing Gel<br>— Deep Hydration &amp; Glow</h1>
+      <p class="pdp-vendor">by Urban Trend<sup style="font-size:8px;color:rgba(201,169,110,0.4);">®</sup></p>
+
+      <div class="rating-row">
+        <span class="stars">★★★★★</span>
+        <span class="score">4.9</span>
+        <span class="rcount" onclick="switchTab('reviews')">2,847 reviews</span>
+        <span class="verified">✓ Verified</span>
+      </div>
+
+      <div class="price-row">
+        <span class="price" id="mainPrice">₹749</span>
+        <span class="compare">₹1,099</span>
+        <span class="save-pct">31% Off</span>
+      </div>
+      <p class="tax-line">Inclusive of all taxes · Free shipping above ₹999</p>
+      <div class="emi-line">💳 No-cost EMI from <span>₹249/mo</span> on orders above ₹1,999</div>
+
+      <!-- ══ CTA SECTION ══ -->
+      <div class="ut-cta">
+
+        <!-- 1. Countdown -->
+        <div class="ut-cta-cd">
+          <span class="ut-cta-cd-label">⚡ <span>Flash Sale Ends In:</span></span>
+          <div class="ut-cta-cd-timer">
+            <div class="ut-cta-cd-block"><span class="n" id="cdH">18</span><span class="u">Hrs</span></div>
+            <span class="ut-cta-cd-sep">:</span>
+            <div class="ut-cta-cd-block"><span class="n" id="cdM">42</span><span class="u">Min</span></div>
+            <span class="ut-cta-cd-sep">:</span>
+            <div class="ut-cta-cd-block"><span class="n" id="cdS">09</span><span class="u">Sec</span></div>
+          </div>
+        </div>
+
+        <!-- 2. Endorsement -->
+        <div class="ut-cta-endorse">
+          <div class="ut-cta-endorse-dot">D</div>
+          <span class="ut-cta-endorse-text">
+            Recommended by <strong>Dr. Priya</strong> &nbsp;|&nbsp; Wellness Specialist
+          </span>
+        </div>
+
+        <!-- 3. Meta -->
+        <div class="ut-cta-meta">
+          <div>
+            <span class="ut-cta-stars">★★★★★</span>
+            <span class="ut-cta-score">4.9</span>
+            <span class="ut-cta-rcount">2,847 reviews</span>
+          </div>
+          <span class="ut-cta-stock"><span class="stock-dot"></span>Limited Stock</span>
+        </div>
+
+        <!-- 4. Bundle options -->
+        <div class="ut-cta-opts">
+          <div class="ut-cta-opt" onclick="selOpt(this)" data-qty="1" data-price="749">
+            <span class="ut-radio"></span>
+            <div class="opt-left">
+              <div class="opt-name">1 Set</div>
+              <div class="opt-save">Save 32%</div>
+            </div>
+            <div class="opt-right">
+              <span class="opt-price">₹749</span>
+              <span class="opt-compare">₹1,099</span>
+            </div>
+          </div>
+
+          <div class="ut-cta-opt selected" onclick="selOpt(this)" data-qty="2" data-price="1273">
+            <span class="opt-badge bg-gold">Most Popular</span>
+            <span class="ut-radio"></span>
+            <div class="opt-left">
+              <div class="opt-name">2 Sets</div>
+              <div class="opt-save">Save 42%</div>
+            </div>
+            <div class="opt-right">
+              <span class="opt-price">₹1,273</span>
+              <span class="opt-compare">₹2,198</span>
+            </div>
+          </div>
+
+          <div class="ut-cta-opt" onclick="selOpt(this)" data-qty="3" data-price="1685">
+            <span class="opt-badge bg-green">Best Value</span>
+            <span class="ut-radio"></span>
+            <div class="opt-left">
+              <div class="opt-name">3 Sets</div>
+              <div class="opt-save">Save 49%</div>
+            </div>
+            <div class="opt-right">
+              <span class="opt-price">₹1,685</span>
+              <span class="opt-compare">₹3,297</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Refill -->
+        <div class="ut-cta-refill" onclick="toggleRefill(this)">
+          <span class="refill-box" id="refillBox">✓</span>
+          <div class="refill-text">
+            <strong>Save More with Automatic Refills</strong>
+            <span>Zero commitment, cancel anytime</span>
+          </div>
+        </div>
+
+        <!-- 6. Ships -->
+        <p class="ships">🚚 Order now — ships by <strong id="shipDate"></strong></p>
+
+        <!-- 7. Primary CTA -->
+        <button class="btn-atc" id="mainBtn" onclick="addBag()">Add to Bag</button>
+
+        <!-- 8. Secondary row -->
+        <div class="btn-row">
+          <button class="btn-buy" onclick="buyNow()">Buy Now →</button>
+          <button class="btn-wish" id="wishBtn" onclick="toggleWish()">♡</button>
+        </div>
+
+        <!-- 9. Trust grid -->
+        <div class="trust-grid">
+          <div class="trust-item"><i>🚚</i>Free shipping ₹999+</div>
+          <div class="trust-item"><i>💳</i>COD available</div>
+          <div class="trust-item"><i>↩</i>15-day returns</div>
+          <div class="trust-item"><i>🔒</i>Secure checkout</div>
+          <div class="trust-item"><i>🧪</i>Dermatologist tested</div>
+          <div class="trust-item"><i>🌿</i>Cruelty free</div>
+        </div>
+
+      </div><!-- /ut-cta -->
+
+      <!-- Pin checker -->
+      <div class="pin-wrap">
+        <div class="pin-head">📦 Check delivery date</div>
+        <div class="pin-row">
+          <input class="pin-input" id="pinInput" type="text" placeholder="Enter PIN code" maxlength="6">
+          <button class="pin-btn" onclick="checkPin()">Check</button>
+        </div>
+        <div id="pinResult" class="pin-result"></div>
+      </div>
+
+      <!-- Accordion -->
+      <div class="acc">
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">Key Ingredients<span class="acc-icon">+</span></button>
+          <div class="acc-body">
+            <ul>
+              <li>Vitamin E Complex — deep antioxidant protection</li>
+              <li>Himalayan Rose Extract — brightens and evens tone</li>
+              <li>Hyaluronic Acid — deep plumping hydration</li>
+              <li>Kashmiri Saffron — natural radiance booster</li>
+              <li>Peptide Complex — firms and smoothes</li>
+            </ul>
+            <p style="margin-top:10px;">Free from parabens, sulfates, phthalates, and artificial fragrances.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">How To Use<span class="acc-icon">+</span></button>
+          <div class="acc-body">
+            <ol style="padding-left:16px;">
+              <li style="margin-bottom:7px;">Cleanse face thoroughly</li>
+              <li style="margin-bottom:7px;">Apply 2–3 drops to fingertips</li>
+              <li style="margin-bottom:7px;">Gently pat into skin — do not rub</li>
+              <li style="margin-bottom:7px;">Follow with moisturizer</li>
+              <li>Apply SPF in the morning</li>
+            </ol>
+            <p style="margin-top:12px;">Use morning and evening. Visible results in 4 weeks.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">Shipping &amp; Returns<span class="acc-icon">+</span></button>
+          <div class="acc-body">
+            <p>Free shipping on orders above ₹999. Standard delivery 3–5 business days across India. Express available at checkout.</p>
+            <p style="margin-top:8px;">Easy 15-day returns on unopened products. COD available pan-India. All orders fully tracked via SMS and email.</p>
+          </div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">About Urban Trend<span class="acc-icon">+</span></button>
+          <div class="acc-body">
+            <p>Urban Trend is India's luxury skincare brand — crafted with Himalayan botanicals for modern Indian skin. Every formula is dermatologist tested, cruelty free, and made without parabens or sulfates. Founded in Mumbai. Made in India.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /info -->
+  </div><!-- /pdp-grid -->
+</div><!-- /pdp -->
+
+<!-- ══ BELOW FOLD ══ -->
+<div class="below">
+  <div class="section-sep"></div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('details')">Details</button>
+    <button class="tab-btn" onclick="switchTab('reviews')">Reviews (2,847)</button>
+    <button class="tab-btn" onclick="switchTab('ingredients')">Ingredients</button>
+    <button class="tab-btn" onclick="switchTab('faq')">FAQ</button>
+  </div>
+
+  <!-- Details pane -->
+  <div class="tab-pane active" id="tab-details">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:820px;">
+      <div>
+        <p style="font-family:var(--serif);font-size:9px;letter-spacing:0.35em;color:rgba(201,169,110,0.45);text-transform:uppercase;margin-bottom:14px;">Product Details</p>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr style="border-bottom:1px solid rgba(201,169,110,0.06);"><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:var(--cream3);width:45%;">Net Weight</td><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:rgba(250,246,240,0.65);">50ml</td></tr>
+          <tr style="border-bottom:1px solid rgba(201,169,110,0.06);"><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:var(--cream3);">Skin Type</td><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:rgba(250,246,240,0.65);">All skin types</td></tr>
+          <tr style="border-bottom:1px solid rgba(201,169,110,0.06);"><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:var(--cream3);">Concern</td><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:rgba(250,246,240,0.65);">Hydration, Glow</td></tr>
+          <tr style="border-bottom:1px solid rgba(201,169,110,0.06);"><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:var(--cream3);">Formula</td><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:rgba(250,246,240,0.65);">Vegan</td></tr>
+          <tr style="border-bottom:1px solid rgba(201,169,110,0.06);"><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:var(--cream3);">Made In</td><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:rgba(250,246,240,0.65);">India</td></tr>
+          <tr><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:var(--cream3);">Cruelty Free</td><td style="padding:9px 0;font-family:var(--body);font-size:12px;color:var(--success);">Yes ✓</td></tr>
+        </table>
+      </div>
+      <div>
+        <p style="font-family:var(--serif);font-size:9px;letter-spacing:0.35em;color:rgba(201,169,110,0.45);text-transform:uppercase;margin-bottom:14px;">Key Benefits</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:9px;font-family:var(--body);font-size:13px;color:rgba(250,246,240,0.58);"><span style="color:var(--gold);">✓</span>Glass-skin glow in 4 weeks</div>
+          <div style="display:flex;align-items:center;gap:9px;font-family:var(--body);font-size:13px;color:rgba(250,246,240,0.58);"><span style="color:var(--gold);">✓</span>Reduces dark spots in 2 weeks</div>
+          <div style="display:flex;align-items:center;gap:9px;font-family:var(--body);font-size:13px;color:rgba(250,246,240,0.58);"><span style="color:var(--gold);">✓</span>Himalayan Rose brightening</div>
+          <div style="display:flex;align-items:center;gap:9px;font-family:var(--body);font-size:13px;color:rgba(250,246,240,0.58);"><span style="color:var(--gold);">✓</span>SPF booster formula</div>
+          <div style="display:flex;align-items:center;gap:9px;font-family:var(--body);font-size:13px;color:rgba(250,246,240,0.58);"><span style="color:var(--gold);">✓</span>Dermatologist tested</div>
+          <div style="display:flex;align-items:center;gap:9px;font-family:var(--body);font-size:13px;color:rgba(250,246,240,0.58);"><span style="color:var(--gold);">✓</span>Cruelty free &amp; vegan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reviews pane -->
+  <div class="tab-pane" id="tab-reviews">
+    <div class="rev-summary">
+      <div style="text-align:center;">
+        <div class="rev-num">4.9</div>
+        <div class="rev-stars-big">★★★★★</div>
+        <div class="rev-total">2,847 reviews</div>
+      </div>
+      <div>
+        <div class="rev-bar-row"><span class="rev-bar-lbl">5 ★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:88%;"></div></div><span class="rev-bar-cnt">2,504</span></div>
+        <div class="rev-bar-row"><span class="rev-bar-lbl">4 ★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:8%;"></div></div><span class="rev-bar-cnt">228</span></div>
+        <div class="rev-bar-row"><span class="rev-bar-lbl">3 ★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:2%;"></div></div><span class="rev-bar-cnt">57</span></div>
+        <div class="rev-bar-row"><span class="rev-bar-lbl">2 ★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:1%;"></div></div><span class="rev-bar-cnt">28</span></div>
+        <div class="rev-bar-row"><span class="rev-bar-lbl">1 ★</span><div class="rev-bar-track"><div class="rev-bar-fill" style="width:1%;"></div></div><span class="rev-bar-cnt">30</span></div>
+      </div>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card"><div class="rev-card-top"><span class="rev-card-stars">★★★★★</span><span class="rev-card-date">March 2025</span></div><div class="rev-card-title">Best serum I've ever used!</div><div class="rev-card-body">I've been using this for 6 weeks and my dark spots have literally disappeared. My skin looks so much brighter — will repurchase forever!</div><div class="rev-card-author">Priya S. <span class="vf">✓ Verified</span></div></div>
+      <div class="rev-card"><div class="rev-card-top"><span class="rev-card-stars">★★★★★</span><span class="rev-card-date">Feb 2025</span></div><div class="rev-card-title">Skin transformation in 3 weeks</div><div class="rev-card-body">I was skeptical but the results are incredible. My dull skin now has this beautiful natural glow that everyone keeps complimenting.</div><div class="rev-card-author">Ananya I. <span class="vf">✓ Verified</span></div></div>
+      <div class="rev-card"><div class="rev-card-top"><span class="rev-card-stars">★★★★★</span><span class="rev-card-date">March 2025</span></div><div class="rev-card-title">Glass skin is real!</div><div class="rev-card-body">The Himalayan Rose scent is divine and the results even better. My pores look tighter and my skin feels so smooth.</div><div class="rev-card-author">Neha K. <span class="vf">✓ Verified</span></div></div>
+      <div class="rev-card"><div class="rev-card-top"><span class="rev-card-stars">★★★★★</span><span class="rev-card-date">Jan 2025</span></div><div class="rev-card-title">Worth every rupee</div><div class="rev-card-body">I've tried so many serums but nothing worked like this. My husband noticed a difference in week 2! Absolutely obsessed.</div><div class="rev-card-author">Ritika S. <span class="vf">✓ Verified</span></div></div>
+    </div>
+  </div>
+
+  <!-- Ingredients pane -->
+  <div class="tab-pane" id="tab-ingredients">
+    <div style="max-width:700px;">
+      <p style="font-family:var(--body);font-size:13px;color:rgba(250,246,240,0.5);line-height:1.9;margin-bottom:20px;">Aqua, Rosa Damascena (Himalayan Rose) Flower Water, Crocus Sativus (Saffron) Extract, Tocopherol (Vitamin E), Ascorbic Acid, Sodium Hyaluronate, Palmitoyl Tripeptide-1, Niacinamide, Glycerin, Cetearyl Alcohol, Phenoxyethanol, Citric Acid.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span style="font-family:var(--body);font-size:10px;color:rgba(250,246,240,0.4);border:1px solid rgba(201,169,110,0.12);padding:4px 12px;letter-spacing:0.08em;">✕ Parabens</span>
+        <span style="font-family:var(--body);font-size:10px;color:rgba(250,246,240,0.4);border:1px solid rgba(201,169,110,0.12);padding:4px 12px;letter-spacing:0.08em;">✕ Sulfates</span>
+        <span style="font-family:var(--body);font-size:10px;color:rgba(250,246,240,0.4);border:1px solid rgba(201,169,110,0.12);padding:4px 12px;letter-spacing:0.08em;">✕ Phthalates</span>
+        <span style="font-family:var(--body);font-size:10px;color:rgba(250,246,240,0.4);border:1px solid rgba(201,169,110,0.12);padding:4px 12px;letter-spacing:0.08em;">✕ Mineral Oil</span>
+        <span style="font-family:var(--body);font-size:10px;color:rgba(250,246,240,0.4);border:1px solid rgba(201,169,110,0.12);padding:4px 12px;letter-spacing:0.08em;">✕ Artificial Colors</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ pane -->
+  <div class="tab-pane" id="tab-faq">
+    <div style="max-width:700px;">
+      <div class="acc">
+        <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">When will I see results?<span class="acc-icon">+</span></button><div class="acc-body">Most customers see brighter, more even skin within 2 weeks. Full results including reduced dark spots visible by week 4.</div></div>
+        <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">Suitable for sensitive skin?<span class="acc-icon">+</span></button><div class="acc-body">Yes — our formula is dermatologist tested and free from harsh irritants. Patch test recommended for very sensitive skin.</div></div>
+        <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">Is it tested on animals?<span class="acc-icon">+</span></button><div class="acc-body">No — Urban Trend is 100% cruelty free and never tested on animals. We are Leaping Bunny certified.</div></div>
+        <div class="acc-item"><button class="acc-btn" onclick="toggleAcc(this)">Can men use this?<span class="acc-icon">+</span></button><div class="acc-body">Absolutely! Our formulas are designed for all genders. Many male customers love the results.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Similar products -->
+  <div class="section-sep"></div>
+  <div class="section-label">Similar Products</div>
+  <div class="prod-scroll">
+    <div class="prod-card">
+      <div class="prod-img"><svg width="80" height="80" viewBox="0 0 80 80"><rect width="80" height="80" fill="#1c1a16"/><circle cx="40" cy="35" r="18" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="1.5"/><text x="40" y="39" font-family="serif" font-size="7" fill="rgba(201,169,110,0.6)" text-anchor="middle">SERUM</text><rect x="25" y="55" width="30" height="2" rx="1" fill="rgba(201,169,110,0.15)"/></svg></div>
+      <div class="prod-info"><p class="prod-name">Vitamin C Brightening Serum</p><span class="prod-price">₹649</span><span class="prod-orig">₹999</span></div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img"><svg width="80" height="80" viewBox="0 0 80 80"><rect width="80" height="80" fill="#1c1a16"/><rect x="28" y="20" width="24" height="40" rx="4" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="1.5"/><text x="40" y="44" font-family="serif" font-size="6" fill="rgba(201,169,110,0.6)" text-anchor="middle">TONER</text></svg></div>
+      <div class="prod-info"><p class="prod-name">Rose Hydrating Toner</p><span class="prod-price">₹449</span><span class="prod-orig">₹699</span></div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img"><svg width="80" height="80" viewBox="0 0 80 80"><rect width="80" height="80" fill="#1c1a16"/><ellipse cx="40" cy="40" rx="22" ry="22" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="1.5"/><text x="40" y="44" font-family="serif" font-size="6" fill="rgba(201,169,110,0.6)" text-anchor="middle">EYE CREAM</text></svg></div>
+      <div class="prod-info"><p class="prod-name">Gold Eye Repair Cream</p><span class="prod-price">₹799</span><span class="prod-orig">₹1,199</span></div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img"><svg width="80" height="80" viewBox="0 0 80 80"><rect width="80" height="80" fill="#1c1a16"/><rect x="22" y="25" width="36" height="28" rx="6" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="1.5"/><text x="40" y="43" font-family="serif" font-size="6" fill="rgba(201,169,110,0.6)" text-anchor="middle">MASK</text></svg></div>
+      <div class="prod-info"><p class="prod-name">Saffron Glow Face Mask</p><span class="prod-price">₹549</span><span class="prod-orig">₹849</span></div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img"><svg width="80" height="80" viewBox="0 0 80 80"><rect width="80" height="80" fill="#1c1a16"/><rect x="30" y="18" width="20" height="44" rx="3" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="1.5"/><text x="40" y="43" font-family="serif" font-size="5.5" fill="rgba(201,169,110,0.6)" text-anchor="middle">SPF 50</text></svg></div>
+      <div class="prod-info"><p class="prod-name">Mineral SPF 50+ Sunscreen</p><span class="prod-price">₹699</span><span class="prod-orig">₹999</span></div>
+    </div>
+  </div>
+
+</div><!-- /below -->
+
+<!-- Sticky mobile bar -->
+<div class="sticky-bar">
+  <span class="sticky-name">Vitamin E Moisturizing Gel</span>
+  <span class="sticky-price" id="stickyPrice">₹749</span>
+  <button class="sticky-btn" onclick="addBag()">Add to Bag</button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── Countdown ── */
+(function(){
+  var KEY='ut-pdp-full-end';
+  var stored=parseInt(localStorage.getItem(KEY)||'0');
+  var now=Math.floor(Date.now()/1000);
+  var end=(stored&&stored>now)?stored:now+20*3600;
+  if(!stored||stored<=now)localStorage.setItem(KEY,end);
+  function tick(){
+    var rem=Math.max(0,end-Math.floor(Date.now()/1000));
+    document.getElementById('cdH').textContent=String(Math.floor(rem/3600)).padStart(2,'0');
+    document.getElementById('cdM').textContent=String(Math.floor((rem%3600)/60)).padStart(2,'0');
+    document.getElementById('cdS').textContent=String(rem%60).padStart(2,'0');
+    if(rem>0)setTimeout(tick,1000);
+  }
+  tick();
+})();
+
+/* ── Ship date ── */
+var sd=new Date(Date.now()+7*86400000);
+document.getElementById('shipDate').textContent=sd.toLocaleDateString('en-IN',{day:'numeric',month:'long'});
+
+/* ── Bundle select ── */
+var selQty=2,selPrice=1273;
+function selOpt(el){
+  document.querySelectorAll('.ut-cta-opt').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  selQty=parseInt(el.dataset.qty);selPrice=parseInt(el.dataset.price);
+  document.getElementById('stickyPrice').textContent='₹'+selPrice.toLocaleString('en-IN');
+  toast('Selected: '+selQty+' Set'+(selQty>1?'s':'')+' — ₹'+selPrice.toLocaleString('en-IN'));
+}
+
+/* ── Refill ── */
+function toggleRefill(el){
+  el.classList.toggle('off');
+  document.getElementById('refillBox').textContent=el.classList.contains('off')?'':'✓';
+  toast(el.classList.contains('off')?'Auto refills disabled':'✓ Auto refills enabled');
+}
+
+/* ── ATC ── */
+function addBag(){
+  var btn=document.getElementById('mainBtn');
+  btn.textContent='Adding…';btn.style.letterSpacing='0.15em';
+  setTimeout(function(){
+    btn.textContent='✓ Added to Bag';btn.classList.add('added');
+    toast('✓ '+selQty+' item'+(selQty>1?'s':'')+' added to bag!');
+    setTimeout(function(){btn.textContent='Add to Bag';btn.classList.remove('added');btn.style.letterSpacing='';},2400);
+  },700);
+}
+
+/* ── Buy Now ── */
+function buyNow(){toast('Redirecting to checkout…');}
+
+/* ── Wish ── */
+function toggleWish(){
+  var b=document.getElementById('wishBtn');
+  b.classList.toggle('active');
+  b.textContent=b.classList.contains('active')?'♥':'♡';
+  toast(b.classList.contains('active')?'Added to wishlist ♥':'Removed from wishlist');
+}
+
+/* ── Gallery thumbs ── */
+function galThumb(el,idx){
+  document.querySelectorAll('.gal-thumb').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+}
+
+/* ── Zoom ── */
+function openZoom(){toast('Zoom — would open fullscreen on your live store');}
+
+/* ── PIN ── */
+function checkPin(){
+  var pin=document.getElementById('pinInput').value.trim();
+  var res=document.getElementById('pinResult');
+  if(pin.length!==6){res.style.display='block';res.style.color='rgba(139,58,82,0.9)';res.textContent='Please enter a valid 6-digit PIN';return;}
+  res.style.display='block';res.style.color='rgba(123,200,123,0.9)';
+  var d=new Date(Date.now()+4*86400000);
+  res.textContent='✓ Delivery available by '+d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short'});
+}
+
+/* ── Accordion ── */
+function toggleAcc(btn){
+  var body=btn.nextElementSibling;
+  var isOpen=body.classList.contains('open');
+  btn.classList.toggle('open',!isOpen);
+  body.classList.toggle('open',!isOpen);
+}
+
+/* ── Tabs ── */
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){
+    var ids=['details','reviews','ingredients','faq'];
+    b.classList.toggle('active',ids[i]===id);
+  });
+  document.querySelectorAll('.tab-pane').forEach(function(p){
+    p.classList.toggle('active',p.id==='tab-'+id);
+  });
+  if(id==='reviews'){
+    document.querySelector('.below').scrollIntoView({behavior:'smooth'});
+  }
+}
+
+/* ── Toast ── */
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt=setTimeout(function(){t.classList.remove('show');},2200);
+}
+
+/* ── Scroll fade-up ── */
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');}});
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>
