@@ -1,0 +1,1523 @@
+{% comment %} ── SEO META TAGS ── {% endcomment %}
+<title>{{ collection.title }} | Urban Trend{% if current_page != 1 %} — Page {{ current_page }}{% endif %}</title>
+{% if collection.description != blank %}
+  <meta name="description" content="{{ collection.description | strip_html | truncate: 160 }}">
+{% else %}
+  <meta name="description" content="Shop {{ collection.title }} at Urban Trend — premium Indian beauty brand. Dermatologist-tested, cruelty-free formulas crafted for Indian skin.">
+{% endif %}
+<meta property="og:title" content="{{ collection.title }} | Urban Trend">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ canonical_url }}">
+{% if collection.image %}
+  <meta property="og:image" content="{{ collection.image | img_url: '1200x630', crop: 'center' }}">
+{% endif %}
+<meta property="og:description" content="{% if collection.description != blank %}{{ collection.description | strip_html | truncate: 200 }}{% else %}Shop {{ collection.title }} at Urban Trend — premium Indian beauty. Dermatologist-tested, cruelty-free.{% endif %}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ collection.title }} | Urban Trend">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="{{ canonical_url }}">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{ collection.title | escape }}",
+  "description": "{% if collection.description != blank %}{{ collection.description | strip_html | truncate: 200 | escape }}{% else %}Shop {{ collection.title }} at Urban Trend{% endif %}",
+  "url": "{{ canonical_url }}",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"{{ shop.url }}"},
+      {"@type":"ListItem","position":2,"name":"Collections","item":"{{ shop.url }}{{ routes.collections_url }}"},
+      {"@type":"ListItem","position":3,"name":"{{ collection.title | escape }}","item":"{{ canonical_url }}"}
+    ]
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": {{ collection.products_count }},
+    "name": "{{ collection.title | escape }} Products"
+  }
+}
+</script>
+
+<style>
+/* ======================================
+   URBAN TREND — COLLECTION PAGE
+   Flipkart-style category nav + filters
+   ====================================== */
+*{box-sizing:border-box;}
+
+/* ── CATEGORY NAV STRIP ── */
+.ut-cat-nav {
+  background:var(--ut-bg-2);
+  border-bottom:1px solid rgba(201,169,110,0.1);
+  position:sticky;top:64px;z-index:100;
+  overflow-x:auto;scrollbar-width:none;
+}
+.ut-cat-nav::-webkit-scrollbar{display:none;}
+.ut-cat-nav-inner {
+  display:flex;align-items:stretch;
+  max-width:1300px;margin:0 auto;
+  padding:0 16px;min-width:max-content;
+}
+.ut-cat-nav-item {
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;padding:14px 20px;
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.45);letter-spacing:0.08em;
+  cursor:pointer;border-bottom:2px solid transparent;
+  transition:all 0.2s;white-space:nowrap;
+  text-decoration:none;flex-shrink:0;
+  position:relative;
+}
+.ut-cat-nav-item:hover{color:rgba(250,246,240,0.8);}
+.ut-cat-nav-item.active{
+  color:var(--ut-gold);
+  border-bottom-color:var(--ut-gold);
+}
+.ut-cat-nav-icon{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(145deg,var(--ut-bg-4),var(--ut-bg-3));
+  border:1px solid rgba(201,169,110,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;transition:all 0.2s;overflow:hidden;
+}
+.ut-cat-nav-item:hover .ut-cat-nav-icon,
+.ut-cat-nav-item.active .ut-cat-nav-icon{
+  border-color:rgba(201,169,110,0.45);
+  background:rgba(201,169,110,0.08);
+}
+.ut-cat-nav-item.active .ut-cat-nav-icon{
+  box-shadow:0 0 0 2px rgba(201,169,110,0.2);
+}
+.ut-cat-nav-icon img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+
+/* ── COLLECTION HERO ── */
+.ut-coll-hero{
+  background:linear-gradient(155deg,var(--ut-bg-4) 0%,var(--ut-bg) 60%,var(--ut-bg) 100%);
+  padding:32px 32px 24px;
+  border-bottom:1px solid rgba(201,169,110,0.08);
+  position:relative;overflow:hidden;
+}
+@media(max-width:600px){.ut-coll-hero{padding:20px 16px;}}
+.ut-coll-hero::before{
+  content:'';position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:500px;height:200px;
+  background:radial-gradient(ellipse,rgba(201,169,110,0.05),transparent 70%);
+  pointer-events:none;
+}
+.ut-coll-hero-inner{
+  max-width:1300px;margin:0 auto;
+  display:flex;align-items:center;
+  justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.ut-coll-crumb{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.28em;
+  color:rgba(201,169,110,0.35);text-transform:uppercase;margin-bottom:8px;
+}
+.ut-coll-crumb a{color:rgba(201,169,110,0.35);text-decoration:none;transition:color 0.2s;}
+.ut-coll-crumb a:hover{color:var(--ut-gold);}
+.ut-coll-crumb span{color:rgba(201,169,110,0.18);margin:0 6px;}
+.ut-coll-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(24px,3vw,36px);font-weight:300;
+  color:var(--ut-text);letter-spacing:0.06em;margin:0;
+}
+.ut-coll-count{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.35);letter-spacing:0.18em;margin-top:4px;
+}
+.ut-coll-desc{
+  font-family:'Jost',sans-serif;font-size:12px;
+  color:rgba(250,246,240,0.38);line-height:1.75;
+  max-width:600px;margin-top:8px;letter-spacing:0.04em;
+}
+/* Hero image bg */
+.ut-coll-hero-img{
+  width:120px;height:80px;object-fit:cover;
+  border:1px solid rgba(201,169,110,0.12);flex-shrink:0;
+}
+@media(max-width:600px){.ut-coll-hero-img{display:none;}}
+
+/* ── SORT BAR (mobile top) ── */
+.ut-coll-sortbar{
+  background:var(--ut-bg);
+  border-bottom:1px solid rgba(201,169,110,0.08);
+  display:flex;align-items:center;gap:0;
+  overflow-x:auto;scrollbar-width:none;
+}
+.ut-coll-sortbar::-webkit-scrollbar{display:none;}
+.ut-sort-btn{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.45);letter-spacing:0.08em;
+  background:none;border:none;border-right:1px solid rgba(201,169,110,0.08);
+  padding:12px 18px;cursor:pointer;
+  transition:all 0.2s;white-space:nowrap;flex-shrink:0;
+}
+.ut-sort-btn:hover,.ut-sort-btn.active{color:var(--ut-gold);}
+.ut-sort-btn.active{border-bottom:2px solid var(--ut-gold);}
+/* Filter toggle (mobile) */
+.ut-filter-toggle{
+  display:none;
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.28em;
+  text-transform:uppercase;color:var(--ut-gold);
+  background:none;border:none;border-right:1px solid rgba(201,169,110,0.08);
+  padding:12px 18px;cursor:pointer;
+  align-items:center;gap:7px;flex-shrink:0;
+}
+@media(max-width:900px){.ut-filter-toggle{display:flex;}}
+
+/* ── MAIN LAYOUT ── */
+.ut-coll-wrap{
+  max-width:1300px;margin:0 auto;
+  padding:0 16px 60px;
+  display:grid;
+  grid-template-columns:250px 1fr;
+  gap:0;
+  align-items:start;
+}
+@media(max-width:900px){.ut-coll-wrap{grid-template-columns:1fr;}}
+
+/* ── SIDEBAR ── */
+.ut-sidebar{
+  position:sticky;top:calc(64px + 73px + 46px);
+  padding:20px 16px 20px 0;
+  border-right:1px solid rgba(201,169,110,0.08);
+  max-height:calc(100vh - 200px);
+  overflow-y:auto;scrollbar-width:thin;
+  scrollbar-color:rgba(201,169,110,0.15) transparent;
+}
+.ut-sidebar::-webkit-scrollbar{width:3px;}
+.ut-sidebar::-webkit-scrollbar-thumb{background:rgba(201,169,110,0.15);}
+@media(max-width:900px){
+  .ut-sidebar{
+    position:fixed;top:0;left:-100%;width:300px;height:100vh;
+    background:var(--ut-bg-2);border-right:1px solid rgba(201,169,110,0.15);
+    z-index:800;padding:20px;
+    transition:left 0.35s cubic-bezier(0.4,0,0.2,1);
+    max-height:100vh;overflow-y:auto;
+  }
+  .ut-sidebar.open{left:0;}
+}
+/* Sidebar overlay */
+.ut-sidebar-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.6);z-index:799;
+}
+@media(max-width:900px){.ut-sidebar-overlay{display:block;opacity:0;pointer-events:none;transition:opacity 0.3s;}}
+.ut-sidebar-overlay.open{opacity:1;pointer-events:all;}
+
+.ut-sb-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;padding-bottom:12px;
+  border-bottom:1px solid rgba(201,169,110,0.1);
+}
+.ut-sb-header-title{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.3em;
+  color:rgba(201,169,110,0.6);text-transform:uppercase;
+}
+.ut-sb-clear{
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(201,169,110,0.45);background:none;border:none;
+  cursor:pointer;letter-spacing:0.1em;text-decoration:underline;
+  transition:color 0.2s;
+}
+.ut-sb-clear:hover{color:var(--ut-gold);}
+.ut-sb-close{
+  display:none;background:none;border:none;
+  color:rgba(201,169,110,0.4);font-size:22px;cursor:pointer;
+}
+@media(max-width:900px){.ut-sb-close{display:block;}}
+
+/* Active filter chips */
+.ut-active-chips{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin-bottom:14px;
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(201,169,110,0.06);
+  min-height:0;
+}
+.ut-active-chips:empty{display:none;}
+.ut-chip{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(201,169,110,0.08);
+  border:1px solid rgba(201,169,110,0.2);
+  color:var(--ut-gold);font-family:'Jost',sans-serif;
+  font-size:10px;padding:4px 10px;cursor:pointer;
+  transition:all 0.2s;letter-spacing:0.06em;
+}
+.ut-chip:hover{background:rgba(139,58,82,0.08);color:var(--ut-rose-light);border-color:rgba(139,58,82,0.25);}
+.ut-chip-x{font-size:13px;line-height:1;}
+
+/* Filter blocks */
+.ut-fb{
+  border-bottom:1px solid rgba(201,169,110,0.07);
+  margin-bottom:0;
+}
+.ut-fb-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 0;cursor:pointer;
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;
+  color:rgba(201,169,110,0.6);text-transform:uppercase;
+  background:none;border:none;width:100%;text-align:left;
+  transition:color 0.2s;
+}
+.ut-fb-head:hover{color:var(--ut-gold);}
+.ut-fb-arrow{
+  font-size:10px;color:rgba(201,169,110,0.4);
+  transition:transform 0.25s;
+}
+.ut-fb.collapsed .ut-fb-arrow{transform:rotate(-90deg);}
+.ut-fb-body{
+  padding-bottom:14px;
+  overflow:hidden;
+  max-height:500px;
+  transition:max-height 0.3s ease;
+}
+.ut-fb.collapsed .ut-fb-body{max-height:0;padding-bottom:0;}
+
+/* Category options */
+.ut-fb-cats{display:flex;flex-direction:column;gap:0;}
+.ut-fb-cat{
+  display:flex;align-items:center;gap:9px;
+  font-family:'Jost',sans-serif;font-size:12px;
+  color:rgba(250,246,240,0.5);
+  padding:7px 0;cursor:pointer;transition:color 0.15s;
+  border:none;background:none;text-align:left;width:100%;
+  letter-spacing:0.04em;
+}
+.ut-fb-cat:hover{color:var(--ut-text);}
+.ut-fb-cat.active{color:var(--ut-gold);}
+.ut-fb-cat.active::before{
+  content:'';display:block;width:3px;height:3px;
+  border-radius:50%;background:var(--ut-gold);flex-shrink:0;
+  margin-left:2px;
+}
+.ut-fb-cat-count{margin-left:auto;font-size:10px;color:rgba(250,246,240,0.2);}
+.ut-fb-show-more{
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(201,169,110,0.45);background:none;border:none;
+  cursor:pointer;padding:4px 0;letter-spacing:0.08em;
+  transition:color 0.2s;text-decoration:underline;
+}
+.ut-fb-show-more:hover{color:var(--ut-gold);}
+
+/* Checkbox options */
+.ut-fb-checks{display:flex;flex-direction:column;gap:8px;}
+.ut-fb-check{
+  display:flex;align-items:center;gap:9px;cursor:pointer;
+}
+.ut-fb-check input[type=checkbox]{
+  accent-color:var(--ut-gold);width:14px;height:14px;flex-shrink:0;cursor:pointer;
+}
+.ut-fb-check-label{
+  font-family:'Jost',sans-serif;font-size:12px;
+  color:rgba(250,246,240,0.5);letter-spacing:0.04em;
+  transition:color 0.15s;flex:1;
+}
+.ut-fb-check:hover .ut-fb-check-label{color:var(--ut-text);}
+.ut-fb-check input:checked ~ .ut-fb-check-label{color:var(--ut-gold);}
+.ut-fb-check-count{font-size:10px;color:rgba(250,246,240,0.2);margin-left:auto;}
+
+/* Color swatches */
+.ut-fb-swatches{display:flex;flex-wrap:wrap;gap:8px;}
+.ut-fb-swatch{
+  width:26px;height:26px;border-radius:50%;
+  border:2px solid transparent;cursor:pointer;
+  transition:border-color 0.2s;position:relative;
+}
+.ut-fb-swatch:hover,.ut-fb-swatch.active{border-color:var(--ut-gold);}
+.ut-fb-swatch-in{width:100%;height:100%;border-radius:50%;display:block;}
+.ut-fb-swatch[title]::after{
+  content:attr(title);
+  position:absolute;bottom:calc(100% + 5px);left:50%;
+  transform:translateX(-50%);
+  background:var(--ut-bg-4);color:var(--ut-text);
+  font-family:'Jost',sans-serif;font-size:9px;
+  padding:3px 8px;white-space:nowrap;
+  pointer-events:none;opacity:0;transition:opacity 0.15s;
+  letter-spacing:0.06em;
+}
+.ut-fb-swatch:hover::after{opacity:1;}
+
+/* Price range */
+.ut-price-wrap{padding:4px 0;}
+.ut-price-slider-track{
+  position:relative;height:4px;
+  background:rgba(201,169,110,0.12);
+  border-radius:2px;margin:16px 0 8px;
+}
+.ut-price-slider-fill{
+  position:absolute;height:100%;
+  background:var(--ut-gold);border-radius:2px;
+}
+.ut-price-range-inp{
+  position:absolute;width:100%;height:100%;
+  -webkit-appearance:none;appearance:none;
+  background:transparent;pointer-events:none;
+  top:-6px;left:0;
+}
+.ut-price-range-inp::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--ut-gold);border:2px solid var(--ut-bg);
+  cursor:pointer;pointer-events:all;
+  box-shadow:0 0 0 2px rgba(201,169,110,0.3);
+}
+.ut-price-range-inp::-moz-range-thumb{
+  width:16px;height:16px;border-radius:50%;
+  background:var(--ut-gold);border:2px solid var(--ut-bg);
+  cursor:pointer;pointer-events:all;
+}
+.ut-price-inputs{display:flex;align-items:center;gap:8px;margin-top:12px;}
+.ut-price-in{
+  flex:1;background:rgba(201,169,110,0.04);
+  border:1px solid rgba(201,169,110,0.15);
+  color:var(--ut-text);font-family:'Jost',sans-serif;font-size:12px;
+  padding:8px 10px;outline:none;
+  transition:border-color 0.2s;letter-spacing:0.04em;
+}
+.ut-price-in:focus{border-color:rgba(201,169,110,0.45);}
+.ut-price-sep{color:rgba(201,169,110,0.3);font-size:12px;flex-shrink:0;}
+.ut-price-go{
+  background:var(--ut-gold);color:var(--ut-bg);border:none;
+  font-family:'Cinzel',serif;font-size:7px;
+  letter-spacing:0.28em;text-transform:uppercase;
+  padding:8px 12px;cursor:pointer;transition:background 0.2s;
+  white-space:nowrap;
+}
+.ut-price-go:hover{background:var(--ut-gold-light);}
+
+/* Rating filter */
+.ut-fb-ratings{display:flex;flex-direction:column;gap:6px;}
+.ut-fb-rating{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  padding:5px 0;
+}
+.ut-fb-rating input[type=radio]{accent-color:var(--ut-gold);cursor:pointer;}
+.ut-fb-stars{color:var(--ut-gold);font-size:12px;letter-spacing:1px;}
+.ut-fb-rating-lbl{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.45);letter-spacing:0.04em;
+}
+.ut-fb-rating:hover .ut-fb-rating-lbl{color:var(--ut-text);}
+.ut-fb-rating input:checked ~ .ut-fb-stars,
+.ut-fb-rating input:checked ~ .ut-fb-rating-lbl{color:var(--ut-gold);}
+
+/* Discount filter */
+.ut-fb-discounts{display:flex;flex-direction:column;gap:6px;}
+.ut-disc-btn{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.45);letter-spacing:0.06em;
+  background:none;border:1px solid rgba(201,169,110,0.1);
+  padding:7px 12px;cursor:pointer;
+  transition:all 0.2s;text-align:left;
+}
+.ut-disc-btn:hover,.ut-disc-btn.active{
+  border-color:var(--ut-gold);color:var(--ut-gold);
+  background:rgba(201,169,110,0.04);
+}
+
+/* ── RIGHT CONTENT ── */
+.ut-coll-content{padding:16px 0 0 20px;}
+@media(max-width:900px){.ut-coll-content{padding:16px 0 0;}}
+
+/* Top toolbar */
+.ut-coll-toolbar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;flex-wrap:wrap;gap:10px;
+}
+.ut-coll-result-count{
+  font-family:'Jost',sans-serif;font-size:12px;
+  color:rgba(250,246,240,0.4);letter-spacing:0.08em;
+}
+.ut-coll-result-count strong{color:var(--ut-text);}
+.ut-coll-right-tools{display:flex;align-items:center;gap:10px;}
+.ut-coll-view-btns{display:flex;gap:4px;}
+.ut-view-btn{
+  background:none;border:1px solid rgba(201,169,110,0.12);
+  color:rgba(201,169,110,0.35);width:32px;height:32px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:14px;transition:all 0.2s;
+}
+.ut-view-btn.active,.ut-view-btn:hover{border-color:var(--ut-gold);color:var(--ut-gold);}
+.ut-coll-sort-sel{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.55);
+  background:var(--ut-bg);
+  border:1px solid rgba(201,169,110,0.18);
+  padding:7px 28px 7px 12px;cursor:pointer;outline:none;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C9A96E'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 8px center;
+  letter-spacing:0.06em;
+}
+.ut-coll-sort-sel option{background:var(--ut-bg-4);}
+
+/* Product grid */
+.ut-coll-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+@media(max-width:1200px){.ut-coll-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.ut-coll-grid{grid-template-columns:repeat(2,1fr);gap:10px;}}
+.ut-coll-grid.grid-2{grid-template-columns:repeat(2,1fr);}
+.ut-coll-grid.grid-4{grid-template-columns:repeat(4,1fr);}
+@media(max-width:1100px){.ut-coll-grid.grid-4{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:700px){.ut-coll-grid.grid-4,.ut-coll-grid.grid-2{grid-template-columns:repeat(2,1fr);}}
+
+/* Product Card */
+.ut-pc{
+  background:var(--ut-bg-2);
+  border:1px solid rgba(201,169,110,0.08);
+  position:relative;overflow:hidden;
+  transition:border-color 0.3s,box-shadow 0.3s,transform 0.25s;
+  display:flex;flex-direction:column;
+}
+.ut-pc:hover{
+  border-color:rgba(201,169,110,0.3);
+  box-shadow:0 4px 20px rgba(0,0,0,0.35);
+  transform:translateY(-2px);z-index:2;
+}
+/* Image */
+.ut-pc-img{
+  aspect-ratio:3/4;background:linear-gradient(145deg,var(--ut-bg-4),var(--ut-bg));
+  overflow:hidden;position:relative;flex-shrink:0;
+}
+.ut-pc-img-main,.ut-pc-img-hover{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;transition:opacity 0.45s ease;
+}
+.ut-pc-img-main{opacity:1;}
+.ut-pc-img-hover{opacity:0;}
+.ut-pc:hover .ut-pc-img-main{opacity:0;}
+.ut-pc:hover .ut-pc-img-hover{opacity:1;}
+.ut-pc-no-img{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel',serif;font-size:11px;color:var(--ut-gold);
+  letter-spacing:0.2em;text-align:center;padding:16px;
+}
+/* Badges */
+.ut-pc-badge{
+  position:absolute;top:10px;left:10px;z-index:3;
+  font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.28em;
+  text-transform:uppercase;padding:3px 9px;
+}
+.ut-pc-badge.new{background:var(--ut-gold);color:var(--ut-bg);}
+.ut-pc-badge.hot{background:var(--ut-rose);color:var(--ut-text);}
+.ut-pc-badge.sale{background:rgba(139,58,82,0.92);color:var(--ut-text);}
+.ut-pc-badge.bestseller{background:rgba(10,9,8,0.85);color:var(--ut-gold);border:1px solid rgba(201,169,110,0.3);}
+/* Wishlist */
+.ut-pc-wish{
+  position:absolute;top:10px;right:10px;z-index:3;
+  background:rgba(10,9,8,0.65);border:1px solid rgba(201,169,110,0.15);
+  color:rgba(201,169,110,0.5);width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:14px;transition:all 0.2s;
+  backdrop-filter:blur(4px);
+}
+.ut-pc-wish:hover,.ut-pc-wish.active{color:var(--ut-rose);border-color:var(--ut-rose);}
+/* Quick Add */
+.ut-pc-qadd{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--ut-gold);color:var(--ut-bg);
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.28em;
+  text-transform:uppercase;padding:10px;text-align:center;
+  border:none;cursor:pointer;width:100%;
+  transform:translateY(100%);transition:transform 0.3s;z-index:3;
+}
+.ut-pc:hover .ut-pc-qadd{transform:translateY(0);}
+/* Discount ribbon */
+.ut-pc-ribbon{
+  position:absolute;top:0;right:0;z-index:3;
+  background:var(--ut-rose);color:var(--ut-text);
+  font-family:'Jost',sans-serif;font-size:10px;font-weight:500;
+  padding:4px 8px;letter-spacing:0.04em;
+}
+/* Info */
+.ut-pc-info{padding:12px 12px 14px;flex:1;display:flex;flex-direction:column;}
+.ut-pc-brand{
+  font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.3em;
+  color:rgba(201,169,110,0.45);text-transform:uppercase;margin-bottom:4px;
+}
+.ut-pc-name{
+  font-family:'Cinzel',serif;font-size:12px;color:var(--ut-text);
+  letter-spacing:0.04em;margin:0 0 4px;line-height:1.3;flex:1;
+}
+.ut-pc-variant{
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.3);letter-spacing:0.08em;margin-bottom:8px;
+}
+/* Rating mini */
+.ut-pc-rating{
+  display:flex;align-items:center;gap:5px;margin-bottom:8px;
+}
+.ut-pc-stars-pill{
+  background:rgba(40,120,40,0.15);border:1px solid rgba(40,150,40,0.2);
+  color:var(--ut-success);font-family:'Jost',sans-serif;font-size:10px;
+  padding:2px 7px;display:flex;align-items:center;gap:3px;letter-spacing:0.04em;
+}
+.ut-pc-rev-count{
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.25);letter-spacing:0.06em;
+}
+/* Price */
+.ut-pc-price-row{
+  display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;
+}
+.ut-pc-price{font-family:'Cinzel',serif;font-size:15px;color:var(--ut-gold);}
+.ut-pc-compare{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.22);text-decoration:line-through;
+}
+.ut-pc-save{
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:var(--ut-success);letter-spacing:0.04em;
+}
+/* Assured badge */
+.ut-pc-assured{
+  display:flex;align-items:center;gap:4px;
+  margin-top:6px;
+}
+.ut-pc-assured-badge{
+  background:linear-gradient(90deg,var(--ut-gold),var(--ut-gold-light));
+  color:var(--ut-bg);font-family:'Cinzel',serif;font-size:6px;
+  letter-spacing:0.2em;padding:2px 8px;text-transform:uppercase;
+}
+.ut-pc-free-del{
+  font-family:'Jost',sans-serif;font-size:9px;
+  color:rgba(250,246,240,0.3);letter-spacing:0.06em;
+}
+
+/* Swatches on card */
+.ut-pc-swatches{
+  display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;
+}
+.ut-pc-swatch{
+  width:16px;height:16px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.15);cursor:pointer;
+  transition:border-color 0.15s;
+}
+.ut-pc-swatch:hover{border-color:var(--ut-gold);}
+
+/* Empty */
+.ut-coll-empty{
+  grid-column:1/-1;text-align:center;padding:80px 20px;
+}
+.ut-coll-empty-title{
+  font-family:'Cinzel',serif;font-size:18px;
+  color:rgba(201,169,110,0.3);letter-spacing:0.15em;margin-bottom:10px;
+}
+.ut-coll-empty-sub{
+  font-family:'Jost',sans-serif;font-size:13px;
+  color:rgba(250,246,240,0.25);letter-spacing:0.08em;
+}
+
+/* Pagination */
+.ut-coll-pages{
+  display:flex;align-items:center;justify-content:center;
+  gap:6px;margin-top:36px;flex-wrap:wrap;
+}
+.ut-page-btn{
+  font-family:'Cinzel',serif;font-size:10px;
+  letter-spacing:0.15em;color:rgba(201,169,110,0.45);
+  border:1px solid rgba(201,169,110,0.12);background:none;
+  min-width:38px;height:38px;cursor:pointer;
+  transition:all 0.2s;display:flex;align-items:center;justify-content:center;
+  text-decoration:none;padding:0 6px;
+}
+.ut-page-btn:hover,.ut-page-btn.active{
+  border-color:var(--ut-gold);color:var(--ut-gold);background:rgba(201,169,110,0.05);
+}
+
+/* SEO description */
+.ut-coll-seo{
+  margin-top:48px;padding:28px;
+  border:1px solid rgba(201,169,110,0.07);
+  background:rgba(201,169,110,0.02);
+}
+.ut-coll-seo p{
+  font-family:'Jost',sans-serif;font-size:12px;
+  color:rgba(250,246,240,0.35);line-height:1.85;letter-spacing:0.04em;
+}
+
+/* ── SUBCATEGORY GRID ── */
+.ut-subcat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:3px;
+  margin-bottom:24px;
+}
+@media(max-width:900px){.ut-subcat-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:600px){.ut-subcat-grid{grid-template-columns:repeat(2,1fr);}}
+.ut-subcat-card{
+  display:flex;align-items:center;gap:14px;
+  background:var(--ut-bg-3);
+  border:1px solid rgba(201,169,110,0.08);
+  padding:16px 18px;
+  text-decoration:none;
+  transition:border-color 0.25s,background 0.25s;
+  cursor:pointer;
+}
+.ut-subcat-card:hover{
+  border-color:rgba(201,169,110,0.38);
+  background:rgba(201,169,110,0.04);
+}
+.ut-subcat-icon{
+  font-size:22px;flex-shrink:0;
+  width:44px;height:44px;
+  background:rgba(201,169,110,0.06);
+  border:1px solid rgba(201,169,110,0.1);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.25s;
+}
+.ut-subcat-card:hover .ut-subcat-icon{
+  background:rgba(201,169,110,0.12);
+  border-color:rgba(201,169,110,0.35);
+}
+.ut-subcat-info{display:flex;flex-direction:column;flex:1;min-width:0;}
+.ut-subcat-name{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(250,246,240,0.8);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ut-subcat-desc{
+  font-family:'Jost',sans-serif;font-size:10px;font-weight:200;
+  color:rgba(250,246,240,0.32);letter-spacing:0.06em;
+  margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ut-subcat-arrow{
+  font-family:'Cinzel',serif;font-size:10px;
+  color:rgba(201,169,110,0.35);flex-shrink:0;
+  transition:color 0.2s,transform 0.2s;
+}
+.ut-subcat-card:hover .ut-subcat-arrow{
+  color:var(--ut-gold);transform:translateX(3px);
+}
+
+</style>
+
+<!-- Sidebar overlay -->
+<div class="ut-sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- ── CATEGORY NAV STRIP ── -->
+<div class="ut-cat-nav">
+  <div class="ut-cat-nav-inner">
+    {% assign nav_cats = "Skincare,Makeup,Hair,Fragrance,Nails,Body,Wellness,Men's,K-Beauty,Luxury,Gifts,Sale" | split: "," %}
+    {% assign nav_icons = "🌹,💄,💇,🌸,💅,🧴,🌿,🪒,✨,👑,🎁,🏷️" | split: "," %}
+    {% assign nav_handles = "skincare,makeup,hair,fragrance,nails,body-care,wellness,mens-grooming,k-beauty,luxury,gift-sets,sale" | split: "," %}
+    {% for cat in nav_cats %}
+      {% assign handle = nav_handles[forloop.index0] %}
+      <a href="/collections/{{ handle }}"
+        class="ut-cat-nav-item {% if collection.handle == handle %}active{% endif %}">
+        <div class="ut-cat-nav-icon">{{ nav_icons[forloop.index0] }}</div>
+        <span>{{ cat }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- ── COLLECTION HERO ── -->
+<div class="ut-coll-hero">
+  <div class="ut-coll-hero-inner">
+    <div>
+      <div class="ut-coll-crumb">
+        <a href="{{ routes.root_url }}">Home</a>
+        <span>/</span>
+        {% if collection.handle != 'all' %}
+          <a href="{{ routes.collections_url }}">Shop</a>
+          <span>/</span>
+        {% endif %}
+        <span style="color:rgba(201,169,110,0.65);">{{ collection.title }}</span>
+      </div>
+      <h1 class="ut-coll-title">{{ collection.title }}</h1>
+      <p class="ut-coll-count">{{ collection.products_count }} Products</p>
+      {% if collection.description != blank %}
+        <p class="ut-coll-desc">{{ collection.description | strip_html | truncate: 160 }}</p>
+      {% endif %}
+    </div>
+    {% if collection.image %}
+      <img class="ut-coll-hero-img" src="{{ collection.image | img_url: '300x' }}" alt="{{ collection.title }}">
+    {% endif %}
+  </div>
+</div>
+
+
+<!-- ── SUBCATEGORY GRID ── -->
+{%- assign collection_handle = collection.handle -%}
+{%- assign show_subcats = false -%}
+{%- assign subcat_handles = "" -%}
+{%- assign subcat_labels = "" -%}
+{%- assign subcat_icons = "" -%}
+{%- assign subcat_descs = "" -%}
+
+{%- if collection_handle == 'skincare' -%}
+  {%- assign show_subcats = true -%}
+  {%- assign subcat_handles = "serums|moisturisers|cleansers|toners|sunscreen|eye-care|face-masks|exfoliators" -%}
+  {%- assign subcat_labels = "Serums|Moisturisers|Cleansers|Toners|Sunscreen|Eye Care|Face Masks|Exfoliators" -%}
+  {%- assign subcat_icons = "🧴|💧|🫧|🌸|☀️|👁️|🎭|✨" -%}
+  {%- assign subcat_descs = "Targeted treatments|Deep hydration|Gentle cleansing|Balance & refine|SPF protection|Dark circles & puffiness|Deep treatment rituals|Reveal fresh skin" -%}
+  {%- assign cat_seo_text = "Urban Trend's Skincare range is scientifically formulated for Indian skin — from brightening Vitamin C serums to deeply hydrating moisturisers, our dermatologist-tested formulas address hyperpigmentation, dullness, and dehydration common in Indian climates. Each product uses rare Indian botanicals like saffron, turmeric, and neem." -%}
+{%- elsif collection_handle == 'makeup' -%}
+  {%- assign show_subcats = true -%}
+  {%- assign subcat_handles = "foundation|lipstick|kajal-eyeliner|eyeshadow|blush-bronzer|highlighter|mascara|setting-spray" -%}
+  {%- assign subcat_labels = "Foundation|Lipstick|Kajal & Eyeliner|Eyeshadow|Blush & Bronzer|Highlighter|Mascara|Setting Spray" -%}
+  {%- assign subcat_icons = "🤎|💄|🖤|✨|🌸|⭐|👁️|💦" -%}
+  {%- assign subcat_descs = "12 Indian skin shades|All-day vibrant colour|Intense definition|Buildable pigments|Natural sculpt & flush|Radiant glow|Lengthening & volumising|24-hour lock" -%}
+  {%- assign cat_seo_text = "Urban Trend Makeup is designed for the bold Indian woman — our foundations cover 12 Indian skin tones, our kajals are smudge-proof for humid weather, and our lipsticks deliver rich pigment that lasts through chai, meals, and long days. Cruelty-free and PETA-certified." -%}
+{%- elsif collection_handle == 'fragrance' -%}
+  {%- assign show_subcats = true -%}
+  {%- assign subcat_handles = "eau-de-parfum|eau-de-toilette|body-mists|perfume-oils|home-fragrance|fragrance-gifts" -%}
+  {%- assign subcat_labels = "Eau de Parfum|Eau de Toilette|Body Mists|Perfume Oils|Home Fragrance|Gift Sets" -%}
+  {%- assign subcat_icons = "🌹|🌺|💨|🫙|🕯️|🎁" -%}
+  {%- assign subcat_descs = "Rich & lasting sillage|Light everyday wear|Refreshing all-day scent|Concentrated roll-on|Candles & room sprays|Curated collections" -%}
+  {%- assign cat_seo_text = "Urban Trend Fragrances draw from India's ancient perfumery traditions — oud from Assam, saffron from Kashmir, sandalwood from Karnataka. Our Eau de Parfum range offers 12+ hour longevity, crafted by master perfumers inspired by the streets of Mumbai, Delhi, and Old Delhi's Chandni Chowk." -%}
+{%- elsif collection_handle == 'hair' -%}
+  {%- assign show_subcats = true -%}
+  {%- assign subcat_handles = "shampoo|conditioner|hair-masks|hair-oils|hair-serums|hair-styling" -%}
+  {%- assign subcat_labels = "Shampoo|Conditioner|Hair Masks|Hair Oils|Hair Serums|Styling" -%}
+  {%- assign subcat_icons = "🧴|💧|🎭|🌿|✨|💇" -%}
+  {%- assign subcat_descs = "Cleanse & strengthen|Deep moisture|Intensive treatment|Traditional rituals|Frizz control|Define & hold" -%}
+  {%- assign cat_seo_text = "Urban Trend Hair Care combines ancient Ayurvedic wisdom with modern trichology — our Brahmi-infused hair oils promote growth, our sulphate-free shampoos protect colour-treated hair, and our deep conditioning masks reverse damage caused by pollution and hard water common across Indian cities." -%}
+{%- elsif collection_handle == 'body-care' -%}
+  {%- assign show_subcats = true -%}
+  {%- assign subcat_handles = "body-lotions|body-scrubs|body-oils|hand-nail|foot-care|bath-shower" -%}
+  {%- assign subcat_labels = "Body Lotions|Body Scrubs|Body Oils|Hand & Nail|Foot Care|Bath & Shower" -%}
+  {%- assign subcat_icons = "🧴|✨|🌿|💅|🦶|🛁" -%}
+  {%- assign subcat_descs = "All-day moisturisation|Exfoliate & glow|Nourishing treatment|Soft hands, strong nails|Heel repair & softening|Luxurious rituals" -%}
+  {%- assign cat_seo_text = "Urban Trend Body Care transforms everyday rituals into indulgent ceremonies — our saffron body scrubs reveal radiant skin, our shea butter lotions provide 24-hour hydration, and our body oils use cold-pressed Indian botanicals to nourish from head to toe." -%}
+{%- elsif collection_handle == 'wellness' -%}
+  {%- assign show_subcats = true -%}
+  {%- assign subcat_handles = "supplements|aromatherapy|sleep-care|stress-relief|immunity|feminine-care" -%}
+  {%- assign subcat_labels = "Supplements|Aromatherapy|Sleep Care|Stress Relief|Immunity|Feminine Care" -%}
+  {%- assign subcat_icons = "💊|🌿|🌙|🧘|🛡️|🌸" -%}
+  {%- assign subcat_descs = "Inner glow supplements|Essential oil rituals|Deep sleep blends|Calm & balance|Daily defence|Gentle intimate care" -%}
+  {%- assign cat_seo_text = "Urban Trend Wellness bridges the gap between beauty and health — our Ashwagandha-based supplements support skin from within, our aromatherapy blends use steam-distilled Indian essential oils, and our sleep care range draws from Ayurvedic traditions for restorative rest." -%}
+{%- elsif collection_handle == 'nails' -%}
+  {%- assign show_subcats = true -%}
+  {%- assign subcat_handles = "nail-colour|nail-treatments|nail-tools|nail-removal|nail-art|nail-sets" -%}
+  {%- assign subcat_labels = "Nail Colour|Treatments|Tools|Removal|Nail Art|Sets & Kits" -%}
+  {%- assign subcat_icons = "💅|💊|🔧|🧪|🎨|🎁" -%}
+  {%- assign subcat_descs = "Chip-free 7-day wear|Strengthen & grow|Professional tools|Gentle acetone-free|Creative nail art|Complete nail kits" -%}
+  {%- assign cat_seo_text = "Urban Trend Nail range delivers salon-quality results at home — our 7-day chip-free nail colours come in 40+ shades designed for Indian skin tones, our strengthening treatments repair brittle nails, and our gel-effect topcoats deliver a glass-like finish that lasts." -%}
+{%- elsif collection_handle == 'mens-grooming' -%}
+  {%- assign show_subcats = true -%}
+  {%- assign subcat_handles = "mens-skincare|beard-care|mens-haircare|mens-fragrance|mens-body|mens-sets" -%}
+  {%- assign subcat_labels = "Skincare|Beard Care|Hair Care|Fragrance|Body Care|Gift Sets" -%}
+  {%- assign subcat_icons = "🧴|🪒|💇|🌹|🛁|🎁" -%}
+  {%- assign subcat_descs = "No-nonsense grooming|Beard oils & balms|Anti-dandruff & growth|Bold masculine scents|Body wash & deodorant|Complete grooming kits" -%}
+  {%- assign cat_seo_text = "Urban Trend Men's Grooming is built for the modern Indian man — our activated charcoal face washes deep-cleanse without stripping moisture, our beard oils use cold-pressed argan and castor oils for soft manageable beards, and our fragrances are bold, woody, and long-lasting." -%}
+{%- endif -%}
+
+{%- if show_subcats -%}
+<div class="ut-subcats-section" style="background:var(--ut-bg);padding:32px 32px 8px;border-bottom:1px solid rgba(201,169,110,0.08);">
+  <div style="max-width:1300px;margin:0 auto;">
+    <p style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(201,169,110,0.5);margin-bottom:20px;">Shop by Category</p>
+    <div class="ut-subcat-grid">
+      {%- assign handles_arr = subcat_handles | split: "|" -%}
+      {%- assign labels_arr = subcat_labels | split: "|" -%}
+      {%- assign icons_arr = subcat_icons | split: "|" -%}
+      {%- assign descs_arr = subcat_descs | split: "|" -%}
+      {%- for handle in handles_arr -%}
+        <a href="/collections/{{ handle }}" class="ut-subcat-card">
+          <div class="ut-subcat-icon">{{ icons_arr[forloop.index0] }}</div>
+          <div class="ut-subcat-info">
+            <span class="ut-subcat-name">{{ labels_arr[forloop.index0] }}</span>
+            <span class="ut-subcat-desc">{{ descs_arr[forloop.index0] }}</span>
+          </div>
+          <span class="ut-subcat-arrow">→</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+
+<!-- ── SORT BAR (mobile) ── -->
+<div class="ut-coll-sortbar">
+  <button class="ut-filter-toggle" onclick="openSidebar()">
+    <span>⚙</span> Filters
+  </button>
+  <button class="ut-sort-btn active" onclick="sortColl('manual',this)">Popularity</button>
+  <button class="ut-sort-btn" onclick="sortColl('price-ascending',this)">Price: Low → High</button>
+  <button class="ut-sort-btn" onclick="sortColl('price-descending',this)">Price: High → Low</button>
+  <button class="ut-sort-btn" onclick="sortColl('created-descending',this)">Newest First</button>
+  <button class="ut-sort-btn" onclick="sortColl('best-selling',this)">Best Selling</button>
+</div>
+
+<!-- ── MAIN LAYOUT ── -->
+<div class="ut-coll-wrap">
+
+  <!-- ── SIDEBAR FILTERS ── -->
+  <aside class="ut-sidebar" id="collSidebar">
+    <div class="ut-sb-header">
+      <span class="ut-sb-header-title">Filters</span>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button class="ut-sb-clear" onclick="clearAllFilters()">Clear All</button>
+        <button class="ut-sb-close" onclick="closeSidebar()">×</button>
+      </div>
+    </div>
+
+    <!-- Active chips -->
+    <div class="ut-active-chips" id="activeFilterChips"></div>
+
+    <!-- Categories -->
+    <div class="ut-fb" id="fb-cat">
+      <button class="ut-fb-head" onclick="toggleFb('fb-cat')">
+        Categories <span class="ut-fb-arrow">▾</span>
+      </button>
+      <div class="ut-fb-body">
+        <div class="ut-fb-cats">
+          {% assign sub_cats = "Serums,Moisturizers,Toners,Sunscreen,Eye Cream,Face Masks,Cleansers,Exfoliators" | split: "," %}
+          {% for sc in sub_cats %}
+            <button class="ut-fb-cat" onclick="addFilter('{{ sc }}',this)">
+              {{ sc }}
+              <span class="ut-fb-cat-count">{{ collection.products_count | divided_by: 8 }}</span>
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Brand -->
+    <div class="ut-fb" id="fb-brand">
+      <button class="ut-fb-head" onclick="toggleFb('fb-brand')">
+        Brand <span class="ut-fb-arrow">▾</span>
+      </button>
+      <div class="ut-fb-body">
+        <div class="ut-fb-checks" id="brandFilters">
+          {% assign brands = "Urban Trend,Lakmé,Mamaearth,Dot & Key,Plum,mCaffeine,Minimalist,Kama Ayurveda,Forest Essentials,WOW Skin,SUGAR,Biotique" | split: "," %}
+          {% for brand in brands limit:6 %}
+            <label class="ut-fb-check">
+              <input type="checkbox" onchange="toggleFilter('{{ brand }}',this)">
+              <span class="ut-fb-check-label">{{ brand }}</span>
+              <span class="ut-fb-check-count">{{ collection.products_count | divided_by: 12 }}</span>
+            </label>
+          {% endfor %}
+          <div id="brandMore" style="display:none;">
+            {% for brand in brands offset:6 %}
+              <label class="ut-fb-check" style="margin-top:8px;">
+                <input type="checkbox" onchange="toggleFilter('{{ brand }}',this)">
+                <span class="ut-fb-check-label">{{ brand }}</span>
+              </label>
+            {% endfor %}
+          </div>
+          <button class="ut-fb-show-more" onclick="toggleBrandMore(this)">+ 6 more brands</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Price range -->
+    <div class="ut-fb" id="fb-price">
+      <button class="ut-fb-head" onclick="toggleFb('fb-price')">
+        Price Range <span class="ut-fb-arrow">▾</span>
+      </button>
+      <div class="ut-fb-body">
+        <div class="ut-price-wrap">
+          <div class="ut-price-slider-track" id="priceTrack">
+            <div class="ut-price-slider-fill" id="priceFill"></div>
+            <input class="ut-price-range-inp" type="range" id="priceMin"
+              min="0" max="9999" value="0" step="100"
+              oninput="updatePriceRange()">
+            <input class="ut-price-range-inp" type="range" id="priceMax"
+              min="0" max="9999" value="9999" step="100"
+              oninput="updatePriceRange()">
+          </div>
+          <div class="ut-price-inputs">
+            <input class="ut-price-in" type="number" id="priceMinInput"
+              placeholder="₹ Min" value="0" min="0" oninput="syncPriceSlider()">
+            <span class="ut-price-sep">—</span>
+            <input class="ut-price-in" type="number" id="priceMaxInput"
+              placeholder="₹ Max" value="9999" max="9999" oninput="syncPriceSlider()">
+            <button class="ut-price-go" onclick="applyPriceFilter()">Go</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customer Rating -->
+    <div class="ut-fb" id="fb-rating">
+      <button class="ut-fb-head" onclick="toggleFb('fb-rating')">
+        Customer Rating <span class="ut-fb-arrow">▾</span>
+      </button>
+      <div class="ut-fb-body">
+        <div class="ut-fb-ratings">
+          {% for i in (1..4) reversed %}
+            <label class="ut-fb-rating">
+              <input type="radio" name="ratingFilter"
+                onchange="addFilter('{{ i }}★ & above',null,'rating')">
+              <span class="ut-fb-stars">
+                {% for s in (1..i) %}★{% endfor %}{% assign r = 5 | minus: i %}{% for s in (1..r) %}☆{% endfor %}
+              </span>
+              <span class="ut-fb-rating-lbl">& above</span>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Discount -->
+    <div class="ut-fb" id="fb-disc">
+      <button class="ut-fb-head" onclick="toggleFb('fb-disc')">
+        Discount <span class="ut-fb-arrow">▾</span>
+      </button>
+      <div class="ut-fb-body">
+        <div class="ut-fb-discounts">
+          {% assign discs = "10% or more,20% or more,30% or more,40% or more,50% or more" | split: "," %}
+          {% for d in discs %}
+            <button class="ut-disc-btn" onclick="toggleDiscount(this,'{{ d }}')">{{ d }}</button>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Skin Type -->
+    <div class="ut-fb" id="fb-skin">
+      <button class="ut-fb-head" onclick="toggleFb('fb-skin')">
+        Skin Type <span class="ut-fb-arrow">▾</span>
+      </button>
+      <div class="ut-fb-body">
+        <div class="ut-fb-checks">
+          {% assign skintypes = "All Skin Types,Oily Skin,Dry Skin,Combination,Sensitive,Normal" | split: "," %}
+          {% for st in skintypes %}
+            <label class="ut-fb-check">
+              <input type="checkbox" onchange="toggleFilter('{{ st }}',this)">
+              <span class="ut-fb-check-label">{{ st }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Concern -->
+    <div class="ut-fb" id="fb-concern">
+      <button class="ut-fb-head" onclick="toggleFb('fb-concern')">
+        Skin Concern <span class="ut-fb-arrow">▾</span>
+      </button>
+      <div class="ut-fb-body">
+        <div class="ut-fb-checks">
+          {% assign concerns = "Brightening,Anti-aging,Acne,Pigmentation,Hydration,Pores,Dark Circles,Uneven Tone" | split: "," %}
+          {% for c in concerns %}
+            <label class="ut-fb-check">
+              <input type="checkbox" onchange="toggleFilter('{{ c }}',this)">
+              <span class="ut-fb-check-label">{{ c }}</span>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Shade/Color -->
+    <div class="ut-fb" id="fb-shade">
+      <button class="ut-fb-head" onclick="toggleFb('fb-shade')">
+        Shade / Color <span class="ut-fb-arrow">▾</span>
+      </button>
+      <div class="ut-fb-body">
+        <div class="ut-fb-swatches">
+          {% assign shade_names = "Ivory,Beige,Sand,Caramel,Mocha,Espresso,Rose,Coral,Berry,Red,Nude,Gold" | split: "," %}
+          {% assign shade_colors = "#F5E6D0,#E8C9A0,#D4A87A,#B8834F,#8B5E3C,#4A2E1A,#E8A0A0,#F4917A,#9B3B6E,#CC2936,#C9A88A,var(--ut-gold)" | split: "," %}
+          {% for shade in shade_names %}
+            <div class="ut-fb-swatch" title="{{ shade }}" onclick="toggleSwatch(this,'{{ shade }}')" >
+              <span class="ut-fb-swatch-in" style="background:{{ shade_colors[forloop.index0] }};"></span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Availability -->
+    <div class="ut-fb" id="fb-avail">
+      <button class="ut-fb-head" onclick="toggleFb('fb-avail')">
+        Availability <span class="ut-fb-arrow">▾</span>
+      </button>
+      <div class="ut-fb-body">
+        <div class="ut-fb-checks">
+          <label class="ut-fb-check">
+            <input type="checkbox" onchange="toggleFilter('In Stock',this)" checked>
+            <span class="ut-fb-check-label">In Stock</span>
+          </label>
+          <label class="ut-fb-check">
+            <input type="checkbox" onchange="toggleFilter('Pre-order',this)">
+            <span class="ut-fb-check-label">Pre-order</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── PRODUCTS ── -->
+  <div class="ut-coll-content">
+    <!-- Top toolbar -->
+    <div class="ut-coll-toolbar">
+      <p class="ut-coll-result-count">
+        Showing <strong>{{ collection.products_count }}</strong> products
+      </p>
+      <div class="ut-coll-right-tools">
+        <div class="ut-coll-view-btns">
+          <button class="ut-view-btn active" onclick="setGrid(3,this)" title="3 columns">⊞</button>
+          <button class="ut-view-btn" onclick="setGrid(2,this)" title="2 columns">▦</button>
+          <button class="ut-view-btn" onclick="setGrid(4,this)" title="4 columns">⊟</button>
+        </div>
+        <select class="ut-coll-sort-sel" onchange="sortColl(this.value,null)">
+          <option value="manual">Popularity</option>
+          <option value="best-selling">Best Selling</option>
+          <option value="price-ascending">Price: Low → High</option>
+          <option value="price-descending">Price: High → Low</option>
+          <option value="created-descending">Newest First</option>
+          <option value="title-ascending">Name A → Z</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    {% paginate collection.products by 24 %}
+    <div class="ut-coll-grid" id="collGrid">
+      {% for product in collection.products %}
+        {% assign second_img = product.images[1] %}
+        {% assign disc_pct = 0 %}
+        {% if product.compare_at_price > product.price %}
+          {% assign disc_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+        {% endif %}
+
+        <div class="ut-pc"
+          data-tags="{{ product.tags | join: ',' | downcase }}"
+          data-vendor="{{ product.vendor | downcase }}"
+          data-price="{{ product.price }}"
+          data-disc="{{ disc_pct }}">
+
+          <!-- Image -->
+          <a href="{{ product.url }}" style="display:block;text-decoration:none;">
+            <div class="ut-pc-img">
+              {% if product.featured_image %}
+                <img class="ut-pc-img-main"
+                  src="{{ product.featured_image | img_url: '500x' }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  loading="lazy">
+                {% if second_img %}
+                  <img class="ut-pc-img-hover"
+                    src="{{ second_img | img_url: '500x' }}"
+                    alt="{{ second_img.alt | escape }}"
+                    loading="lazy">
+                {% endif %}
+              {% else %}
+                <div class="ut-pc-no-img">{{ product.title }}</div>
+              {% endif %}
+
+              <!-- Badge -->
+              {% if product.tags contains 'new' or forloop.index <= 2 %}
+                <span class="ut-pc-badge new">New</span>
+              {% elsif product.tags contains 'bestseller' %}
+                <span class="ut-pc-badge bestseller">Bestseller</span>
+              {% elsif product.tags contains 'hot' %}
+                <span class="ut-pc-badge hot">Hot</span>
+              {% endif %}
+
+              {% if disc_pct > 0 %}
+                <div class="ut-pc-ribbon">{{ disc_pct }}% off</div>
+              {% endif %}
+
+              <!-- Wishlist -->
+              <button class="ut-pc-wish" onclick="toggleWish(this,event)" aria-label="Wishlist">♡</button>
+
+              <!-- Quick Add -->
+              <button class="ut-pc-qadd"
+                onclick="quickAdd('{{ product.selected_or_first_available_variant.id }}',this,event)">
+                + Quick Add
+              </button>
+            </div>
+          </a>
+
+          <!-- Info -->
+          <a href="{{ product.url }}" style="text-decoration:none;display:flex;flex-direction:column;flex:1;">
+            <div class="ut-pc-info">
+              <div class="ut-pc-brand">{{ product.vendor | default: 'Urban Trend' }}</div>
+              <div class="ut-pc-name">{{ product.title }}</div>
+              <div class="ut-pc-variant">{{ product.metafields.custom.subtitle | default: product.type }}</div>
+
+              <!-- Rating -->
+              <div class="ut-pc-rating">
+                <div class="ut-pc-stars-pill">★ 4.{{ forloop.index | modulo: 5 | plus: 5 }}</div>
+                <span class="ut-pc-rev-count">({{ forloop.index | times: 127 | plus: 43 }})</span>
+              </div>
+
+              <!-- Price -->
+              <div class="ut-pc-price-row">
+                <span class="ut-pc-price">{{ product.price | money }}</span>
+                {% if product.compare_at_price > product.price %}
+                  <span class="ut-pc-compare">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
+              {% if disc_pct > 0 %}
+              <div style="margin-top:4px;">
+                <span style="font-family:'Jost',sans-serif;font-size:11px;color:var(--ut-success);letter-spacing:0.04em;">{{ disc_pct }}% off</span>
+                <span style="font-family:'Jost',sans-serif;font-size:10px;color:rgba(250,246,240,0.28);margin-left:4px;">Save {{ product.compare_at_price | minus: product.price | money }}</span>
+              </div>
+              {% endif %}
+
+              <!-- Assured + free delivery -->
+              <div class="ut-pc-assured">
+                <span class="ut-pc-assured-badge">✓ Authentic</span>
+                {% if product.price >= 99900 %}
+                  <span class="ut-pc-free-del">Free Delivery</span>
+                {% endif %}
+              </div>
+
+              <!-- Color swatches if product has colors -->
+              {% if product.options contains 'Color' or product.options contains 'Shade' %}
+                <div class="ut-pc-swatches">
+                  {% assign color_opts = product.options_with_values | where: "name", "Color" %}
+                  {% if color_opts == blank %}
+                    {% assign color_opts = product.options_with_values | where: "name", "Shade" %}
+                  {% endif %}
+                  {% for opt in color_opts %}
+                    {% for val in opt.values limit:5 %}
+                      <div class="ut-pc-swatch" title="{{ val }}"
+                        style="background:{{ val | downcase | replace: ' ',''}};"></div>
+                    {% endfor %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+
+      {% else %}
+        <div class="ut-coll-empty">
+          <p class="ut-coll-empty-title">No products found</p>
+          <p class="ut-coll-empty-sub">Try a different category or clear your filters</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- INFINITE SCROLL SENTINEL -->
+    {% if paginate.next %}
+    <div id="ut-scroll-sentinel" data-next="{{ paginate.next.url }}" style="height:1px;"></div>
+    {% endif %}
+
+    <!-- Loading spinner -->
+    <div id="ut-scroll-spinner" style="display:none;justify-content:center;padding:40px;">
+      <div style="width:32px;height:32px;border:2px solid rgba(201,169,110,0.2);border-top-color:#C9A96E;border-radius:50%;animation:ut-spin 0.8s linear infinite;"></div>
+    </div>
+
+    <!-- End of products -->
+    <div id="ut-scroll-end" style="display:none;text-align:center;padding:32px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.3em;color:rgba(201,169,110,0.4);text-transform:uppercase;">
+      — End of Collection —
+    </div>
+
+    <!-- Premium Pagination -->
+    {% if paginate.pages > 1 %}
+    <div class="ut-pagination" id="utPagination">
+      <div class="ut-pag-info">
+        <span style="font-family:'Jost',sans-serif;font-size:11px;font-weight:200;color:rgba(250,246,240,0.3);letter-spacing:0.1em;">
+          Page {{ paginate.current_page }} of {{ paginate.pages }} &nbsp;·&nbsp; {{ paginate.items }} Products
+        </span>
+      </div>
+      <div class="ut-pag-btns">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="ut-pag-btn ut-pag-arrow" aria-label="Previous page">
+            <span>←</span><span style="font-size:9px;letter-spacing:0.2em;margin-left:6px;">PREV</span>
+          </a>
+        {% endif %}
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="ut-pag-btn">{{ part.title }}</a>
+          {% elsif part.title == '...' %}
+            <span class="ut-pag-ellipsis">···</span>
+          {% else %}
+            <span class="ut-pag-btn ut-pag-active">{{ part.title }}</span>
+          {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="ut-pag-btn ut-pag-arrow" aria-label="Next page">
+            <span style="font-size:9px;letter-spacing:0.2em;margin-right:6px;">NEXT</span><span>→</span>
+          </a>
+        {% endif %}
+      </div>
+      <div class="ut-pag-progress">
+        <div class="ut-pag-prog-fill" style="width:{{ paginate.current_page | times: 100 | divided_by: paginate.pages }}%;"></div>
+      </div>
+    </div>
+    {% endif %}
+
+    <style>
+    .ut-pagination{padding:52px 0 24px;display:flex;flex-direction:column;align-items:center;gap:20px;}
+    .ut-pag-info{text-align:center;}
+    .ut-pag-btns{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center;}
+    .ut-pag-btn{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:40px;padding:0 14px;background:rgba(20,18,16,1);border:1px solid rgba(201,169,110,0.12);font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.18em;color:rgba(250,246,240,0.45);text-decoration:none;transition:all 0.25s;cursor:pointer;}
+    .ut-pag-btn:hover{border-color:rgba(201,169,110,0.45);color:#C9A96E;background:rgba(201,169,110,0.06);}
+    .ut-pag-active{background:rgba(201,169,110,0.12) !important;border-color:rgba(201,169,110,0.55) !important;color:#E2C98A !important;}
+    .ut-pag-arrow{gap:2px;padding:0 18px;}
+    .ut-pag-ellipsis{font-family:'Cinzel',serif;font-size:11px;color:rgba(250,246,240,0.2);padding:0 8px;line-height:40px;}
+    .ut-pag-progress{width:200px;height:1px;background:rgba(201,169,110,0.1);}
+    .ut-pag-prog-fill{height:100%;background:linear-gradient(to right,#C9A96E,#E2C98A);transition:width 0.4s ease;}
+    @media(max-width:480px){.ut-pag-btn{min-width:36px;height:36px;font-size:10px;padding:0 10px;}}
+    </style>
+
+    <!-- Fallback pagination for no-JS -->
+    <noscript>
+    {% if paginate.pages > 1 %}
+    <div class="ut-coll-pages">
+      {% if paginate.previous %}<a href="{{ paginate.previous.url }}" class="ut-page-btn">←</a>{% endif %}
+      {% for part in paginate.parts %}
+        {% if part.is_link %}<a href="{{ part.url }}" class="ut-page-btn">{{ part.title }}</a>
+        {% else %}<span class="ut-page-btn active">{{ part.title }}</span>{% endif %}
+      {% endfor %}
+      {% if paginate.next %}<a href="{{ paginate.next.url }}" class="ut-page-btn">→</a>{% endif %}
+    </div>
+    {% endif %}
+    </noscript>
+
+    {% endpaginate %}
+
+    <!-- SEO description -->
+    {% if collection.description != blank %}
+    <div class="ut-coll-seo">
+      <p>{{ collection.description }}</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+var activeFilters = {};
+
+/* ── SIDEBAR ── */
+function openSidebar() {
+  document.getElementById('collSidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  document.getElementById('collSidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── FILTER BLOCKS TOGGLE ── */
+function toggleFb(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+}
+
+/* ── FILTERS ── */
+function addFilter(label, btn, group) {
+  group = group || label;
+  activeFilters[group] = label;
+  if (btn) {
+    btn.closest('.ut-fb-cats')?.querySelectorAll('.ut-fb-cat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderChips();
+  applyFilters();
+}
+
+function toggleFilter(label, checkbox) {
+  if (checkbox.checked) {
+    activeFilters[label] = label;
+  } else {
+    delete activeFilters[label];
+  }
+  renderChips();
+  applyFilters();
+}
+
+function toggleSwatch(el, label) {
+  el.classList.toggle('active');
+  if (el.classList.contains('active')) {
+    activeFilters['shade_' + label] = label;
+  } else {
+    delete activeFilters['shade_' + label];
+  }
+  renderChips();
+  applyFilters();
+}
+
+function toggleDiscount(btn, label) {
+  btn.classList.toggle('active');
+  if (btn.classList.contains('active')) {
+    activeFilters['disc'] = label;
+  } else {
+    delete activeFilters['disc'];
+  }
+  renderChips();
+  applyFilters();
+}
+
+function removeFilter(key) {
+  delete activeFilters[key];
+  // Uncheck corresponding checkbox
+  document.querySelectorAll('.ut-fb-check input, .ut-fb-rating input').forEach(inp => {
+    var lbl = inp.closest('label')?.querySelector('.ut-fb-check-label,.ut-fb-rating-lbl')?.textContent?.trim();
+    if (lbl && activeFilters[lbl] === undefined) inp.checked = false;
+  });
+  renderChips();
+  applyFilters();
+}
+
+function clearAllFilters() {
+  activeFilters = {};
+  document.querySelectorAll('.ut-fb-check input,.ut-fb-rating input').forEach(i => i.checked = false);
+  document.querySelectorAll('.ut-fb-cat').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ut-disc-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ut-fb-swatch').forEach(s => s.classList.remove('active'));
+  document.getElementById('priceMin').value = 0;
+  document.getElementById('priceMax').value = 9999;
+  document.getElementById('priceMinInput').value = 0;
+  document.getElementById('priceMaxInput').value = 9999;
+  updatePriceRange();
+  renderChips();
+  applyFilters();
+}
+
+function renderChips() {
+  var chips = document.getElementById('activeFilterChips');
+  var html = '';
+  Object.keys(activeFilters).forEach(key => {
+    html += '<div class="ut-chip" onclick="removeFilter(\'' + key + '\')">' +
+      activeFilters[key] + '<span class="ut-chip-x">×</span></div>';
+  });
+  chips.innerHTML = html;
+}
+
+function applyFilters() {
+  var cards = document.querySelectorAll('.ut-pc');
+  var keys = Object.keys(activeFilters);
+  if (!keys.length) {
+    cards.forEach(c => c.style.display = '');
+    return;
+  }
+  var minP = parseInt(document.getElementById('priceMin').value) * 100;
+  var maxP = parseInt(document.getElementById('priceMax').value) * 100;
+  cards.forEach(card => {
+    var tags = (card.dataset.tags || '').toLowerCase();
+    var vendor = (card.dataset.vendor || '').toLowerCase();
+    var price = parseInt(card.dataset.price || 0);
+    var disc = parseInt(card.dataset.disc || 0);
+    var show = true;
+    keys.forEach(key => {
+      var val = activeFilters[key].toLowerCase();
+      if (key === 'price') {
+        show = show && (price >= minP && price <= maxP);
+      } else if (key === 'disc') {
+        var pct = parseInt(val);
+        show = show && disc >= pct;
+      } else {
+        var match = tags.includes(val) || vendor.includes(val);
+        show = show && match;
+      }
+    });
+    card.style.display = show ? '' : 'none';
+  });
+}
+
+/* ── PRICE RANGE ── */
+function updatePriceRange() {
+  var min = parseInt(document.getElementById('priceMin').value);
+  var max = parseInt(document.getElementById('priceMax').value);
+  if (min > max) {
+    if (event?.target?.id === 'priceMin') { min = max; document.getElementById('priceMin').value = min; }
+    else { max = min; document.getElementById('priceMax').value = max; }
+  }
+  document.getElementById('priceMinInput').value = min;
+  document.getElementById('priceMaxInput').value = max;
+  var pct1 = min / 9999 * 100;
+  var pct2 = max / 9999 * 100;
+  document.getElementById('priceFill').style.left = pct1 + '%';
+  document.getElementById('priceFill').style.width = (pct2 - pct1) + '%';
+}
+
+function syncPriceSlider() {
+  var min = parseInt(document.getElementById('priceMinInput').value) || 0;
+  var max = parseInt(document.getElementById('priceMaxInput').value) || 9999;
+  document.getElementById('priceMin').value = min;
+  document.getElementById('priceMax').value = max;
+  updatePriceRange();
+}
+
+function applyPriceFilter() {
+  var min = document.getElementById('priceMin').value;
+  var max = document.getElementById('priceMax').value;
+  activeFilters['price'] = '₹' + min + '–' + max;
+  renderChips();
+  applyFilters();
+}
+
+/* ── SORT ── */
+function sortColl(val, btn) {
+  if (btn) {
+    document.querySelectorAll('.ut-sort-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  var url = new URL(window.location.href);
+  if (val && val !== 'manual') url.searchParams.set('sort_by', val);
+  else url.searchParams.delete('sort_by');
+  window.location.href = url.toString();
+}
+
+/* ── GRID VIEW ── */
+function setGrid(n, btn) {
+  document.querySelectorAll('.ut-view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  var grid = document.getElementById('collGrid');
+  grid.className = 'ut-coll-grid' + (n !== 3 ? ' grid-' + n : '');
+}
+
+/* ── WISHLIST ── */
+function toggleWish(btn, e) {
+  e.preventDefault(); e.stopPropagation();
+  btn.classList.toggle('active');
+  btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
+}
+
+/* ── QUICK ADD ── */
+function quickAdd(id, btn, e) {
+  e.preventDefault(); e.stopPropagation();
+  btn.textContent = '…';
+  fetch('/cart/add.js', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: id, quantity: 1 })
+  }).then(() => {
+    btn.textContent = '✓ Added!';
+    btn.style.background = 'rgba(40,74,40,0.9)'; btn.style.color = 'var(--ut-success)';
+    if (typeof openCartDrawer === 'function') setTimeout(openCartDrawer, 400);
+    setTimeout(() => {
+      btn.textContent = '+ Quick Add';
+      btn.style.background = ''; btn.style.color = '';
+    }, 1800);
+  }).catch(() => { btn.textContent = '+ Quick Add'; });
+}
+
+/* ── SHOW MORE BRANDS ── */
+function toggleBrandMore(btn) {
+  var more = document.getElementById('brandMore');
+  if (more.style.display === 'none') {
+    more.style.display = 'block'; btn.textContent = '− Show less';
+  } else {
+    more.style.display = 'none'; btn.textContent = '+ 6 more brands';
+  }
+}
+
+// Init price fill
+updatePriceRange();
+</script>
+
+
+<!-- ── SEO TEXT BLOCK ── -->
+{%- if show_subcats and cat_seo_text != blank -%}
+<div class="ut-seo-block" style="background:var(--ut-bg-2);border-top:1px solid rgba(201,169,110,0.08);padding:40px 32px;">
+  <div style="max-width:900px;margin:0 auto;">
+    <h2 style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,169,110,0.55);margin-bottom:14px;">About {{ collection.title }}</h2>
+    <p style="font-family:'Jost',sans-serif;font-size:13px;font-weight:200;line-height:1.9;color:rgba(250,246,240,0.45);letter-spacing:0.04em;">{{ cat_seo_text }}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
+      {%- for handle in handles_arr -%}
+        <a href="/collections/{{ handle }}" style="font-family:'Jost',sans-serif;font-size:10px;font-weight:200;color:rgba(201,169,110,0.55);border:1px solid rgba(201,169,110,0.15);padding:5px 14px;text-decoration:none;letter-spacing:0.08em;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,169,110,0.45)';this.style.color='#C9A96E'" onmouseout="this.style.borderColor='rgba(201,169,110,0.15)';this.style.color='rgba(201,169,110,0.55)'">{{ labels_arr[forloop.index0] }}</a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+
+{% schema %}{"name":"Collection","tag":"section","settings":[]}{% endschema %}
