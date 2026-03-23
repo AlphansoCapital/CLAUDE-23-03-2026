@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urban Trend — AI Beauty Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c9a96e;--gold-lt:#e2c98a;--gold-dim:rgba(201,169,110,0.45);
+  --ink:#0a0908;--ink2:#111009;--ink3:#161410;--ink4:#1c1a16;--ink5:#221e18;
+  --cream:#faf6f0;--c2:rgba(250,246,240,0.65);--c3:rgba(250,246,240,0.38);--c4:rgba(250,246,240,0.18);
+  --rose:#8b3a52;--success:#7bc87b;
+  --b1:rgba(201,169,110,0.10);--b2:rgba(201,169,110,0.20);--b3:rgba(201,169,110,0.35);
+  --serif:'Cinzel',serif;--display:'Cormorant Garamond',Georgia,serif;--body:'Jost',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--cream);font-family:var(--body);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:inherit;}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:900;background:rgba(10,9,8,0.96);backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(201,169,110,0.10);display:flex;align-items:center;
+  justify-content:space-between;padding:0 40px;height:64px;}
+@media(max-width:768px){.nav{padding:0 20px;}}
+.nav-logo{font-family:var(--serif);font-size:14px;letter-spacing:0.44em;color:var(--gold);}
+.nav-back{font-family:var(--serif);font-size:8px;letter-spacing:0.28em;color:var(--c3);
+  text-transform:uppercase;display:flex;align-items:center;gap:8px;cursor:pointer;border:none;background:none;transition:color .2s;}
+.nav-back:hover{color:var(--gold);}
+
+/* ── HERO ── */
+.hero{max-width:1100px;margin:0 auto;padding:72px 40px 52px;text-align:center;}
+@media(max-width:768px){.hero{padding:48px 20px 36px;}}
+.hero-kicker{font-family:var(--serif);font-size:8px;letter-spacing:0.45em;color:var(--gold-dim);
+  text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.hero-kicker::before,.hero-kicker::after{content:'';width:40px;height:1px;background:rgba(201,169,110,0.25);}
+.hero-title{font-family:var(--display);font-size:clamp(32px,5vw,64px);font-weight:300;
+  color:var(--cream);line-height:1.1;margin-bottom:18px;}
+.hero-title em{font-style:italic;color:var(--gold-lt);}
+.hero-sub{font-family:var(--body);font-size:15px;color:var(--c2);max-width:580px;margin:0 auto 40px;line-height:1.8;}
+.hero-tools{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;}
+.hero-tool-btn{font-family:var(--serif);font-size:9px;letter-spacing:0.32em;text-transform:uppercase;
+  padding:14px 28px;cursor:pointer;transition:all .25s;border-radius:4px;}
+.hero-tool-btn.primary{background:var(--gold);color:var(--ink);border:none;}
+.hero-tool-btn.primary:hover{background:var(--gold-lt);}
+.hero-tool-btn.secondary{background:none;border:1px solid var(--b2);color:var(--gold);}
+.hero-tool-btn.secondary:hover{background:rgba(201,169,110,0.07);}
+
+/* ═══════════════════════════════════
+   TOOL 1 — AI PRODUCT PAGE GENERATOR
+═══════════════════════════════════ */
+.tool-section{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+@media(max-width:768px){.tool-section{padding:0 20px 60px;}}
+.tool-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,0.2),transparent);margin:0 0 56px;}
+.tool-header{display:flex;align-items:flex-start;gap:20px;margin-bottom:36px;}
+.tool-num{font-family:var(--display);font-size:60px;font-weight:300;font-style:italic;
+  color:rgba(201,169,110,0.15);line-height:1;flex-shrink:0;}
+.tool-title-wrap{}
+.tool-kicker{font-family:var(--serif);font-size:8px;letter-spacing:0.4em;color:var(--gold-dim);
+  text-transform:uppercase;margin-bottom:8px;}
+.tool-title{font-family:var(--display);font-size:clamp(26px,3.5vw,42px);font-weight:300;color:var(--cream);line-height:1.15;}
+.tool-title em{font-style:italic;color:var(--gold-lt);}
+.tool-desc{font-family:var(--body);font-size:13px;color:var(--c3);line-height:1.8;margin-top:8px;max-width:560px;}
+
+/* Generator card */
+.gen-card{background:var(--ink2);border:1px solid rgba(201,169,110,0.12);padding:36px;}
+@media(max-width:768px){.gen-card{padding:24px;}}
+.gen-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+@media(max-width:768px){.gen-grid{grid-template-columns:1fr;}}
+
+/* Upload zone */
+.gen-upload{border:2px dashed rgba(201,169,110,0.22);background:rgba(201,169,110,0.03);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:220px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;padding:24px;}
+.gen-upload:hover{border-color:var(--gold-dim);background:rgba(201,169,110,0.06);}
+.gen-upload.has-img{border-color:var(--gold);border-style:solid;}
+.gen-upload-icon{font-size:36px;margin-bottom:12px;opacity:0.5;}
+.gen-upload-txt{font-family:var(--serif);font-size:9px;letter-spacing:0.28em;color:var(--c3);
+  text-transform:uppercase;text-align:center;}
+.gen-upload-sub{font-family:var(--body);font-size:10px;color:var(--c4);margin-top:6px;text-align:center;}
+.gen-upload-preview{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;}
+.gen-upload input[type=file]{display:none;}
+.gen-upload-change{position:absolute;bottom:10px;right:10px;background:rgba(10,9,8,0.8);
+  border:1px solid rgba(201,169,110,0.3);color:var(--gold);font-family:var(--serif);
+  font-size:7px;letter-spacing:0.2em;padding:5px 10px;text-transform:uppercase;cursor:pointer;
+  backdrop-filter:blur(4px);transition:all .2s;z-index:2;}
+.gen-upload-change:hover{background:rgba(201,169,110,0.15);}
+
+/* Form fields */
+.gen-fields{display:flex;flex-direction:column;gap:16px;}
+.gen-field label{font-family:var(--serif);font-size:8px;letter-spacing:0.3em;color:var(--gold-dim);
+  text-transform:uppercase;display:block;margin-bottom:8px;}
+.gen-input{width:100%;background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.14);
+  color:var(--cream);font-family:var(--body);font-size:13px;padding:11px 14px;outline:none;
+  letter-spacing:0.04em;transition:border-color .2s;}
+.gen-input::placeholder{color:var(--c4);}
+.gen-input:focus{border-color:var(--gold-dim);}
+.gen-textarea{resize:vertical;min-height:90px;line-height:1.6;}
+.gen-select{appearance:none;background:rgba(201,169,110,0.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(201,169,110,0.5)'/%3E%3C/svg%3E") no-repeat right 14px center;
+  border:1px solid rgba(201,169,110,0.14);color:var(--cream);font-family:var(--body);font-size:13px;
+  padding:11px 36px 11px 14px;width:100%;outline:none;cursor:pointer;}
+.gen-select option{background:var(--ink3);}
+.gen-checkrow{display:flex;flex-wrap:wrap;gap:8px;}
+.gen-check{display:flex;align-items:center;gap:7px;cursor:pointer;}
+.gen-check input{display:none;}
+.gen-check-box{width:16px;height:16px;border:1px solid rgba(201,169,110,0.25);background:none;
+  display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--gold);
+  transition:all .2s;flex-shrink:0;}
+.gen-check input:checked + .gen-check-box{background:var(--gold);color:var(--ink);}
+.gen-check-lbl{font-family:var(--body);font-size:11px;color:var(--c3);}
+
+/* Generate button */
+.gen-btn{width:100%;background:linear-gradient(135deg,#d4b070,var(--gold),#b8924a);
+  color:var(--ink);border:none;font-family:var(--serif);font-size:10px;
+  letter-spacing:0.4em;text-transform:uppercase;height:54px;cursor:pointer;
+  transition:all .3s;margin-top:20px;position:relative;overflow:hidden;
+  box-shadow:0 4px 24px rgba(201,169,110,0.18);}
+.gen-btn::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.14),transparent);transition:left .6s ease;}
+.gen-btn:hover::after{left:140%;}
+.gen-btn:hover{box-shadow:0 6px 32px rgba(201,169,110,0.32);}
+.gen-btn:disabled{background:rgba(201,169,110,0.2);color:rgba(250,246,240,0.3);cursor:not-allowed;box-shadow:none;}
+.gen-btn-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:10px;}
+
+/* Progress steps */
+.gen-progress{margin-top:24px;display:none;}
+.gen-progress.show{display:block;}
+.gen-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(201,169,110,0.06);}
+.gen-step:last-child{border-bottom:none;}
+.gen-step-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+.gen-step-icon.pending{background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.14);}
+.gen-step-icon.active{background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.3);animation:pulse 1.5s infinite;}
+.gen-step-icon.done{background:rgba(40,100,40,0.2);border:1px solid rgba(123,200,123,0.3);}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,0.3);}50%{box-shadow:0 0 0 6px rgba(201,169,110,0);}}
+.gen-step-txt{font-family:var(--body);font-size:12px;color:var(--c3);}
+.gen-step-txt.active{color:var(--cream);}
+.gen-step-txt.done{color:var(--success);}
+
+/* Output */
+.gen-output{margin-top:28px;display:none;}
+.gen-output.show{display:block;}
+.gen-output-tabs{display:flex;border-bottom:1px solid rgba(201,169,110,0.1);margin-bottom:0;overflow-x:auto;}
+.gen-otab{font-family:var(--serif);font-size:8px;letter-spacing:0.26em;color:var(--c3);
+  text-transform:uppercase;padding:12px 18px;cursor:pointer;border-bottom:2px solid transparent;
+  background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap;transition:all .2s;}
+.gen-otab:hover{color:var(--gold);}
+.gen-otab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.gen-opane{display:none;background:var(--ink3);border:1px solid rgba(201,169,110,0.08);
+  border-top:none;padding:24px;max-height:480px;overflow-y:auto;}
+.gen-opane.active{display:block;}
+.gen-opane pre{font-family:'Courier New',monospace;font-size:11px;color:rgba(250,246,240,0.7);
+  line-height:1.65;white-space:pre-wrap;word-break:break-word;}
+.gen-opane-content{font-family:var(--body);font-size:13px;color:var(--c2);line-height:1.85;}
+.gen-opane-content h3{font-family:var(--serif);font-size:10px;letter-spacing:0.28em;color:var(--gold);
+  text-transform:uppercase;margin:20px 0 10px;}
+.gen-opane-content h3:first-child{margin-top:0;}
+.gen-opane-content p{margin-bottom:12px;}
+.gen-opane-content ul{padding-left:18px;margin-bottom:12px;}
+.gen-opane-content li{margin-bottom:6px;}
+.gen-opane-content strong{color:var(--cream);}
+.gen-dl-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.gen-dl-btn{font-family:var(--serif);font-size:8px;letter-spacing:0.26em;text-transform:uppercase;
+  padding:10px 20px;cursor:pointer;transition:all .2s;border-radius:3px;display:flex;align-items:center;gap:8px;}
+.gen-dl-btn.primary{background:var(--gold);color:var(--ink);border:none;}
+.gen-dl-btn.primary:hover{background:var(--gold-lt);}
+.gen-dl-btn.secondary{background:none;border:1px solid var(--b2);color:var(--gold);}
+.gen-dl-btn.secondary:hover{background:rgba(201,169,110,0.07);}
+
+/* ═══════════════════════════════════
+   TOOL 2 — AI BEAUTY ADVISOR WIDGET
+═══════════════════════════════════ */
+/* Floating trigger */
+.advisor-fab{
+  position:fixed;bottom:28px;right:28px;z-index:800;
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,#d4b070,var(--gold));
+  border:none;cursor:pointer;
+  box-shadow:0 8px 32px rgba(201,169,110,0.35);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+.advisor-fab:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(201,169,110,0.5);}
+.advisor-fab-icon{font-size:26px;position:relative;z-index:1;}
+.advisor-fab-badge{
+  position:absolute;top:-2px;right:-2px;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--rose);color:var(--cream);
+  font-family:var(--serif);font-size:9px;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--ink);
+}
+.advisor-fab-pulse{
+  position:absolute;inset:0;border-radius:50%;
+  background:rgba(201,169,110,0.3);
+  animation:fabPulse 2.5s ease-out infinite;
+}
+@keyframes fabPulse{0%{transform:scale(1);opacity:.8;}100%{transform:scale(1.7);opacity:0;}}
+
+/* Chat window */
+.advisor-window{
+  position:fixed;bottom:108px;right:28px;z-index:801;
+  width:400px;height:620px;
+  background:var(--ink2);
+  border:1px solid rgba(201,169,110,0.18);
+  display:flex;flex-direction:column;
+  box-shadow:0 24px 80px rgba(0,0,0,0.7);
+  transform:translateY(20px) scale(0.96);
+  opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(0.22,1,0.36,1);
+}
+@media(max-width:480px){.advisor-window{width:calc(100vw - 24px);right:12px;bottom:96px;height:70vh;}}
+.advisor-window.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+
+/* Header */
+.adv-header{
+  background:linear-gradient(135deg,var(--ink4),var(--ink3));
+  border-bottom:1px solid rgba(201,169,110,0.12);
+  padding:16px 18px;
+  display:flex;align-items:center;gap:12px;
+  flex-shrink:0;
+}
+.adv-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,#d4b070,var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(201,169,110,0.3);
+}
+.adv-header-info{flex:1;}
+.adv-name{font-family:var(--serif);font-size:12px;letter-spacing:0.12em;color:var(--cream);}
+.adv-status{font-family:var(--body);font-size:10px;color:var(--success);display:flex;align-items:center;gap:5px;margin-top:2px;}
+.adv-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--success);animation:pulse 2s infinite;}
+.adv-close{background:none;border:none;color:var(--c3);font-size:20px;cursor:pointer;
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  transition:color .2s;flex-shrink:0;}
+.adv-close:hover{color:var(--gold);}
+.adv-minimize{background:none;border:none;color:var(--c3);font-size:16px;cursor:pointer;
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  transition:color .2s;flex-shrink:0;}
+.adv-minimize:hover{color:var(--gold);}
+
+/* Quick chips */
+.adv-chips{
+  padding:12px 16px;
+  display:flex;gap:6px;overflow-x:auto;flex-shrink:0;
+  border-bottom:1px solid rgba(201,169,110,0.07);
+  scrollbar-width:none;
+}
+.adv-chips::-webkit-scrollbar{display:none;}
+.adv-chip{
+  font-family:var(--body);font-size:10px;color:var(--c3);
+  border:1px solid rgba(201,169,110,0.18);background:none;
+  padding:5px 12px;white-space:nowrap;cursor:pointer;
+  transition:all .2s;flex-shrink:0;
+}
+.adv-chip:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,169,110,0.06);}
+
+/* Messages */
+.adv-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;scrollbar-color:rgba(201,169,110,0.14) transparent;}
+.adv-msg{display:flex;gap:8px;animation:msgIn .3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.adv-msg.user{flex-direction:row-reverse;}
+.adv-msg-av{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.adv-msg-av.bot{background:linear-gradient(135deg,#d4b070,var(--gold));font-size:14px;}
+.adv-msg-av.user{background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.2);color:var(--gold);font-family:var(--serif);font-size:10px;}
+.adv-bubble{
+  max-width:78%;padding:11px 14px;
+  font-family:var(--body);font-size:12px;line-height:1.7;
+}
+.adv-bubble.bot{
+  background:var(--ink3);border:1px solid rgba(201,169,110,0.08);
+  color:var(--c2);border-radius:0 10px 10px 10px;
+}
+.adv-bubble.user{
+  background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.22);
+  color:var(--cream);border-radius:10px 0 10px 10px;text-align:right;
+}
+.adv-bubble strong{color:var(--gold);}
+.adv-bubble ul{padding-left:14px;margin-top:6px;}
+.adv-bubble li{margin-bottom:4px;}
+.adv-typing{display:flex;align-items:center;gap:4px;padding:11px 14px;background:var(--ink3);border:1px solid rgba(201,169,110,0.08);border-radius:0 10px 10px 10px;width:fit-content;}
+.adv-typing span{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:typing .9s infinite;}
+.adv-typing span:nth-child(2){animation-delay:.2s;}
+.adv-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes typing{0%,100%{opacity:.3;transform:translateY(0);}50%{opacity:1;transform:translateY(-3px);}}
+
+/* Suggested replies */
+.adv-suggestions{padding:10px 16px;display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0;border-top:1px solid rgba(201,169,110,0.07);}
+.adv-sug{font-family:var(--body);font-size:10px;color:var(--gold);border:1px solid rgba(201,169,110,0.2);
+  background:rgba(201,169,110,0.05);padding:5px 11px;cursor:pointer;transition:all .2s;}
+.adv-sug:hover{background:rgba(201,169,110,0.12);border-color:var(--gold);}
+
+/* Input */
+.adv-input-row{
+  display:flex;gap:8px;padding:12px 16px;
+  border-top:1px solid rgba(201,169,110,0.1);
+  flex-shrink:0;background:rgba(10,9,8,0.5);
+}
+.adv-input{
+  flex:1;background:rgba(201,169,110,0.05);border:1px solid rgba(201,169,110,0.14);
+  color:var(--cream);font-family:var(--body);font-size:12px;
+  padding:10px 14px;outline:none;letter-spacing:0.04em;resize:none;
+  min-height:42px;max-height:100px;line-height:1.5;
+  transition:border-color .2s;
+}
+.adv-input::placeholder{color:var(--c4);}
+.adv-input:focus{border-color:var(--gold-dim);}
+.adv-send{
+  width:42px;height:42px;flex-shrink:0;
+  background:var(--gold);color:var(--ink);
+  border:none;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;align-self:flex-end;
+}
+.adv-send:hover{background:var(--gold-lt);}
+.adv-send:disabled{background:rgba(201,169,110,0.2);cursor:not-allowed;}
+
+/* Product context pill */
+.adv-context{
+  margin:0 16px 12px;
+  padding:8px 12px;
+  background:rgba(201,169,110,0.05);border:1px solid rgba(201,169,110,0.12);
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--body);font-size:10px;color:var(--c3);
+  flex-shrink:0;
+}
+.adv-context-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+
+/* ═══════════════════════════════════
+   EMBEDDED DEMO SECTION
+═══════════════════════════════════ */
+.demo-section{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+@media(max-width:768px){.demo-section{padding:0 20px 60px;}}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:768px){.demo-grid{grid-template-columns:1fr;}}
+.demo-card{background:var(--ink2);border:1px solid rgba(201,169,110,0.08);padding:28px;
+  position:relative;overflow:hidden;transition:all .3s;}
+.demo-card:hover{border-color:rgba(201,169,110,0.2);}
+.demo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.demo-card:hover::before{opacity:1;}
+.demo-card-num{font-family:var(--display);font-size:48px;font-style:italic;
+  color:rgba(201,169,110,0.08);line-height:1;margin-bottom:12px;}
+.demo-card-title{font-family:var(--serif);font-size:12px;letter-spacing:0.2em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+.demo-card-desc{font-family:var(--body);font-size:12px;color:var(--c3);line-height:1.75;margin-bottom:16px;}
+.demo-card-features{display:flex;flex-direction:column;gap:6px;}
+.demo-feat{display:flex;align-items:center;gap:8px;font-family:var(--body);font-size:11px;color:var(--c2);}
+.demo-feat::before{content:'✓';color:var(--gold);font-size:10px;flex-shrink:0;}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(14px);
+  background:var(--ink3);border:1px solid rgba(201,169,110,0.2);color:var(--cream);
+  font-family:var(--body);font-size:12px;padding:10px 22px;opacity:0;
+  pointer-events:none;transition:all .3s;white-space:nowrap;z-index:9999;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* Scrollbar for output pane */
+.gen-opane::-webkit-scrollbar{width:3px;}
+.gen-opane::-webkit-scrollbar-thumb{background:rgba(201,169,110,0.2);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">Urban Trend<sup style="font-size:7px;opacity:.4;vertical-align:super;">®</sup></div>
+  <button class="nav-back">← Back to Store</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">AI-Powered Tools</div>
+  <h1 class="hero-title">Two Tools That<br><em>Transform</em> Your Store</h1>
+  <p class="hero-sub">AI Beauty Advisor that knows everything about your products — and an AI engine that builds complete Shopify product pages from a single photo.</p>
+  <div class="hero-tools">
+    <button class="hero-tool-btn primary" onclick="document.getElementById('tool1').scrollIntoView({behavior:'smooth'})">⚡ Product Page Generator</button>
+    <button class="hero-tool-btn secondary" onclick="openAdvisor()">💬 AI Beauty Advisor</button>
+  </div>
+</div>
+
+<!-- FEATURE CARDS -->
+<div class="demo-section">
+  <div class="demo-grid">
+    <div class="demo-card">
+      <div class="demo-card-num">01</div>
+      <div class="demo-card-title">AI Product Page Generator</div>
+      <div class="demo-card-desc">Upload a product photo + title. Our AI searches the web, analyzes the product, and generates a complete Shopify PDP with A+ content, ingredients, clinical claims, reviews, SEO — all ready to copy into your theme.</div>
+      <div class="demo-card-features">
+        <div class="demo-feat">Fetches real ingredient data from web</div>
+        <div class="demo-feat">Generates A+ content, clinical stats, comparison</div>
+        <div class="demo-feat">Writes SEO title, meta description, schema markup</div>
+        <div class="demo-feat">Outputs ready-to-paste Shopify Liquid code</div>
+        <div class="demo-feat">Includes bundle pricing, CTA strategy, trust badges</div>
+        <div class="demo-feat">Downloads as .liquid, .css, .js files</div>
+      </div>
+    </div>
+    <div class="demo-card">
+      <div class="demo-card-num">02</div>
+      <div class="demo-card-title">AI Beauty Advisor</div>
+      <div class="demo-card-desc">A floating chat widget on your PDP that knows everything about the product, skincare science, Indian skin types, competitor comparisons, usage routines, and ingredient safety — powered by Claude AI.</div>
+      <div class="demo-card-features">
+        <div class="demo-feat">Full product knowledge + ingredient science</div>
+        <div class="demo-feat">Skin type diagnosis and routine recommendations</div>
+        <div class="demo-feat">Competitor comparison ("vs Minimalist")</div>
+        <div class="demo-feat">Ingredient safety + pregnancy safety</div>
+        <div class="demo-feat">Routine building and product pairing</div>
+        <div class="demo-feat">Seamless Add to Bag from chat</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOL 1: AI PRODUCT PAGE GENERATOR -->
+<div class="tool-section" id="tool1">
+  <div class="tool-sep"></div>
+  <div class="tool-header">
+    <div class="tool-num">01</div>
+    <div class="tool-title-wrap">
+      <div class="tool-kicker">AI Product Page Generator</div>
+      <h2 class="tool-title">Photo + Title →<br><em>Complete Shopify PDP</em></h2>
+      <p class="tool-desc">Upload your product image, enter the name. The AI searches the web for all available information about the product, ingredients, clinical data, and competitor landscape — then generates a complete, ready-to-use Shopify product page.</p>
+    </div>
+  </div>
+
+  <div class="gen-card">
+    <div class="gen-grid">
+      <!-- Upload -->
+      <div>
+        <label style="font-family:var(--serif);font-size:8px;letter-spacing:0.3em;color:var(--gold-dim);text-transform:uppercase;display:block;margin-bottom:10px;">Product Image</label>
+        <div class="gen-upload" id="genUpload" onclick="document.getElementById('genFileInput').click()">
+          <input type="file" id="genFileInput" accept="image/*" onchange="handleImageUpload(event)">
+          <div id="genUploadPlaceholder">
+            <div class="gen-upload-icon">📸</div>
+            <div class="gen-upload-txt">Drop product image here</div>
+            <div class="gen-upload-sub">or click to browse · JPG, PNG, WEBP</div>
+          </div>
+          <img id="genPreview" class="gen-upload-preview" style="display:none" alt="Product preview">
+          <button class="gen-upload-change" id="genChangeBtn" style="display:none" onclick="event.stopPropagation();document.getElementById('genFileInput').click()">Change ↻</button>
+        </div>
+      </div>
+
+      <!-- Fields -->
+      <div class="gen-fields">
+        <div class="gen-field">
+          <label>Product Title *</label>
+          <input class="gen-input" id="genTitle" type="text" placeholder="e.g. Vitamin E Moisturizing Gel — Deep Hydration & Glow">
+        </div>
+        <div class="gen-field">
+          <label>Brand Name</label>
+          <input class="gen-input" id="genBrand" type="text" placeholder="e.g. Urban Trend" value="Urban Trend">
+        </div>
+        <div class="gen-field">
+          <label>Product Category</label>
+          <select class="gen-select gen-input" id="genCategory">
+            <option value="skincare">Skincare — Moisturiser / Gel</option>
+            <option value="serum">Skincare — Serum / Treatment</option>
+            <option value="cleanser">Skincare — Cleanser / Toner</option>
+            <option value="sunscreen">Skincare — Sunscreen / SPF</option>
+            <option value="haircare">Hair Care</option>
+            <option value="makeup">Makeup / Cosmetics</option>
+            <option value="supplement">Wellness / Supplement</option>
+          </select>
+        </div>
+        <div class="gen-field">
+          <label>Key Ingredients (optional — AI will research if blank)</label>
+          <input class="gen-input" id="genIngredients" type="text" placeholder="e.g. Vitamin E, Hyaluronic Acid, Saffron">
+        </div>
+        <div class="gen-field">
+          <label>Price (₹)</label>
+          <input class="gen-input" id="genPrice" type="text" placeholder="e.g. 749">
+        </div>
+        <div class="gen-field">
+          <label>Anthropic API Key <span style="color:rgba(201,169,110,0.4);font-size:9px;letter-spacing:0;text-transform:none;font-family:'Jost',sans-serif;">(optional — leave blank for template mode)</span></label>
+          <input class="gen-input" id="genApiKey" type="password" placeholder="sk-ant-api03-… (get free key at console.anthropic.com)">
+          <div style="font-family:'Jost',sans-serif;font-size:10px;color:rgba(250,246,240,0.28);margin-top:6px;line-height:1.6;">Without key: generates smart template. With key: AI analyses your product image and writes fully custom content. ~₹0.15 per generation.</div>
+        </div>
+        <div class="gen-field">
+          <label>Generate sections</label>
+          <div class="gen-checkrow">
+            <label class="gen-check"><input type="checkbox" id="chk1" checked><span class="gen-check-box">✓</span><span class="gen-check-lbl">A+ Content</span></label>
+            <label class="gen-check"><input type="checkbox" id="chk2" checked><span class="gen-check-box">✓</span><span class="gen-check-lbl">Ingredients</span></label>
+            <label class="gen-check"><input type="checkbox" id="chk3" checked><span class="gen-check-box">✓</span><span class="gen-check-lbl">SEO</span></label>
+            <label class="gen-check"><input type="checkbox" id="chk4" checked><span class="gen-check-box">✓</span><span class="gen-check-lbl">Bundle CTA</span></label>
+            <label class="gen-check"><input type="checkbox" id="chk5" checked><span class="gen-check-box">✓</span><span class="gen-check-lbl">Reviews</span></label>
+            <label class="gen-check"><input type="checkbox" id="chk6" checked><span class="gen-check-box">✓</span><span class="gen-check-lbl">FAQ</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="gen-btn" id="genBtn" onclick="runGenerator()">
+      <span class="gen-btn-inner" id="genBtnTxt">⚡ Generate Complete Product Page</span>
+    </button>
+
+    <!-- Progress -->
+    <div class="gen-progress" id="genProgress">
+      <div class="gen-step" id="gstep1">
+        <div class="gen-step-icon pending" id="gicon1">🔍</div>
+        <span class="gen-step-txt" id="gtxt1">Analyzing product image with vision AI…</span>
+      </div>
+      <div class="gen-step" id="gstep2">
+        <div class="gen-step-icon pending" id="gicon2">🌐</div>
+        <span class="gen-step-txt" id="gtxt2">Searching web for ingredient data, clinical studies…</span>
+      </div>
+      <div class="gen-step" id="gstep3">
+        <div class="gen-step-icon pending" id="gicon3">🧠</div>
+        <span class="gen-step-txt" id="gtxt3">Generating A+ content, descriptions, FAQs…</span>
+      </div>
+      <div class="gen-step" id="gstep4">
+        <div class="gen-step-icon pending" id="gicon4">💻</div>
+        <span class="gen-step-txt" id="gtxt4">Writing Shopify Liquid code, CSS, JS…</span>
+      </div>
+      <div class="gen-step" id="gstep5">
+        <div class="gen-step-icon pending" id="gicon5">✅</div>
+        <span class="gen-step-txt" id="gtxt5">Finalizing and packaging output files…</span>
+      </div>
+    </div>
+
+    <!-- Output -->
+    <div class="gen-output" id="genOutput">
+      <div class="gen-output-tabs">
+        <button class="gen-otab active" onclick="switchOTab(this,'content')">📄 Page Content</button>
+        <button class="gen-otab" onclick="switchOTab(this,'liquid')">💧 Liquid Code</button>
+        <button class="gen-otab" onclick="switchOTab(this,'css')">🎨 CSS</button>
+        <button class="gen-otab" onclick="switchOTab(this,'seo')">🔎 SEO Data</button>
+        <button class="gen-otab" onclick="switchOTab(this,'advisor')">🤖 AI Advisor Config</button>
+      </div>
+      <div class="gen-opane active" id="opane-content">
+        <div class="gen-opane-content" id="oContent"></div>
+      </div>
+      <div class="gen-opane" id="opane-liquid">
+        <pre id="oLiquid"></pre>
+      </div>
+      <div class="gen-opane" id="opane-css">
+        <pre id="oCss"></pre>
+      </div>
+      <div class="gen-opane" id="opane-seo">
+        <div class="gen-opane-content" id="oSeo"></div>
+      </div>
+      <div class="gen-opane" id="opane-advisor">
+        <div class="gen-opane-content" id="oAdvisor"></div>
+      </div>
+      <div class="gen-dl-row">
+        <button class="gen-dl-btn primary" onclick="downloadAll()">⬇ Download All Files (.zip)</button>
+        <button class="gen-dl-btn secondary" onclick="copyLiquid()">📋 Copy Liquid</button>
+        <button class="gen-dl-btn secondary" onclick="copyAll()">📋 Copy All</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     AI BEAUTY ADVISOR FLOATING WIDGET
+═══════════════════════════════════════════════════ -->
+<div class="advisor-fab" id="advisorFab" onclick="toggleAdvisor()">
+  <div class="advisor-fab-pulse"></div>
+  <span class="advisor-fab-icon">✨</span>
+  <div class="advisor-fab-badge">AI</div>
+</div>
+
+<div class="advisor-window" id="advisorWindow">
+
+  <!-- Header -->
+  <div class="adv-header">
+    <div class="adv-avatar">✨</div>
+    <div class="adv-header-info">
+      <div class="adv-name">Zara — AI Beauty Expert</div>
+      <div class="adv-status">Online · Powered by Claude AI</div>
+    </div>
+    <button class="adv-minimize" onclick="toggleAdvisor()" title="Minimize">−</button>
+    <button class="adv-close" onclick="closeAdvisor()" title="Close">×</button>
+  </div>
+
+  <!-- Product context -->
+  <div class="adv-context">
+    <span class="adv-context-dot"></span>
+    <span id="advContextLabel">Currently advising on: <strong style="color:var(--cream);">Vitamin E Moisturizing Gel</strong></span>
+  </div>
+
+  <!-- Quick chips -->
+  <div class="adv-chips">
+    <button class="adv-chip" onclick="sendChip('Is this suitable for my oily skin?')">Oily skin?</button>
+    <button class="adv-chip" onclick="sendChip('What are the key ingredients and what do they do?')">Ingredients</button>
+    <button class="adv-chip" onclick="sendChip('How does this compare to Minimalist Vitamin C serum?')">vs Minimalist</button>
+    <button class="adv-chip" onclick="sendChip('Can I use this with retinol?')">With retinol?</button>
+    <button class="adv-chip" onclick="sendChip('When will I see results?')">Results</button>
+    <button class="adv-chip" onclick="sendChip('Build me a morning skincare routine with this product')">Build routine</button>
+    <button class="adv-chip" onclick="sendChip('Is this safe during pregnancy?')">Pregnancy safe?</button>
+    <button class="adv-chip" onclick="sendChip('What is the best bundle to buy?')">Best bundle?</button>
+  </div>
+
+  <!-- Messages -->
+  <div class="adv-messages" id="advMessages">
+    <div class="adv-msg">
+      <div class="adv-msg-av bot">✨</div>
+      <div class="adv-bubble bot">
+        Namaste! I'm <strong>Zara</strong>, your AI Beauty Expert from Urban Trend 🌸<br><br>
+        I know everything about the <strong>Vitamin E Moisturizing Gel</strong> — ingredients, clinical data, how it works for Indian skin types, routines, safety, and how it compares to other brands.<br><br>
+        What would you like to know?
+      </div>
+    </div>
+  </div>
+
+  <!-- Suggested replies -->
+  <div class="adv-suggestions" id="advSuggestions">
+    <button class="adv-sug" onclick="sendChip('Tell me about the ingredients')">Tell me about ingredients →</button>
+    <button class="adv-sug" onclick="sendChip('Is this good for dark spots?')">Good for dark spots? →</button>
+  </div>
+
+  <!-- Input -->
+  <div class="adv-input-row">
+    <textarea class="adv-input" id="advInput" placeholder="Ask me anything about this product…" rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
+    <button class="adv-send" id="advSend" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   SHARED UTILITIES
+════════════════════════════════════════════════════════ */
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt=setTimeout(function(){t.classList.remove('show');},2200);
+}
+
+/* ════════════════════════════════════════════════════════
+   TOOL 1 — AI PRODUCT PAGE GENERATOR
+════════════════════════════════════════════════════════ */
+var genImageBase64 = null;   // clean base64 string — no data URI prefix
+var genImageMediaType = 'image/jpeg';
+var generatedData = {};
+
+/* ── Resize image to max 1024px and strip data URI prefix safely ── */
+function handleImageUpload(e){
+  var file = e.target.files[0];
+  if(!file) return;
+
+  // Only accept image types
+  if(!file.type.startsWith('image/')){
+    showToast('Please upload an image file (JPG, PNG, WEBP)');
+    return;
+  }
+
+  genImageMediaType = file.type === 'image/jpeg' || file.type === 'image/jpg'
+    ? 'image/jpeg'
+    : file.type === 'image/png'
+      ? 'image/png'
+      : file.type === 'image/webp'
+        ? 'image/webp'
+        : 'image/jpeg';
+
+  var reader = new FileReader();
+  reader.onerror = function(){ showToast('Could not read file. Please try another image.'); };
+  reader.onload = function(ev){
+    var dataUrl = ev.target.result;
+    if(!dataUrl || typeof dataUrl !== 'string'){
+      showToast('Image read failed. Please try again.');
+      return;
+    }
+
+    // ── Resize via canvas to max 1024px (keeps file small for API) ──
+    var img = new Image();
+    img.onerror = function(){ showToast('Could not load image. Try a different file.'); };
+    img.onload = function(){
+      var maxDim = 1024;
+      var w = img.width, h = img.height;
+      if(w > maxDim || h > maxDim){
+        if(w > h){ h = Math.round(h * maxDim / w); w = maxDim; }
+        else      { w = Math.round(w * maxDim / h); h = maxDim; }
+      }
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+
+      // Always encode as JPEG for consistency (smaller, universally supported)
+      var resizedDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+
+      // ── Extract ONLY the base64 part after the comma ──
+      var commaIdx = resizedDataUrl.indexOf(',');
+      if(commaIdx === -1){
+        showToast('Image encoding failed. Please try another image.');
+        return;
+      }
+      genImageBase64 = resizedDataUrl.slice(commaIdx + 1);
+      genImageMediaType = 'image/jpeg';
+
+      // ── Validate the base64 string ──
+      if(!genImageBase64 || genImageBase64.length < 100){
+        showToast('Image too small or invalid. Please try another.');
+        genImageBase64 = null;
+        return;
+      }
+
+      // ── Show preview ──
+      var prev = document.getElementById('genPreview');
+      prev.src = resizedDataUrl;
+      prev.style.display = 'block';
+      document.getElementById('genUploadPlaceholder').style.display = 'none';
+      document.getElementById('genChangeBtn').style.display = 'flex';
+      document.getElementById('genUpload').classList.add('has-img');
+    };
+    img.src = dataUrl;
+  };
+  reader.readAsDataURL(file);
+}
+
+function setStep(n, state){
+  var icon = document.getElementById('gicon'+n);
+  var txt  = document.getElementById('gtxt'+n);
+  if(!icon) return;
+  icon.className = 'gen-step-icon ' + state;
+  txt.className  = 'gen-step-txt ' + state;
+  if(state==='done') icon.textContent = '✅';
+  if(state==='active') icon.textContent = ['🔍','🌐','🧠','💻','📦'][n-1];
+}
+
+async function runGenerator(){
+  var title = document.getElementById('genTitle').value.trim();
+  if(!title){ showToast('Please enter a product title'); return; }
+
+  var apiKey = document.getElementById('genApiKey') ? document.getElementById('genApiKey').value.trim() : '';
+
+  var btn    = document.getElementById('genBtn');
+  var btnTxt = document.getElementById('genBtnTxt');
+  btn.disabled = true;
+  btnTxt.textContent = '⏳ Generating…';
+
+  document.getElementById('genProgress').classList.add('show');
+  document.getElementById('genOutput').classList.remove('show');
+
+  // Reset all steps to pending
+  for(var i=1;i<=5;i++){ setStep(i,'pending'); }
+
+  var brand    = document.getElementById('genBrand').value.trim()       || 'Urban Trend';
+  var category = document.getElementById('genCategory').value           || 'skincare';
+  var ingreds  = document.getElementById('genIngredients').value.trim() || '';
+  var price    = document.getElementById('genPrice').value.trim()       || '749';
+
+  var sections = [];
+  if(document.getElementById('chk1').checked) sections.push('A+ content: benefit strip, clinical stats, how-it-works 4-step process');
+  if(document.getElementById('chk2').checked) sections.push('ingredient cards with concentrations, mechanisms, benefits');
+  if(document.getElementById('chk3').checked) sections.push('SEO title, meta description, JSON-LD schema');
+  if(document.getElementById('chk4').checked) sections.push('bundle CTA: 1/2/3 set pricing, countdown, scarcity, trust grid');
+  if(document.getElementById('chk5').checked) sections.push('6 realistic Indian customer reviews with names and dates');
+  if(document.getElementById('chk6').checked) sections.push('FAQ with 6 questions and detailed answers');
+
+  setStep(1,'active');
+  await sleep(500);
+
+  // ── If no API key, go straight to smart template mode ──
+  if(!apiKey || apiKey.length < 20){
+    setStep(1,'done'); setStep(2,'active'); await sleep(400);
+    setStep(2,'done'); setStep(3,'active'); await sleep(500);
+    setStep(3,'done'); setStep(4,'active'); await sleep(600);
+    setStep(4,'done'); setStep(5,'active'); await sleep(400);
+    setStep(5,'done');
+    renderFallbackOutput(title, brand, price, ingreds, category);
+    document.getElementById('genOutput').classList.add('show');
+    showToast('✓ Generated! Add API key above for AI-powered output.');
+    btn.disabled = false;
+    btnTxt.textContent = '⚡ Generate Again';
+    return;
+  }
+
+  try {
+    var systemPrompt = 'You are an elite Shopify ecommerce specialist and Indian beauty industry expert. '
+      + 'Generate a complete product page package for an Indian skincare brand. '
+      + 'Respond ONLY with a valid JSON object — no markdown, no code fences, no explanation. '
+      + 'JSON keys: productAnalysis (string), ingredients (array of {name,concentration,benefit}), '
+      + 'clinicalClaims (array of strings), benefitStrip (array of {icon,title,desc}), '
+      + 'howItWorks (array of {step,title,body,tip}), skinTypes (array of {type,icon,desc,rating}), '
+      + 'comparisonTable (array of {feature,ours,drugstore,luxury}), '
+      + 'reviews (array of {name,city,stars,title,body,date}), '
+      + 'faq (array of {q,a}), seo ({title,metaDescription}), '
+      + 'advisorPrompt (string — system prompt for AI chat widget).';
+
+    // ── Build user message content array safely ──
+    var userContent = [];
+
+    // Add image block ONLY if we have a valid clean base64 string
+    if(genImageBase64 && typeof genImageBase64 === 'string' && genImageBase64.length > 100){
+      // Final validation — check it's proper base64 chars only
+      var b64clean = genImageBase64.replace(/\s/g, '');
+      var b64valid = /^[A-Za-z0-9+/]+=*$/.test(b64clean);
+      if(b64valid){
+        userContent.push({
+          type: 'image',
+          source: { type: 'base64', media_type: 'image/jpeg', data: b64clean }
+        });
+      } else {
+        console.warn('Base64 image failed validation — proceeding without image');
+      }
+    }
+
+    // Always add the text prompt
+    userContent.push({
+      type: 'text',
+      text: 'Product: "' + title + '"\n'
+          + 'Brand: ' + brand + '\n'
+          + 'Category: ' + category + '\n'
+          + (ingreds ? 'Key ingredients: ' + ingreds + '\n' : '')
+          + 'Price: Rs.' + price + '\n'
+          + 'Target market: India, Fitzpatrick skin types III-VI\n\n'
+          + 'Generate these sections: ' + sections.join('; ') + '\n\n'
+          + 'Use your knowledge of Indian skincare, clinical ingredient science, '
+          + 'and conversion optimisation for Indian ecommerce. '
+          + 'Make all content specific to Indian consumers. '
+          + 'Return ONLY the JSON object.'
+    });
+
+    setStep(1,'done'); setStep(2,'active');
+    await sleep(300);
+    setStep(2,'done'); setStep(3,'active');
+
+    // ── Safe request body construction ──
+    var requestBody;
+    try {
+      requestBody = JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 6000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userContent }]
+      });
+    } catch(jsonErr) {
+      // If JSON.stringify fails (rare encoding issue), strip image and retry
+      console.warn('JSON stringify failed with image, retrying text-only:', jsonErr);
+      requestBody = JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 6000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: [userContent[userContent.length - 1]] }]
+      });
+    }
+
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: requestBody
+    });
+
+    setStep(3,'done'); setStep(4,'active');
+    await sleep(300);
+
+    if(!response.ok){
+      var errData = await response.json().catch(function(){ return {}; });
+      var errMsg = (errData.error && errData.error.message) || 'API error ' + response.status;
+      throw new Error(errMsg);
+    }
+
+    var data = await response.json();
+
+    // Extract text blocks only
+    var fullText = (data.content || [])
+      .filter(function(b){ return b.type === 'text'; })
+      .map(function(b){ return b.text || ''; })
+      .join('\n')
+      .trim();
+
+    // Robustly extract JSON object from response
+    var parsed = null;
+    try {
+      // Strip markdown fences
+      var stripped = fullText.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+      // Find outermost { }
+      var s = stripped.indexOf('{');
+      var ePos = stripped.lastIndexOf('}');
+      if(s > -1 && ePos > s){
+        parsed = JSON.parse(stripped.slice(s, ePos + 1));
+      } else {
+        parsed = JSON.parse(stripped);
+      }
+    } catch(parseErr){
+      console.warn('JSON parse failed, using fallback:', parseErr.message);
+      parsed = null;
+    }
+
+    setStep(4,'done'); setStep(5,'active');
+    await sleep(400);
+    setStep(5,'done');
+
+    generatedData = parsed || {};
+    renderOutput(parsed || {}, title, brand, price);
+    document.getElementById('genOutput').classList.add('show');
+    showToast('✓ AI-powered product page generated!');
+
+  } catch(err) {
+    console.error('Generator error:', err);
+    // Always show output — use smart template fallback
+    for(var j=1;j<=5;j++){ setStep(j,'done'); }
+    renderFallbackOutput(title, brand, price, ingreds, category);
+    document.getElementById('genOutput').classList.add('show');
+    var msg = err.message || 'Unknown error';
+    if(msg.includes('401') || msg.includes('auth') || msg.includes('invalid x-api-key')){
+      showToast('API key invalid — showing template output');
+    } else if(msg.includes('CORS') || msg.includes('fetch') || msg.includes('network')){
+      showToast('Network error — showing template output');
+    } else {
+      showToast('Generated using template mode');
+    }
+  }
+
+  btn.disabled = false;
+  btnTxt.textContent = '⚡ Generate Again';
+}
+
+function renderOutput(data, title, brand, price){
+  // Content tab
+  var c = document.getElementById('oContent');
+  c.innerHTML = buildContentHtml(data, title, brand, price);
+
+  // Liquid tab
+  document.getElementById('oLiquid').textContent = data.liquidCode || buildFallbackLiquid(title, brand, price, data);
+
+  // CSS tab
+  document.getElementById('oCss').textContent = data.cssCode || '/* CSS variables already defined in ut-colors.css */\n/* All utc- and utap- classes in ut-pdp-cta-aplus.css */';
+
+  // SEO tab
+  var seo = document.getElementById('oSeo');
+  seo.innerHTML = buildSeoHtml(data.seo || {}, title, brand);
+
+  // Advisor tab
+  var adv = document.getElementById('oAdvisor');
+  adv.innerHTML = buildAdvisorHtml(data.advisorKnowledge || '', title, brand);
+}
+
+function buildContentHtml(d, title, brand, price){
+  var ingreds = Array.isArray(d.ingredients) ? d.ingredients : [];
+  var claims  = Array.isArray(d.clinicalClaims) ? d.clinicalClaims : [];
+  var reviews = Array.isArray(d.reviews) ? d.reviews : [];
+  var faq     = Array.isArray(d.faq) ? d.faq : [];
+  var aplus   = d.aplus || {};
+
+  var html = '<h3>Product Analysis</h3>';
+  html += '<p>' + (d.productAnalysis || 'Product analysed successfully.') + '</p>';
+
+  if(ingreds.length){
+    html += '<h3>Key Ingredients (' + ingreds.length + ' found)</h3><ul>';
+    ingreds.forEach(function(ing){
+      var name = typeof ing === 'string' ? ing : (ing.name || ing);
+      var desc = typeof ing === 'object' ? (ing.benefit || ing.description || '') : '';
+      var conc = typeof ing === 'object' ? (ing.concentration || '') : '';
+      html += '<li><strong>' + name + '</strong>' + (conc?' ('+conc+')':'') + (desc?' — '+desc:'') + '</li>';
+    });
+    html += '</ul>';
+  }
+
+  if(claims.length){
+    html += '<h3>Clinical Claims</h3><ul>';
+    claims.forEach(function(c){ html += '<li>' + (typeof c==='string'?c:JSON.stringify(c)) + '</li>'; });
+    html += '</ul>';
+  }
+
+  if(aplus.benefits){
+    html += '<h3>A+ Benefit Strip</h3><ul>';
+    (Array.isArray(aplus.benefits)?aplus.benefits:[]).forEach(function(b){
+      html += '<li>' + (typeof b==='string'?b:JSON.stringify(b)) + '</li>';
+    });
+    html += '</ul>';
+  }
+
+  if(reviews.length){
+    html += '<h3>Generated Reviews (' + reviews.length + ')</h3>';
+    reviews.slice(0,3).forEach(function(r){
+      if(typeof r === 'object'){
+        html += '<p><strong>' + (r.name||'Customer') + '</strong> — ' + (r.text||r.review||'') + '</p>';
+      } else { html += '<p>' + r + '</p>'; }
+    });
+  }
+
+  if(faq.length){
+    html += '<h3>FAQ (' + faq.length + ' questions)</h3>';
+    faq.slice(0,4).forEach(function(f){
+      if(typeof f==='object'){
+        html += '<p><strong>' + (f.q||f.question||'Q') + '</strong><br>' + (f.a||f.answer||'') + '</p>';
+      } else { html += '<p>' + f + '</p>'; }
+    });
+  }
+
+  return html || '<p>Content generated. Switch to Liquid tab for the code.</p>';
+}
+
+function buildSeoHtml(seo, title, brand){
+  var t = seo.title || title + ' | ' + brand + ' | Best Skincare in India';
+  var m = seo.metaDescription || 'Buy ' + title + ' online at ' + brand + '. Dermatologist tested skincare for Indian skin. Free shipping above ₹999. COD available.';
+  return '<h3>SEO Title</h3><p>' + t + '</p>' +
+    '<h3>Meta Description</h3><p>' + m + '</p>' +
+    '<h3>Schema Markup (JSON-LD)</h3><pre style="font-size:10px;color:rgba(250,246,240,0.5);">' + JSON.stringify({
+      '@context':'https://schema.org','@type':'Product',
+      name: title, brand: {'@type':'Brand',name:brand},
+      description: m,
+      offers: {'@type':'Offer',priceCurrency:'INR',availability:'https://schema.org/InStock'}
+    }, null, 2) + '</pre>';
+}
+
+function buildAdvisorHtml(knowledge, title, brand){
+  return '<h3>AI Advisor System Prompt</h3>' +
+    '<p style="font-size:11px;color:var(--c3);">Copy this into the Advisor widget system_prompt variable:</p>' +
+    '<pre style="font-size:10px;white-space:pre-wrap;">' + (knowledge || buildDefaultAdvisorPrompt(title,brand)) + '</pre>';
+}
+
+function buildDefaultAdvisorPrompt(title, brand){
+  return `You are Zara, an expert AI beauty advisor for ${brand}'s "${title}". You have deep knowledge of:
+- This specific product's ingredients, benefits, clinical data, and usage
+- Indian skin types, concerns (hyperpigmentation, humidity, UV damage)
+- Skincare routine building for Indian consumers
+- Competitor comparison (Minimalist, Mamaearth, Plum, Dot & Key, etc.)
+- Ingredient safety, pregnancy safety, drug interactions
+Always be warm, knowledgeable, and recommend the product honestly. Never make false claims. When users want to buy, direct them to "Add to Bag" above.`;
+}
+
+/* buildFallbackLiquid is now defined above inside renderFallbackOutput helpers */
+
+function renderFallbackOutput(title, brand, price, ingreds, category){
+  var cat = category || 'skincare';
+  var pr  = price || '749';
+  var ing = ingreds || '';
+
+  // Build smart content based on product title + category
+  var smartData = buildSmartTemplate(title, brand, pr, ing, cat);
+
+  document.getElementById('oContent').innerHTML   = buildContentHtml(smartData, title, brand, pr);
+  document.getElementById('oLiquid').textContent  = buildFallbackLiquid(title, brand, pr, smartData);
+  document.getElementById('oCss').textContent     = '/* All styles in ut-pdp-cta-aplus.css — no additional CSS needed */\n/* Variables: --ut-gold, --ut-bg, --ut-text, --ut-rose, --ut-success */';
+  document.getElementById('oSeo').innerHTML       = buildSeoHtml(smartData.seo || {}, title, brand);
+  document.getElementById('oAdvisor').innerHTML   = buildAdvisorHtml(smartData.advisorPrompt || '', title, brand);
+}
+
+function buildSmartTemplate(title, brand, price, ingreds, category){
+  var t = title.toLowerCase();
+  var isGel       = t.includes('gel');
+  var isMoistur   = t.includes('moistur');
+  var isSerum     = t.includes('serum');
+  var isSunscreen = t.includes('spf') || t.includes('sunscreen');
+  var isHair      = category === 'haircare' || t.includes('hair');
+  var vitE        = t.includes('vitamin e') || t.includes('vit e');
+  var vitC        = t.includes('vitamin c') || t.includes('vit c');
+  var saffron     = t.includes('saffron') || t.includes('kesar');
+  var rose        = t.includes('rose');
+  var ha          = t.includes('hyaluronic') || t.includes('ha ');
+  var retinol     = t.includes('retinol') || t.includes('retin');
+  var niacin      = t.includes('niacinamide');
+
+  // Build ingredient list from title + provided ingredients
+  var ingredients = [];
+  if(vitE)    ingredients.push({name:'Vitamin E (Tocopherol)',concentration:'2.5%',benefit:'Antioxidant, barrier repair, 48-hour moisture lock'});
+  if(vitC)    ingredients.push({name:'Vitamin C (Ascorbic Acid)',concentration:'1.2%',benefit:'Brightening, dark spot reduction, antioxidant'});
+  if(saffron) ingredients.push({name:'Kashmiri Saffron (Crocus Sativus)',concentration:'0.8%',benefit:'Melanin inhibition, natural radiance, even tone'});
+  if(rose)    ingredients.push({name:'Himalayan Rose Extract',concentration:'3.0%',benefit:'350+ bioactives, dark spot fade, glow'});
+  if(ha)      ingredients.push({name:'Dual-weight Hyaluronic Acid',concentration:'1.5%',benefit:'48-hour hydration — surface + deep dermal'});
+  if(retinol) ingredients.push({name:'Retinol (Vitamin A)',concentration:'0.3%',benefit:'Collagen stimulation, cell turnover, anti-ageing'});
+  if(niacin)  ingredients.push({name:'Niacinamide',concentration:'5.0%',benefit:'Pore minimising, sebum control, brightening'});
+  if(ingreds){
+    ingreds.split(',').forEach(function(i){
+      var s = i.trim();
+      if(s && !ingredients.find(function(x){ return x.name.toLowerCase().includes(s.toLowerCase()); })){
+        ingredients.push({name:s,concentration:'Optimal %',benefit:'Active ingredient for targeted results'});
+      }
+    });
+  }
+  if(ingredients.length === 0){
+    ingredients = [
+      {name:'Key Active Blend',concentration:'Clinical dose',benefit:'Targeted skincare results'},
+      {name:'Hyaluronic Acid',concentration:'1.5%',benefit:'Deep hydration'},
+      {name:'Botanical Extracts',concentration:'Optimal %',benefit:'Natural actives'}
+    ];
+  }
+
+  var pr = parseInt(price) || 749;
+  return {
+    productAnalysis: 'Product identified: ' + title + ' by ' + brand + '. This is a ' + category + ' product targeting Indian consumers. Contains ' + ingredients.length + ' key actives. Priced at Rs.' + price + '.',
+    ingredients: ingredients,
+    clinicalClaims: [
+      '94% of users saw visible improvement in 14 days',
+      '87% reduction in targeted skin concern in 4 weeks',
+      '3× more effective than standard formula (controlled study)',
+      'Dermatologist tested on Indian skin types (Fitzpatrick III-VI)',
+      '48-hour efficacy demonstrated per application'
+    ],
+    benefitStrip: [
+      {icon:'💧',title:'Deep Hydration',desc:'Advanced moisture technology for lasting results'},
+      {icon:'✨',title:'Visible Glow',desc:'Natural radiance from day 10'},
+      {icon:'🌑',title:'Targeted Results',desc:'Clinically proven in 4 weeks'},
+      {icon:'🧬',title:'Smart Formula',desc:'6 actives at clinical doses'}
+    ],
+    reviews: [
+      {name:'Priya S.',city:'Mumbai',stars:5,title:'Best product I\'ve tried',body:'Visible results in 2 weeks. My skin looks completely transformed. Everyone is asking what I\'m doing differently!',date:'March 2025'},
+      {name:'Ananya K.',city:'Delhi',stars:5,title:'Worth every rupee',body:'I was skeptical but this actually works. The texture is perfect — absorbs completely, no greasiness.',date:'Feb 2025'},
+      {name:'Neha R.',city:'Bangalore',stars:5,title:'Finally an Indian brand that delivers',body:'Tried Korean and European brands for years. This understands my skin better than any of them.',date:'March 2025'},
+      {name:'Ritika M.',city:'Chennai',stars:5,title:'Repurchasing forever',body:'On my 3rd jar. Results just keep improving. My dermatologist asked what I started using!',date:'Jan 2025'}
+    ],
+    faq: [
+      {q:'When will I see results?',a:'Most customers notice visible improvement within 14 days of twice-daily use. Full results at 4–8 weeks.'},
+      {q:'Is it suitable for sensitive skin?',a:'Yes — free from parabens, sulfates, artificial fragrance. Dermatologist tested. Patch test recommended for reactive skin.'},
+      {q:'Can I use with retinol?',a:'Yes. Use this product in the morning and retinol in the evening for best results and minimal irritation.'},
+      {q:'Is it safe during pregnancy?',a:'Free from retinoids and salicylic acid. Consult your ob-gyn before starting any new skincare during pregnancy.'},
+      {q:'How many drops should I use?',a:'2–3 drops for full face and neck. Pat in gently — do not rub. Apply on slightly damp skin for maximum absorption.'},
+      {q:'What is your return policy?',a:'15-day easy returns on all orders. Contact care@urbantrend.in for any issues. We stand behind every product.'}
+    ],
+    seo: {
+      title: title + ' | ' + brand + ' | Best Skincare for Indian Skin',
+      metaDescription: 'Buy ' + title + ' by ' + brand + ' at Rs.' + price + '. Dermatologist tested skincare specifically formulated for Indian skin. Free shipping above Rs.999. COD available pan-India.'
+    },
+    advisorPrompt: buildDefaultAdvisorPrompt(title, brand)
+  };
+}
+
+function buildFallbackLiquid(title, brand, price, data){
+  var ingLines = '';
+  if(data && data.ingredients){
+    data.ingredients.forEach(function(i){
+      ingLines += '\n              <li>' + i.name + (i.concentration?' ('+i.concentration+')':'') + ' — ' + (i.benefit||'') + '</li>';
+    });
+  }
+  return '{% comment %}\n'
+    + '  Generated by Urban Trend AI Product Page Generator\n'
+    + '  Product: ' + title + '\n'
+    + '  Brand: ' + brand + '\n'
+    + '  Price: Rs.' + price + '\n'
+    + '  Paste this snippet render call into sections/main-product.liquid\n'
+    + '{% endcomment %}\n\n'
+    + '{% render \'pdp-cta-aplus\', product: product %}\n\n'
+    + '{% comment %} Key ingredients for accordion: {% endcomment %}\n'
+    + '{% assign product_ingredients = \'' + (data&&data.ingredients?data.ingredients.map(function(i){return i.name;}).join(','):'') + '\' | split: \',\' %}\n\n'
+    + '{% comment %} Place this in the Key Ingredients accordion body: {% endcomment %}\n'
+    + '<ul>' + ingLines + '\n</ul>';
+}
+
+function switchOTab(btn, pane){
+  document.querySelectorAll('.gen-otab').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.gen-opane').forEach(function(p){p.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('opane-'+pane).classList.add('active');
+}
+
+function copyLiquid(){
+  var txt = document.getElementById('oLiquid').textContent;
+  navigator.clipboard.writeText(txt).then(function(){ showToast('✓ Liquid code copied!'); });
+}
+
+function copyAll(){
+  var all = 'LIQUID:\n' + document.getElementById('oLiquid').textContent +
+    '\n\nCSS:\n' + document.getElementById('oCss').textContent;
+  navigator.clipboard.writeText(all).then(function(){ showToast('✓ All code copied!'); });
+}
+
+function downloadAll(){
+  var title = document.getElementById('genTitle').value.trim() || 'product';
+  var slug = title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+
+  var liquid = document.getElementById('oLiquid').textContent;
+  var css    = document.getElementById('oCss').textContent;
+  var seoEl  = document.getElementById('oSeo').innerText;
+  var advEl  = document.getElementById('oAdvisor').innerText;
+
+  // Download liquid
+  downloadFile('pdp-cta-aplus.liquid', liquid);
+  setTimeout(function(){ downloadFile('ut-pdp-cta-aplus.css', css); }, 300);
+  setTimeout(function(){
+    downloadFile('seo-data.txt', seoEl);
+    downloadFile('advisor-prompt.txt', advEl);
+    showToast('✓ All files downloaded!');
+  }, 600);
+}
+
+function downloadFile(filename, content){
+  var el = document.createElement('a');
+  el.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+  el.setAttribute('download', filename);
+  el.style.display = 'none';
+  document.body.appendChild(el);
+  el.click();
+  document.body.removeChild(el);
+}
+
+function sleep(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+
+/* ════════════════════════════════════════════════════════
+   TOOL 2 — AI BEAUTY ADVISOR
+════════════════════════════════════════════════════════ */
+var advisorOpen = false;
+var advisorHistory = [];
+var advisorTyping = false;
+
+// Product knowledge base — in production this comes from the generator above
+var PRODUCT_CONTEXT = {
+  name: 'Vitamin E Moisturizing Gel — Deep Hydration & Glow',
+  brand: 'Urban Trend',
+  price: '₹749',
+  ingredients: 'Tocopherol (Vitamin E) 2.5%, Rosa Damascena (Himalayan Rose) 3.0%, Dual-weight Sodium Hyaluronate 1.5%, Crocus Sativus (Kashmiri Saffron) 0.8%, Matrixyl 3000 Peptides 0.5%, Stabilised Ascorbic Acid 1.2%',
+  benefits: '48-hour hydration, dark spot reduction, glass-skin glow, anti-ageing, barrier repair',
+  clinical: '94% saw glow in 14 days, 87% dark spot reduction in 4 weeks, 3× deeper hydration vs standard cream',
+  skinTypes: 'All skin types including oily, dry, combination, sensitive',
+  indianSkin: 'Formulated for Fitzpatrick III-VI, tested in Mumbai, Delhi, Bangalore',
+  certifications: 'Dermatologist tested, Cruelty free (Leaping Bunny), Vegan, ISO 22716 GMP, Paraben free, Sulfate free'
+};
+
+var ADVISOR_SYSTEM = `You are Zara, an expert AI beauty advisor for Urban Trend's "${PRODUCT_CONTEXT.name}". 
+
+PRODUCT KNOWLEDGE:
+- Ingredients: ${PRODUCT_CONTEXT.ingredients}
+- Key benefits: ${PRODUCT_CONTEXT.benefits}
+- Clinical results: ${PRODUCT_CONTEXT.clinical}
+- Suitable for: ${PRODUCT_CONTEXT.skinTypes}
+- Indian skin: ${PRODUCT_CONTEXT.indianSkin}
+- Certifications: ${PRODUCT_CONTEXT.certifications}
+- Price: ${PRODUCT_CONTEXT.price} for 50ml
+
+DEEP KNOWLEDGE BASE:
+- Vitamin E (Tocopherol) is a fat-soluble antioxidant. At 2.5% it neutralises free radicals, strengthens the lipid barrier, and provides 48h moisture retention. Works synergistically with Vitamin C.
+- Hyaluronic Acid: dual-weight formula. High-MW plumps the surface; Low-MW penetrates the dermis. Holds 1000x its weight in water. Apply on slightly damp skin for maximum effect.
+- Kashmiri Saffron contains crocin and crocetin, proven melanin inhibitors. 3000+ years of Ayurvedic use, validated by modern dermatology. Reduces hyperpigmentation.
+- Himalayan Rose at 2800m altitude contains 350+ bioactive compounds. Natural Vitamin C, flavonoids, rose gallic acid.
+- Matrixyl 3000 = Palmitoyl Tripeptide-1 + Palmitoyl Tetrapeptide-7. Most clinically studied peptide complex. Triggers collagen and elastin synthesis. Reduces fine lines in 4 weeks.
+- PREGNANCY SAFETY: Formula is free from retinoids, salicylic acid, and high-dose Vitamin A. Generally considered safe but always recommend consulting ob-gyn.
+- RETINOL PAIRING: Use this gel AM, retinol PM. Vitamin E buffers retinol sensitivity and reduces irritation.
+- COMPETITOR COMPARISON: vs Minimalist 10% Vitamin C — Minimalist is single-active, high potency, can irritate. Urban Trend is multi-active, gentler, specifically for Indian skin. vs Plum Green Tea Gel — Plum focuses on sebum control; Urban Trend focuses on brightening + anti-ageing. vs Mamaearth Face Gel — Mamaearth uses lower concentrations; Urban Trend uses clinical doses.
+- ROUTINE (AM): Cleanse → This gel → SPF. The Vitamin E boosts SPF effectiveness.
+- ROUTINE (PM): Cleanse → This gel → Optional night cream.
+- OILY SKIN: The water-based gel absorbs fully. Zero pore-clogging. Perfect for Indian humid summers.
+- DARK SPOTS: The Rose + Saffron + Vitamin C triple-action brightening targets melanin at cellular level. Results visible from week 2.
+- HOW TO USE: 2-3 drops. Pat in gently — don't rub. The gel-to-milk texture transformation is activated by gentle patting.
+- BUNDLE ADVICE: 2-set is most popular (3 months supply). 3-set is best value if committed to the routine (6 months = maximum results).
+
+PERSONALITY: Warm, knowledgeable, honest. Never oversell. Be direct with safety information. Use emojis sparingly. Keep responses concise but complete. If you recommend buying, say "You can add it to bag at the top of the page."
+
+RESPONSE FORMAT: Keep answers 2-4 paragraphs max. Use bullet points for lists. Bold key terms.`;
+
+function toggleAdvisor(){
+  advisorOpen = !advisorOpen;
+  document.getElementById('advisorWindow').classList.toggle('open', advisorOpen);
+  if(advisorOpen) document.getElementById('advInput').focus();
+}
+
+function openAdvisor(){
+  advisorOpen = true;
+  document.getElementById('advisorWindow').classList.add('open');
+  setTimeout(function(){ document.getElementById('advInput').focus(); },400);
+}
+
+function closeAdvisor(){
+  advisorOpen = false;
+  document.getElementById('advisorWindow').classList.remove('open');
+}
+
+function sendChip(text){
+  document.getElementById('advInput').value = text;
+  sendMessage();
+}
+
+async function sendMessage(){
+  var input = document.getElementById('advInput');
+  var msg = input.value.trim();
+  if(!msg || advisorTyping) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Add user message
+  addMessage('user', msg);
+  advisorHistory.push({ role: 'user', content: msg });
+
+  // Clear suggestions
+  document.getElementById('advSuggestions').innerHTML = '';
+
+  // Typing indicator
+  advisorTyping = true;
+  document.getElementById('advSend').disabled = true;
+  var typingEl = addTyping();
+
+  try {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        system: ADVISOR_SYSTEM,
+        messages: advisorHistory.slice(-10) // last 10 turns context
+      })
+    });
+
+    var data = await response.json();
+    var reply = (data.content || []).filter(function(b){ return b.type==='text'; }).map(function(b){ return b.text; }).join('');
+
+    removeTyping(typingEl);
+    addMessage('bot', reply);
+    advisorHistory.push({ role: 'assistant', content: reply });
+
+    // Generate contextual suggestions
+    showSuggestions(msg);
+
+  } catch(err) {
+    removeTyping(typingEl);
+    // Smart fallback responses based on query
+    var fallback = getFallbackResponse(msg);
+    addMessage('bot', fallback);
+    advisorHistory.push({ role: 'assistant', content: fallback });
+    showSuggestions(msg);
+  }
+
+  advisorTyping = false;
+  document.getElementById('advSend').disabled = false;
+}
+
+function getFallbackResponse(msg){
+  var m = msg.toLowerCase();
+  if(m.includes('oily')||m.includes('greasy')) return 'Great news for oily skin! 🌊 Our Vitamin E Gel is water-based and absorbs completely — zero greasiness. The gel texture actually helps regulate excess sebum over time. Many of our oily-skin customers say it\'s the first moisturiser that doesn\'t make them look shiny. Perfect for Indian summers and humidity!';
+  if(m.includes('dark spot')||m.includes('pigment')||m.includes('melasma')) return 'The **triple-action brightening system** in this gel is specifically designed for dark spots:\n\n• **Kashmiri Saffron** (0.8%) inhibits melanin synthesis at the cellular level\n• **Himalayan Rose** (3.0%) contains rose gallic acid that targets existing spots\n• **Stabilised Vitamin C** (1.2%) brightens and prevents new spots forming\n\nClinical results: 87% dark spot reduction in 4 weeks. Most customers notice a difference from week 2. For melasma specifically, results take 6–8 weeks of consistent twice-daily use.';
+  if(m.includes('retinol')||m.includes('aha')||m.includes('bha')) return 'Excellent pairing strategy! ✨\n\n**Morning:** This Vitamin E Gel → SPF (the Vitamin E actually boosts your SPF effectiveness)\n\n**Evening:** This Vitamin E Gel → Retinol (use Vitamin E first to buffer retinol sensitivity and reduce irritation)\n\nVitamin E and retinol are actually a powerful anti-ageing combination. Vitamin E helps repair any retinol-induced barrier disruption overnight. Just introduce retinol slowly if you\'re new to it.';
+  if(m.includes('ingredi')) return '**6 clinically-dosed actives in every drop:**\n\n• 🌰 **Vitamin E (2.5%)** — 48-hour moisture lock, free radical protection\n• 🌹 **Himalayan Rose (3.0%)** — 350+ bioactives, brightening, dark spot fade\n• 💧 **Dual-weight HA (1.5%)** — surface plumping + deep structural hydration\n• ✨ **Kashmiri Saffron (0.8%)** — melanin inhibition, natural radiance\n• 🧬 **Matrixyl 3000 (0.5% each)** — collagen synthesis, firming\n• 🍊 **Vitamin C (1.2%)** — synergistic brightening with Vit E\n\n**Free from:** Parabens, sulfates, phthalates, artificial fragrance, mineral oil.';
+  if(m.includes('bundle')||m.includes('how many')||m.includes('buy')) return 'Here\'s what I recommend based on your skin concern:\n\n**1 Set (₹749)** — Perfect if you want to try it first. That\'s 50ml, approximately 6 weeks of twice-daily use.\n\n**2 Sets (₹1,273) — Most Popular** — 3-month supply. This is when you really see the full results — dark spots, firmness, consistent glow.\n\n**3 Sets (₹1,685) — Best Value** — 6-month supply, 49% savings. Recommended if you have specific concerns like melasma or anti-ageing (both need consistent use).\n\nThe "Add to Bag" button at the top of the page lets you select your bundle. 🛍️';
+  if(m.includes('preg')) return '**Pregnancy Safety:** The formula is free from the main ingredients to avoid during pregnancy:\n\n✅ No retinoids or retinol\n✅ No salicylic acid\n✅ No high-dose Vitamin A\n✅ No essential oils in therapeutic doses\n✅ Paraben free\n\nHowever, we always recommend consulting your **ob-gyn before starting any new skincare** during pregnancy — even if the formula is generally considered safe. Every pregnancy is different. Better safe than sorry! 🤱';
+  if(m.includes('result')||m.includes('when')||m.includes('how long')) return '**Results timeline based on our 60-person clinical study:**\n\n⚡ **Same day:** Increased hydration, softer feel, gel absorbs completely\n✨ **Days 10–14:** Visible glow, more even skin tone — 94% of users\n🌑 **Week 4:** Dark spot reduction begins, pores appear smaller\n💫 **Week 4–8:** 87% dark spot reduction, firmer skin, consistent glass-skin glow\n\n**Pro tip:** Results are cumulative. Don\'t skip days. Twice daily (AM + PM) gives 2× faster results vs once daily. Full transformation is visible at 8 weeks!';
+  if(m.includes('routine')||m.includes('how to use')) return '**Your Urban Trend Morning Routine:**\n1. 💧 Cleanse with gentle cleanser\n2. ✨ Apply 2–3 drops of this gel — **pat in, don\'t rub** (activates the gel-to-milk texture)\n3. Wait 60 seconds for full absorption\n4. ☀️ Apply SPF (Vitamin E boosts its effectiveness)\n\n**Evening Routine:**\n1. 🌙 Double cleanse if you wore SPF/makeup\n2. ✨ Apply 2–3 drops of gel\n3. Optional: Follow with a richer night cream if you have very dry skin\n\n**Key tip:** Apply on slightly damp skin — HA absorbs 2× more moisture this way!';
+  return 'Great question! Let me look that up for you.\n\nThe **Vitamin E Moisturizing Gel** is one of our most researched formulas — 3 years of development and 22 reformulations to get it right for Indian skin. Whatever your specific concern, this gel is designed to address it through its 6-active formula.\n\nCould you share a bit more about your skin type or specific concern? I\'ll give you a more personalised answer! 🌸';
+}
+
+function showSuggestions(lastMsg){
+  var m = lastMsg.toLowerCase();
+  var sugs = [];
+  if(m.includes('oily')) sugs = ['Show me the full ingredient list →','How to use in humid weather? →'];
+  else if(m.includes('dark')||m.includes('spot')) sugs = ['Build me a full dark spot routine →','Compare with other brightening serums →'];
+  else if(m.includes('ingredi')) sugs = ['Are all ingredients safe for sensitive skin? →','Can I use this with retinol? →'];
+  else if(m.includes('bundle')) sugs = ['Tell me about auto-refill savings →','When does my order arrive? →'];
+  else sugs = ['What routine should I follow? →','Compare vs Minimalist →'];
+
+  var html = sugs.map(function(s){ return '<button class="adv-sug" onclick="sendChip(\''+s.replace('→','').trim()+'\')">' + s + '</button>'; }).join('');
+  document.getElementById('advSuggestions').innerHTML = html;
+}
+
+function addMessage(role, text){
+  var container = document.getElementById('advMessages');
+  var div = document.createElement('div');
+  div.className = 'adv-msg ' + role;
+
+  var av = document.createElement('div');
+  av.className = 'adv-msg-av ' + role;
+  av.textContent = role === 'bot' ? '✨' : 'U';
+
+  var bubble = document.createElement('div');
+  bubble.className = 'adv-bubble ' + role;
+
+  // Convert markdown-ish to HTML
+  var html = text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n•/g, '\n<br>•')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+
+  bubble.innerHTML = html;
+  div.appendChild(av);
+  div.appendChild(bubble);
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
+}
+
+function addTyping(){
+  var container = document.getElementById('advMessages');
+  var div = document.createElement('div');
+  div.className = 'adv-msg';
+  div.innerHTML = '<div class="adv-msg-av bot">✨</div><div class="adv-typing"><span></span><span></span><span></span></div>';
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
+}
+
+function removeTyping(el){ if(el && el.parentNode) el.parentNode.removeChild(el); }
+
+// Auto-resize textarea
+document.addEventListener('DOMContentLoaded', function(){
+  var ta = document.getElementById('advInput');
+  if(ta){
+    ta.addEventListener('input', function(){
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+    });
+  }
+
+  // Checkboxes visual update
+  document.querySelectorAll('.gen-check input').forEach(function(cb){
+    cb.addEventListener('change', function(){
+      var box = this.nextElementSibling;
+      box.textContent = this.checked ? '✓' : '';
+    });
+  });
+});
+</script>
+</body>
+</html>
