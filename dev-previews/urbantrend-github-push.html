@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urban Trend — GitHub Push Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c9a96e;--gold-lt:#e2c98a;--gold-dim:rgba(201,169,110,0.45);
+  --ink:#0a0908;--ink2:#111009;--ink3:#161410;--ink4:#1c1a16;
+  --cream:#faf6f0;--c2:rgba(250,246,240,0.65);--c3:rgba(250,246,240,0.38);--c4:rgba(250,246,240,0.18);
+  --rose:#8b3a52;--success:#7bc87b;--warn:#e2a84a;
+  --b1:rgba(201,169,110,0.10);--b2:rgba(201,169,110,0.20);--b3:rgba(201,169,110,0.35);
+  --serif:'Cinzel',serif;--body:'Jost',sans-serif;--mono:'JetBrains Mono',monospace;
+  --ease:0.25s ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--cream);font-family:var(--body);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;}
+
+/* grain */
+body::before{content:'';position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.3;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");}
+
+/* ── HEADER ── */
+.header{
+  background:rgba(10,9,8,0.97);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--b1);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:64px;position:sticky;top:0;z-index:100;
+}
+@media(max-width:600px){.header{padding:0 20px;}}
+.header-logo{font-family:var(--serif);font-size:13px;letter-spacing:0.44em;color:var(--gold);}
+.header-tag{font-family:var(--body);font-size:10px;color:var(--c4);letter-spacing:0.12em;
+  background:rgba(201,169,110,0.06);border:1px solid var(--b1);padding:4px 12px;}
+
+/* ── LAYOUT ── */
+.page{max-width:1000px;margin:0 auto;padding:52px 40px 80px;}
+@media(max-width:600px){.page{padding:32px 20px 60px;}}
+
+.section-kicker{font-family:var(--serif);font-size:8px;letter-spacing:.42em;color:var(--gold-dim);
+  text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
+.section-kicker::before{content:'';width:20px;height:1px;background:var(--b3);}
+.section-title{font-family:var(--serif);font-size:clamp(22px,3vw,34px);font-weight:400;
+  color:var(--cream);letter-spacing:.04em;margin-bottom:8px;}
+.section-sub{font-family:var(--body);font-size:13px;color:var(--c3);line-height:1.8;margin-bottom:32px;max-width:520px;}
+
+/* ── STEP PROGRESS ── */
+.steps{display:flex;gap:0;margin-bottom:40px;border:1px solid var(--b1);overflow:hidden;}
+@media(max-width:600px){.steps{flex-direction:column;}}
+.step{flex:1;padding:16px 20px;display:flex;align-items:center;gap:10px;
+  border-right:1px solid var(--b1);transition:background var(--ease);}
+.step:last-child{border-right:none;}
+.step-num{width:28px;height:28px;border-radius:50%;border:1px solid var(--b2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:10px;color:var(--gold-dim);flex-shrink:0;transition:all var(--ease);}
+.step.active .step-num{background:var(--gold);color:var(--ink);border-color:var(--gold);box-shadow:0 0 12px rgba(201,169,110,0.3);}
+.step.done .step-num{background:rgba(123,200,123,0.15);color:var(--success);border-color:rgba(123,200,123,0.3);}
+.step-label{font-family:var(--serif);font-size:8px;letter-spacing:.22em;color:var(--c4);text-transform:uppercase;transition:color var(--ease);}
+.step.active .step-label{color:var(--gold);}
+.step.done .step-label{color:var(--success);}
+
+/* ── CARD ── */
+.card{background:var(--ink2);border:1px solid var(--b1);padding:32px;margin-bottom:24px;transition:border-color var(--ease);}
+.card:hover{border-color:var(--b2);}
+.card-title{font-family:var(--serif);font-size:11px;letter-spacing:.28em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.card-title::after{content:'';flex:1;height:1px;background:var(--b1);}
+
+/* ── FORM ELEMENTS ── */
+.field{margin-bottom:18px;}
+.field label{font-family:var(--serif);font-size:8px;letter-spacing:.3em;color:var(--gold-dim);
+  text-transform:uppercase;display:block;margin-bottom:8px;}
+.field-note{font-family:var(--body);font-size:10px;color:var(--c4);margin-top:6px;line-height:1.6;}
+.field-note a{color:var(--gold);cursor:pointer;text-decoration:underline;}
+
+.inp{width:100%;background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.14);
+  color:var(--cream);font-family:var(--body);font-size:13px;padding:11px 14px;outline:none;
+  letter-spacing:.04em;transition:border-color var(--ease);}
+.inp::placeholder{color:var(--c4);}
+.inp:focus{border-color:var(--gold-dim);}
+.inp.mono{font-family:var(--mono);font-size:12px;letter-spacing:.02em;}
+.inp.error{border-color:var(--rose)!important;}
+.inp.success{border-color:var(--success)!important;}
+
+select.inp{appearance:none;
+  background:rgba(201,169,110,0.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(201,169,110,0.5)'/%3E%3C/svg%3E") no-repeat right 14px center;
+  padding-right:36px;cursor:pointer;}
+select.inp option{background:var(--ink3);}
+
+/* ── BUTTONS ── */
+.btn{font-family:var(--serif);font-size:9px;letter-spacing:.36em;text-transform:uppercase;
+  padding:13px 28px;cursor:pointer;transition:all .25s;border-radius:2px;display:inline-flex;align-items:center;gap:10px;}
+.btn-gold{background:var(--gold);color:var(--ink);border:none;box-shadow:0 4px 20px rgba(201,169,110,0.18);}
+.btn-gold:hover{background:var(--gold-lt);box-shadow:0 6px 28px rgba(201,169,110,0.3);}
+.btn-gold:active{transform:scale(.98);}
+.btn-gold:disabled{background:rgba(201,169,110,0.2);color:rgba(250,246,240,0.3);cursor:not-allowed;box-shadow:none;}
+.btn-outline{background:none;border:1px solid var(--b2);color:var(--gold);}
+.btn-outline:hover{background:rgba(201,169,110,0.07);border-color:var(--gold-dim);}
+.btn-danger{background:none;border:1px solid rgba(139,58,82,0.3);color:var(--rose);}
+.btn-danger:hover{background:rgba(139,58,82,0.08);}
+.btn-sm{padding:8px 18px;font-size:8px;letter-spacing:.28em;}
+.btn-icon{font-size:14px;font-style:normal;}
+
+/* ── REPO SELECTOR ── */
+.repo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+@media(max-width:600px){.repo-grid{grid-template-columns:1fr;}}
+.repo-card{
+  border:1.5px solid var(--b1);padding:16px;cursor:pointer;
+  transition:all .2s;background:rgba(255,255,255,0.01);position:relative;
+}
+.repo-card:hover{border-color:var(--b2);background:rgba(201,169,110,0.04);}
+.repo-card.selected{border-color:var(--gold)!important;background:rgba(201,169,110,0.08)!important;}
+.repo-card-name{font-family:var(--mono);font-size:12px;color:var(--cream);margin-bottom:5px;word-break:break-all;}
+.repo-card-meta{font-family:var(--body);font-size:10px;color:var(--c4);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.repo-card-meta span{display:flex;align-items:center;gap:4px;}
+.repo-badge{position:absolute;top:8px;right:8px;font-family:var(--serif);font-size:7px;letter-spacing:.2em;
+  background:var(--gold);color:var(--ink);padding:2px 7px;text-transform:uppercase;}
+.repo-badge.private{background:rgba(139,58,82,0.8);color:var(--cream);}
+.repo-card-check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;
+  background:var(--gold);color:var(--ink);font-size:11px;display:none;align-items:center;justify-content:center;}
+.repo-card.selected .repo-card-check{display:flex;}
+
+/* ── FILE TREE ── */
+.file-tree{border:1px solid var(--b1);overflow:hidden;}
+.file-tree-header{
+  background:var(--ink3);border-bottom:1px solid var(--b1);
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
+}
+.file-tree-header-left{font-family:var(--mono);font-size:11px;color:var(--c3);display:flex;align-items:center;gap:8px;}
+.file-tree-header-actions{display:flex;gap:8px;}
+.file-row{
+  display:grid;grid-template-columns:28px 1fr 120px 80px;align-items:center;gap:0;
+  padding:0;border-bottom:1px solid rgba(201,169,110,0.04);
+  transition:background .15s;
+}
+.file-row:last-child{border-bottom:none;}
+.file-row:hover{background:rgba(201,169,110,0.03);}
+.file-row.folder-row{background:rgba(201,169,110,0.02);}
+.file-check{padding:10px 0 10px 14px;display:flex;align-items:center;justify-content:center;}
+.file-chk{width:15px;height:15px;border:1px solid rgba(201,169,110,0.22);background:none;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .2s;}
+.file-chk.checked{background:var(--gold);border-color:var(--gold);}
+.file-chk.checked::after{content:'✓';font-size:9px;color:var(--ink);font-weight:700;}
+.file-name{padding:10px 12px;font-family:var(--mono);font-size:11px;color:var(--c2);
+  display:flex;align-items:center;gap:8px;cursor:pointer;}
+.file-name:hover{color:var(--cream);}
+.file-icon{font-style:normal;font-size:13px;flex-shrink:0;}
+.file-ext{font-size:9px;padding:1px 6px;border:1px solid;letter-spacing:.06em;}
+.ext-liquid{border-color:rgba(0,196,255,0.3);color:rgba(0,196,255,0.7);}
+.ext-css{border-color:rgba(86,156,214,0.3);color:rgba(86,156,214,0.7);}
+.ext-js{border-color:rgba(220,220,170,0.3);color:rgba(220,220,170,0.7);}
+.ext-md{border-color:rgba(201,169,110,0.3);color:var(--gold);}
+.ext-html{border-color:rgba(206,145,120,0.3);color:rgba(206,145,120,0.7);}
+.ext-json{border-color:rgba(152,195,121,0.3);color:rgba(152,195,121,0.7);}
+.file-path{padding:10px 12px;font-family:var(--mono);font-size:10px;color:var(--c4);word-break:break-all;}
+.file-size{padding:10px 14px 10px 0;font-family:var(--body);font-size:10px;color:var(--c4);text-align:right;}
+.file-status{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-family:var(--body);}
+.status-pending{color:var(--c4);}
+.status-pushing{color:var(--warn);animation:statusPulse 1s infinite;}
+.status-done{color:var(--success);}
+.status-error{color:var(--rose);}
+.status-skip{color:var(--c4);opacity:.5;}
+@keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* folder label */
+.folder-label{padding:8px 14px 8px 14px;font-family:var(--mono);font-size:10px;
+  color:var(--gold-dim);letter-spacing:.15em;text-transform:uppercase;
+  background:rgba(201,169,110,0.03);border-bottom:1px solid rgba(201,169,110,0.04);
+  display:flex;align-items:center;gap:8px;grid-column:1/-1;}
+
+/* ── PUSH LOG ── */
+.push-log{
+  background:var(--ink4);border:1px solid var(--b1);
+  font-family:var(--mono);font-size:11px;
+  padding:16px;max-height:260px;overflow-y:auto;
+  display:none;
+  scrollbar-width:thin;scrollbar-color:rgba(201,169,110,0.2) transparent;
+}
+.push-log.show{display:block;}
+.push-log::-webkit-scrollbar{width:3px;}
+.push-log::-webkit-scrollbar-thumb{background:rgba(201,169,110,0.2);}
+.log-line{padding:2px 0;line-height:1.6;display:flex;gap:8px;}
+.log-time{color:var(--c4);flex-shrink:0;}
+.log-msg{color:var(--c2);}
+.log-msg.ok{color:var(--success);}
+.log-msg.err{color:var(--rose);}
+.log-msg.warn{color:var(--warn);}
+.log-msg.info{color:var(--gold-dim);}
+
+/* ── SUMMARY CARD ── */
+.summary{
+  background:linear-gradient(135deg,rgba(123,200,123,0.08),rgba(201,169,110,0.05));
+  border:1px solid rgba(123,200,123,0.2);padding:28px;
+  display:none;
+}
+.summary.show{display:block;}
+.summary-title{font-family:var(--serif);font-size:13px;letter-spacing:.2em;color:var(--success);
+  text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+@media(max-width:480px){.summary-grid{grid-template-columns:1fr;}}
+.summary-stat{text-align:center;padding:14px;}
+.summary-num{font-family:var(--serif);font-size:28px;color:var(--gold);display:block;line-height:1;}
+.summary-lbl{font-family:var(--body);font-size:10px;color:var(--c4);margin-top:6px;letter-spacing:.08em;}
+.summary-links{display:flex;gap:10px;flex-wrap:wrap;}
+.summary-link{font-family:var(--serif);font-size:8px;letter-spacing:.26em;text-transform:uppercase;
+  padding:10px 18px;border:1px solid var(--b2);color:var(--gold);cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.summary-link:hover{background:rgba(201,169,110,0.08);}
+
+/* ── TOKEN SECURITY NOTE ── */
+.security-note{
+  background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.10);
+  padding:14px 18px;display:flex;align-items:flex-start;gap:12px;
+  font-family:var(--body);font-size:11px;color:var(--c3);line-height:1.7;margin-bottom:20px;
+}
+.security-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* ── CONNECTION STATUS PILL ── */
+.conn-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 14px;border:1px solid;font-family:var(--body);font-size:11px;
+  border-radius:20px;margin-left:12px;transition:all .3s;
+}
+.conn-pill.disconnected{border-color:rgba(201,169,110,0.15);color:var(--c4);}
+.conn-pill.connecting{border-color:rgba(234,170,74,0.4);color:var(--warn);}
+.conn-pill.connected{border-color:rgba(123,200,123,0.35);color:var(--success);}
+.conn-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.conn-pill.disconnected .conn-dot{background:var(--c4);}
+.conn-pill.connecting .conn-dot{background:var(--warn);animation:statusPulse 1s infinite;}
+.conn-pill.connected .conn-dot{background:var(--success);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(12px);
+  background:var(--ink3);border:1px solid var(--b2);color:var(--cream);
+  font-family:var(--body);font-size:12px;padding:10px 22px;
+  opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap;z-index:9999;max-width:90vw;white-space:normal;text-align:center;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── DIVIDER ── */
+.div{height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,0.15),transparent);margin:32px 0;}
+
+/* ── COMMIT MESSAGE ── */
+.commit-row{display:flex;gap:12px;align-items:flex-start;}
+@media(max-width:600px){.commit-row{flex-direction:column;}}
+.branch-wrap{flex:1;}
+.commit-wrap{flex:2;}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-logo">Urban Trend<sup style="font-size:7px;opacity:.4;vertical-align:super;">®</sup></div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="header-tag">GitHub Push Tool</div>
+    <div class="conn-pill disconnected" id="connPill">
+      <span class="conn-dot"></span>
+      <span id="connLabel">Not connected</span>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="section-kicker">1-Click GitHub Save</div>
+  <h1 class="section-title">Push All Files to GitHub</h1>
+  <p class="section-sub">Connect your GitHub account, pick a repo, select the files you want to push — done. All your Urban Trend Shopify theme files saved in one click.</p>
+
+  <!-- STEP PROGRESS -->
+  <div class="steps" id="stepsBar">
+    <div class="step active" id="step1"><div class="step-num">1</div><div class="step-label">Connect GitHub</div></div>
+    <div class="step" id="step2"><div class="step-num">2</div><div class="step-label">Choose Repo</div></div>
+    <div class="step" id="step3"><div class="step-num">3</div><div class="step-label">Select Files</div></div>
+    <div class="step" id="step4"><div class="step-num">4</div><div class="step-label">Push</div></div>
+  </div>
+
+  <!-- ── STEP 1: CONNECT ── -->
+  <div id="panelConnect">
+    <div class="card">
+      <div class="card-title">GitHub Personal Access Token</div>
+
+      <div class="security-note">
+        <span class="security-icon">🔒</span>
+        <div>Your token is used <strong>only in your browser</strong> to call the GitHub API directly. It is never sent to any server, never stored in a database. It lives only in memory for this session. To revoke anytime: <strong>GitHub → Settings → Developer Settings → Personal Access Tokens → Delete.</strong></div>
+      </div>
+
+      <div class="field">
+        <label>Personal Access Token</label>
+        <input class="inp mono" type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false">
+        <div class="field-note">
+          Need a token?
+          <a onclick="window.open('https://github.com/settings/tokens/new?description=UrbanTrend+PDP+Tool&scopes=repo','_blank')">Create one on GitHub ↗</a>
+          &nbsp;· Required scopes: <strong>repo</strong> (full control of private repos)
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <button class="btn btn-gold" onclick="connectGitHub()" id="connectBtn">
+          <span class="btn-icon">⚡</span> Connect GitHub
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="useDemoMode()">
+          <span class="btn-icon">🎭</span> Demo Mode (no token)
+        </button>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:rgba(201,169,110,0.06);">
+      <div class="card-title">How to get a token</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;">
+        <div>
+          <div style="font-family:var(--serif);font-size:10px;letter-spacing:.2em;color:var(--gold);margin-bottom:8px;">Step 1</div>
+          <div style="font-family:var(--body);font-size:12px;color:var(--c3);line-height:1.7;">Go to <strong style="color:var(--cream);">github.com → Settings → Developer Settings → Personal Access Tokens → Tokens (classic)</strong></div>
+        </div>
+        <div>
+          <div style="font-family:var(--serif);font-size:10px;letter-spacing:.2em;color:var(--gold);margin-bottom:8px;">Step 2</div>
+          <div style="font-family:var(--body);font-size:12px;color:var(--c3);line-height:1.7;">Click <strong style="color:var(--cream);">Generate new token (classic)</strong>. Set a name like "Urban Trend Tool".</div>
+        </div>
+        <div>
+          <div style="font-family:var(--serif);font-size:10px;letter-spacing:.2em;color:var(--gold);margin-bottom:8px;">Step 3</div>
+          <div style="font-family:var(--body);font-size:12px;color:var(--c3);line-height:1.7;">Check only the <strong style="color:var(--cream);">repo</strong> scope. Set expiry to 90 days. Copy the token — paste it above.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: CHOOSE REPO ── -->
+  <div id="panelRepo" style="display:none;">
+    <div class="card">
+      <div class="card-title">
+        Choose Repository
+        <span style="font-family:var(--body);font-size:11px;color:var(--c4);letter-spacing:0;text-transform:none;font-weight:400;" id="userInfo"></span>
+      </div>
+
+      <div class="field" style="margin-bottom:16px;">
+        <label>Search repositories</label>
+        <input class="inp" id="repoSearch" type="text" placeholder="Type to filter…" oninput="filterRepos()">
+      </div>
+
+      <div class="repo-grid" id="repoGrid">
+        <div style="font-family:var(--body);font-size:12px;color:var(--c4);padding:20px;grid-column:1/-1;text-align:center;">Loading repositories…</div>
+      </div>
+
+      <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="btn btn-gold" onclick="goToStep3()" id="repoNextBtn" disabled>
+          <span class="btn-icon">→</span> Use Selected Repo
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="createNewRepo()">
+          <span class="btn-icon">+</span> Create New Repo
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="loadRepos()">
+          <span class="btn-icon">↻</span> Refresh
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: SELECT FILES ── -->
+  <div id="panelFiles" style="display:none;">
+    <div class="card">
+      <div class="card-title">Select Files to Push</div>
+
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+        <button class="btn btn-outline btn-sm" onclick="selectAll(true)">☑ Select All</button>
+        <button class="btn btn-outline btn-sm" onclick="selectAll(false)">☐ Deselect All</button>
+        <button class="btn btn-outline btn-sm" onclick="selectFolder('snippets')">snippets/ only</button>
+        <button class="btn btn-outline btn-sm" onclick="selectFolder('assets')">assets/ only</button>
+        <span style="font-family:var(--body);font-size:11px;color:var(--c4);margin-left:auto;" id="selCount">0 files selected</span>
+      </div>
+
+      <div class="file-tree">
+        <div class="file-tree-header">
+          <div class="file-tree-header-left">
+            <span>📁</span>
+            <span id="repoPathLabel">urbantrend-theme/</span>
+          </div>
+          <div style="font-family:var(--body);font-size:10px;color:var(--c4);" id="totalSize">—</div>
+        </div>
+        <div id="fileList"></div>
+      </div>
+
+      <div class="div"></div>
+
+      <!-- Commit options -->
+      <div class="commit-row">
+        <div class="branch-wrap">
+          <div class="field" style="margin-bottom:0;">
+            <label>Target Branch</label>
+            <input class="inp mono" id="branchName" type="text" value="main" placeholder="main">
+          </div>
+        </div>
+        <div class="commit-wrap">
+          <div class="field" style="margin-bottom:0;">
+            <label>Commit Message</label>
+            <input class="inp" id="commitMsg" type="text" value="feat: Add Urban Trend PDP CTA + A+ content system" placeholder="Commit message…">
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <button class="btn btn-gold" onclick="startPush()" id="pushBtn">
+          <span class="btn-icon">🚀</span> Push to GitHub
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="goToStep2()">← Back</button>
+        <span style="font-family:var(--body);font-size:11px;color:var(--c4);" id="pushStatus"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: PUSHING ── -->
+  <div id="panelPush" style="display:none;">
+    <div class="card">
+      <div class="card-title">Pushing to GitHub</div>
+
+      <!-- Live push progress per file shown in file tree above -->
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-family:var(--body);font-size:12px;color:var(--c2);" id="pushProgressTxt">Starting…</span>
+          <span style="font-family:var(--serif);font-size:12px;color:var(--gold);" id="pushProgressPct">0%</span>
+        </div>
+        <div style="height:3px;background:rgba(201,169,110,0.08);overflow:hidden;">
+          <div id="pushProgressBar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-lt));width:0;transition:width .4s ease;"></div>
+        </div>
+      </div>
+
+      <div class="push-log show" id="pushLog"></div>
+    </div>
+
+    <!-- Summary shown after completion -->
+    <div class="summary" id="summaryCard">
+      <div class="summary-title">✓ Push Complete!</div>
+      <div class="summary-grid">
+        <div class="summary-stat">
+          <span class="summary-num" id="sumPushed">0</span>
+          <div class="summary-lbl">Files pushed</div>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-num" id="sumSkipped">0</span>
+          <div class="summary-lbl">Skipped</div>
+        </div>
+        <div class="summary-stat">
+          <span class="summary-num" id="sumSize">0kb</span>
+          <div class="summary-lbl">Total size</div>
+        </div>
+      </div>
+      <div class="summary-links">
+        <a class="summary-link" id="repoViewLink" target="_blank">📂 View Repository</a>
+        <a class="summary-link" id="repoCommitLink" target="_blank">📝 View Commits</a>
+        <button class="summary-link" onclick="resetTool()" style="border:1px solid var(--b2);">↩ Push More Files</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════ */
+var GH = {
+  token:    null,
+  user:     null,
+  repos:    [],
+  selRepo:  null,
+  demo:     false
+};
+
+var allFiles   = [];   // {id, folder, name, path, ext, size, content, checked, status}
+var reposRaw   = [];   // raw API response
+
+/* ═══════════════════════════════════════════════════
+   FILES DEFINITION
+   All files built across this project
+═══════════════════════════════════════════════════ */
+var FILE_MANIFEST = [
+  /* snippets */
+  { id:'pdp-cta-aplus',     folder:'snippets', name:'pdp-cta-aplus.liquid',       desc:'Main CTA + A+ content snippet',    essential:true  },
+  { id:'ai-beauty-advisor', folder:'snippets', name:'ai-beauty-advisor.liquid',    desc:'Zero-cost AI Beauty Advisor widget',essential:true  },
+
+  /* assets */
+  { id:'ut-cta-css',        folder:'assets',   name:'ut-pdp-cta-aplus.css',        desc:'CTA + A+ styles (all utc- / utap-)',essential:true  },
+  { id:'ut-cta-js',         folder:'assets',   name:'ut-pdp-cta-aplus.js',         desc:'CTA + A+ JavaScript (all interactions)',essential:true },
+
+  /* docs */
+  { id:'integration-guide', folder:'docs',     name:'INTEGRATION-GUIDE.md',        desc:'Step-by-step integration instructions',essential:false },
+  { id:'cta-guide',         folder:'docs',     name:'pdp-cta-INTEGRATION-GUIDE.md',desc:'Original CTA integration reference',  essential:false },
+
+  /* preview / dev */
+  { id:'pdp-complete',      folder:'previews', name:'urbantrend-pdp-complete.html', desc:'Full PDP preview (dev reference)',    essential:false },
+  { id:'ai-tools',          folder:'previews', name:'urbantrend-ai-tools.html',     desc:'AI Product Generator tool',           essential:false },
+  { id:'cta-preview',       folder:'previews', name:'pdp-cta-preview.html',         desc:'CTA section preview',                 essential:false },
+];
+
+/* Contents fetched lazily from outputs folder — for demo we use placeholder content */
+var FILE_CONTENTS = {};
+
+/* ═══════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════ */
+function toast(msg, dur){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(function(){ t.classList.remove('show'); }, dur || 2400);
+}
+
+function log(msg, type){
+  var el = document.getElementById('pushLog');
+  if(!el) return;
+  var d = document.createElement('div'); d.className = 'log-line';
+  var now = new Date();
+  var ts  = String(now.getHours()).padStart(2,'0') + ':' +
+            String(now.getMinutes()).padStart(2,'0') + ':' +
+            String(now.getSeconds()).padStart(2,'0');
+  d.innerHTML = '<span class="log-time">' + ts + '</span><span class="log-msg ' + (type||'') + '">' + escHtml(msg) + '</span>';
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function setStep(n){
+  for(var i=1;i<=4;i++){
+    var s = document.getElementById('step'+i);
+    s.classList.remove('active','done');
+    if(i < n) s.classList.add('done');
+    else if(i === n) s.classList.add('active');
+  }
+}
+
+function setConnPill(state, label){
+  var p = document.getElementById('connPill');
+  p.className = 'conn-pill ' + state;
+  document.getElementById('connLabel').textContent = label;
+}
+
+function fmtSize(bytes){
+  if(bytes < 1024) return bytes + 'B';
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + 'KB';
+  return (bytes/1024/1024).toFixed(2) + 'MB';
+}
+
+function b64encode(str){
+  /* Encode unicode string to base64 safely */
+  var bytes = new TextEncoder().encode(str);
+  var bin   = String.fromCharCode.apply(null, bytes);
+  return btoa(bin);
+}
+
+/* ═══════════════════════════════════════════════════
+   STEP 1 — CONNECT
+═══════════════════════════════════════════════════ */
+async function connectGitHub(){
+  var token = document.getElementById('ghToken').value.trim();
+  if(!token || token.length < 10){
+    toast('Please enter a valid GitHub token');
+    document.getElementById('ghToken').classList.add('error');
+    return;
+  }
+  document.getElementById('ghToken').classList.remove('error');
+
+  var btn = document.getElementById('connectBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-icon">⏳</span> Connecting…';
+  setConnPill('connecting', 'Connecting…');
+
+  try {
+    var resp = await fetch('https://api.github.com/user', {
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    });
+
+    if(!resp.ok){
+      var e = await resp.json().catch(function(){ return {}; });
+      throw new Error(e.message || 'Authentication failed (' + resp.status + ')');
+    }
+
+    var user = await resp.json();
+    GH.token = token;
+    GH.user  = user;
+    GH.demo  = false;
+
+    document.getElementById('ghToken').classList.add('success');
+    setConnPill('connected', '@' + user.login);
+    toast('✓ Connected as @' + user.login);
+
+    document.getElementById('panelConnect').style.display = 'none';
+    document.getElementById('panelRepo').style.display    = 'block';
+    setStep(2);
+    await loadRepos();
+
+  } catch(err) {
+    setConnPill('disconnected', 'Failed');
+    toast('Connection failed: ' + err.message);
+    document.getElementById('ghToken').classList.add('error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<span class="btn-icon">⚡</span> Connect GitHub';
+}
+
+function useDemoMode(){
+  GH.demo  = true;
+  GH.token = 'DEMO';
+  GH.user  = { login: 'demo-user', name: 'Demo User', public_repos: 3 };
+  setConnPill('connected', 'Demo Mode');
+  toast('Running in demo mode — no real pushes will happen');
+
+  document.getElementById('panelConnect').style.display = 'none';
+  document.getElementById('panelRepo').style.display    = 'block';
+  setStep(2);
+  loadDemoRepos();
+}
+
+/* ═══════════════════════════════════════════════════
+   STEP 2 — REPOS
+═══════════════════════════════════════════════════ */
+async function loadRepos(){
+  var grid = document.getElementById('repoGrid');
+  grid.innerHTML = '<div style="font-family:var(--body);font-size:12px;color:var(--c4);padding:20px;grid-column:1/-1;text-align:center;">Loading repositories…</div>';
+
+  try {
+    /* Fetch up to 100 repos — both owned and accessible */
+    var resp = await fetch('https://api.github.com/user/repos?per_page=100&sort=updated&affiliation=owner,collaborator', {
+      headers: {
+        'Authorization': 'Bearer ' + GH.token,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      }
+    });
+
+    if(!resp.ok) throw new Error('Could not load repos (' + resp.status + ')');
+    reposRaw = await resp.json();
+    GH.repos = reposRaw;
+
+    document.getElementById('userInfo').textContent =
+      '— @' + GH.user.login + ' · ' + GH.repos.length + ' repos';
+
+    renderRepos(GH.repos);
+
+  } catch(err) {
+    grid.innerHTML = '<div style="font-family:var(--body);font-size:12px;color:var(--rose);padding:20px;grid-column:1/-1;">' + escHtml(err.message) + '</div>';
+    toast('Could not load repos: ' + err.message);
+  }
+}
+
+function loadDemoRepos(){
+  reposRaw = [
+    { id:1, name:'urbantrend-shopify-theme', full_name:'demo-user/urbantrend-shopify-theme', private:false, updated_at:new Date().toISOString(), description:'Urban Trend Shopify theme', default_branch:'main', stargazers_count:0 },
+    { id:2, name:'my-shopify-store',         full_name:'demo-user/my-shopify-store',         private:true,  updated_at:new Date().toISOString(), description:'My Shopify store files',  default_branch:'main', stargazers_count:0 },
+    { id:3, name:'urban-trend-pdp',          full_name:'demo-user/urban-trend-pdp',          private:false, updated_at:new Date().toISOString(), description:'PDP components',         default_branch:'main', stargazers_count:2 }
+  ];
+  GH.repos = reposRaw;
+  document.getElementById('userInfo').textContent = '— Demo mode · 3 repos';
+  renderRepos(GH.repos);
+}
+
+function renderRepos(repos){
+  var grid = document.getElementById('repoGrid');
+  if(!repos || repos.length === 0){
+    grid.innerHTML = '<div style="font-family:var(--body);font-size:12px;color:var(--c4);padding:20px;grid-column:1/-1;">No repositories found. Create one on GitHub first.</div>';
+    return;
+  }
+
+  grid.innerHTML = repos.slice(0, 20).map(function(r){
+    var updated = new Date(r.updated_at);
+    var timeAgo = getTimeAgo(updated);
+    var isPrivate = r.private;
+    var selected  = GH.selRepo && GH.selRepo.id === r.id;
+    return '<div class="repo-card' + (selected?' selected':'') + '" onclick="selectRepo(' + r.id + ')" data-id="' + r.id + '">'
+      + '<div class="repo-card-check">✓</div>'
+      + '<div class="repo-card-name">📁 ' + escHtml(r.name) + '</div>'
+      + '<div class="repo-card-meta">'
+      + '<span>' + (isPrivate ? '🔒 Private' : '🌐 Public') + '</span>'
+      + '<span>🕐 ' + timeAgo + '</span>'
+      + (r.default_branch ? '<span>⎇ ' + r.default_branch + '</span>' : '')
+      + '</div>'
+      + (r.description ? '<div style="font-family:var(--body);font-size:10px;color:var(--c4);margin-top:8px;line-height:1.5;">' + escHtml(r.description.slice(0,80)) + '</div>' : '')
+      + '</div>';
+  }).join('');
+}
+
+function filterRepos(){
+  var q = document.getElementById('repoSearch').value.toLowerCase();
+  var filtered = q ? GH.repos.filter(function(r){ return r.name.toLowerCase().includes(q) || (r.description||'').toLowerCase().includes(q); }) : GH.repos;
+  renderRepos(filtered);
+}
+
+function selectRepo(id){
+  GH.selRepo = GH.repos.find(function(r){ return r.id === id; }) || null;
+  document.querySelectorAll('.repo-card').forEach(function(c){
+    c.classList.toggle('selected', parseInt(c.dataset.id) === id);
+  });
+  document.getElementById('repoNextBtn').disabled = !GH.selRepo;
+  if(GH.selRepo){
+    toast('Selected: ' + GH.selRepo.name);
+    document.getElementById('branchName').value = GH.selRepo.default_branch || 'main';
+  }
+}
+
+async function createNewRepo(){
+  var name = prompt('New repository name:', 'urbantrend-shopify-theme');
+  if(!name) return;
+  name = name.trim().replace(/\s+/g,'-');
+  if(!name) return;
+
+  try {
+    if(GH.demo){
+      var fake = { id: Date.now(), name:name, full_name:'demo-user/'+name, private:true, updated_at:new Date().toISOString(), description:'Urban Trend Shopify theme files', default_branch:'main' };
+      GH.repos.unshift(fake); reposRaw.unshift(fake);
+      renderRepos(GH.repos);
+      toast('✓ Repo "' + name + '" created (demo)');
+      return;
+    }
+
+    var resp = await fetch('https://api.github.com/user/repos', {
+      method:'POST',
+      headers:{
+        'Authorization':'Bearer '+GH.token,
+        'Accept':'application/vnd.github+json',
+        'Content-Type':'application/json',
+        'X-GitHub-Api-Version':'2022-11-28'
+      },
+      body: JSON.stringify({ name:name, description:'Urban Trend Shopify theme files', private:true, auto_init:true })
+    });
+
+    if(!resp.ok){ var e=await resp.json(); throw new Error(e.message||'Failed'); }
+    var repo = await resp.json();
+    GH.repos.unshift(repo); reposRaw.unshift(repo);
+    renderRepos(GH.repos);
+    selectRepo(repo.id);
+    toast('✓ Repository "' + name + '" created!');
+
+  } catch(err) {
+    toast('Failed to create repo: ' + err.message);
+  }
+}
+
+function goToStep2(){
+  document.getElementById('panelFiles').style.display = 'none';
+  document.getElementById('panelRepo').style.display  = 'block';
+  setStep(2);
+}
+
+/* ═══════════════════════════════════════════════════
+   STEP 3 — FILE SELECTION
+═══════════════════════════════════════════════════ */
+function goToStep3(){
+  if(!GH.selRepo){ toast('Please select a repository first'); return; }
+  document.getElementById('panelRepo').style.display  = 'none';
+  document.getElementById('panelFiles').style.display = 'block';
+  document.getElementById('repoPathLabel').textContent = GH.selRepo.name + '/';
+  setStep(3);
+  buildFileList();
+}
+
+function buildFileList(){
+  /* Build file objects */
+  allFiles = FILE_MANIFEST.map(function(f){
+    return {
+      id:       f.id,
+      folder:   f.folder,
+      name:     f.name,
+      path:     f.folder + '/' + f.name,
+      ext:      f.name.split('.').pop(),
+      desc:     f.desc,
+      essential:f.essential,
+      checked:  f.essential,   // pre-check essential files
+      status:   'pending',
+      size:     0
+    };
+  });
+
+  renderFileList();
+  updateSelCount();
+}
+
+function renderFileList(){
+  var container = document.getElementById('fileList');
+  var folders   = {};
+
+  allFiles.forEach(function(f){
+    if(!folders[f.folder]) folders[f.folder] = [];
+    folders[f.folder].push(f);
+  });
+
+  var html = '';
+  var folderIcons = { snippets:'🧩', assets:'🎨', docs:'📄', previews:'🖥️' };
+
+  Object.keys(folders).forEach(function(folder){
+    html += '<div class="folder-label">' + (folderIcons[folder]||'📁') + '&nbsp;&nbsp;' + folder + '/</div>';
+    folders[folder].forEach(function(f){
+      var extClass = 'ext-' + (f.ext==='liquid'?'liquid':f.ext==='css'?'css':f.ext==='js'?'js':f.ext==='md'?'md':f.ext==='html'?'html':'');
+      var statusHtml = '<span class="file-status status-' + f.status + '">'
+        + (f.status==='pending'?'—':f.status==='pushing'?'⏳ Pushing…':f.status==='done'?'✓ Pushed':f.status==='error'?'✗ Error':'–')
+        + '</span>';
+
+      html += '<div class="file-row" id="frow-' + f.id + '">'
+        + '<div class="file-check"><div class="file-chk' + (f.checked?' checked':'') + '" onclick="toggleFile(\'' + f.id + '\')" id="fchk-' + f.id + '"></div></div>'
+        + '<div class="file-name" onclick="toggleFile(\'' + f.id + '\')">'
+        + '<span class="file-icon">' + (f.ext==='liquid'?'💧':f.ext==='css'?'🎨':f.ext==='js'?'⚡':f.ext==='md'?'📝':f.ext==='html'?'🌐':'📄') + '</span>'
+        + '<span>' + escHtml(f.name) + '</span>'
+        + '<span class="file-ext ' + extClass + '">' + f.ext + '</span>'
+        + (f.essential?'<span style="font-family:var(--body);font-size:8px;color:var(--gold);background:rgba(201,169,110,0.1);padding:1px 6px;letter-spacing:.08em;">ESSENTIAL</span>':'')
+        + '</div>'
+        + '<div class="file-path">' + escHtml(f.folder + '/') + '</div>'
+        + '<div class="file-size" id="fstatus-' + f.id + '">' + statusHtml + '</div>'
+        + '</div>';
+    });
+  });
+
+  container.innerHTML = html;
+  updateTotalSize();
+}
+
+function toggleFile(id){
+  var f = allFiles.find(function(x){ return x.id===id; });
+  if(!f) return;
+  f.checked = !f.checked;
+  var chk = document.getElementById('fchk-' + id);
+  if(chk) chk.classList.toggle('checked', f.checked);
+  updateSelCount();
+}
+
+function selectAll(val){
+  allFiles.forEach(function(f){ f.checked = val; });
+  renderFileList();
+  updateSelCount();
+}
+
+function selectFolder(folder){
+  allFiles.forEach(function(f){ f.checked = (f.folder === folder); });
+  renderFileList();
+  updateSelCount();
+}
+
+function updateSelCount(){
+  var n = allFiles.filter(function(f){ return f.checked; }).length;
+  document.getElementById('selCount').textContent = n + ' file' + (n!==1?'s':'') + ' selected';
+}
+
+function updateTotalSize(){
+  document.getElementById('totalSize').textContent = FILE_MANIFEST.length + ' files total';
+}
+
+/* ═══════════════════════════════════════════════════
+   STEP 4 — PUSH
+═══════════════════════════════════════════════════ */
+async function startPush(){
+  var selected = allFiles.filter(function(f){ return f.checked; });
+  if(selected.length === 0){ toast('Please select at least one file'); return; }
+
+  var btn = document.getElementById('pushBtn');
+  btn.disabled = true;
+
+  document.getElementById('panelFiles').style.display = 'none';
+  document.getElementById('panelPush').style.display  = 'block';
+  setStep(4);
+
+  var pushLog = document.getElementById('pushLog');
+  pushLog.innerHTML = '';
+
+  var branch   = (document.getElementById('branchName').value.trim() || 'main');
+  var message  = (document.getElementById('commitMsg').value.trim()  || 'feat: Urban Trend PDP files');
+  var repo     = GH.selRepo;
+
+  log('Repository: ' + repo.full_name, 'info');
+  log('Branch: ' + branch, 'info');
+  log('Files to push: ' + selected.length, 'info');
+  log('Commit: "' + message + '"', 'info');
+  log('─'.repeat(48), 'info');
+
+  var pushed = 0, skipped = 0, totalBytes = 0;
+
+  for(var i=0; i<selected.length; i++){
+    var f = selected[i];
+    var pct = Math.round((i / selected.length) * 100);
+
+    /* Update progress bar */
+    document.getElementById('pushProgressBar').style.width = pct + '%';
+    document.getElementById('pushProgressPct').textContent = pct + '%';
+    document.getElementById('pushProgressTxt').textContent = 'Pushing ' + f.name + '…';
+
+    /* Update file row status */
+    f.status = 'pushing';
+    updateFileStatus(f.id, 'pushing', '⏳ Pushing…');
+
+    try {
+      /* Get file content */
+      var content = await getFileContent(f);
+      if(!content){
+        f.status = 'skip';
+        updateFileStatus(f.id, 'skip', '– Skipped');
+        log('SKIP ' + f.path + ' (no content)', 'warn');
+        skipped++;
+        continue;
+      }
+
+      var encoded = b64encode(content);
+      totalBytes += new TextEncoder().encode(content).length;
+
+      if(GH.demo){
+        /* Demo mode — simulate push */
+        await sleep(200 + Math.random() * 300);
+        f.status = 'done';
+        updateFileStatus(f.id, 'done', '✓ Pushed');
+        log('PUSH (demo) ' + f.path, 'ok');
+        pushed++;
+        continue;
+      }
+
+      /* Check if file exists (to get its SHA for update) */
+      var existingSha = null;
+      try {
+        var checkResp = await fetch(
+          'https://api.github.com/repos/' + repo.full_name + '/contents/' + f.path + '?ref=' + branch,
+          { headers:{ 'Authorization':'Bearer '+GH.token, 'Accept':'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28' } }
+        );
+        if(checkResp.ok){
+          var existing = await checkResp.json();
+          existingSha = existing.sha;
+        }
+      } catch(e){ /* file doesn't exist yet — that's fine */ }
+
+      /* Push file */
+      var body = { message: message, content: encoded, branch: branch };
+      if(existingSha) body.sha = existingSha;
+
+      var pushResp = await fetch(
+        'https://api.github.com/repos/' + repo.full_name + '/contents/' + f.path,
+        {
+          method: 'PUT',
+          headers:{
+            'Authorization':'Bearer '+GH.token,
+            'Accept':'application/vnd.github+json',
+            'Content-Type':'application/json',
+            'X-GitHub-Api-Version':'2022-11-28'
+          },
+          body: JSON.stringify(body)
+        }
+      );
+
+      if(!pushResp.ok){
+        var errData = await pushResp.json().catch(function(){ return {}; });
+        throw new Error(errData.message || 'Push failed (' + pushResp.status + ')');
+      }
+
+      f.status = 'done';
+      updateFileStatus(f.id, 'done', '✓ Pushed');
+      log('✓ ' + f.path + (existingSha?' (updated)':' (created)'), 'ok');
+      pushed++;
+
+    } catch(err) {
+      f.status = 'error';
+      updateFileStatus(f.id, 'error', '✗ Error');
+      log('✗ ' + f.path + ' — ' + err.message, 'err');
+      skipped++;
+    }
+
+    /* Small delay to be nice to GitHub API rate limits */
+    await sleep(120);
+  }
+
+  /* Final */
+  document.getElementById('pushProgressBar').style.width = '100%';
+  document.getElementById('pushProgressPct').textContent = '100%';
+  document.getElementById('pushProgressTxt').textContent = 'Done!';
+
+  log('─'.repeat(48), 'info');
+  log('Complete: ' + pushed + ' pushed, ' + skipped + ' skipped. Total: ' + fmtSize(totalBytes), 'ok');
+
+  /* Show summary */
+  document.getElementById('sumPushed').textContent  = pushed;
+  document.getElementById('sumSkipped').textContent = skipped;
+  document.getElementById('sumSize').textContent    = fmtSize(totalBytes);
+
+  var repoUrl = 'https://github.com/' + repo.full_name;
+  document.getElementById('repoViewLink').href   = repoUrl;
+  document.getElementById('repoCommitLink').href = repoUrl + '/commits/' + branch;
+
+  document.getElementById('summaryCard').classList.add('show');
+  toast(pushed > 0 ? '✓ ' + pushed + ' files pushed to GitHub!' : 'No files pushed');
+
+  btn.disabled = false;
+}
+
+function updateFileStatus(id, state, label){
+  var el = document.getElementById('fstatus-' + id);
+  if(el) el.innerHTML = '<span class="file-status status-' + state + '">' + label + '</span>';
+}
+
+/* ═══════════════════════════════════════════════════
+   FILE CONTENT LOADER
+   Tries to fetch from same-origin outputs folder,
+   falls back to placeholder content
+═══════════════════════════════════════════════════ */
+async function getFileContent(f){
+  /* Try fetching from the outputs directory if running locally */
+  var outputPaths = {
+    'pdp-cta-aplus':     'pdp-cta-aplus.liquid',
+    'ai-beauty-advisor': 'ai-beauty-advisor-zero-cost.liquid',
+    'ut-cta-css':        'ut-pdp-cta-aplus.css',
+    'ut-cta-js':         'ut-pdp-cta-aplus.js',
+    'integration-guide': 'INTEGRATION-GUIDE.md',
+    'cta-guide':         'pdp-cta-INTEGRATION-GUIDE.md',
+    'pdp-complete':      'urbantrend-pdp-complete.html',
+    'ai-tools':          'urbantrend-ai-tools.html',
+    'cta-preview':       'pdp-cta-preview.html',
+  };
+
+  var filename = outputPaths[f.id];
+  if(filename){
+    try {
+      var resp = await fetch(filename);
+      if(resp.ok) return await resp.text();
+    } catch(e){ /* file not accessible — use placeholder */ }
+  }
+
+  /* Fallback: generate meaningful placeholder content */
+  return generatePlaceholder(f);
+}
+
+function generatePlaceholder(f){
+  var ts = new Date().toISOString();
+  if(f.ext === 'liquid'){
+    return '{% comment %}\n'
+      + '  Urban Trend — ' + f.name + '\n'
+      + '  Generated: ' + ts + '\n'
+      + '  Description: ' + f.desc + '\n'
+      + '  \n'
+      + '  ⚠️  This is a placeholder. To get the full file:\n'
+      + '  1. Open urbantrend-ai-tools.html in your browser\n'
+      + '  2. Generate the file there\n'
+      + '  3. Re-run this push tool from the same folder\n'
+      + '{% endcomment %}\n\n'
+      + '{% comment %} TODO: Replace with full content from urbantrend-ai-tools.html {% endcomment %}\n';
+  }
+  if(f.ext === 'css'){
+    return '/* Urban Trend — ' + f.name + '\n'
+      + ' * Generated: ' + ts + '\n'
+      + ' * ' + f.desc + '\n'
+      + ' * Run urbantrend-ai-tools.html to get full content\n'
+      + ' */\n\n'
+      + ':root { /* CSS variables from ut-colors.css */ }\n';
+  }
+  if(f.ext === 'js'){
+    return '/* Urban Trend — ' + f.name + '\n'
+      + ' * Generated: ' + ts + '\n'
+      + ' * ' + f.desc + '\n'
+      + ' */\n\n'
+      + '(function(){\n  "use strict";\n  // Run urbantrend-ai-tools.html to get full content\n})();\n';
+  }
+  if(f.ext === 'md'){
+    return '# Urban Trend — ' + f.name.replace('.md','') + '\n\n'
+      + '> Generated: ' + ts + '\n\n'
+      + f.desc + '\n\n'
+      + 'Open `urbantrend-ai-tools.html` to get the full content for this file.\n';
+  }
+  return '<!-- Urban Trend: ' + f.name + ' — ' + f.desc + ' -->\n<!-- Generated: ' + ts + ' -->\n';
+}
+
+/* ═══════════════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════════════ */
+function resetTool(){
+  document.getElementById('panelPush').style.display  = 'none';
+  document.getElementById('panelFiles').style.display = 'block';
+  document.getElementById('summaryCard').classList.remove('show');
+  document.getElementById('pushLog').innerHTML = '';
+  document.getElementById('pushProgressBar').style.width = '0';
+  setStep(3);
+  allFiles.forEach(function(f){ f.status = 'pending'; });
+  renderFileList();
+  updateSelCount();
+}
+
+/* ═══════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════ */
+function sleep(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+
+function getTimeAgo(date){
+  var s = Math.round((Date.now() - date) / 1000);
+  if(s < 60)   return s + 's ago';
+  if(s < 3600) return Math.round(s/60) + 'm ago';
+  if(s < 86400)return Math.round(s/3600) + 'h ago';
+  return Math.round(s/86400) + 'd ago';
+}
+
+/* Enter key on token field */
+document.addEventListener('DOMContentLoaded', function(){
+  var tkn = document.getElementById('ghToken');
+  if(tkn) tkn.addEventListener('keydown', function(e){ if(e.key==='Enter') connectGitHub(); });
+});
+</script>
+</body>
+</html>
