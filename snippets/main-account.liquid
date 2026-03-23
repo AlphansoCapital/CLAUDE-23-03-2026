@@ -1,0 +1,262 @@
+<style>
+.ut-acc { background:var(--ut-bg); min-height:100vh; padding:60px 32px 80px; }
+.ut-acc-wrap { max-width:1000px; margin:0 auto; }
+.ut-acc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:48px; flex-wrap:wrap; gap:16px; }
+.ut-acc-title { font-family:'Cinzel',serif; font-size:clamp(22px,3vw,32px); color:var(--ut-text); font-weight:400; letter-spacing:0.1em; }
+.ut-acc-signout { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:rgba(250,246,240,0.4); text-decoration:none; text-transform:uppercase; border:1px solid rgba(201,169,110,0.2); padding:10px 20px; transition:all 0.2s; }
+.ut-acc-signout:hover { color:var(--ut-gold); border-color:rgba(201,169,110,0.5); }
+.ut-acc-grid { display:grid; grid-template-columns:280px 1fr; gap:32px; }
+/* Sidebar */
+.ut-acc-sidebar { display:flex; flex-direction:column; gap:2px; }
+.ut-acc-nav-item { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:rgba(250,246,240,0.5); padding:14px 20px; border-left:2px solid transparent; cursor:pointer; transition:all 0.2s; text-decoration:none; display:block; }
+.ut-acc-nav-item:hover, .ut-acc-nav-item.active { color:var(--ut-gold); border-left-color:var(--ut-gold); background:rgba(201,169,110,0.05); }
+/* Info card */
+.ut-acc-card { background:var(--ut-bg-2); border:1px solid rgba(201,169,110,0.1); padding:28px 32px; margin-bottom:24px; }
+.ut-acc-card-title { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.3em; color:var(--ut-gold); text-transform:uppercase; margin-bottom:20px; }
+.ut-acc-info-row { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(201,169,110,0.06); }
+.ut-acc-info-row:last-child { border-bottom:none; }
+.ut-acc-info-label { font-family:'Jost',sans-serif; font-size:11px; color:rgba(250,246,240,0.35); letter-spacing:0.1em; text-transform:uppercase; }
+.ut-acc-info-value { font-family:'Jost',sans-serif; font-size:14px; color:var(--ut-text); }
+/* Orders table */
+.ut-orders-table { width:100%; border-collapse:collapse; }
+.ut-orders-table th { font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.3em; color:rgba(250,246,240,0.3); text-transform:uppercase; padding:12px 16px; text-align:left; border-bottom:1px solid rgba(201,169,110,0.1); }
+.ut-orders-table td { font-family:'Jost',sans-serif; font-size:13px; color:var(--ut-text); padding:16px 16px; border-bottom:1px solid rgba(201,169,110,0.06); }
+.ut-orders-table tr:hover td { background:rgba(201,169,110,0.03); }
+.ut-order-status { display:inline-block; font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.15em; padding:4px 10px; text-transform:uppercase; }
+.ut-status-paid { background:rgba(10,200,100,0.1); color:#4CAF7D; }
+.ut-status-pending { background:rgba(201,169,110,0.1); color:var(--ut-gold); }
+.ut-status-cancelled { background:rgba(200,50,50,0.1); color:#E57373; }
+.ut-order-link { color:var(--ut-gold); text-decoration:none; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; }
+.ut-order-link:hover { text-decoration:underline; }
+/* Address */
+.ut-addr-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.ut-addr-card { border:1px solid rgba(201,169,110,0.12); padding:20px; position:relative; }
+.ut-addr-card.default { border-color:rgba(201,169,110,0.4); }
+.ut-addr-default-badge { position:absolute; top:12px; right:12px; font-family:'Cinzel',serif; font-size:7px; letter-spacing:0.2em; color:var(--ut-gold); border:1px solid rgba(201,169,110,0.3); padding:3px 8px; text-transform:uppercase; }
+.ut-addr-name { font-family:'Cinzel',serif; font-size:13px; color:var(--ut-text); margin-bottom:8px; }
+.ut-addr-text { font-family:'Jost',sans-serif; font-size:12px; color:rgba(250,246,240,0.5); line-height:1.7; }
+.ut-addr-actions { display:flex; gap:12px; margin-top:14px; }
+.ut-addr-action { font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.2em; color:rgba(250,246,240,0.35); text-transform:uppercase; text-decoration:none; cursor:pointer; transition:color 0.2s; }
+.ut-addr-action:hover { color:var(--ut-gold); }
+/* Empty state */
+.ut-empty { text-align:center; padding:60px 20px; }
+.ut-empty-icon { font-size:40px; margin-bottom:16px; opacity:0.3; }
+.ut-empty-title { font-family:'Cinzel',serif; font-size:16px; color:var(--ut-text); letter-spacing:0.15em; margin-bottom:8px; }
+.ut-empty-sub { font-family:'Jost',sans-serif; font-size:13px; color:rgba(250,246,240,0.35); margin-bottom:24px; }
+/* Loyalty mini */
+.ut-loyalty-bar { background:var(--ut-bg-2); border:1px solid rgba(201,169,110,0.1); padding:20px 24px; margin-bottom:24px; display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+.ut-loyalty-pts { font-family:'Cinzel',serif; font-size:28px; color:var(--ut-gold); }
+.ut-loyalty-label { font-family:'Jost',sans-serif; font-size:11px; color:rgba(250,246,240,0.4); letter-spacing:0.1em; text-transform:uppercase; }
+.ut-loyalty-tier { font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.2em; padding:4px 12px; border:1px solid rgba(201,169,110,0.3); color:var(--ut-gold); text-transform:uppercase; margin-left:auto; }
+@media(max-width:768px) {
+  .ut-acc-grid { grid-template-columns:1fr; }
+  .ut-acc-sidebar { flex-direction:row; overflow-x:auto; border-bottom:1px solid rgba(201,169,110,0.1); padding-bottom:8px; margin-bottom:24px; }
+  .ut-acc-nav-item { border-left:none; border-bottom:2px solid transparent; white-space:nowrap; flex-shrink:0; }
+  .ut-acc-nav-item:hover, .ut-acc-nav-item.active { border-left-color:transparent; border-bottom-color:var(--ut-gold); }
+  .ut-addr-grid { grid-template-columns:1fr; }
+  .ut-orders-table { font-size:12px; }
+  .ut-orders-table th, .ut-orders-table td { padding:10px 8px; }
+}
+</style>
+
+<div class="ut-acc">
+  <div class="ut-acc-wrap">
+    <div class="ut-acc-header">
+      <h1 class="ut-acc-title">Namaste, {{ customer.first_name }} ✦</h1>
+      <a href="{{ routes.account_logout_url }}" class="ut-acc-signout">Sign Out</a>
+    </div>
+
+    <div class="ut-acc-grid">
+      <!-- Sidebar Nav -->
+      <aside class="ut-acc-sidebar">
+        <a class="ut-acc-nav-item active" onclick="utAccTab(event,'orders')" href="#">Orders</a>
+        <a class="ut-acc-nav-item" onclick="utAccTab(event,'profile')" href="#">Profile</a>
+        <a class="ut-acc-nav-item" onclick="utAccTab(event,'addresses')" href="#">Addresses</a>
+        <a class="ut-acc-nav-item" onclick="utAccTab(event,'loyalty')" href="#">Loyalty Points</a>
+        <a class="ut-acc-nav-item" href="/pages/tracking">Track Order</a>
+        <a class="ut-acc-nav-item" href="/pages/contact">Support</a>
+      </aside>
+
+      <!-- Main Content -->
+      <main>
+        <!-- ORDERS TAB -->
+        <div id="ut-tab-orders">
+          {% if customer.orders.size > 0 %}
+          <div class="ut-acc-card">
+            <div class="ut-acc-card-title">Order History</div>
+            <table class="ut-orders-table">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Date</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in customer.orders %}
+                <tr>
+                  <td style="color:var(--ut-gold);font-family:'Cinzel',serif;">{{ order.name }}</td>
+                  <td style="color:rgba(250,246,240,0.5);">{{ order.created_at | date: '%d %b %Y' }}</td>
+                  <td>{{ order.line_items | size }} item{% if order.line_items.size > 1 %}s{% endif %}</td>
+                  <td style="color:var(--ut-gold);">{{ order.total_price | money }}</td>
+                  <td>
+                    <span class="ut-order-status {% if order.financial_status == 'paid' %}ut-status-paid{% elsif order.financial_status == 'pending' %}ut-status-pending{% else %}ut-status-cancelled{% endif %}">
+                      {{ order.financial_status | capitalize }}
+                    </span>
+                  </td>
+                  <td><a href="{{ order.customer_url }}" class="ut-order-link">View →</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="ut-empty">
+            <div class="ut-empty-icon">🛍</div>
+            <div class="ut-empty-title">No Orders Yet</div>
+            <div class="ut-empty-sub">Your order history will appear here</div>
+            <a href="/collections/all" class="ut-btn-primary" style="display:inline-block;text-decoration:none;padding:14px 32px;">Start Shopping</a>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- PROFILE TAB -->
+        <div id="ut-tab-profile" style="display:none;">
+          <div class="ut-acc-card">
+            <div class="ut-acc-card-title">Personal Information</div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">Name</span>
+              <span class="ut-acc-info-value">{{ customer.name }}</span>
+            </div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">Email</span>
+              <span class="ut-acc-info-value">{{ customer.email }}</span>
+            </div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">Phone</span>
+              <span class="ut-acc-info-value">{{ customer.phone | default: 'Not added' }}</span>
+            </div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">Member Since</span>
+              <span class="ut-acc-info-value">{{ customer.created_at | date: '%B %Y' }}</span>
+            </div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">Total Orders</span>
+              <span class="ut-acc-info-value">{{ customer.orders_count }}</span>
+            </div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">Total Spent</span>
+              <span class="ut-acc-info-value" style="color:var(--ut-gold);">{{ customer.total_spent | money }}</span>
+            </div>
+          </div>
+          <div class="ut-acc-card">
+            <div class="ut-acc-card-title">Change Password</div>
+            <p style="font-family:'Jost',sans-serif;font-size:13px;color:rgba(250,246,240,0.4);margin-bottom:16px;">A password reset link will be sent to {{ customer.email }}</p>
+            <form method="post" action="/account/password">
+              {{ form.authenticity_token }}
+              <button type="submit" class="ut-btn-outline" style="font-size:9px;letter-spacing:0.3em;">Send Reset Link</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ADDRESSES TAB -->
+        <div id="ut-tab-addresses" style="display:none;">
+          <div class="ut-acc-card">
+            <div class="ut-acc-card-title">Saved Addresses</div>
+            {% if customer.addresses.size > 0 %}
+            <div class="ut-addr-grid">
+              {% for address in customer.addresses %}
+              <div class="ut-addr-card {% if address == customer.default_address %}default{% endif %}">
+                {% if address == customer.default_address %}
+                <span class="ut-addr-default-badge">Default</span>
+                {% endif %}
+                <div class="ut-addr-name">{{ address.name }}</div>
+                <div class="ut-addr-text">
+                  {{ address.address1 }}{% if address.address2 %}, {{ address.address2 }}{% endif %}<br>
+                  {{ address.city }}, {{ address.province }} {{ address.zip }}<br>
+                  {{ address.country }}<br>
+                  {% if address.phone %}📞 {{ address.phone }}{% endif %}
+                </div>
+                <div class="ut-addr-actions">
+                  <a href="{{ routes.account_addresses_url }}/{{ address.id }}/edit" class="ut-addr-action">Edit</a>
+                  {% unless address == customer.default_address %}
+                  <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}" style="display:inline;">
+                    {{ form.authenticity_token }}
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="ut-addr-action" style="background:none;border:none;">Delete</button>
+                  </form>
+                  {% endunless %}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <div class="ut-empty">
+              <div class="ut-empty-icon">📍</div>
+              <div class="ut-empty-title">No Addresses Saved</div>
+              <div class="ut-empty-sub">Add an address for faster checkout</div>
+            </div>
+            {% endif %}
+            <div style="margin-top:20px;">
+              <a href="{{ routes.account_addresses_url }}/new" class="ut-btn-outline" style="display:inline-block;text-decoration:none;font-size:9px;letter-spacing:0.3em;">+ Add New Address</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOYALTY TAB -->
+        <div id="ut-tab-loyalty" style="display:none;">
+          <div class="ut-loyalty-bar">
+            <div>
+              <div class="ut-loyalty-pts">{{ customer.orders_count | times: 100 }}</div>
+              <div class="ut-loyalty-label">Loyalty Points</div>
+            </div>
+            <div>
+              <div style="font-family:'Jost',sans-serif;font-size:12px;color:rgba(250,246,240,0.5);">₹{{ customer.total_spent | money_without_currency }} spent</div>
+              <div style="font-family:'Jost',sans-serif;font-size:11px;color:rgba(250,246,240,0.35);margin-top:4px;">{{ customer.orders_count }} orders</div>
+            </div>
+            <div class="ut-loyalty-tier">
+              {% assign pts = customer.orders_count | times: 100 %}
+              {% if pts >= 15000 %}💎 Platinum
+              {% elsif pts >= 5000 %}🥇 Gold
+              {% else %}🥈 Silver{% endif %}
+            </div>
+          </div>
+          <div class="ut-acc-card">
+            <div class="ut-acc-card-title">Tier Benefits</div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">🥈 Silver (0–4,999 pts)</span>
+              <span class="ut-acc-info-value">5% extra discount</span>
+            </div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">🥇 Gold (5,000–14,999 pts)</span>
+              <span class="ut-acc-info-value">10% extra + priority support</span>
+            </div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">💎 Platinum (15,000+ pts)</span>
+              <span class="ut-acc-info-value">15% extra + free express + exclusives</span>
+            </div>
+            <div class="ut-acc-info-row">
+              <span class="ut-acc-info-label">Earn Points</span>
+              <span class="ut-acc-info-value">₹100 spend = 10 pts · Review = 50 pts · Birthday = 500 pts</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<script>
+function utAccTab(e, tab) {
+  e.preventDefault();
+  document.querySelectorAll('[id^="ut-tab-"]').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.ut-acc-nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('ut-tab-' + tab).style.display = 'block';
+  e.currentTarget.classList.add('active');
+}
+</script>
+
+{% schema %}{"name":"Account","tag":"section","settings":[]}{% endschema %}
