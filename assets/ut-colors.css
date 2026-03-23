@@ -1,0 +1,318 @@
+/* ============================================================
+   URBAN TREND — MASTER COLOR SYSTEM v2
+   Single :root — ALL variables defined here.
+   Both old aliases (--gold, --obs) and new (--ut-gold, --ut-bg)
+   point to the same values so every section uses same colors.
+   TO CHANGE BRAND COLOR: edit the raw values in :root only.
+   ============================================================ */
+
+:root {
+  /* ────────── RAW PALETTE VALUES ────────── */
+  /* Gold */
+  --_gold:          #C9A96E;
+  --_gold-light:    #E8C989;
+  --_gold-xlight:   #F0E3C0;
+  --_gold-dark:     #9A7840;
+  /* Rose */
+  --_rose:          #8B3A52;
+  --_rose-light:    #C47A8A;
+  /* Backgrounds */
+  --_bg:            #0A0908;
+  --_bg2:           #0F0C0A;
+  --_bg3:           #141210;
+  --_bg4:           #1A1008;
+  --_bg5:           #1C1510;
+  /* Text */
+  --_text:          #FAF6F0;
+  /* Success */
+  --_green:         #7BC87B;
+
+  /* ────────── NEW VARIABLE NAMES (ut- prefix) ────────── */
+  --ut-gold:        var(--_gold);
+  --ut-gold-light:  var(--_gold-light);
+  --ut-gold-xlight: var(--_gold-xlight);
+  --ut-gold-dark:   var(--_gold-dark);
+  --ut-gold-10:     rgba(201,169,110,0.10);
+  --ut-gold-15:     rgba(201,169,110,0.15);
+  --ut-gold-18:     rgba(201,169,110,0.18);
+  --ut-gold-25:     rgba(201,169,110,0.25);
+  --ut-gold-35:     rgba(201,169,110,0.35);
+  --ut-gold-45:     rgba(201,169,110,0.45);
+  --ut-gold-55:     rgba(201,169,110,0.55);
+
+  --ut-rose:        var(--_rose);
+  --ut-rose-light:  var(--_rose-light);
+  --ut-rose-10:     rgba(139,58,82,0.10);
+  --ut-rose-15:     rgba(139,58,82,0.15);
+  --ut-rose-25:     rgba(139,58,82,0.25);
+
+  --ut-bg:          var(--_bg);
+  --ut-bg-2:        var(--_bg2);
+  --ut-bg-3:        var(--_bg3);
+  --ut-bg-4:        var(--_bg4);
+  --ut-bg-5:        var(--_bg5);
+
+  --ut-text:        var(--_text);
+  --ut-text-65:     rgba(250,246,240,0.65);
+  --ut-text-55:     rgba(250,246,240,0.55);
+  --ut-text-45:     rgba(250,246,240,0.45);
+  --ut-text-35:     rgba(250,246,240,0.35);
+  --ut-text-28:     rgba(250,246,240,0.28);
+  --ut-text-20:     rgba(250,246,240,0.20);
+
+  --ut-border:      rgba(201,169,110,0.12);
+  --ut-border-md:   rgba(201,169,110,0.22);
+  --ut-border-lg:   rgba(201,169,110,0.35);
+
+  --ut-success:     var(--_green);
+  --ut-success-bg:  rgba(40,120,40,0.12);
+  --ut-error:       var(--_rose-light);
+  --ut-error-bg:    rgba(139,58,82,0.10);
+
+  /* ────────── OLD ALIASES (homepage CSS compatibility) ────────── */
+  --gold:           var(--_gold);
+  --gold-l:         var(--_gold-light);
+  --gold-p:         var(--_gold-xlight);
+  --gold-d:         var(--_gold-dark);
+  --obs:            var(--_bg);
+  --char:           var(--_bg3);
+  --slate:          #1E1A17;
+  --ww:             var(--_text);
+  --cream:          var(--_text);
+  --muted:          rgba(250,246,240,0.45);
+  --border:         rgba(201,169,110,0.18);
+  /* Font aliases (both systems) */
+  --fd:             'Cormorant Garamond', Georgia, serif;
+  --fl:             'Cinzel', serif;
+  --fb:             'Jost', sans-serif;
+  --ut-font-serif:  'Cinzel', serif;
+  --ut-font-display:'Cormorant Garamond', Georgia, serif;
+  --ut-font-body:   'Jost', sans-serif;
+
+  /* ────────── LAYOUT TOKENS ────────── */
+  --ut-max-w:       1300px;
+  --ut-nav-h:       64px;
+  --ut-radius:      2px;
+  --ut-ease:        0.25s ease;
+  --ut-ease-slow:   0.45s cubic-bezier(0.22,1,0.36,1);
+  --transition:     0.25s ease;
+}
+
+/* ============================================================
+   GLOBAL BASE — applied once, inherited everywhere
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ut-bg);
+  color: var(--ut-text);
+  font-family: var(--ut-font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, video, svg { max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; transition: color var(--ut-ease); }
+a:hover { color: var(--ut-gold); }
+
+/* Selection */
+::selection { background: var(--ut-gold-25); color: var(--ut-text); }
+
+/* Scrollbars */
+* { scrollbar-width: thin; scrollbar-color: rgba(201,169,110,0.2) transparent; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(201,169,110,0.2); border-radius: 2px; }
+
+/* ============================================================
+   UNIFIED COMPONENT OVERRIDES
+   Forces every page/section to use the same gold, bg, text
+   ============================================================ */
+
+/* ── All page wrappers → same dark bg ── */
+.ut-pdp, .ut-srch, .ut-brands, .ut-auth-page,
+.ut-recover, .ut-cart, .ut-blog-page, .ut-faq-page,
+.ut-contact-page, .ut-account, .ut-404, .ut-password,
+.ut-vendor, .ut-tm, .ut-cats, .ut-coll-wrap,
+#pageOverlay, .page-inner {
+  background: var(--ut-bg);
+  color: var(--ut-text);
+}
+
+/* ── All card surfaces ── */
+.pcard, .vcard, .tcard, .tier-card,
+.ut-pcard, .ut-sim-card, .ut-ymal-card,
+.ut-srch-card, .ut-brand-card, .ut-fbt-wrap,
+.ut-auth-box, .ut-recover-box,
+.ut-cart-summary, .order-summary,
+.sf-card, .rec-card, .wl-card {
+  background: var(--ut-bg-2) !important;
+  border-color: var(--ut-border) !important;
+}
+
+/* ── Nav always consistent ── */
+.nav, .ut-nav, .ut-cat-nav, .ut-coll-sortbar,
+.ut-srch-hero, .ut-brands-hero,
+header, [class*="nav-wrap"] {
+  background: rgba(10,9,8,0.96);
+  backdrop-filter: blur(16px);
+}
+
+/* ── Footer consistent ── */
+footer, .footer, .ut-footer {
+  background: var(--ut-bg-3) !important;
+  border-top: 1px solid var(--ut-border) !important;
+}
+
+/* ── Gold text: always same gold ── */
+.nav-logo, .ut-nav-logo, .ut-footer-logo,
+.ut-auth-left-logo, .ut-auth-mobile-logo,
+.ut-recover-logo, .ut-password-logo,
+.pcard-price, .vprice, .ut-sim-price,
+.ut-ymal-price, .ut-fbt-item-price, .ut-srch-card-price,
+.ut-pdp-price, .pdp-price, .ut-cart-price,
+.ut-coll-price, .cart-price,
+.sec-label, .ut-eyebrow, .kicker,
+[class*="-gold"], [class*="gold-text"] {
+  color: var(--ut-gold) !important;
+}
+
+/* ── CTA buttons: always gold bg ── */
+.btn-gold, .ut-btn-gold, .ut-auth-btn,
+.ut-atc, .ut-pdp-atc-btn, .pdp-atc,
+.ut-checkout-btn, .drawer-checkout, .ut-drawer-checkout,
+.ut-fbt-atc, .checkout-btn-big, .pcard-overlay-btn,
+.vbtn-add, .ut-srch-card-quick, .ut-ymal-qadd,
+.ut-pc-qadd, .ut-sim-qadd,
+.popup-submit, .nl-submit, .ut-price-go, .ut-sb-apply,
+[class*="-submit"], [class*="atc-btn"] {
+  background: var(--ut-gold) !important;
+  color: var(--ut-bg) !important;
+  font-family: var(--ut-font-serif) !important;
+}
+.btn-gold:hover, .ut-btn-gold:hover, .ut-auth-btn:hover,
+.ut-atc:hover, .ut-checkout-btn:hover,
+.popup-submit:hover, .nl-submit:hover {
+  background: var(--ut-gold-light) !important;
+}
+
+/* ── Ghost/outline buttons ── */
+.va-btn, .btn-ghost, .ut-btn-outline,
+.ut-auth-btn-outline, .fbtn, .jtab,
+.ut-srch-tag, .ut-srch-filter, .ut-brands-filter,
+.ut-ymal-tab, .ba-tab, .coll-tab, .ut-sort-btn,
+.ut-page-btn, .ut-srch-more-btn,
+.tier-join, .ut-disc-btn, .ut-fb-show-more {
+  border-color: var(--ut-border) !important;
+  color: rgba(201,169,110,0.45) !important;
+  background: none !important;
+}
+.va-btn:hover, .fbtn.active, .fbtn:hover,
+.jtab.active, .jtab:hover,
+.ut-srch-filter.active, .ut-srch-filter:hover,
+.ut-brands-filter.active, .ut-brands-filter:hover,
+.ut-ymal-tab.active, .ba-tab.active,
+.ut-sort-btn.active, .ut-sort-btn:hover,
+.ut-page-btn.active, .ut-page-btn:hover,
+.ut-disc-btn.active {
+  border-color: var(--ut-gold) !important;
+  color: var(--ut-gold) !important;
+  background: rgba(201,169,110,0.06) !important;
+}
+
+/* ── Input fields: always same style ── */
+.ut-auth-input, .ut-recover-input,
+.ut-srch-input, .ut-brands-search-input,
+.ut-price-in, .ut-sb-price-in,
+.ut-otp-digit, .nl-input, .popup-input,
+.search-input-big, .contact-input, .contact-textarea,
+.pincode-input, .promo-input input,
+input[class*="-input"], textarea[class*="-input"] {
+  background: rgba(201,169,110,0.04) !important;
+  border: 1px solid var(--ut-border) !important;
+  color: var(--ut-text) !important;
+  font-family: var(--ut-font-body) !important;
+}
+.ut-auth-input:focus, .ut-srch-input:focus,
+.ut-price-in:focus, .nl-input:focus,
+.popup-input:focus, .contact-input:focus {
+  border-color: var(--ut-gold-45) !important;
+  background: rgba(201,169,110,0.06) !important;
+}
+
+/* ── Borders and dividers ── */
+[class*="-divider"], [class*="-border"],
+.ing-strip, .story-divider, .ut-divider-gold {
+  background: linear-gradient(to right, var(--ut-gold), transparent) !important;
+}
+
+/* ── Badges ── */
+.pbadge, .vbadge, .tier-popular-label,
+.ut-brand-badge.exclusive, .ut-badge-gold,
+.ut-ymal-badge.new, .ut-pc-badge.new,
+.pdp-badge, .ut-pdp-badge {
+  background: var(--ut-gold) !important;
+  color: var(--ut-bg) !important;
+}
+.pbadge-cult, .ut-pc-badge.hot, .ut-pc-badge.sale,
+.ut-ymal-badge.sale, .ut-badge-rose,
+.ut-preorder-badge {
+  background: var(--ut-rose) !important;
+  color: var(--ut-text) !important;
+}
+
+/* ── Section backgrounds alternate ── */
+.testimonials, .footer, .loyalty,
+.ut-coll-sidebar-area, .ut-auth-left {
+  background: var(--ut-bg-3) !important;
+}
+.products, .story, .ba-section,
+.founder, .sustain, .viral, .insta {
+  background: var(--ut-bg) !important;
+}
+
+/* ── Accent glow effects ── */
+.hero-orb, .orb,
+[class*="radial-gold"] {
+  background: radial-gradient(circle, rgba(201,169,110,0.07), transparent) !important;
+}
+
+/* ── Typography headings ── */
+.headline, .sec-title, .story-title, .founder-opening,
+.ba-quote, .share-title, .tier-name, .sustain-pledge-title,
+.ut-pdp-title, .pdp-title, .ut-coll-title, .ut-brands-hero-title,
+.ut-auth-form-title, .ut-srch-empty-title {
+  color: var(--ut-text) !important;
+  font-family: var(--ut-font-display) !important;
+}
+.headline em, .sec-title em, .story-title em,
+.founder-opening em, .share-title em,
+.sustain-pledge-title em, .ut-brands-hero-title em {
+  font-style: italic;
+  color: var(--ut-gold-light) !important;
+}
+
+/* ── Muted text consistent ── */
+.subcopy, .sec-desc, .story-body, .founder-para,
+.ut-pdp-desc, .ut-srch-empty-sub, .ut-brands-hero-sub,
+.ut-auth-form-sub, .ut-coll-desc {
+  color: var(--ut-text-45) !important;
+  font-family: var(--ut-font-body) !important;
+}
+
+/* ── Stars/ratings ── */
+[class*="-stars"], [class*="star-row"],
+.pdp-star, .tcard-stars, .vstar-row,
+.ut-pc-stars-pill, .ut-sim-stars {
+  color: var(--ut-gold) !important;
+}
+
+/* ── Mobile tap highlight ── */
+a, button { -webkit-tap-highlight-color: transparent; }
+
+/* ── Focus ring for accessibility ── */
+:focus-visible {
+  outline: 1px solid var(--ut-gold-45);
+  outline-offset: 2px;
+}
