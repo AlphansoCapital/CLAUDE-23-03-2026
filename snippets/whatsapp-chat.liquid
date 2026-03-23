@@ -1,0 +1,72 @@
+<style>
+.ut-wa-float{position:fixed;bottom:28px;right:24px;z-index:8000;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.ut-wa-btn{width:54px;height:54px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,0.35);transition:transform 0.2s,box-shadow 0.2s;border:none;position:relative;}
+.ut-wa-btn:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(37,211,102,0.5);}
+.ut-wa-btn svg{width:28px;height:28px;fill:#fff;}
+.ut-wa-pulse{position:absolute;inset:0;border-radius:50%;background:rgba(37,211,102,0.3);animation:waPulse 2s ease-out infinite;}
+@keyframes waPulse{0%{transform:scale(1);opacity:0.8}100%{transform:scale(1.7);opacity:0}}
+.ut-wa-tooltip{background:#1A1008;color:#FAF6F0;font-family:'Jost',sans-serif;font-size:11px;padding:7px 14px;border:1px solid rgba(37,211,102,0.25);letter-spacing:0.06em;white-space:nowrap;opacity:0;transform:translateX(8px);transition:all 0.2s;pointer-events:none;}
+.ut-wa-float:hover .ut-wa-tooltip{opacity:1;transform:translateX(0);}
+.ut-wa-chat-box{background:#1A1008;border:1px solid rgba(37,211,102,0.2);width:300px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.5);}
+.ut-wa-chat-box.open{display:flex;}
+.ut-wa-chat-head{background:#25D366;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.ut-wa-chat-head-img{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.ut-wa-chat-head-info{flex:1;}
+.ut-wa-chat-head-name{font-family:'Cinzel',serif;font-size:11px;color:#fff;letter-spacing:0.1em;}
+.ut-wa-chat-head-status{font-family:'Jost',sans-serif;font-size:10px;color:rgba(255,255,255,0.8);margin-top:1px;}
+.ut-wa-chat-close{background:none;border:none;color:rgba(255,255,255,0.7);font-size:18px;cursor:pointer;line-height:1;}
+.ut-wa-chat-body{padding:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='1' fill='rgba(201,169,110,0.04)'/%3E%3C/svg%3E");}
+.ut-wa-msg{background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.15);padding:12px 14px;margin-bottom:10px;}
+.ut-wa-msg-txt{font-family:'Jost',sans-serif;font-size:12px;color:rgba(250,246,240,0.7);line-height:1.7;letter-spacing:0.04em;}
+.ut-wa-msg-time{font-family:'Jost',sans-serif;font-size:9px;color:rgba(250,246,240,0.3);margin-top:6px;text-align:right;}
+.ut-wa-chat-cta{padding:14px 16px;border-top:1px solid rgba(37,211,102,0.12);}
+.ut-wa-chat-cta a{display:flex;align-items:center;justify-content:center;gap:8px;background:#25D366;color:#fff;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.32em;text-transform:uppercase;padding:12px;text-decoration:none;transition:background 0.2s;}
+.ut-wa-chat-cta a:hover{background:#20b85a;}
+.ut-wa-chat-cta a svg{width:16px;height:16px;fill:#fff;flex-shrink:0;}
+@media(max-width:600px){.ut-wa-float{bottom:80px;right:16px;}.ut-wa-chat-box{width:calc(100vw - 32px);}}
+</style>
+
+<div class="ut-wa-float" id="waFloat">
+  <div class="ut-wa-chat-box" id="waChatBox">
+    <div class="ut-wa-chat-head">
+      <div class="ut-wa-chat-head-img">🌹</div>
+      <div class="ut-wa-chat-head-info">
+        <div class="ut-wa-chat-head-name">Urban Trend Support</div>
+        <div class="ut-wa-chat-head-status">🟢 Online · Typically replies in minutes</div>
+      </div>
+      <button class="ut-wa-chat-close" onclick="toggleWaChat()">×</button>
+    </div>
+    <div class="ut-wa-chat-body">
+      <div class="ut-wa-msg">
+        <p class="ut-wa-msg-txt">👋 Namaste! Welcome to Urban Trend.<br>How can we help you today?<br><br>🌹 Product advice<br>📦 Order tracking<br>💛 Skincare consultation</p>
+        <div class="ut-wa-msg-time">Urban Trend Team · Just now</div>
+      </div>
+    </div>
+    <div class="ut-wa-chat-cta">
+      <a href="https://wa.me/918901623093?text=Hi%20Urban%20Trend!%20I%20need%20help%20with%20" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Continue on WhatsApp
+      </a>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span class="ut-wa-tooltip">Chat with us!</span>
+    <button class="ut-wa-btn" onclick="toggleWaChat()" aria-label="WhatsApp Chat">
+      <span class="ut-wa-pulse"></span>
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </button>
+  </div>
+</div>
+<script>
+function toggleWaChat(){
+  var box=document.getElementById('waChatBox');
+  box.classList.toggle('open');
+}
+// Auto-open after 45s on first visit
+if(!sessionStorage.getItem('wa-shown')){
+  setTimeout(function(){
+    document.getElementById('waChatBox')?.classList.add('open');
+    sessionStorage.setItem('wa-shown','1');
+  },45000);
+}
+</script>
