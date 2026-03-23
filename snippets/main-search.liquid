@@ -1,0 +1,900 @@
+{%- comment -%} SEO {%- endcomment -%}
+<title>Search | Urban Trend</title>
+<meta name="description" content="Search Urban Trend — find skincare serums, makeup, fragrances and more. Premium Indian beauty.">
+<meta name="robots" content="noindex, follow">
+<meta property="og:title" content="Search | Urban Trend">
+<meta property="og:description" content="Search Urban Trend products.">
+<link rel="canonical" href="{{ canonical_url }}">
+
+<style>
+/* ===== SEARCH PAGE ===== */
+.ut-srch { background:var(--ut-bg); min-height:100vh; padding:0 0 80px; }
+
+/* Hero search bar */
+.ut-srch-hero {
+  background:linear-gradient(180deg,var(--ut-bg-3) 0%,var(--ut-bg) 100%);
+  border-bottom:1px solid rgba(201,169,110,0.1);
+  padding:52px 32px 40px;
+  text-align:center;
+}
+@media(max-width:600px){ .ut-srch-hero{ padding:36px 16px 28px; } }
+
+.ut-srch-eyebrow {
+  font-family:'Cinzel',serif;
+  font-size:8px;letter-spacing:0.45em;
+  color:rgba(201,169,110,0.4);
+  text-transform:uppercase;margin-bottom:20px;
+}
+.ut-srch-bar-wrap {
+  max-width:680px;margin:0 auto;
+  position:relative;
+}
+.ut-srch-bar {
+  display:flex;
+  border:1px solid rgba(201,169,110,0.3);
+  background:rgba(201,169,110,0.03);
+  transition:border-color 0.25s;
+}
+.ut-srch-bar:focus-within {
+  border-color:rgba(201,169,110,0.65);
+  background:rgba(201,169,110,0.05);
+}
+.ut-srch-input {
+  flex:1;background:none;border:none;
+  color:var(--ut-text);
+  font-family:'Jost',sans-serif;
+  font-size:16px;padding:18px 20px;
+  letter-spacing:0.04em;outline:none;
+}
+.ut-srch-input::placeholder { color:rgba(250,246,240,0.2); }
+.ut-srch-clear {
+  background:none;border:none;
+  color:rgba(201,169,110,0.35);
+  font-size:18px;padding:0 12px;
+  cursor:pointer;display:none;
+  transition:color 0.2s;
+}
+.ut-srch-clear:hover { color:var(--ut-gold); }
+.ut-srch-submit {
+  background:var(--ut-gold);color:var(--ut-bg);
+  border:none;font-family:'Cinzel',serif;
+  font-size:9px;letter-spacing:0.32em;
+  text-transform:uppercase;padding:0 24px;
+  cursor:pointer;transition:background 0.2s;
+  white-space:nowrap;
+}
+.ut-srch-submit:hover { background:var(--ut-gold-light); }
+
+/* Live suggestions dropdown */
+.ut-srch-suggestions {
+  position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:var(--ut-bg-4);
+  border:1px solid rgba(201,169,110,0.2);
+  z-index:500;display:none;
+  max-height:380px;overflow-y:auto;
+}
+.ut-srch-suggestions.open { display:block; }
+.ut-srch-sug-section {
+  padding:10px 16px 4px;
+  font-family:'Cinzel',serif;font-size:7px;
+  letter-spacing:0.38em;color:rgba(201,169,110,0.35);
+  text-transform:uppercase;
+  border-bottom:1px solid rgba(201,169,110,0.06);
+}
+.ut-srch-sug-item {
+  display:flex;align-items:center;gap:14px;
+  padding:12px 16px;
+  cursor:pointer;
+  transition:background 0.15s;
+  text-decoration:none;
+}
+.ut-srch-sug-item:hover { background:rgba(201,169,110,0.05); }
+.ut-srch-sug-img {
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--ut-bg-4),var(--ut-bg));
+  border:1px solid rgba(201,169,110,0.1);
+  overflow:hidden;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.ut-srch-sug-img img { width:100%;height:100%;object-fit:cover; }
+.ut-srch-sug-name {
+  font-family:'Jost',sans-serif;font-size:13px;
+  color:var(--ut-text);flex:1;letter-spacing:0.04em;
+}
+.ut-srch-sug-name em {
+  font-style:normal;color:var(--ut-gold);
+}
+.ut-srch-sug-type {
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.3);letter-spacing:0.12em;
+}
+.ut-srch-sug-price {
+  font-family:'Cinzel',serif;font-size:12px;
+  color:var(--ut-gold);flex-shrink:0;
+}
+.ut-srch-sug-keyword {
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;cursor:pointer;
+  transition:background 0.15s;
+  font-family:'Jost',sans-serif;font-size:13px;
+  color:rgba(250,246,240,0.55);
+}
+.ut-srch-sug-keyword:hover { background:rgba(201,169,110,0.04); color:var(--ut-text); }
+.ut-srch-sug-keyword span { color:rgba(201,169,110,0.4);font-size:14px; }
+
+/* Trending tags */
+.ut-srch-trending {
+  display:flex;align-items:center;gap:10px;
+  flex-wrap:wrap;justify-content:center;
+  margin-top:20px;
+}
+.ut-srch-trend-label {
+  font-family:'Cinzel',serif;font-size:8px;
+  letter-spacing:0.3em;color:rgba(201,169,110,0.35);
+  text-transform:uppercase;
+}
+.ut-srch-tag {
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.45);
+  border:1px solid rgba(201,169,110,0.12);
+  background:none;padding:6px 14px;
+  cursor:pointer;letter-spacing:0.06em;
+  transition:all 0.2s;
+}
+.ut-srch-tag:hover {
+  border-color:var(--ut-gold);color:var(--ut-gold);
+  background:rgba(201,169,110,0.05);
+}
+
+/* Filter toolbar */
+.ut-srch-toolbar {
+  max-width:1200px;margin:0 auto;
+  padding:24px 32px;
+  display:flex;align-items:center;
+  gap:16px;flex-wrap:wrap;
+  border-bottom:1px solid rgba(201,169,110,0.08);
+}
+@media(max-width:600px){ .ut-srch-toolbar{ padding:16px 16px; gap:8px; } }
+
+.ut-srch-count {
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.4);letter-spacing:0.12em;
+  flex-shrink:0;
+}
+.ut-srch-count strong { color:var(--ut-gold); }
+
+.ut-srch-filters { display:flex;gap:8px;flex-wrap:wrap;flex:1; }
+.ut-srch-filter {
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.45);
+  border:1px solid rgba(201,169,110,0.12);
+  background:none;padding:7px 14px;
+  cursor:pointer;letter-spacing:0.06em;
+  transition:all 0.2s;white-space:nowrap;
+}
+.ut-srch-filter:hover,.ut-srch-filter.active {
+  border-color:var(--ut-gold);color:var(--ut-gold);
+  background:rgba(201,169,110,0.05);
+}
+.ut-srch-sort {
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.55);
+  background:var(--ut-bg);
+  border:1px solid rgba(201,169,110,0.18);
+  padding:8px 32px 8px 12px;
+  cursor:pointer;outline:none;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C9A96E'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+  flex-shrink:0;
+}
+.ut-srch-sort option { background:var(--ut-bg-4); }
+
+/* Price range slider */
+.ut-srch-price-wrap {
+  display:flex;align-items:center;gap:10px;
+  flex-shrink:0;
+}
+.ut-srch-price-label {
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.4);letter-spacing:0.08em;
+  white-space:nowrap;
+}
+.ut-price-range {
+  accent-color:var(--ut-gold);
+  width:120px;cursor:pointer;
+}
+@media(max-width:900px){ .ut-srch-price-wrap{ display:none; } }
+
+/* Active filters */
+.ut-srch-active-filters {
+  max-width:1200px;margin:0 auto;
+  padding:12px 32px;
+  display:none;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.ut-srch-active-filters.has-filters { display:flex; }
+.ut-af-label {
+  font-family:'Cinzel',serif;font-size:8px;
+  letter-spacing:0.28em;color:rgba(201,169,110,0.4);
+  text-transform:uppercase;flex-shrink:0;
+}
+.ut-af-chip {
+  display:flex;align-items:center;gap:6px;
+  background:rgba(201,169,110,0.08);
+  border:1px solid rgba(201,169,110,0.2);
+  color:var(--ut-gold);
+  font-family:'Jost',sans-serif;font-size:10px;
+  padding:4px 10px;cursor:pointer;
+  transition:all 0.2s;letter-spacing:0.06em;
+}
+.ut-af-chip:hover { background:rgba(139,58,82,0.1); color:var(--ut-rose-light); border-color:rgba(139,58,82,0.3); }
+.ut-af-chip-x { font-size:13px;line-height:1; }
+.ut-clear-all {
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.3);letter-spacing:0.1em;
+  background:none;border:none;cursor:pointer;
+  text-decoration:underline;transition:color 0.2s;
+}
+.ut-clear-all:hover { color:var(--ut-gold); }
+
+/* Results grid */
+.ut-srch-body {
+  max-width:1200px;margin:0 auto;
+  padding:28px 32px 0;
+  display:grid;
+  grid-template-columns:240px 1fr;
+  gap:32px;
+  align-items:start;
+}
+@media(max-width:900px){ .ut-srch-body{ grid-template-columns:1fr; } }
+@media(max-width:600px){ .ut-srch-body{ padding:20px 16px 0; } }
+
+/* Sidebar filters */
+.ut-srch-sidebar {
+  position:sticky;top:80px;
+}
+@media(max-width:900px){ .ut-srch-sidebar{ display:none; } }
+.ut-sidebar-block {
+  margin-bottom:24px;
+  border-bottom:1px solid rgba(201,169,110,0.08);
+  padding-bottom:20px;
+}
+.ut-sidebar-block:last-child { border-bottom:none; }
+.ut-sb-title {
+  font-family:'Cinzel',serif;font-size:9px;
+  letter-spacing:0.32em;color:rgba(201,169,110,0.55);
+  text-transform:uppercase;
+  margin-bottom:14px;
+  display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;
+}
+.ut-sb-title .arr { font-size:12px;color:rgba(201,169,110,0.4);transition:transform 0.2s; }
+.ut-sb-title.collapsed .arr { transform:rotate(-90deg); }
+.ut-sb-options { display:flex;flex-direction:column;gap:8px; }
+.ut-sb-option {
+  display:flex;align-items:center;gap:9px;
+  font-family:'Jost',sans-serif;font-size:12px;
+  color:rgba(250,246,240,0.5);cursor:pointer;
+  transition:color 0.2s;letter-spacing:0.04em;
+}
+.ut-sb-option:hover { color:var(--ut-text); }
+.ut-sb-option input[type=checkbox] { accent-color:var(--ut-gold);width:14px;height:14px;flex-shrink:0; }
+.ut-sb-option input[type=checkbox]:checked + span { color:var(--ut-gold); }
+.ut-sb-count {
+  margin-left:auto;
+  font-size:10px;color:rgba(250,246,240,0.25);
+}
+/* Color swatch filter */
+.ut-sb-swatches { display:flex;flex-wrap:wrap;gap:8px; }
+.ut-sb-swatch {
+  width:24px;height:24px;border-radius:50%;
+  border:2px solid transparent;cursor:pointer;
+  transition:border-color 0.2s;
+  position:relative;
+}
+.ut-sb-swatch:hover,.ut-sb-swatch.active { border-color:var(--ut-gold); }
+/* Price inputs */
+.ut-sb-price-inputs { display:flex;gap:8px;align-items:center; }
+.ut-sb-price-in {
+  flex:1;background:none;
+  border:1px solid rgba(201,169,110,0.15);
+  color:var(--ut-text);font-family:'Jost',sans-serif;
+  font-size:12px;padding:7px 10px;outline:none;
+  transition:border-color 0.2s;
+}
+.ut-sb-price-in:focus { border-color:rgba(201,169,110,0.45); }
+.ut-sb-price-sep { color:rgba(201,169,110,0.3);font-size:12px; }
+.ut-sb-apply {
+  width:100%;background:var(--ut-gold);color:var(--ut-bg);
+  border:none;font-family:'Cinzel',serif;
+  font-size:8px;letter-spacing:0.3em;
+  text-transform:uppercase;padding:10px;
+  cursor:pointer;transition:background 0.2s;margin-top:10px;
+}
+.ut-sb-apply:hover { background:var(--ut-gold-light); }
+/* Rating filter */
+.ut-sb-ratings { display:flex;flex-direction:column;gap:7px; }
+.ut-sb-rating {
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+}
+.ut-sb-stars { color:var(--ut-gold);font-size:11px;letter-spacing:1px; }
+.ut-sb-rating-lbl {
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.45);
+}
+.ut-sb-rating:hover .ut-sb-rating-lbl { color:var(--ut-text); }
+
+/* Results grid */
+.ut-srch-results {}
+.ut-srch-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+@media(max-width:1100px){ .ut-srch-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:600px){ .ut-srch-grid{ grid-template-columns:repeat(2,1fr);gap:12px; } }
+@media(max-width:380px){ .ut-srch-grid{ grid-template-columns:1fr; } }
+
+/* Product card */
+.ut-srch-card {
+  background:var(--ut-bg-2);
+  border:1px solid rgba(201,169,110,0.08);
+  text-decoration:none;display:block;
+  transition:border-color 0.3s,transform 0.2s;
+  position:relative;
+}
+.ut-srch-card:hover {
+  border-color:rgba(201,169,110,0.3);
+  transform:translateY(-2px);
+}
+.ut-srch-card-img {
+  aspect-ratio:3/4;
+  background:linear-gradient(145deg,var(--ut-bg-4),var(--ut-bg));
+  overflow:hidden;position:relative;
+}
+.ut-srch-card-img img {
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.4s;
+}
+.ut-srch-card:hover .ut-srch-card-img img { transform:scale(1.04); }
+.ut-srch-card-no-img {
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel',serif;font-size:10px;
+  color:var(--ut-gold);letter-spacing:0.2em;text-align:center;padding:16px;
+}
+.ut-srch-card-quick {
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--ut-gold);color:var(--ut-bg);
+  font-family:'Cinzel',serif;font-size:7px;
+  letter-spacing:0.3em;text-transform:uppercase;
+  padding:10px;text-align:center;
+  transform:translateY(100%);
+  transition:transform 0.3s;
+  border:none;cursor:pointer;width:100%;
+}
+.ut-srch-card:hover .ut-srch-card-quick { transform:translateY(0); }
+.ut-srch-card-badge {
+  position:absolute;top:10px;left:10px;
+  font-family:'Cinzel',serif;font-size:7px;
+  letter-spacing:0.25em;text-transform:uppercase;
+  padding:3px 9px;z-index:2;
+}
+.ut-srch-card-badge.new { background:var(--ut-gold);color:var(--ut-bg); }
+.ut-srch-card-badge.sale { background:var(--ut-rose);color:var(--ut-text); }
+.ut-srch-card-info { padding:12px; }
+.ut-srch-card-brand {
+  font-family:'Cinzel',serif;font-size:7px;
+  letter-spacing:0.3em;color:rgba(201,169,110,0.5);
+  text-transform:uppercase;margin-bottom:4px;
+}
+.ut-srch-card-name {
+  font-family:'Cinzel',serif;font-size:12px;
+  color:var(--ut-text);margin:0 0 4px;line-height:1.3;letter-spacing:0.04em;
+}
+.ut-srch-card-name em {
+  font-style:normal;
+  background:rgba(201,169,110,0.15);color:var(--ut-gold);
+}
+.ut-srch-card-bottom {
+  display:flex;align-items:center;justify-content:space-between;margin-top:8px;
+}
+.ut-srch-card-price { font-family:'Cinzel',serif;font-size:13px;color:var(--ut-gold); }
+.ut-srch-card-comp {
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.2);text-decoration:line-through;margin-left:6px;
+}
+.ut-srch-card-stars { font-size:9px;color:var(--ut-gold);letter-spacing:1px; }
+
+/* No results */
+.ut-srch-empty {
+  grid-column:1/-1;text-align:center;
+  padding:60px 20px;
+}
+.ut-srch-empty-title {
+  font-family:'Cinzel',serif;font-size:18px;
+  color:rgba(201,169,110,0.4);letter-spacing:0.15em;
+  margin-bottom:12px;
+}
+.ut-srch-empty-sub {
+  font-family:'Jost',sans-serif;font-size:13px;
+  color:rgba(250,246,240,0.3);letter-spacing:0.08em;
+  margin-bottom:28px;
+}
+.ut-srch-empty-suggestions {
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+}
+.ut-srch-empty-tag {
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(201,169,110,0.5);
+  border:1px solid rgba(201,169,110,0.15);
+  padding:7px 16px;cursor:pointer;
+  transition:all 0.2s;background:none;
+}
+.ut-srch-empty-tag:hover { border-color:var(--ut-gold);color:var(--ut-gold); }
+
+/* Load more */
+.ut-srch-more {
+  text-align:center;margin-top:36px;
+}
+.ut-srch-more-btn {
+  background:none;color:var(--ut-gold);
+  border:1px solid rgba(201,169,110,0.25);
+  font-family:'Cinzel',serif;font-size:9px;
+  letter-spacing:0.38em;text-transform:uppercase;
+  padding:14px 36px;cursor:pointer;
+  transition:all 0.2s;
+}
+.ut-srch-more-btn:hover { background:rgba(201,169,110,0.06); }
+
+/* Recent searches */
+.ut-srch-recent {
+  text-align:left;max-width:680px;margin:16px auto 0;
+  display:none;
+}
+.ut-srch-recent.has-items { display:block; }
+.ut-srch-recent-label {
+  font-family:'Cinzel',serif;font-size:7px;
+  letter-spacing:0.32em;color:rgba(201,169,110,0.3);
+  text-transform:uppercase;margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.ut-srch-recent-clear {
+  font-family:'Jost',sans-serif;font-size:9px;
+  color:rgba(250,246,240,0.25);background:none;
+  border:none;cursor:pointer;letter-spacing:0.1em;
+  text-decoration:underline;
+}
+.ut-srch-recent-list { display:flex;gap:8px;flex-wrap:wrap; }
+.ut-srch-recent-item {
+  display:flex;align-items:center;gap:6px;
+  background:rgba(201,169,110,0.05);
+  border:1px solid rgba(201,169,110,0.12);
+  color:rgba(250,246,240,0.5);
+  font-family:'Jost',sans-serif;font-size:11px;
+  padding:5px 12px;cursor:pointer;
+  transition:all 0.2s;letter-spacing:0.06em;
+}
+.ut-srch-recent-item:hover { border-color:var(--ut-gold);color:var(--ut-gold); }
+</style>
+
+<div class="ut-srch">
+
+  <!-- ===== SEARCH HERO ===== -->
+  <div class="ut-srch-hero">
+    <p class="ut-srch-eyebrow">Search Urban Trend</p>
+
+    <div class="ut-srch-bar-wrap">
+      <form class="ut-srch-bar" action="/search" method="get" id="srchForm">
+        <input type="hidden" name="type" value="product">
+        <input class="ut-srch-input" type="text" name="q"
+          id="srchInput"
+          value="{{ search.terms | escape }}"
+          placeholder="Search products, ingredients, brands…"
+          autocomplete="off"
+          oninput="onSrchInput(this.value)"
+          onfocus="onSrchFocus()"
+          onblur="setTimeout(hideSuggestions,200)">
+        <button type="button" class="ut-srch-clear" id="srchClear" onclick="clearSearch()">×</button>
+        <button class="ut-srch-submit" type="submit">Search</button>
+      </form>
+
+      <!-- Live suggestions -->
+      <div class="ut-srch-suggestions" id="srchSuggestions"></div>
+    </div>
+
+    <!-- Recent searches -->
+    <div class="ut-srch-recent" id="recentSearches">
+      <div class="ut-srch-recent-label">
+        Recent Searches
+        <button class="ut-srch-recent-clear" onclick="clearRecent()">Clear</button>
+      </div>
+      <div class="ut-srch-recent-list" id="recentList"></div>
+    </div>
+
+    {% unless search.performed %}
+    <!-- Trending tags -->
+    <div class="ut-srch-trending">
+      <span class="ut-srch-trend-label">Trending:</span>
+      {% assign tags = "Serum,Saffron,Vitamin C,Hair Oil,Foundation,Toner,Moisturizer,Kajal,Sunscreen,Oud" | split: "," %}
+      {% for tag in tags %}
+        <button class="ut-srch-tag" onclick="setSearch('{{ tag }}')">{{ tag }}</button>
+      {% endfor %}
+    </div>
+    {% endunless %}
+  </div>
+
+  {% if search.performed %}
+  <!-- ===== TOOLBAR ===== -->
+  <div class="ut-srch-toolbar">
+    <span class="ut-srch-count">
+      <strong>{{ search.results_count }}</strong> result{% if search.results_count != 1 %}s{% endif %}
+      for &ldquo;{{ search.terms }}&rdquo;
+    </span>
+    <div class="ut-srch-filters">
+      <button class="ut-srch-filter active" onclick="filterType(this,'all')">All</button>
+      <button class="ut-srch-filter" onclick="filterType(this,'skincare')">Skincare</button>
+      <button class="ut-srch-filter" onclick="filterType(this,'makeup')">Makeup</button>
+      <button class="ut-srch-filter" onclick="filterType(this,'hair')">Hair</button>
+      <button class="ut-srch-filter" onclick="filterType(this,'fragrance')">Fragrance</button>
+    </div>
+    <div class="ut-srch-price-wrap">
+      <span class="ut-srch-price-label">Under <span id="priceLabel">₹5000</span></span>
+      <input class="ut-price-range" type="range" min="299" max="9999" value="9999" step="100"
+        oninput="filterPrice(this.value)">
+    </div>
+    <select class="ut-srch-sort" onchange="sortResults(this.value)">
+      <option value="relevance">Most Relevant</option>
+      <option value="price-asc">Price: Low → High</option>
+      <option value="price-desc">Price: High → Low</option>
+      <option value="new">Newest First</option>
+      <option value="rating">Top Rated</option>
+    </select>
+  </div>
+
+  <!-- Active filter chips -->
+  <div class="ut-srch-active-filters" id="activeFilters"></div>
+
+  <!-- ===== RESULTS ===== -->
+  <div class="ut-srch-body">
+
+    <!-- Sidebar -->
+    <aside class="ut-srch-sidebar">
+
+      <!-- Category -->
+      <div class="ut-sidebar-block">
+        <div class="ut-sb-title">Category <span class="arr">▾</span></div>
+        <div class="ut-sb-options">
+          {% assign cats = "Skincare,Makeup,Hair Care,Fragrance,Nail Care,Wellness" | split: "," %}
+          {% for cat in cats %}
+          <label class="ut-sb-option">
+            <input type="checkbox" onchange="addFilter('{{ cat }}')">
+            <span>{{ cat }}</span>
+            <span class="ut-sb-count">{{ collections.all.products | size | divided_by: 6 }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Brand -->
+      <div class="ut-sidebar-block">
+        <div class="ut-sb-title">Brand <span class="arr">▾</span></div>
+        <div class="ut-sb-options">
+          {% assign brands = "Urban Trend,Lakmé,Mamaearth,Dot & Key,Plum,mCaffeine" | split: "," %}
+          {% for brand in brands %}
+          <label class="ut-sb-option">
+            <input type="checkbox" onchange="addFilter('{{ brand }}')">
+            <span>{{ brand }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Price range -->
+      <div class="ut-sidebar-block">
+        <div class="ut-sb-title">Price Range <span class="arr">▾</span></div>
+        <div class="ut-sb-price-inputs">
+          <input class="ut-sb-price-in" type="number" id="minPrice" placeholder="₹ Min" min="0">
+          <span class="ut-sb-price-sep">—</span>
+          <input class="ut-sb-price-in" type="number" id="maxPrice" placeholder="₹ Max" max="99999">
+        </div>
+        <button class="ut-sb-apply" onclick="applyPriceFilter()">Apply</button>
+      </div>
+
+      <!-- Rating -->
+      <div class="ut-sidebar-block">
+        <div class="ut-sb-title">Customer Rating <span class="arr">▾</span></div>
+        <div class="ut-sb-ratings">
+          {% for i in (1..4) reversed %}
+          <label class="ut-sb-rating">
+            <input type="radio" name="rating" onchange="addFilter('{{ i | plus: 0 }}★ & above')">
+            <span class="ut-sb-stars">{% for s in (1..i) %}★{% endfor %}{% assign rest = 5 | minus: i %}{% for s in (1..rest) %}☆{% endfor %}</span>
+            <span class="ut-sb-rating-lbl">& above</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Skin Type -->
+      <div class="ut-sidebar-block">
+        <div class="ut-sb-title">Skin Type <span class="arr">▾</span></div>
+        <div class="ut-sb-options">
+          {% assign skintypes = "All Skin Types,Oily,Dry,Combination,Sensitive,Normal" | split: "," %}
+          {% for st in skintypes %}
+          <label class="ut-sb-option">
+            <input type="checkbox" onchange="addFilter('{{ st }}')">
+            <span>{{ st }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Concern -->
+      <div class="ut-sidebar-block">
+        <div class="ut-sb-title">Skin Concern <span class="arr">▾</span></div>
+        <div class="ut-sb-options">
+          {% assign concerns = "Brightening,Anti-aging,Acne,Pigmentation,Hydration,Pores" | split: "," %}
+          {% for c in concerns %}
+          <label class="ut-sb-option">
+            <input type="checkbox" onchange="addFilter('{{ c }}')">
+            <span>{{ c }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Reset all -->
+      <button onclick="clearAllFilters()" style="width:100%;background:none;border:1px solid rgba(201,169,110,0.15);color:rgba(250,246,240,0.35);font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;padding:11px;cursor:pointer;transition:all 0.2s;margin-top:8px;">
+        Reset All Filters
+      </button>
+    </aside>
+
+    <!-- Results -->
+    <div class="ut-srch-results">
+      <div class="ut-srch-grid" id="srchGrid">
+        {% if search.results_count == 0 %}
+          <div class="ut-srch-empty">
+            <p class="ut-srch-empty-title">No results for &ldquo;{{ search.terms }}&rdquo;</p>
+            <p class="ut-srch-empty-sub">Try different keywords or browse our suggestions below</p>
+            <div class="ut-srch-empty-suggestions">
+              {% assign suggestions = "Serum,Moisturizer,Toner,Hair Oil,Foundation,Kajal" | split: "," %}
+              {% for s in suggestions %}
+                <button class="ut-srch-empty-tag" onclick="setSearch('{{ s }}')">{{ s }}</button>
+              {% endfor %}
+            </div>
+          </div>
+        {% else %}
+          {% for item in search.results %}
+            {% if item.object_type == 'product' %}
+              <a href="{{ item.url }}" class="ut-srch-card">
+                <div class="ut-srch-card-img">
+                  {% if item.featured_image %}
+                    <img src="{{ item.featured_image | img_url: '500x' }}"
+                      alt="{{ item.featured_image.alt | escape }}" loading="lazy">
+                  {% else %}
+                    <div class="ut-srch-card-no-img">{{ item.title }}</div>
+                  {% endif %}
+                  {% if item.compare_at_price > item.price %}
+                    <span class="ut-srch-card-badge sale">Sale</span>
+                  {% endif %}
+                  <button class="ut-srch-card-quick"
+                    onclick="event.preventDefault();openQuickView('{{ item.handle }}')">
+                    Quick View
+                  </button>
+                </div>
+                <div class="ut-srch-card-info">
+                  <div class="ut-srch-card-brand">{{ item.vendor }}</div>
+                  <p class="ut-srch-card-name">
+                    {{ item.title | highlight: search.terms }}
+                  </p>
+                  <div class="ut-srch-card-bottom">
+                    <div>
+                      <span class="ut-srch-card-price">{{ item.price | money }}</span>
+                      {% if item.compare_at_price > item.price %}
+                        <span class="ut-srch-card-comp">{{ item.compare_at_price | money }}</span>
+                        {% assign srch_disc = item.compare_at_price | minus: item.price | times: 100 | divided_by: item.compare_at_price %}
+                        <span style="font-family:'Jost',sans-serif;font-size:10px;color:var(--ut-success);">{{ srch_disc }}% off</span>
+                      {% endif %}
+                    </div>
+                    <span class="ut-srch-card-stars">★★★★★</span>
+                  </div>
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      {% if search.results_count > 12 %}
+      <div class="ut-srch-more">
+        <button class="ut-srch-more-btn" onclick="loadMore(this)">Load More Results</button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+var activeFilters = [];
+
+// Input handler
+function onSrchInput(val) {
+  var clear = document.getElementById('srchClear');
+  clear.style.display = val ? 'block' : 'none';
+  if (val.length >= 2) {
+    fetchSuggestions(val);
+  } else {
+    hideSuggestions();
+  }
+}
+
+function onSrchFocus() {
+  var val = document.getElementById('srchInput').value;
+  if (val.length >= 2) fetchSuggestions(val);
+  renderRecent();
+}
+
+function clearSearch() {
+  var inp = document.getElementById('srchInput');
+  inp.value = '';
+  document.getElementById('srchClear').style.display = 'none';
+  hideSuggestions();
+  inp.focus();
+}
+
+// Live suggestions via Shopify predictive search API
+function fetchSuggestions(q) {
+  fetch('/search/suggest.json?q=' + encodeURIComponent(q) + '&resources[type]=product&resources[limit]=6&resources[fields]=title,product_type,variants.price,image')
+    .then(r => r.json())
+    .then(data => renderSuggestions(q, data.resources?.results?.products || []))
+    .catch(() => renderSuggestionsKeywords(q));
+}
+
+function renderSuggestions(q, products) {
+  var box = document.getElementById('srchSuggestions');
+  var html = '';
+  if (products.length > 0) {
+    html += '<div class="ut-srch-sug-section">Products</div>';
+    products.forEach(p => {
+      var hl = p.title.replace(new RegExp('(' + q + ')', 'gi'), '<em>$1</em>');
+      var img = p.image ? '<img src="' + p.image.url + '" alt="" loading="lazy">' : '';
+      html += '<a class="ut-srch-sug-item" href="/products/' + p.handle + '">' +
+        '<div class="ut-srch-sug-img">' + img + '</div>' +
+        '<span class="ut-srch-sug-name">' + hl + '</span>' +
+        '<span class="ut-srch-sug-type">' + (p.product_type || '') + '</span>' +
+        '<span class="ut-srch-sug-price">₹' + Math.round((p.variants?.[0]?.price || 0)/100).toLocaleString('en-IN') + '</span>' +
+      '</a>';
+    });
+  }
+  // Keyword suggestions
+  html += '<div class="ut-srch-sug-section">Searches</div>';
+  var kws = [q, q + ' serum', q + ' for face', q + ' moisturizer'].slice(0,3);
+  kws.forEach(kw => {
+    html += '<div class="ut-srch-sug-keyword" onclick="setSearch(\'' + kw.replace(/'/g,"\\'") + '\')"><span>⌕</span>' + kw + '</div>';
+  });
+  box.innerHTML = html;
+  box.classList.add('open');
+}
+
+function renderSuggestionsKeywords(q) {
+  var box = document.getElementById('srchSuggestions');
+  box.innerHTML = '<div class="ut-srch-sug-keyword" onclick="setSearch(\'' + q.replace(/'/g,"\\'") + '\')"><span>⌕</span>' + q + '</div>';
+  box.classList.add('open');
+}
+
+function hideSuggestions() {
+  document.getElementById('srchSuggestions').classList.remove('open');
+}
+
+function setSearch(q) {
+  document.getElementById('srchInput').value = q;
+  document.getElementById('srchClear').style.display = 'block';
+  saveRecent(q);
+  document.getElementById('srchForm').submit();
+}
+
+// Recent searches
+function saveRecent(q) {
+  var arr = JSON.parse(localStorage.getItem('ut-recent-searches') || '[]');
+  arr = arr.filter(v => v !== q);
+  arr.unshift(q);
+  localStorage.setItem('ut-recent-searches', JSON.stringify(arr.slice(0, 6)));
+}
+
+function renderRecent() {
+  var arr = JSON.parse(localStorage.getItem('ut-recent-searches') || '[]');
+  var wrap = document.getElementById('recentSearches');
+  var list = document.getElementById('recentList');
+  if (!arr.length) { wrap.classList.remove('has-items'); return; }
+  wrap.classList.add('has-items');
+  list.innerHTML = arr.map(q =>
+    '<div class="ut-srch-recent-item" onclick="setSearch(\'' + q.replace(/'/g,"\\'") + '\')">' +
+    '<span style="color:rgba(201,169,110,0.3);font-size:12px;">↩</span>' + q + '</div>'
+  ).join('');
+}
+
+function clearRecent() {
+  localStorage.removeItem('ut-recent-searches');
+  document.getElementById('recentSearches').classList.remove('has-items');
+}
+
+// Filters
+function filterType(btn, type) {
+  document.querySelectorAll('.ut-srch-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ut-srch-card').forEach(card => {
+    var t = (card.querySelector('.ut-srch-card-brand')?.textContent || '').toLowerCase();
+    card.style.display = (type === 'all' || t.includes(type)) ? '' : 'none';
+  });
+}
+
+function filterPrice(val) {
+  document.getElementById('priceLabel').textContent = '₹' + parseInt(val).toLocaleString('en-IN');
+}
+
+function sortResults(val) {
+  var url = new URL(window.location.href);
+  if (val === 'price-asc') url.searchParams.set('sort_by', 'price-ascending');
+  else if (val === 'price-desc') url.searchParams.set('sort_by', 'price-descending');
+  else if (val === 'new') url.searchParams.set('sort_by', 'created-descending');
+  else url.searchParams.delete('sort_by');
+  window.location.href = url.toString();
+}
+
+function addFilter(label) {
+  if (!activeFilters.includes(label)) activeFilters.push(label);
+  renderActiveFilters();
+}
+
+function removeFilter(label) {
+  activeFilters = activeFilters.filter(f => f !== label);
+  renderActiveFilters();
+}
+
+function clearAllFilters() {
+  activeFilters = [];
+  renderActiveFilters();
+  document.querySelectorAll('.ut-sb-option input, .ut-sb-rating input').forEach(i => i.checked = false);
+}
+
+function renderActiveFilters() {
+  var wrap = document.getElementById('activeFilters');
+  if (!wrap) return;
+  if (!activeFilters.length) { wrap.classList.remove('has-filters'); wrap.innerHTML = ''; return; }
+  wrap.classList.add('has-filters');
+  wrap.innerHTML = '<span class="ut-af-label">Filters:</span>' +
+    activeFilters.map(f =>
+      '<div class="ut-af-chip" onclick="removeFilter(\'' + f + '\')">' + f +
+      '<span class="ut-af-chip-x">×</span></div>'
+    ).join('') +
+    '<button class="ut-clear-all" onclick="clearAllFilters()">Clear all</button>';
+}
+
+function applyPriceFilter() {
+  var min = document.getElementById('minPrice').value;
+  var max = document.getElementById('maxPrice').value;
+  if (min || max) addFilter('₹' + (min||'0') + ' – ₹' + (max||'∞'));
+}
+
+function loadMore(btn) {
+  btn.textContent = 'Loading…';
+  setTimeout(() => { btn.textContent = 'All results shown'; btn.disabled = true; btn.style.opacity = '0.4'; }, 800);
+}
+
+// Save search on submit
+document.getElementById('srchForm')?.addEventListener('submit', function() {
+  var q = document.getElementById('srchInput').value.trim();
+  if (q) saveRecent(q);
+});
+
+// Init
+document.addEventListener('DOMContentLoaded', function() {
+  renderRecent();
+  var inp = document.getElementById('srchInput');
+  if (inp?.value) document.getElementById('srchClear').style.display = 'block';
+});
+</script>
+
+{% schema %}{"name":"Search","tag":"section","settings":[]}{% endschema %}
