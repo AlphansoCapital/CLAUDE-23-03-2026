@@ -1,0 +1,228 @@
+<style>
+.ut-blog{background:var(--obs);min-height:100vh;padding:0 0 80px;}
+.ut-blog-hero{background:linear-gradient(180deg,#141210 0%,var(--obs) 100%);padding:60px 32px 48px;border-bottom:1px solid var(--border);text-align:center;position:relative;overflow:hidden;}
+.ut-blog-hero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(201,169,110,0.06) 0%,transparent 70%);pointer-events:none;}
+.ut-blog-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.44em;color:rgba(201,169,110,0.5);text-transform:uppercase;margin-bottom:16px;display:block;}
+.ut-blog-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;color:#FAF6F0;margin-bottom:14px;line-height:1.1;}
+.ut-blog-title em{font-style:italic;color:#C9A96E;}
+.ut-blog-sub{font-family:'Jost',sans-serif;font-size:13px;color:rgba(250,246,240,0.45);letter-spacing:0.06em;max-width:520px;margin:0 auto;line-height:1.85;}
+.ut-blog-cats{display:flex;justify-content:center;gap:4px;padding:20px 32px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--obs);}
+.ut-blog-cat{font-family:'Cinzel',serif;font-size:8px;color:rgba(250,246,240,0.35);border:1px solid rgba(201,169,110,0.12);background:none;padding:8px 18px;cursor:pointer;letter-spacing:0.2em;transition:all 0.22s;text-transform:uppercase;}
+.ut-blog-cat:hover,.ut-blog-cat.active{border-color:rgba(201,169,110,0.5);color:#C9A96E;background:rgba(201,169,110,0.05);}
+.ut-blog-body{max-width:1200px;margin:0 auto;padding:44px 32px;}
+@media(max-width:600px){.ut-blog-body{padding:28px 16px;}}
+/* Featured */
+.ut-blog-featured{display:grid;grid-template-columns:1.6fr 1fr;gap:3px;margin-bottom:40px;}
+@media(max-width:900px){.ut-blog-featured{grid-template-columns:1fr;}}
+.ut-blog-feat-card{position:relative;overflow:hidden;display:block;text-decoration:none;transition:transform 0.3s;}
+.ut-blog-feat-card:hover{transform:translateY(-2px);}
+.ut-blog-feat-img{aspect-ratio:16/9;background:linear-gradient(145deg,#1C1510,#141210);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.ut-blog-feat-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);}
+.ut-blog-feat-card:hover .ut-blog-feat-img img{transform:scale(1.04);}
+.ut-blog-feat-body{padding:22px 24px;background:#141210;border:1px solid var(--border);border-top:none;}
+.ut-blog-feat-cat{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.36em;color:#C9A96E;text-transform:uppercase;margin-bottom:8px;}
+.ut-blog-feat-title{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,26px);font-weight:300;color:#FAF6F0;margin:0 0 10px;line-height:1.25;}
+.ut-blog-feat-excerpt{font-family:'Jost',sans-serif;font-size:12px;color:rgba(250,246,240,0.5);line-height:1.85;letter-spacing:0.04em;margin-bottom:14px;}
+.ut-blog-feat-meta{font-family:'Jost',sans-serif;font-size:10px;color:rgba(250,246,240,0.28);letter-spacing:0.1em;}
+.ut-blog-feat-read{display:inline-flex;align-items:center;gap:7px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.3em;color:#C9A96E;text-transform:uppercase;margin-top:12px;transition:gap 0.2s;}
+.ut-blog-feat-card:hover .ut-blog-feat-read{gap:12px;}
+/* Grid */
+.ut-blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+@media(max-width:900px){.ut-blog-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.ut-blog-grid{grid-template-columns:1fr;}}
+.ut-blog-card{background:#141210;border:1px solid var(--border);text-decoration:none;display:block;transition:border-color 0.3s,transform 0.25s;position:relative;}
+.ut-blog-card:hover{border-color:rgba(201,169,110,0.45);transform:translateY(-3px);}
+.ut-blog-card-img{aspect-ratio:16/9;background:linear-gradient(145deg,#1C1510,#141210);overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.ut-blog-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
+.ut-blog-card:hover .ut-blog-card-img img{transform:scale(1.05);}
+.ut-blog-card-img-ph{font-size:36px;}
+.ut-blog-card-body{padding:18px 20px 22px;}
+.ut-blog-card-cat{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.34em;color:#C9A96E;text-transform:uppercase;margin-bottom:7px;}
+.ut-blog-card-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;color:#FAF6F0;margin:0 0 9px;line-height:1.3;}
+.ut-blog-card-excerpt{font-family:'Jost',sans-serif;font-size:11px;color:rgba(250,246,240,0.45);line-height:1.8;margin-bottom:12px;letter-spacing:0.04em;}
+.ut-blog-card-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+.ut-blog-card-date{font-family:'Jost',sans-serif;font-size:10px;color:rgba(250,246,240,0.25);letter-spacing:0.1em;}
+.ut-blog-card-read{font-family:'Jost',sans-serif;font-size:10px;color:rgba(201,169,110,0.5);letter-spacing:0.08em;}
+/* Emotional divider */
+.ut-blog-divider{text-align:center;padding:48px 0 40px;position:relative;}
+.ut-blog-divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:0.5px;background:var(--border);}
+.ut-blog-divider-text{display:inline-block;font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(250,246,240,0.3);background:var(--obs);padding:0 24px;position:relative;}
+.ut-blog-divider-text em{color:#C9A96E;font-style:italic;}
+/* Newsletter */
+.ut-blog-nl{background:linear-gradient(135deg,#141210,#0D0B09);border:1px solid var(--border);padding:40px 40px;margin-top:48px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.ut-blog-nl::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(ellipse,rgba(201,169,110,0.05) 0%,transparent 70%);}
+@media(max-width:600px){.ut-blog-nl{padding:28px 20px;flex-direction:column;}}
+.ut-blog-nl-eyebrow{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.4em;color:rgba(201,169,110,0.5);text-transform:uppercase;margin-bottom:8px;display:block;}
+.ut-blog-nl-title{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,28px);font-weight:300;color:#FAF6F0;}
+.ut-blog-nl-title em{font-style:italic;color:#C9A96E;}
+.ut-blog-nl-sub{font-family:'Jost',sans-serif;font-size:11px;color:rgba(250,246,240,0.35);margin-top:6px;letter-spacing:0.06em;line-height:1.75;max-width:360px;}
+.ut-blog-nl-form{display:flex;gap:0;flex-shrink:0;}
+@media(max-width:600px){.ut-blog-nl-form{width:100%;}}
+.ut-blog-nl-inp{background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.18);border-right:none;color:#FAF6F0;font-family:'Jost',sans-serif;font-size:12px;padding:14px 18px;outline:none;transition:border-color 0.2s;width:240px;}
+@media(max-width:600px){.ut-blog-nl-inp{flex:1;width:auto;}}
+.ut-blog-nl-inp:focus{border-color:rgba(201,169,110,0.5);}
+.ut-blog-nl-inp::placeholder{color:rgba(250,246,240,0.25);}
+.ut-blog-nl-btn{background:#C9A96E;color:#0A0908;border:none;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;padding:0 22px;cursor:pointer;font-weight:500;transition:background 0.2s;white-space:nowrap;}
+.ut-blog-nl-btn:hover{background:#E2C98A;}
+/* SEO schema placeholder */
+.ut-blog-seo{display:none;}
+</style>
+
+<div class="ut-blog" itemscope itemtype="https://schema.org/Blog">
+  <meta itemprop="name" content="{{ blog.title }} — UrbanTrend Beauty Journal">
+  <meta itemprop="description" content="Expert Indian skincare advice, ingredient science, beauty rituals, and transformation stories. Est. 1975 — Your Problem, Our Answer.">
+
+  <div class="ut-blog-hero">
+    <span class="ut-blog-eyebrow">Urban Trend Journal — Est. 1975</span>
+    <h1 class="ut-blog-title">Beauty <em>Stories</em> That<br>Change Lives</h1>
+    <p class="ut-blog-sub">Every scar has a story. Every skin problem has a solution. For 50 years, we've been listening — and answering. Real advice, real ingredients, real results for Indian skin.</p>
+  </div>
+
+  <div class="ut-blog-cats">
+    <button class="ut-blog-cat active" onclick="blogFilter('all',this)">All Stories</button>
+    <button class="ut-blog-cat" onclick="blogFilter('skincare',this)">Skincare Science</button>
+    <button class="ut-blog-cat" onclick="blogFilter('ingredients',this)">Ingredients</button>
+    <button class="ut-blog-cat" onclick="blogFilter('tutorial',this)">Rituals & Routines</button>
+    <button class="ut-blog-cat" onclick="blogFilter('wellness',this)">Wellness</button>
+    <button class="ut-blog-cat" onclick="blogFilter('transformation',this)">Transformations</button>
+    <button class="ut-blog-cat" onclick="blogFilter('news',this)">Brand Stories</button>
+  </div>
+
+  <div class="ut-blog-body">
+    {% if blog.articles.size > 0 %}
+      <div class="ut-blog-featured">
+        {% assign feat = blog.articles | first %}
+        <a href="{{ feat.url }}" class="ut-blog-feat-card" data-cat="{{ feat.tags | join: ',' | downcase }}" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+          <meta itemprop="headline" content="{{ feat.title }}">
+          <meta itemprop="datePublished" content="{{ feat.published_at | date: '%Y-%m-%d' }}">
+          <meta itemprop="author" content="{{ feat.author }}">
+          <div class="ut-blog-feat-img">
+            {% if feat.image %}<img src="{{ feat.image | img_url: '900x' }}" alt="{{ feat.image.alt | escape | default: feat.title }}" loading="eager" itemprop="image">
+            {% else %}<span style="font-size:52px;">🌹</span>{% endif %}
+          </div>
+          <div class="ut-blog-feat-body">
+            <div class="ut-blog-feat-cat">{{ feat.tags | first | default: 'Skincare' }}</div>
+            <h2 class="ut-blog-feat-title" itemprop="name">{{ feat.title }}</h2>
+            <p class="ut-blog-feat-excerpt">{{ feat.excerpt_or_content | strip_html | truncate: 180 }}</p>
+            <div class="ut-blog-feat-meta">By {{ feat.author }} · {{ feat.published_at | date: '%d %B %Y' }} · {{ feat.content | strip_html | size | divided_by: 1000 | plus: 1 }} min read</div>
+            <span class="ut-blog-feat-read">Read the Full Story →</span>
+          </div>
+        </a>
+        {% if blog.articles.size > 1 %}
+        {% assign second = blog.articles[1] %}
+        <a href="{{ second.url }}" class="ut-blog-feat-card" data-cat="{{ second.tags | join: ',' | downcase }}">
+          <div class="ut-blog-feat-img" style="aspect-ratio:auto;height:50%;">
+            {% if second.image %}<img src="{{ second.image | img_url: '600x' }}" alt="{{ second.image.alt | escape | default: second.title }}" loading="lazy">
+            {% else %}<span style="font-size:38px;">✨</span>{% endif %}
+          </div>
+          <div class="ut-blog-feat-body" style="height:50%;box-sizing:border-box;">
+            <div class="ut-blog-feat-cat">{{ second.tags | first | default: 'Tutorial' }}</div>
+            <h3 class="ut-blog-feat-title" style="font-size:18px;">{{ second.title }}</h3>
+            <p class="ut-blog-feat-excerpt" style="font-size:11px;">{{ second.excerpt_or_content | strip_html | truncate: 100 }}</p>
+            <div class="ut-blog-feat-meta">{{ second.published_at | date: '%d %B %Y' }}</div>
+            <span class="ut-blog-feat-read">Read →</span>
+          </div>
+        </a>
+        {% endif %}
+      </div>
+
+      <div class="ut-blog-grid" id="blogGrid">
+        {% for article in blog.articles offset:2 %}
+        <a href="{{ article.url }}" class="ut-blog-card" data-cat="{{ article.tags | join: ',' | downcase }}" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+          <meta itemprop="headline" content="{{ article.title }}">
+          <meta itemprop="datePublished" content="{{ article.published_at | date: '%Y-%m-%d' }}">
+          <div class="ut-blog-card-img">
+            {% if article.image %}<img src="{{ article.image | img_url: '500x' }}" alt="{{ article.image.alt | escape | default: article.title }}" loading="lazy" itemprop="image">
+            {% else %}<span class="ut-blog-card-img-ph">🌿</span>{% endif %}
+          </div>
+          <div class="ut-blog-card-body">
+            <div class="ut-blog-card-cat">{{ article.tags | first | default: 'Beauty' }}</div>
+            <h3 class="ut-blog-card-title" itemprop="name">{{ article.title }}</h3>
+            <p class="ut-blog-card-excerpt">{{ article.excerpt_or_content | strip_html | truncate: 110 }}</p>
+            <div class="ut-blog-card-meta">
+              <span class="ut-blog-card-date">{{ article.published_at | date: '%d %b %Y' }}</span>
+              <span class="ut-blog-card-read">{{ article.content | strip_html | size | divided_by: 1000 | plus: 1 }} min read</span>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+
+    {% else %}
+      <!-- DEMO emotional articles when no articles exist -->
+      <div class="ut-blog-featured">
+        <div class="ut-blog-feat-card" style="cursor:default;">
+          <div class="ut-blog-feat-img" style="background:linear-gradient(145deg,#1C1510,#141210);"><span style="font-size:64px;">🌹</span></div>
+          <div class="ut-blog-feat-body">
+            <div class="ut-blog-feat-cat">Transformation Story</div>
+            <h2 class="ut-blog-feat-title">She Cried Looking in the Mirror. Then She Found Her Answer.</h2>
+            <p class="ut-blog-feat-excerpt">Priya was 29 when she stopped taking photographs. The dark patches on her cheeks had spread. Three dermatologists, seven creams, two years of hiding — until she walked into our Sirsa store. This is her story, in her words.</p>
+            <div class="ut-blog-feat-meta">By Urban Trend Team · Coming Soon · 7 min read</div>
+            <span class="ut-blog-feat-read">Coming Soon →</span>
+          </div>
+        </div>
+        <div class="ut-blog-feat-card" style="cursor:default;">
+          <div class="ut-blog-feat-img" style="aspect-ratio:auto;height:50%;background:linear-gradient(145deg,#1A1810,#141210);"><span style="font-size:42px;">✨</span></div>
+          <div class="ut-blog-feat-body" style="height:50%;box-sizing:border-box;">
+            <div class="ut-blog-feat-cat">Ingredient Science</div>
+            <h3 class="ut-blog-feat-title" style="font-size:18px;">Why Niacinamide Became India's Most-Searched Skincare Ingredient</h3>
+            <div class="ut-blog-feat-meta">Coming Soon</div>
+            <span class="ut-blog-feat-read">Coming Soon →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ut-blog-divider">
+        <span class="ut-blog-divider-text">Stories that will be <em>published soon</em></span>
+      </div>
+
+      <div class="ut-blog-grid" id="blogGrid">
+        {% assign demo = "The Ingredient That Dermatologists Don't Want You to Know About,My Skin Was So Bad I Refused to Leave Home. Then Everything Changed.,50 Years of Secrets: What Our Elders Knew About Indian Skin That Science is Only Now Discovering,The Dark Spot Diary: A 90-Day Journey with Before and After Photographs,Acne at 35 — The Emotional Toll Nobody Talks About (And What Actually Worked),Why Your ₹5000 Serum Isn't Working: The Shocking Truth About Layering Skincare,Hair Fall Crisis: When a Mother's Hands Full of Hair Changed Our Formula Forever,The Glass Skin Guide for Wheatish and Deep Indian Skin Tones" | split: "," %}
+        {% assign demo_cats = "Ingredients,Transformation,Heritage,Dark Spots,Acne,Education,Hair,Tutorial" | split: "," %}
+        {% assign demo_icons = "🧪,💫,📜,🌟,💙,🔬,🌿,✨" | split: "," %}
+        {% assign demo_excerpts = "There's one molecule that costs ₹2 to manufacture and fixes more skin problems than any luxury serum. Derms call it 'the workhorse.' We call it a miracle. And we've had it for 20 years.,Riya hadn't stepped outside without full makeup since college. Not because she wanted to — because she felt she had to. Read the real, unfiltered story of what changed.,Our founder's grandmother used turmeric, rose water and a secret she never wrote down. When we had it analysed in 2019, scientists were stunned. The ancient formula contained what we now call peptides.,96 days. 3 serums. 1 honest camera. This is not a sponsored before-and-after. This is real skin, real progress, and some very real bad days in between.,Nobody posts about crying in the bathroom before work. Nobody admits that a pimple at 35 feels more devastating than at 16. We're starting that conversation.,You're buying ₹5000 Vitamin C. You're layering it wrong. You're actually making your dark spots worse. A dermatologist explains — and yes, it hurts to hear.,The call came at 11pm. A customer was crying. She'd found a fistful of her own hair on the bathroom floor again. That call changed everything about how we formulate.,Glass skin isn't a Korean concept. Indian skin has its own luminosity that's been ignored by every international beauty standard. Here's your ritual." | split: "," %}
+        {% for title in demo %}
+        <div class="ut-blog-card" style="cursor:default;">
+          <div class="ut-blog-card-img"><span class="ut-blog-card-img-ph">{{ demo_icons[forloop.index0] }}</span></div>
+          <div class="ut-blog-card-body">
+            <div class="ut-blog-card-cat">{{ demo_cats[forloop.index0] }}</div>
+            <h3 class="ut-blog-card-title">{{ title }}</h3>
+            <p class="ut-blog-card-excerpt">{{ demo_excerpts[forloop.index0] | truncate: 120 }}</p>
+            <div class="ut-blog-card-meta">
+              <span class="ut-blog-card-date">Coming Soon</span>
+              <span class="ut-blog-card-read">5–8 min read</span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Newsletter -->
+    <div class="ut-blog-nl">
+      <div>
+        <span class="ut-blog-nl-eyebrow">Beauty Wisdom, Weekly</span>
+        <div class="ut-blog-nl-title">Stories That <em>Actually Help</em><br>Your Skin</div>
+        <p class="ut-blog-nl-sub">Join 47,000+ Indian women who get real skincare advice — no gimmicks, no paid promotions. Just 50 years of expertise in your inbox every Thursday.</p>
+      </div>
+      {% form 'customer' %}
+        <div class="ut-blog-nl-form">
+          <input class="ut-blog-nl-inp" type="email" name="contact[email]" placeholder="your@email.com" required aria-label="Email address">
+          <button class="ut-blog-nl-btn" type="submit">Subscribe Free</button>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</div>
+
+<script>
+function blogFilter(cat,btn){
+  document.querySelectorAll('.ut-blog-cat').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.ut-blog-card,.ut-blog-feat-card').forEach(function(card){
+    var cats=card.dataset.cat||'';
+    card.style.display=(cat==='all'||cats.includes(cat))?'':'none';
+  });
+}
+</script>
+{% schema %}{"name":"Blog","tag":"section","settings":[]}{% endschema %}
