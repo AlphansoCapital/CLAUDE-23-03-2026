@@ -1,0 +1,96 @@
+{% comment %}
+Single Brand/Vendor page — accessed via /collections/brand-handle
+Shows all products from a specific vendor/brand
+{% endcomment %}
+<style>
+.ut-vendor { background:var(--ut-bg); min-height:100vh; }
+.ut-vendor-hero {
+  background:linear-gradient(155deg,var(--ut-bg-4),var(--ut-bg));
+  padding:60px 32px 48px;
+  display:grid;grid-template-columns:1fr 2fr;gap:48px;
+  align-items:center;max-width:1300px;margin:0 auto;
+}
+@media(max-width:768px){ .ut-vendor-hero{ grid-template-columns:1fr;gap:24px;padding:36px 20px 28px; } }
+.ut-vendor-logo-box {
+  aspect-ratio:3/2;
+  background:linear-gradient(145deg,#1C1208,var(--ut-bg));
+  border:1px solid rgba(201,169,110,0.15);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.ut-vendor-logo-box::before {
+  content:'';position:absolute;inset:12px;
+  border:1px solid rgba(201,169,110,0.06);
+}
+.ut-vendor-logo-txt {
+  font-family:'Cinzel',serif;font-size:clamp(18px,3vw,28px);
+  color:var(--ut-gold);letter-spacing:0.2em;text-align:center;padding:20px;
+  position:relative;z-index:1;
+}
+.ut-vendor-info {}
+.ut-vendor-eyebrow {
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.4em;
+  color:rgba(201,169,110,0.4);text-transform:uppercase;margin-bottom:12px;
+}
+.ut-vendor-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,44px);font-weight:300;
+  color:var(--ut-text);line-height:1.15;margin-bottom:12px;
+}
+.ut-vendor-desc {
+  font-family:'Jost',sans-serif;font-size:13px;
+  color:rgba(250,246,240,0.45);line-height:1.85;letter-spacing:0.05em;
+  margin-bottom:20px;max-width:500px;
+}
+.ut-vendor-stats { display:flex;gap:28px;flex-wrap:wrap;margin-bottom:22px; }
+.ut-vendor-stat-num {
+  font-family:'Cinzel',serif;font-size:22px;color:var(--ut-gold);display:block;line-height:1;
+}
+.ut-vendor-stat-lbl {
+  font-family:'Jost',sans-serif;font-size:9px;
+  color:rgba(250,246,240,0.3);letter-spacing:0.18em;text-transform:uppercase;
+}
+.ut-vendor-tags { display:flex;gap:8px;flex-wrap:wrap; }
+.ut-vendor-tag {
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.4);
+  border:1px solid rgba(201,169,110,0.12);padding:5px 12px;letter-spacing:0.06em;
+}
+</style>
+
+<div class="ut-vendor">
+  <div style="background:linear-gradient(155deg,var(--ut-bg-4),var(--ut-bg));border-bottom:1px solid rgba(201,169,110,0.1);">
+    <div class="ut-vendor-hero">
+      <div class="ut-vendor-logo-box">
+        {% if collection.image %}
+          <img src="{{ collection.image | img_url: '600x' }}" alt="{{ collection.title }}"
+            style="width:100%;height:100%;object-fit:cover;">
+        {% else %}
+          <span class="ut-vendor-logo-txt">{{ collection.title }}</span>
+        {% endif %}
+      </div>
+      <div class="ut-vendor-info">
+        <p class="ut-vendor-eyebrow">Brand</p>
+        <h1 class="ut-vendor-name">{{ collection.title }}</h1>
+        {% if collection.description != blank %}
+          <p class="ut-vendor-desc">{{ collection.description | strip_html }}</p>
+        {% else %}
+          <p class="ut-vendor-desc">Discover premium products from {{ collection.title }}. Authentic, quality-tested, fast delivery pan-India.</p>
+        {% endif %}
+        <div class="ut-vendor-stats">
+          <div><span class="ut-vendor-stat-num">{{ collection.products_count }}</span><span class="ut-vendor-stat-lbl">Products</span></div>
+          <div><span class="ut-vendor-stat-num">★ 4.8</span><span class="ut-vendor-stat-lbl">Avg Rating</span></div>
+          <div><span class="ut-vendor-stat-num">100%</span><span class="ut-vendor-stat-lbl">Authentic</span></div>
+        </div>
+        <div class="ut-vendor-tags">
+          {% for tag in collection.all_tags limit:5 %}
+            <span class="ut-vendor-tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- render 'main-collection' -%}
+</div>
+{% schema %}{"name":"Vendor Page","tag":"section","settings":[]}{% endschema %}
