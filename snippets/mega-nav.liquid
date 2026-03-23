@@ -1,0 +1,328 @@
+<style>
+:root{--ut-gold:#C9A96E;--ut-gold-l:#E2C98A;--ut-gold-p:#F0E3C0;--ut-black:#080706;--ut-surface:#0F0D0B;--ut-surface2:#181410;--ut-text:#FAF6F0;--ut-muted:rgba(250,246,240,0.45);--ut-border:rgba(201,169,110,0.14);--ut-nav-h:64px;}
+.ut-topbar{background:var(--ut-black);border-bottom:0.5px solid var(--ut-border);overflow:hidden;}
+.ut-topbar-track{display:flex;white-space:nowrap;animation:topbarScroll 40s linear infinite;padding:9px 0;}
+.ut-topbar-track:hover{animation-play-state:paused}
+.ut-topbar-item{flex:0 0 auto;font-family:'Cinzel',Georgia,serif;font-size:9px;letter-spacing:0.32em;color:rgba(201,169,110,0.65);text-transform:uppercase;padding:0 48px;}
+.ut-topbar-item strong{color:var(--ut-gold-l);font-weight:500;}
+.ut-topbar-item .sep{color:rgba(201,169,110,0.25);margin:0 12px;}
+@keyframes topbarScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ut-nav{background:rgba(8,7,6,0.97);border-bottom:0.5px solid var(--ut-border);position:sticky;top:0;z-index:9000;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:box-shadow 0.4s ease;}
+.ut-nav.scrolled{box-shadow:0 2px 60px rgba(0,0,0,0.9),0 0 0 0.5px rgba(201,169,110,0.07);}
+.ut-nav-inner{max-width:1440px;margin:0 auto;height:var(--ut-nav-h);display:flex;align-items:center;padding:0 32px;gap:0;}
+.ut-logo{font-family:'Cinzel',Georgia,serif;font-size:14px;font-weight:600;letter-spacing:0.3em;color:var(--ut-gold);text-decoration:none;text-transform:uppercase;white-space:nowrap;margin-right:52px;position:relative;transition:color 0.25s;flex-shrink:0;}
+.ut-logo:hover{color:var(--ut-gold-l);}
+.ut-logo sup{font-size:7px;color:rgba(201,169,110,0.35);letter-spacing:0;font-family:sans-serif;vertical-align:super;}
+.ut-links{list-style:none;display:flex;align-items:center;gap:0;margin:0;padding:0;flex:1;}
+.ut-item{position:static;}
+.ut-link{display:inline-flex;align-items:center;gap:5px;padding:0 14px;height:var(--ut-nav-h);font-family:'Cinzel',Georgia,serif;font-size:9px;font-weight:400;letter-spacing:0.26em;color:var(--ut-muted);text-decoration:none;text-transform:uppercase;background:none;border:none;cursor:pointer;position:relative;transition:color 0.2s;white-space:nowrap;}
+.ut-link::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:1px;background:var(--ut-gold);transform:translateX(-50%);transition:width 0.3s cubic-bezier(0.4,0,0.2,1);}
+.ut-item:hover>.ut-link,.ut-link:hover{color:var(--ut-gold-l);}
+.ut-item:hover>.ut-link::after{width:calc(100% - 28px);}
+.ut-arr{font-size:7px;opacity:0.4;transition:transform 0.25s,opacity 0.25s;}
+.ut-item:hover>.ut-link .ut-arr{transform:rotate(180deg);opacity:0.9;}
+.ut-nbadge{font-family:sans-serif;font-size:7px;letter-spacing:0.06em;padding:2px 7px;border-radius:2px;font-weight:700;text-transform:uppercase;margin-left:3px;background:var(--ut-gold);color:var(--ut-black);}
+.ut-nbadge.hot{background:rgba(220,60,50,0.9);color:#fff;}
+.ut-nbadge.new{background:rgba(40,160,80,0.85);color:#fff;}
+.ut-mega{position:fixed;top:var(--ut-nav-h);left:0;right:0;background:var(--ut-surface);border-top:0.5px solid var(--ut-border);border-bottom:1px solid rgba(201,169,110,0.2);box-shadow:0 32px 80px rgba(0,0,0,0.85);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity 0.2s ease,transform 0.2s ease,visibility 0s linear 0.2s;z-index:8999;}
+.ut-item:hover .ut-mega{opacity:1;visibility:visible;transform:translateY(0);transition:opacity 0.2s ease,transform 0.2s ease;}
+.ut-mega-inner{max-width:1440px;margin:0 auto;padding:40px 32px 36px;display:grid;grid-template-columns:repeat(5,1fr) 240px;gap:0 36px;}
+.ut-mcol h4{font-family:'Cinzel',Georgia,serif;font-size:8px;letter-spacing:0.38em;color:var(--ut-gold);text-transform:uppercase;margin:0 0 18px;padding-bottom:12px;border-bottom:0.5px solid var(--ut-border);font-weight:400;}
+.ut-mcol a{display:flex;align-items:center;gap:8px;font-family:'Jost','Helvetica Neue',sans-serif;font-size:12px;letter-spacing:0.04em;color:var(--ut-muted);text-decoration:none;padding:5px 0;transition:color 0.15s,padding-left 0.2s;line-height:1.5;}
+.ut-mcol a:hover{color:var(--ut-gold-l);padding-left:7px;}
+.ut-mbadge{font-family:sans-serif;font-size:7px;padding:1px 6px;border-radius:2px;font-weight:700;letter-spacing:0.05em;background:rgba(201,169,110,0.14);color:var(--ut-gold);text-transform:uppercase;}
+.ut-mbadge.hot{background:rgba(200,50,40,0.15);color:#e87060;}
+.ut-mbadge.new{background:rgba(40,160,80,0.15);color:#60c880;}
+.ut-mpromo{border-left:0.5px solid var(--ut-border);padding-left:36px;}
+.ut-mpromo-img{width:100%;aspect-ratio:4/3;background:var(--ut-surface2);border:0.5px solid var(--ut-border);display:flex;align-items:center;justify-content:center;margin-bottom:16px;position:relative;overflow:hidden;}
+.ut-mpromo-img::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(201,169,110,0.07) 0%,transparent 70%);}
+.ut-mpromo-img span{font-family:'Cinzel',Georgia,serif;font-size:9px;letter-spacing:0.3em;color:var(--ut-gold);text-align:center;line-height:1.9;position:relative;}
+.ut-mpromo p{font-family:'Jost',sans-serif;font-size:12px;color:var(--ut-text);margin:0 0 12px;letter-spacing:0.02em;}
+.ut-mpromo-cta{display:inline-block;font-family:'Cinzel',Georgia,serif;font-size:7px;letter-spacing:0.38em;color:var(--ut-gold);text-decoration:none;border:0.5px solid rgba(201,169,110,0.3);padding:7px 16px;text-transform:uppercase;transition:background 0.25s,color 0.25s;}
+.ut-mpromo-cta:hover{background:var(--ut-gold);color:var(--ut-black);}
+.ut-right{display:flex;align-items:center;gap:2px;margin-left:auto;flex-shrink:0;}
+.ut-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:none;border:none;cursor:pointer;color:var(--ut-muted);position:relative;border-radius:2px;transition:color 0.2s,background 0.2s;text-decoration:none;}
+.ut-icon:hover{color:var(--ut-gold);background:rgba(201,169,110,0.08);}
+.ut-icon svg{width:17px;height:17px;flex-shrink:0;}
+.ut-badge{position:absolute;top:7px;right:6px;min-width:15px;height:15px;background:var(--ut-gold);color:var(--ut-black);font-size:8px;font-weight:700;font-family:sans-serif;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;}
+/* SEARCH PANEL */
+.ut-search-wrap{position:relative;}
+.ut-search-panel{position:fixed;top:calc(var(--ut-nav-h) + 36px);right:32px;width:420px;background:var(--ut-surface);border:0.5px solid rgba(201,169,110,0.25);box-shadow:0 24px 60px rgba(0,0,0,0.8);opacity:0;visibility:hidden;transform:translateY(-10px) scale(0.98);transition:opacity 0.22s ease,transform 0.22s ease,visibility 0s linear 0.22s;z-index:9100;}
+.ut-search-panel.open{opacity:1;visibility:visible;transform:translateY(0) scale(1);transition:opacity 0.22s ease,transform 0.22s ease;}
+.ut-search-form{display:flex;align-items:center;border-bottom:0.5px solid var(--ut-border);}
+.ut-search-input{flex:1;background:none;border:none;outline:none;padding:16px 18px;font-family:'Jost',sans-serif;font-size:13px;color:var(--ut-text);letter-spacing:0.04em;}
+.ut-search-input::placeholder{color:rgba(250,246,240,0.2);}
+.ut-search-go{background:none;border:none;border-left:0.5px solid var(--ut-border);padding:12px 16px;cursor:pointer;color:var(--ut-gold);transition:background 0.2s;}
+.ut-search-go:hover{background:rgba(201,169,110,0.08);}
+.ut-search-go svg{width:16px;height:16px;}
+.ut-suggest{padding:10px 0;max-height:340px;overflow-y:auto;}
+.ut-suggest-label{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.36em;color:rgba(201,169,110,0.4);text-transform:uppercase;padding:8px 18px;}
+.ut-suggest-item{display:flex;align-items:center;gap:12px;padding:10px 18px;text-decoration:none;transition:background 0.15s;cursor:pointer;border:none;background:none;width:100%;text-align:left;}
+.ut-suggest-item:hover{background:rgba(201,169,110,0.05);}
+.ut-suggest-icon{width:36px;height:36px;flex-shrink:0;background:var(--ut-surface2);border:0.5px solid var(--ut-border);display:flex;align-items:center;justify-content:center;font-size:14px;overflow:hidden;}
+.ut-suggest-text{flex:1;}
+.ut-suggest-name{font-family:'Jost',sans-serif;font-size:12px;color:var(--ut-text);display:block;margin-bottom:2px;}
+.ut-suggest-cat{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.22em;color:var(--ut-gold);text-transform:uppercase;}
+.ut-suggest-price{font-family:'Jost',sans-serif;font-size:12px;color:var(--ut-gold-l);flex-shrink:0;}
+.ut-suggest-divider{height:0.5px;background:var(--ut-border);margin:6px 0;}
+.ut-search-empty{padding:24px 18px;font-family:'Jost',sans-serif;font-size:12px;color:var(--ut-muted);text-align:center;}
+.ut-search-loading{padding:20px 18px;text-align:center;}
+.ut-sdots{display:inline-flex;gap:5px;}
+.ut-sdots span{width:5px;height:5px;border-radius:50%;background:var(--ut-gold);opacity:0.3;animation:sdot 1.2s ease-in-out infinite;}
+.ut-sdots span:nth-child(2){animation-delay:0.2s;}
+.ut-sdots span:nth-child(3){animation-delay:0.4s;}
+@keyframes sdot{0%,80%,100%{opacity:0.3}40%{opacity:1}}
+.ut-search-footer{border-top:0.5px solid var(--ut-border);padding:12px 18px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.ut-search-footer-label{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.28em;color:rgba(201,169,110,0.35);text-transform:uppercase;width:100%;margin-bottom:4px;}
+.ut-search-tag{font-family:'Jost',sans-serif;font-size:10px;color:var(--ut-muted);border:0.5px solid var(--ut-border);padding:4px 12px;background:none;cursor:pointer;transition:all 0.15s;text-decoration:none;letter-spacing:0.04em;}
+.ut-search-tag:hover{border-color:rgba(201,169,110,0.4);color:var(--ut-gold);}
+.ut-search-backdrop{position:fixed;inset:0;z-index:9099;display:none;}
+.ut-search-backdrop.open{display:block;}
+/* BURGER */
+.ut-burger{display:none;flex-direction:column;gap:5px;width:40px;height:40px;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;padding:0;}
+.ut-burger span{display:block;width:20px;height:0.5px;background:var(--ut-gold);transition:transform 0.25s,opacity 0.25s,width 0.25s;}
+.ut-burger.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+.ut-burger.open span:nth-child(2){opacity:0;width:0;}
+.ut-burger.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+/* MOBILE */
+.ut-mobile{display:none;}
+.ut-mobile-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9998;backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.ut-mobile-drawer{position:fixed;top:0;left:0;width:300px;height:100%;background:var(--ut-surface);border-right:0.5px solid var(--ut-border);z-index:9999;overflow-y:auto;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);}
+.ut-mobile.open .ut-mobile-overlay{opacity:1;pointer-events:all;}
+.ut-mobile.open .ut-mobile-drawer{transform:translateX(0);}
+.ut-mob-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:0.5px solid var(--ut-border);}
+.ut-mob-logo{font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:0.3em;color:var(--ut-gold);text-transform:uppercase;text-decoration:none;}
+.ut-mob-close{background:none;border:0.5px solid var(--ut-border);color:var(--ut-muted);width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border-radius:2px;transition:color 0.2s;}
+.ut-mob-close:hover{color:var(--ut-gold);}
+.ut-mob-body{padding:20px 0;}
+.ut-mob-section{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.4em;color:rgba(201,169,110,0.3);text-transform:uppercase;padding:14px 24px 6px;display:block;}
+.ut-mob-link{display:block;font-family:'Cinzel',Georgia,serif;font-size:10px;letter-spacing:0.24em;color:var(--ut-muted);text-decoration:none;text-transform:uppercase;padding:13px 24px;border-bottom:0.5px solid rgba(201,169,110,0.05);transition:color 0.2s,padding-left 0.2s,background 0.2s;}
+.ut-mob-link:hover{color:var(--ut-gold);padding-left:32px;background:rgba(201,169,110,0.03);}
+.ut-mob-foot{padding:20px 24px;border-top:0.5px solid var(--ut-border);display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;}
+.ut-mob-foot a{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.26em;color:rgba(201,169,110,0.35);text-transform:uppercase;text-decoration:none;transition:color 0.2s;}
+.ut-mob-foot a:hover{color:var(--ut-gold);}
+@media(max-width:1100px){.ut-links{display:none;}.ut-burger{display:flex;}.ut-mobile{display:block;}.ut-logo{margin-right:0;}}
+@media(max-width:768px){.ut-nav-inner{padding:0 16px;}.ut-search-panel{right:16px;left:16px;width:auto;top:calc(var(--ut-nav-h) + 20px);}}
+</style>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ut-topbar">
+  <div class="ut-topbar-track">
+    <span class="ut-topbar-item">✦ <strong>Free Delivery</strong> on orders above ₹799/-<span class="sep">|</span>Est. <strong>1975</strong> — India's Beauty Problem Solver<span class="sep">|</span><strong>50 Years</strong> of Skincare Trust<span class="sep">|</span><strong>COD Available</strong> Across India<span class="sep">|</span>Easy <strong>Returns & Exchanges</strong></span>
+    <span class="ut-topbar-item" aria-hidden="true">✦ <strong>Free Delivery</strong> on orders above ₹799/-<span class="sep">|</span>Est. <strong>1975</strong> — India's Beauty Problem Solver<span class="sep">|</span><strong>50 Years</strong> of Skincare Trust<span class="sep">|</span><strong>COD Available</strong> Across India<span class="sep">|</span>Easy <strong>Returns & Exchanges</strong></span>
+  </div>
+</div>
+
+<!-- MAIN NAV -->
+<nav class="ut-nav" id="utNav" role="navigation" aria-label="Main navigation">
+  <div class="ut-nav-inner">
+    <a href="{{ routes.root_url }}" class="ut-logo" aria-label="{{ shop.name }}">{{ shop.name }}<sup>®</sup></a>
+    <ul class="ut-links" role="menubar">
+      <li class="ut-item">
+        <button class="ut-link" aria-haspopup="true">Shop <span class="ut-arr">▾</span></button>
+        <div class="ut-mega">
+          <div class="ut-mega-inner">
+            <div class="ut-mcol">
+              <h4>All Beauty</h4>
+              <a href="/collections/all">New Arrivals <span class="ut-mbadge new">New</span></a>
+              <a href="/collections/all?sort_by=best-selling">Best Sellers</a>
+              <a href="/collections/all">Under ₹999</a>
+              <a href="/collections/gift-sets">Gift Sets</a>
+              <a href="/collections/festive-edit">Festive Edits</a>
+              <a href="/collections/sale">Sale <span class="ut-mbadge hot">Sale</span></a>
+            </div>
+            <div class="ut-mcol">
+              <h4>Skincare</h4>
+              <a href="/collections/serums">Serums & Actives</a>
+              <a href="/collections/moisturizers">Moisturizers</a>
+              <a href="/collections/toners">Toners & Mists</a>
+              <a href="/collections/sunscreen">Sunscreen SPF 50+</a>
+              <a href="/collections/eye-care">Eye Care</a>
+              <a href="/collections/face-masks">Face Masks</a>
+              <a href="/collections/cleansers">Cleansers</a>
+            </div>
+            <div class="ut-mcol">
+              <h4>Makeup</h4>
+              <a href="/collections/foundation">Foundation & Base</a>
+              <a href="/collections/lipstick">Lipstick <span class="ut-mbadge hot">Hot</span></a>
+              <a href="/collections/kajal-liner">Kajal & Liner</a>
+              <a href="/collections/eyeshadow">Eyeshadow</a>
+              <a href="/collections/blush-highlighter">Blush & Highlighter</a>
+              <a href="/collections/primers">Setting & Primers</a>
+            </div>
+            <div class="ut-mcol">
+              <h4>Hair Care</h4>
+              <a href="/collections/hair-oils">Hair Growth Oils</a>
+              <a href="/collections/hair-masks">Hair Masks & Packs</a>
+              <a href="/collections/shampoo">Shampoo</a>
+              <a href="/collections/conditioner">Conditioner</a>
+              <a href="/collections/hair-serums">Hair Serums</a>
+              <a href="/collections/scalp-care">Scalp Care</a>
+            </div>
+            <div class="ut-mcol">
+              <h4>By Concern</h4>
+              <a href="/collections/dark-spots">Dark Spots & Pigmentation</a>
+              <a href="/collections/anti-ageing">Anti-Ageing</a>
+              <a href="/collections/acne-care">Acne & Pimples</a>
+              <a href="/collections/dry-skin">Dry Skin</a>
+              <a href="/collections/oily-skin">Oily Skin</a>
+              <a href="/collections/sensitive-skin">Sensitive Skin</a>
+            </div>
+            <div class="ut-mpromo">
+              <div class="ut-mpromo-img"><span>New<br>Collection</span></div>
+              <p>Himalayan Rose Edit</p>
+              <a href="/collections/himalayan-rose" class="ut-mpromo-cta">Explore Now →</a>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="ut-item"><a href="/collections/skincare" class="ut-link">Skincare</a></li>
+      <li class="ut-item"><a href="/collections/makeup" class="ut-link">Makeup <span class="ut-nbadge">Sale</span></a></li>
+      <li class="ut-item"><a href="/collections/viral-products" class="ut-link">Viral <span class="ut-nbadge hot">Hot</span></a></li>
+      <li class="ut-item"><a href="/blogs/beauty" class="ut-link">Journal</a></li>
+      <li class="ut-item"><a href="/pages/about" class="ut-link">Our Story</a></li>
+    </ul>
+    <div class="ut-right">
+      <div class="ut-search-wrap">
+        <button class="ut-icon" id="utSearchBtn" aria-label="Search" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="17" y1="17" x2="22" y2="22"/></svg>
+        </button>
+        <div class="ut-search-panel" id="utSearchPanel">
+          <form class="ut-search-form" action="/search" method="get">
+            <input type="hidden" name="type" value="product">
+            <input class="ut-search-input" type="text" name="q" id="utSearchInput" placeholder="Search skincare, ingredients, products…" autocomplete="off">
+            <button class="ut-search-go" type="submit" aria-label="Search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="17" y1="17" x2="22" y2="22"/></svg>
+            </button>
+          </form>
+          <div id="utSuggestBox" class="ut-suggest"></div>
+          <div class="ut-search-footer">
+            <span class="ut-search-footer-label">Popular Searches</span>
+            <a href="/search?q=vitamin+c+serum&type=product" class="ut-search-tag">Vitamin C Serum</a>
+            <a href="/search?q=sunscreen+spf+50&type=product" class="ut-search-tag">Sunscreen SPF 50</a>
+            <a href="/search?q=hair+growth+oil&type=product" class="ut-search-tag">Hair Growth Oil</a>
+            <a href="/search?q=niacinamide&type=product" class="ut-search-tag">Niacinamide</a>
+            <a href="/search?q=dark+spots&type=product" class="ut-search-tag">Dark Spots</a>
+          </div>
+        </div>
+      </div>
+      <button class="ut-icon" onclick="window.location='/pages/wishlist'" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="ut-badge" id="utWishBadge" style="display:none;"></span>
+      </button>
+      <a href="{{ routes.account_url }}" class="ut-icon" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+      <button class="ut-icon" onclick="openCartDrawer()" aria-label="Cart" style="position:relative;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="ut-badge" id="utCartBadge">{{ cart.item_count }}</span>
+      </button>
+      <button class="ut-burger" id="utBurger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="ut-search-backdrop" id="utSearchBackdrop"></div>
+
+<!-- MOBILE NAV -->
+<div class="ut-mobile" id="utMobile" aria-hidden="true">
+  <div class="ut-mobile-overlay" id="utMobOverlay"></div>
+  <div class="ut-mobile-drawer">
+    <div class="ut-mob-head">
+      <a href="{{ routes.root_url }}" class="ut-mob-logo" onclick="UT.closeMob()">{{ shop.name }}</a>
+      <button class="ut-mob-close" onclick="UT.closeMob()">×</button>
+    </div>
+    <div class="ut-mob-body">
+      <span class="ut-mob-section">Shop</span>
+      <a class="ut-mob-link" href="/collections/all">All Products</a>
+      <a class="ut-mob-link" href="/collections/skincare">Skincare</a>
+      <a class="ut-mob-link" href="/collections/makeup">Makeup</a>
+      <a class="ut-mob-link" href="/collections/hair-care">Hair Care</a>
+      <a class="ut-mob-link" href="/collections/fragrance">Fragrance</a>
+      <a class="ut-mob-link" href="/collections/viral-products">Viral Products 🔥</a>
+      <span class="ut-mob-section">By Concern</span>
+      <a class="ut-mob-link" href="/collections/dark-spots">Dark Spots</a>
+      <a class="ut-mob-link" href="/collections/acne-care">Acne & Breakouts</a>
+      <a class="ut-mob-link" href="/collections/anti-ageing">Anti-Ageing</a>
+      <span class="ut-mob-section">Explore</span>
+      <a class="ut-mob-link" href="/blogs/beauty">Beauty Journal</a>
+      <a class="ut-mob-link" href="/pages/about">Our Story</a>
+      <a class="ut-mob-link" href="/collections/sale">Sale</a>
+    </div>
+    <div class="ut-mob-foot">
+      <a href="{{ routes.account_url }}">Account</a>
+      <a href="/pages/track-order">Track Order</a>
+      <a href="/pages/contact">Contact</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var nav=document.getElementById('utNav');
+  var sBtn=document.getElementById('utSearchBtn');
+  var sPanel=document.getElementById('utSearchPanel');
+  var sInput=document.getElementById('utSearchInput');
+  var sBox=document.getElementById('utSuggestBox');
+  var sBD=document.getElementById('utSearchBackdrop');
+  var burger=document.getElementById('utBurger');
+  var mobile=document.getElementById('utMobile');
+  var mobOv=document.getElementById('utMobOverlay');
+  var isOpen=false,timer=null,lastQ='';
+
+  /* Scroll */
+  window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>8);},{passive:true});
+
+  /* Search toggle */
+  function openS(){isOpen=true;sPanel.classList.add('open');sBD.classList.add('open');sBtn.setAttribute('aria-expanded','true');setTimeout(function(){sInput.focus();},60);}
+  function closeS(){isOpen=false;sPanel.classList.remove('open');sBD.classList.remove('open');sBtn.setAttribute('aria-expanded','false');}
+  sBtn.addEventListener('click',function(e){e.stopPropagation();isOpen?closeS():openS();});
+  sBD.addEventListener('click',closeS);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&isOpen)closeS();});
+
+  /* Popular */
+  var pop=[
+    {name:'Vitamin C Serum 20%',cat:'Skincare',price:'₹799',icon:'🍋',url:'/search?q=vitamin+c+serum&type=product'},
+    {name:'SPF 50 Sunscreen',cat:'Skincare',price:'₹599',icon:'☀️',url:'/search?q=sunscreen+spf+50&type=product'},
+    {name:'Hair Growth Oil',cat:'Hair Care',price:'₹649',icon:'🌿',url:'/search?q=hair+growth+oil&type=product'},
+    {name:'Niacinamide 10%',cat:'Skincare',price:'₹499',icon:'✨',url:'/search?q=niacinamide&type=product'},
+    {name:'Kajal & Liner Set',cat:'Makeup',price:'₹349',icon:'👁️',url:'/search?q=kajal&type=product'}
+  ];
+  function showPop(){
+    var h='<div class="ut-suggest-label">Trending Now</div>';
+    pop.forEach(function(s){h+='<a href="'+s.url+'" class="ut-suggest-item"><div class="ut-suggest-icon">'+s.icon+'</div><div class="ut-suggest-text"><span class="ut-suggest-name">'+s.name+'</span><span class="ut-suggest-cat">'+s.cat+'</span></div><span class="ut-suggest-price">'+s.price+'</span></a>';});
+    sBox.innerHTML=h;
+  }
+  function showLoad(){sBox.innerHTML='<div class="ut-search-loading"><div class="ut-sdots"><span></span><span></span><span></span></div></div>';}
+  function showEmpty(q){sBox.innerHTML='<div class="ut-search-empty">No results for "<strong style="color:var(--ut-gold-l)">'+q+'</strong>"<br><span style="font-size:11px;margin-top:6px;display:block;">Try: Serum, Moisturizer, Hair Oil…</span></div>';}
+  function showResults(items,q){
+    if(!items||!items.length){showEmpty(q);return;}
+    var h='<div class="ut-suggest-label">Products</div>';
+    items.slice(0,5).forEach(function(p){
+      var pr=p.price_min?'₹'+(p.price_min/100).toLocaleString('en-IN'):'';
+      var img=p.featured_image?'<img src="'+p.featured_image+'" alt="" style="width:100%;height:100%;object-fit:cover;">':'🧴';
+      h+='<a href="'+p.url+'" class="ut-suggest-item"><div class="ut-suggest-icon">'+img+'</div><div class="ut-suggest-text"><span class="ut-suggest-name">'+p.title+'</span><span class="ut-suggest-cat">'+p.product_type+'</span></div><span class="ut-suggest-price">'+pr+'</span></a>';
+    });
+    if(items.length>5){h+='<div class="ut-suggest-divider"></div><a href="/search?q='+encodeURIComponent(q)+'&type=product" class="ut-suggest-item" style="justify-content:center;"><span style="font-family:Cinzel,serif;font-size:8px;letter-spacing:0.28em;color:var(--ut-gold);text-transform:uppercase;">View all '+items.length+' results →</span></a>';}
+    sBox.innerHTML=h;
+  }
+  function doSearch(q){
+    if(q===lastQ)return;lastQ=q;
+    if(!q||q.length<2){showPop();return;}
+    showLoad();
+    fetch('/search/suggest.json?q='+encodeURIComponent(q)+'&resources[type]=product&resources[limit]=8')
+      .then(function(r){return r.json();})
+      .then(function(d){var p=(d&&d.resources&&d.resources.results&&d.resources.results.products)||[];showResults(p,q);})
+      .catch(function(){showEmpty(q);});
+  }
+  sInput.addEventListener('input',function(){var q=this.value.trim();clearTimeout(timer);if(!q){showPop();lastQ='';return;}timer=setTimeout(function(){doSearch(q);},280);});
+  sInput.addEventListener('focus',function(){if(!this.value.trim())showPop();});
+
+  /* Mobile */
+  window.UT=window.UT||{};
+  window.UT.closeMob=function(){mobile.classList.remove('open');mobile.setAttribute('aria-hidden','true');burger.classList.remove('open');burger.setAttribute('aria-expanded','false');document.body.style.overflow='';};
+  function openMob(){mobile.classList.add('open');mobile.setAttribute('aria-hidden','false');burger.classList.add('open');burger.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';}
+  if(burger)burger.addEventListener('click',openMob);
+  if(mobOv)mobOv.addEventListener('click',window.UT.closeMob);
+  showPop();
+})();
+</script>
