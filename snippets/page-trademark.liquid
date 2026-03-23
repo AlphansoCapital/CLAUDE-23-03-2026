@@ -1,0 +1,186 @@
+<style>
+.ut-tm { background:var(--ut-bg); min-height:60vh; padding:72px 0 80px; }
+.ut-tm-inner { max-width:860px; margin:0 auto; padding:0 32px; }
+.ut-tm-badge-row {
+  display:flex; align-items:center; gap:16px; margin-bottom:36px;
+  flex-wrap:wrap;
+}
+.ut-tm-badge {
+  display:flex; align-items:center; gap:12px;
+  background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.04));
+  border:1px solid rgba(201,169,110,0.3);
+  padding:14px 22px;
+}
+.ut-tm-badge-symbol {
+  font-family:'Cinzel',serif; font-size:32px; color:var(--ut-gold); line-height:1;
+}
+.ut-tm-badge-info {}
+.ut-tm-badge-name {
+  font-family:'Cinzel',serif; font-size:15px; color:var(--ut-text);
+  letter-spacing:0.18em; text-transform:uppercase;
+}
+.ut-tm-badge-sub {
+  font-family:'Jost',sans-serif; font-size:10px; color:rgba(201,169,110,0.5);
+  letter-spacing:0.15em; text-transform:uppercase; margin-top:2px;
+}
+.ut-tm-class-badge {
+  background:rgba(201,169,110,0.1); border:1px solid rgba(201,169,110,0.25);
+  color:var(--ut-gold); font-family:'Cinzel',serif; font-size:9px;
+  letter-spacing:0.3em; text-transform:uppercase; padding:8px 16px;
+}
+.ut-tm-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,42px); font-weight:300;
+  color:var(--ut-text); letter-spacing:0.06em; line-height:1.2;
+  margin-bottom:12px;
+}
+.ut-tm-title em { font-style:italic; color:var(--ut-gold); }
+.ut-tm-divider { width:48px; height:1px; background:linear-gradient(to right,var(--ut-gold),transparent); margin:20px 0; }
+.ut-tm-body {
+  font-family:'Jost',sans-serif; font-size:14px;
+  color:rgba(250,246,240,0.55); line-height:1.95;
+  letter-spacing:0.04em; margin-bottom:16px;
+}
+.ut-tm-cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:32px 0; }
+@media(max-width:600px){ .ut-tm-cards{ grid-template-columns:1fr; } }
+.ut-tm-card {
+  background:var(--ut-bg-2); border:1px solid rgba(201,169,110,0.1);
+  padding:22px 20px;
+}
+.ut-tm-card-icon { font-size:24px; margin-bottom:10px; display:block; }
+.ut-tm-card-title {
+  font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.3em;
+  color:var(--ut-gold); text-transform:uppercase; margin-bottom:8px;
+}
+.ut-tm-card-body {
+  font-family:'Jost',sans-serif; font-size:12px;
+  color:rgba(250,246,240,0.45); line-height:1.75; letter-spacing:0.04em;
+}
+.ut-tm-notice {
+  background:rgba(139,58,82,0.07); border:1px solid rgba(139,58,82,0.2);
+  border-left:3px solid var(--ut-rose); padding:18px 20px; margin-top:28px;
+}
+.ut-tm-notice-title {
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em;
+  color:var(--ut-rose-light); text-transform:uppercase; margin-bottom:8px;
+  display:flex; align-items:center; gap:8px;
+}
+.ut-tm-notice-body {
+  font-family:'Jost',sans-serif; font-size:12px;
+  color:rgba(250,246,240,0.45); line-height:1.75; letter-spacing:0.04em;
+}
+.ut-tm-table { width:100%; border-collapse:collapse; margin:24px 0; }
+.ut-tm-table th {
+  font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.28em;
+  color:rgba(201,169,110,0.5); text-transform:uppercase;
+  padding:10px 14px; border-bottom:1px solid rgba(201,169,110,0.1);
+  text-align:left;
+}
+.ut-tm-table td {
+  font-family:'Jost',sans-serif; font-size:12px;
+  color:rgba(250,246,240,0.55); padding:10px 14px;
+  border-bottom:1px solid rgba(201,169,110,0.06);
+  letter-spacing:0.04em;
+}
+.ut-tm-table tr:hover td { background:rgba(201,169,110,0.02); color:rgba(250,246,240,0.75); }
+.ut-tm-verified {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(40,120,40,0.1); border:1px solid rgba(40,150,40,0.2);
+  color:var(--ut-success); font-family:'Jost',sans-serif; font-size:10px;
+  padding:3px 10px; letter-spacing:0.1em;
+}
+</style>
+
+<div class="ut-tm">
+  <div class="ut-tm-inner">
+
+    <!-- Badge row -->
+    <div class="ut-tm-badge-row">
+      <div class="ut-tm-badge">
+        <span class="ut-tm-badge-symbol">®</span>
+        <div class="ut-tm-badge-info">
+          <div class="ut-tm-badge-name">Urban Trend</div>
+          <div class="ut-tm-badge-sub">Registered Trademark · India</div>
+        </div>
+      </div>
+      <div class="ut-tm-class-badge">Class 3 — Cosmetics & Toiletries</div>
+      <span class="ut-tm-verified">✓ Verified Owner</span>
+    </div>
+
+    <h1 class="ut-tm-title">Trademark &<br><em>Intellectual Property</em></h1>
+    <div class="ut-tm-divider"></div>
+
+    <p class="ut-tm-body">
+      <strong style="color:var(--ut-text);">URBAN TREND</strong> is a registered trademark owned exclusively by <strong style="color:var(--ut-text);">Urban Trend Pvt. Ltd.</strong>, duly registered under the <strong style="color:var(--ut-text);">Trade Marks Act, 1999</strong> (Government of India) under <strong style="color:var(--ut-text);">Class 3</strong>, which covers cosmetics, skincare products, perfumery, hair care preparations, toiletries, and related beauty products.
+    </p>
+    <p class="ut-tm-body">
+      We are the sole and exclusive trademark owner of the URBAN TREND brand, logo, trade dress, and all associated intellectual property. This trademark protects our luxury Indian skincare brand and all products sold under the Urban Trend name across India and internationally.
+    </p>
+
+    <!-- Trademark details table -->
+    <table class="ut-tm-table">
+      <thead>
+        <tr>
+          <th>Detail</th>
+          <th>Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Brand Name</td><td>URBAN TREND®</td></tr>
+        <tr><td>Owner</td><td>Urban Trend Pvt. Ltd.</td></tr>
+        <tr><td>Trademark Class</td><td>Class 3 — Cosmetics, Toiletries & Beauty Products</td></tr>
+        <tr><td>Governing Law</td><td>Trade Marks Act, 1999 (India)</td></tr>
+        <tr><td>Registration Authority</td><td>Office of the Controller General of Patents, Designs & Trade Marks, Government of India</td></tr>
+        <tr><td>Territory</td><td>India (with international brand protection sought)</td></tr>
+        <tr><td>Status</td><td><span style="color:var(--ut-success);">✓ Registered & Active</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- What it covers -->
+    <div class="ut-tm-cards">
+      <div class="ut-tm-card">
+        <span class="ut-tm-card-icon">🌹</span>
+        <div class="ut-tm-card-title">What Class 3 Covers</div>
+        <div class="ut-tm-card-body">Skincare products, moisturizers, serums, toners, face masks, sunscreens, makeup, foundations, lipsticks, kajal, hair oils, shampoos, conditioners, perfumes, body lotions, bath products, and all cosmetic preparations.</div>
+      </div>
+      <div class="ut-tm-card">
+        <span class="ut-tm-card-icon">⚖️</span>
+        <div class="ut-tm-card-title">Our Rights</div>
+        <div class="ut-tm-card-body">As the registered trademark owner, Urban Trend Pvt. Ltd. holds the exclusive right to use, license, and enforce the URBAN TREND® mark. Any unauthorized use, imitation, or passing off constitutes trademark infringement under Indian law.</div>
+      </div>
+      <div class="ut-tm-card">
+        <span class="ut-tm-card-icon">🔒</span>
+        <div class="ut-tm-card-title">Protected Elements</div>
+        <div class="ut-tm-card-body">The URBAN TREND® wordmark, logo, brand identity, trade dress, packaging design, color schemes, and all associated brand elements are protected intellectual property. Unauthorized replication is prohibited.</div>
+      </div>
+      <div class="ut-tm-card">
+        <span class="ut-tm-card-icon">🇮🇳</span>
+        <div class="ut-tm-card-title">Made in India</div>
+        <div class="ut-tm-card-body">Urban Trend is a proudly Indian luxury brand. Our products are formulated and manufactured in India, crafted with Himalayan botanicals and ingredients sourced from across the Indian subcontinent.</div>
+      </div>
+    </div>
+
+    <!-- Legal notice -->
+    <div class="ut-tm-notice">
+      <div class="ut-tm-notice-title">⚠ Legal Notice</div>
+      <div class="ut-tm-notice-body">
+        Any unauthorized use, reproduction, imitation, counterfeiting, or passing off of the URBAN TREND® trademark, brand name, logo, packaging, or any other intellectual property belonging to Urban Trend Pvt. Ltd. is strictly prohibited. Such actions constitute trademark infringement under the Trade Marks Act, 1999, and may be subject to civil and criminal proceedings including injunctions, damages, and penalties under applicable Indian law.<br><br>
+        To report trademark infringement or counterfeiting, contact our legal team at <strong style="color:var(--ut-gold);">legal@urbantrend.in</strong> or call <strong style="color:var(--ut-gold);">+91-98765-43210</strong>.
+      </div>
+    </div>
+
+    <!-- Authorized resellers note -->
+    <p class="ut-tm-body" style="margin-top:28px;">
+      All products sold on urbantrend.in are <strong style="color:var(--ut-text);">100% authentic</strong> and sourced directly from Urban Trend Pvt. Ltd. We are the brand owner and manufacturer. If you encounter any counterfeit Urban Trend products, please report them immediately to help us protect consumers and our brand integrity.
+    </p>
+
+    <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(201,169,110,0.08);">
+      <p style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.3em;color:rgba(201,169,110,0.3);text-transform:uppercase;">
+        ® Registered Trademark · ™ Trademark of Urban Trend Pvt. Ltd. · © {{ 'now' | date: '%Y' }} Urban Trend Pvt. Ltd. All Rights Reserved.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}{"name":"Trademark Page","tag":"section","settings":[]}{% endschema %}
