@@ -1,0 +1,17 @@
+{% unless section.settings.banner_hidden %}
+<div class="ut-promo-bar" id="promoBanner">
+  <div class="ut-promo-bar-track">
+    {% assign msg1 = "Free Shipping Above ₹999" %}
+    {% assign msg2 = "COD Available Pan-India" %}
+    {% assign msg3 = "New: Kashmir Saffron Mask" %}
+    {% assign msg4 = "Use code GLOW15 for 15% off" %}
+    {% for i in (1..2) %}
+      <span class="ut-promo-bar-item">{{ msg1 }}</span>
+      <span class="ut-promo-bar-item">{{ msg2 }}</span>
+      <span class="ut-promo-bar-item">{{ msg3 }}</span>
+      <span class="ut-promo-bar-item">{{ msg4 }}</span>
+    {% endfor %}
+  </div>
+  <button class="ut-promo-bar-close" onclick="this.parentElement.style.display='none'" aria-label="Close">×</button>
+</div>
+{% endunless %}
