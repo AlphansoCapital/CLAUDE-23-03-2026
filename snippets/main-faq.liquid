@@ -1,0 +1,26 @@
+{%- comment -%} SEO {%- endcomment -%}
+<title>FAQ | Urban Trend</title>
+<meta name="description" content="Frequently asked questions about Urban Trend products, shipping, returns and more.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="FAQ | Urban Trend">
+<meta property="og:description" content="Frequently asked questions about Urban Trend.">
+<link rel="canonical" href="{{ canonical_url }}">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","name":"Urban Trend FAQ","url":"{{ canonical_url }}"}
+</script>
+
+<div style="background:var(--ut-bg);min-height:100vh;padding:60px 0 80px;">
+<div class="ut-faq">
+  <p class="ut-section-label">Support</p>
+  <h1 class="ut-section-title" style="text-align:left;margin-bottom:40px;">Frequently Asked Questions</h1>
+  {% assign faq_sections = "Orders & Shipping,Products & Ingredients,Returns & Refunds,Account & Loyalty" | split: "," %}
+  {% for sec in faq_sections %}
+  <div class="ut-faq-section-title">{{ sec }}</div>
+  <div class="ut-faq-item">
+    <button class="ut-faq-q" onclick="utAccordion(this)">Sample question for {{ sec }}?<span class="icon">+</span></button>
+    <div class="ut-faq-a">This is a sample answer. Update via Shopify Admin → Pages → FAQ.</div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+{% schema %}{"name":"FAQ Page","tag":"section","settings":[]}{% endschema %}
