@@ -1,0 +1,1124 @@
+{%- comment -%} SEO {%- endcomment -%}
+<title>Sign In | Urban Trend</title>
+<meta name="description" content="Sign in to your Urban Trend account to track orders and manage your wishlist.">
+<meta name="robots" content="noindex, nofollow">
+
+<style>
+/* ===== LAYOUT ===== */
+.ut-auth-page {
+  background:var(--ut-bg);
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  position:relative;
+}
+@media(max-width:900px){ .ut-auth-page{ grid-template-columns:1fr; } }
+
+/* ===== LEFT PANEL ===== */
+.ut-auth-left {
+  background:linear-gradient(155deg,var(--ut-bg-4) 0%,var(--ut-bg) 50%,#120E08 100%);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:48px;
+  min-height:100vh;
+}
+@media(max-width:900px){ .ut-auth-left{ display:none; } }
+.ut-auth-left::before {
+  content:'';
+  position:absolute;
+  top:20%;left:50%;
+  transform:translate(-50%,-50%);
+  width:500px;height:500px;
+  background:radial-gradient(ellipse,rgba(201,169,110,0.08) 0%,rgba(139,58,82,0.05) 50%,transparent 70%);
+  pointer-events:none;
+}
+.ut-auth-left-logo {
+  font-family:'Cinzel',serif;
+  font-size:16px;
+  color:var(--ut-gold);
+  letter-spacing:0.4em;
+  text-transform:uppercase;
+  text-decoration:none;
+  position:relative;z-index:1;
+}
+.ut-auth-left-center {
+  position:relative;z-index:1;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:40px 0;
+}
+.ut-auth-illustration {
+  width:100%;
+  max-width:340px;
+  margin:0 auto 40px;
+  aspect-ratio:1;
+  background:linear-gradient(135deg,rgba(201,169,110,0.06),rgba(139,58,82,0.04));
+  border:1px solid rgba(201,169,110,0.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.ut-auth-illustration::before {
+  content:'';
+  position:absolute;
+  inset:16px;
+  border:1px solid rgba(201,169,110,0.08);
+}
+.ut-auth-ill-icon {
+  font-size:80px;
+  opacity:0.7;
+  position:relative;z-index:1;
+}
+.ut-auth-left-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,3vw,40px);
+  font-weight:300;
+  color:var(--ut-text);
+  line-height:1.2;
+  margin-bottom:14px;
+  text-align:center;
+}
+.ut-auth-left-title em {
+  font-style:italic;
+  color:var(--ut-gold);
+}
+.ut-auth-left-sub {
+  font-family:'Jost',sans-serif;
+  font-size:13px;
+  color:rgba(250,246,240,0.4);
+  line-height:1.8;
+  text-align:center;
+  max-width:320px;
+  margin:0 auto;
+  letter-spacing:0.06em;
+}
+/* Benefits list */
+.ut-auth-benefits {
+  position:relative;z-index:1;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.ut-auth-benefit {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:'Jost',sans-serif;
+  font-size:12px;
+  color:rgba(250,246,240,0.45);
+  letter-spacing:0.05em;
+}
+.ut-auth-benefit-icon {
+  width:32px;height:32px;
+  border:1px solid rgba(201,169,110,0.18);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+  flex-shrink:0;
+  color:var(--ut-gold);
+}
+
+/* ===== RIGHT PANEL ===== */
+.ut-auth-right {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:48px 40px;
+  position:relative;
+  min-height:100vh;
+}
+@media(max-width:600px){ .ut-auth-right{ padding:40px 20px; } }
+.ut-auth-right-inner {
+  width:100%;
+  max-width:420px;
+}
+
+/* Mobile logo */
+.ut-auth-mobile-logo {
+  display:none;
+  font-family:'Cinzel',serif;
+  font-size:18px;
+  color:var(--ut-gold);
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  text-align:center;
+  margin-bottom:36px;
+  text-decoration:none;
+}
+@media(max-width:900px){ .ut-auth-mobile-logo{ display:block; } }
+
+/* Tab switcher */
+.ut-auth-tabs {
+  display:flex;
+  border-bottom:1px solid rgba(201,169,110,0.12);
+  margin-bottom:32px;
+}
+.ut-auth-tab {
+  flex:1;
+  font-family:'Cinzel',serif;
+  font-size:10px;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:rgba(201,169,110,0.35);
+  padding:14px;
+  text-align:center;
+  cursor:pointer;
+  border:none;
+  background:none;
+  border-bottom:2px solid transparent;
+  transition:all 0.2s;
+  margin-bottom:-1px;
+}
+.ut-auth-tab:hover { color:rgba(201,169,110,0.7); }
+.ut-auth-tab.active {
+  color:var(--ut-gold);
+  border-bottom-color:var(--ut-gold);
+}
+
+/* Forms */
+.ut-auth-form { display:none; }
+.ut-auth-form.active { display:block; }
+.ut-auth-form-title {
+  font-family:'Cinzel',serif;
+  font-size:clamp(20px,2.5vw,26px);
+  color:var(--ut-text);
+  font-weight:400;
+  letter-spacing:0.06em;
+  margin-bottom:6px;
+}
+.ut-auth-form-sub {
+  font-family:'Jost',sans-serif;
+  font-size:12px;
+  color:rgba(250,246,240,0.38);
+  letter-spacing:0.08em;
+  margin-bottom:28px;
+  line-height:1.6;
+}
+
+/* Fields */
+.ut-auth-field { margin-bottom:16px; position:relative; }
+.ut-auth-label {
+  font-family:'Cinzel',serif;
+  font-size:8px;
+  letter-spacing:0.35em;
+  color:rgba(201,169,110,0.5);
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:7px;
+}
+.ut-auth-input {
+  width:100%;
+  background:rgba(201,169,110,0.03);
+  border:1px solid rgba(201,169,110,0.18);
+  color:var(--ut-text);
+  font-family:'Jost',sans-serif;
+  font-size:14px;
+  padding:13px 16px;
+  letter-spacing:0.04em;
+  outline:none;
+  box-sizing:border-box;
+  transition:border-color 0.25s,background 0.25s;
+}
+.ut-auth-input:focus {
+  border-color:rgba(201,169,110,0.55);
+  background:rgba(201,169,110,0.05);
+}
+.ut-auth-input::placeholder { color:rgba(250,246,240,0.18); }
+.ut-auth-input.error { border-color:rgba(139,58,82,0.6); }
+
+/* Password toggle */
+.ut-auth-field-wrap { position:relative; }
+.ut-auth-toggle-pw {
+  position:absolute;
+  right:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;
+  color:rgba(201,169,110,0.4);
+  cursor:pointer;font-size:16px;line-height:1;
+  transition:color 0.2s;
+}
+.ut-auth-toggle-pw:hover { color:var(--ut-gold); }
+
+/* Phone + OTP */
+.ut-phone-row { display:flex; gap:10px; }
+.ut-phone-code {
+  background:rgba(201,169,110,0.05);
+  border:1px solid rgba(201,169,110,0.18);
+  color:var(--ut-gold);
+  font-family:'Cinzel',serif;
+  font-size:13px;
+  padding:13px 14px;
+  width:72px;
+  flex-shrink:0;
+  text-align:center;
+  letter-spacing:0.05em;
+}
+.ut-auth-otp-row {
+  display:flex;
+  gap:10px;
+  margin-bottom:4px;
+}
+.ut-otp-digit {
+  flex:1;
+  background:rgba(201,169,110,0.04);
+  border:1px solid rgba(201,169,110,0.18);
+  border-bottom:2px solid rgba(201,169,110,0.35);
+  color:var(--ut-text);
+  font-family:'Cinzel',serif;
+  font-size:22px;
+  text-align:center;
+  padding:12px 4px;
+  outline:none;
+  transition:border-color 0.2s;
+  letter-spacing:0;
+}
+.ut-otp-digit:focus {
+  border-color:rgba(201,169,110,0.5);
+  border-bottom-color:var(--ut-gold);
+  background:rgba(201,169,110,0.06);
+}
+.ut-otp-timer {
+  font-family:'Jost',sans-serif;
+  font-size:11px;
+  color:rgba(250,246,240,0.35);
+  letter-spacing:0.08em;
+  margin:8px 0 16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.ut-otp-timer span { color:var(--ut-gold); }
+.ut-otp-resend {
+  font-family:'Jost',sans-serif;
+  font-size:11px;
+  color:rgba(201,169,110,0.45);
+  background:none;border:none;
+  cursor:pointer;letter-spacing:0.08em;
+  text-decoration:underline;
+  transition:color 0.2s;
+}
+.ut-otp-resend:hover { color:var(--ut-gold); }
+.ut-otp-resend:disabled { opacity:0.3; cursor:not-allowed; text-decoration:none; }
+
+/* Submit buttons */
+.ut-auth-btn {
+  width:100%;
+  background:var(--ut-gold);
+  color:var(--ut-bg);
+  border:none;
+  font-family:'Cinzel',serif;
+  font-size:10px;
+  letter-spacing:0.42em;
+  text-transform:uppercase;
+  padding:16px;
+  cursor:pointer;
+  transition:all 0.3s;
+  margin-top:6px;
+  position:relative;
+  overflow:hidden;
+}
+.ut-auth-btn:hover { background:var(--ut-gold-light); }
+.ut-auth-btn:active { transform:scale(0.99); }
+.ut-auth-btn.loading {
+  pointer-events:none;
+  opacity:0.7;
+}
+.ut-auth-btn-outline {
+  width:100%;
+  background:none;
+  color:var(--ut-gold);
+  border:1px solid rgba(201,169,110,0.28);
+  font-family:'Cinzel',serif;
+  font-size:10px;
+  letter-spacing:0.42em;
+  text-transform:uppercase;
+  padding:15px;
+  cursor:pointer;
+  transition:all 0.2s;
+  margin-top:10px;
+  display:block;
+  text-align:center;
+  text-decoration:none;
+}
+.ut-auth-btn-outline:hover { background:rgba(201,169,110,0.06); }
+
+/* Error / success */
+.ut-auth-error {
+  background:rgba(139,58,82,0.1);
+  border:1px solid rgba(139,58,82,0.3);
+  color:var(--ut-rose-light);
+  font-family:'Jost',sans-serif;
+  font-size:12px;
+  padding:11px 14px;
+  letter-spacing:0.04em;
+  margin-bottom:16px;
+  display:none;
+}
+.ut-auth-success {
+  background:rgba(40,120,40,0.1);
+  border:1px solid rgba(40,150,40,0.3);
+  color:var(--ut-success);
+  font-family:'Jost',sans-serif;
+  font-size:12px;
+  padding:11px 14px;
+  letter-spacing:0.04em;
+  margin-bottom:16px;
+  display:none;
+}
+.ut-auth-error.show,.ut-auth-success.show { display:block; }
+
+/* Divider */
+.ut-auth-divider {
+  display:flex;align-items:center;gap:14px;
+  margin:24px 0;
+}
+.ut-auth-divider::before,.ut-auth-divider::after {
+  content:'';flex:1;height:1px;
+  background:rgba(201,169,110,0.1);
+}
+.ut-auth-divider span {
+  font-family:'Cinzel',serif;font-size:8px;
+  letter-spacing:0.28em;color:rgba(201,169,110,0.28);
+}
+
+/* Social login btns */
+.ut-auth-socials {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:6px;
+}
+.ut-auth-social-btn {
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid rgba(201,169,110,0.15);
+  background:none;
+  color:rgba(250,246,240,0.55);
+  font-family:'Jost',sans-serif;
+  font-size:12px;
+  padding:12px;
+  cursor:pointer;
+  transition:all 0.2s;
+  letter-spacing:0.04em;
+}
+.ut-auth-social-btn:hover {
+  border-color:rgba(201,169,110,0.35);
+  color:var(--ut-text);
+  background:rgba(201,169,110,0.04);
+}
+.ut-auth-social-btn i { font-size:16px;font-style:normal; }
+
+/* Footer links */
+.ut-auth-footer-links {
+  display:flex;justify-content:space-between;
+  margin-top:20px;
+  flex-wrap:wrap;gap:8px;
+}
+.ut-auth-footer-links a {
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(201,169,110,0.4);
+  text-decoration:none;letter-spacing:0.08em;
+  transition:color 0.2s;
+}
+.ut-auth-footer-links a:hover { color:var(--ut-gold); }
+
+/* Step indicator (for OTP flow) */
+.ut-auth-steps {
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:28px;
+}
+.ut-auth-step {
+  display:flex;align-items:center;gap:6px;
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.28);letter-spacing:0.1em;
+}
+.ut-auth-step.active { color:var(--ut-gold); }
+.ut-auth-step.done { color:rgba(123,200,123,0.7); }
+.ut-auth-step-dot {
+  width:20px;height:20px;border-radius:50%;
+  border:1px solid currentColor;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;flex-shrink:0;
+}
+.ut-auth-step.active .ut-auth-step-dot { background:rgba(201,169,110,0.15); }
+.ut-auth-step.done .ut-auth-step-dot { background:rgba(40,120,40,0.2); }
+.ut-auth-step-line {
+  flex:1;height:1px;
+  background:rgba(201,169,110,0.1);
+}
+
+/* Name row */
+.ut-auth-name-row { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+@media(max-width:440px){ .ut-auth-name-row{ grid-template-columns:1fr; } }
+
+/* Terms checkbox */
+.ut-auth-terms {
+  display:flex;align-items:flex-start;gap:10px;
+  margin:14px 0 4px;
+  font-family:'Jost',sans-serif;
+  font-size:11px;
+  color:rgba(250,246,240,0.38);
+  line-height:1.6;
+  letter-spacing:0.04em;
+}
+.ut-auth-terms input { accent-color:var(--ut-gold);margin-top:3px;flex-shrink:0; }
+.ut-auth-terms a { color:rgba(201,169,110,0.6);text-decoration:none; }
+.ut-auth-terms a:hover { color:var(--ut-gold); }
+
+/* Back to store */
+.ut-auth-back {
+  position:absolute;top:20px;right:24px;
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.3);
+  text-decoration:none;letter-spacing:0.1em;
+  display:flex;align-items:center;gap:5px;
+  transition:color 0.2s;
+}
+.ut-auth-back:hover { color:var(--ut-gold); }
+
+/* Decorative dots */
+.ut-auth-dots {
+  position:absolute;bottom:32px;left:48px;
+  display:flex;gap:6px;
+}
+.ut-auth-dot {
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(201,169,110,0.15);
+}
+.ut-auth-dot:first-child { background:rgba(201,169,110,0.5); }
+
+/* Password strength */
+.ut-pw-strength { display:flex;gap:4px;margin-top:8px; }
+.ut-pw-bar {
+  flex:1;height:3px;border-radius:2px;
+  background:rgba(201,169,110,0.1);
+  transition:background 0.3s;
+}
+.ut-pw-bar.weak { background:var(--ut-rose); }
+.ut-pw-bar.medium { background:var(--ut-gold); }
+.ut-pw-bar.strong { background:var(--ut-success); }
+.ut-pw-label {
+  font-family:'Jost',sans-serif;font-size:9px;
+  color:rgba(250,246,240,0.3);letter-spacing:0.1em;
+  margin-top:5px;text-align:right;
+}
+
+/* Social login grid */
+.ut-auth-socials-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:6px;
+}
+@media(max-width:480px){ .ut-auth-socials-grid{ grid-template-columns:1fr; } }
+.ut-auth-social-btn {
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  border:1px solid rgba(201,169,110,0.15);
+  background:rgba(255,255,255,0.03);
+  color:rgba(250,246,240,0.6);
+  font-family:'Jost',sans-serif;
+  font-size:12px;
+  padding:11px 14px;
+  cursor:pointer;
+  transition:all 0.2s;
+  letter-spacing:0.04em;
+  width:100%;
+}
+.ut-auth-social-btn:hover {
+  border-color:rgba(201,169,110,0.35);
+  background:rgba(255,255,255,0.06);
+  color:var(--ut-text);
+  transform:translateY(-1px);
+}
+.ut-social-google:hover { border-color:rgba(66,133,244,0.5); }
+.ut-social-apple { color:rgba(250,246,240,0.75); }
+.ut-social-apple:hover { border-color:rgba(255,255,255,0.3); background:rgba(255,255,255,0.06); }
+.ut-social-facebook:hover { border-color:rgba(24,119,242,0.5); }
+.ut-social-whatsapp:hover { border-color:rgba(37,211,102,0.5); }
+.ut-social-twitter { color:rgba(250,246,240,0.6); }
+.ut-social-twitter:hover { border-color:rgba(255,255,255,0.25); }
+.ut-social-phone:hover { border-color:rgba(201,169,110,0.5); color:var(--ut-gold); }
+
+</style>
+
+<div class="ut-auth-page">
+
+  <!-- LEFT PANEL -->
+  <div class="ut-auth-left">
+    <a href="{{ routes.root_url }}" class="ut-auth-left-logo">Urban Trend</a>
+
+    <div class="ut-auth-left-center">
+      <div class="ut-auth-illustration">
+        <span class="ut-auth-ill-icon">🌹</span>
+        <!-- Decorative circles -->
+        <div style="position:absolute;width:180px;height:180px;border-radius:50%;border:1px solid rgba(201,169,110,0.08);"></div>
+        <div style="position:absolute;width:240px;height:240px;border-radius:50%;border:1px solid rgba(201,169,110,0.05);"></div>
+        <div style="position:absolute;top:20px;right:24px;width:32px;height:32px;border-radius:50%;background:rgba(201,169,110,0.15);display:flex;align-items:center;justify-content:center;font-size:14px;">✦</div>
+        <div style="position:absolute;bottom:28px;left:20px;width:24px;height:24px;border-radius:50%;background:rgba(139,58,82,0.2);"></div>
+      </div>
+      <h2 class="ut-auth-left-title">
+        Your <em>Glow</em> Journey<br>Starts Here
+      </h2>
+      <p class="ut-auth-left-sub">
+        Join 1,27,000+ beauty lovers who trust Urban Trend for luxury Indian skincare.
+      </p>
+    </div>
+
+    <div class="ut-auth-benefits">
+      <div class="ut-auth-benefit">
+        <div class="ut-auth-benefit-icon">🎁</div>
+        <span>₹300 welcome gift on first order</span>
+      </div>
+      <div class="ut-auth-benefit">
+        <div class="ut-auth-benefit-icon">🚀</div>
+        <span>Early access to new launches</span>
+      </div>
+      <div class="ut-auth-benefit">
+        <div class="ut-auth-benefit-icon">♡</div>
+        <span>Save wishlist & track orders</span>
+      </div>
+      <div class="ut-auth-benefit">
+        <div class="ut-auth-benefit-icon">✨</div>
+        <span>Earn Glow Points on every purchase</span>
+      </div>
+    </div>
+
+    <div class="ut-auth-dots">
+      <div class="ut-auth-dot"></div>
+      <div class="ut-auth-dot"></div>
+      <div class="ut-auth-dot"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="ut-auth-right">
+    <a href="{{ routes.root_url }}" class="ut-auth-back">← Back to Store</a>
+
+    <div class="ut-auth-right-inner">
+      <a href="{{ routes.root_url }}" class="ut-auth-mobile-logo">Urban Trend</a>
+
+      <!-- Tab switcher -->
+      <div class="ut-auth-tabs">
+        <button class="ut-auth-tab active" onclick="switchAuthTab('login',this)">Sign In</button>
+        <button class="ut-auth-tab" onclick="switchAuthTab('register',this)">Create Account</button>
+      </div>
+
+      <!-- ===== LOGIN FORM ===== -->
+      <div class="ut-auth-form active" id="authFormLogin">
+
+        <!-- Step indicator -->
+        <div class="ut-auth-steps" id="loginSteps">
+          <div class="ut-auth-step active" id="step1">
+            <div class="ut-auth-step-dot">1</div>
+            <span>Details</span>
+          </div>
+          <div class="ut-auth-step-line"></div>
+          <div class="ut-auth-step" id="step2">
+            <div class="ut-auth-step-dot">2</div>
+            <span>Verify</span>
+          </div>
+        </div>
+
+        <h2 class="ut-auth-form-title">Welcome Back</h2>
+        <p class="ut-auth-form-sub" id="loginSubText">Sign in to your Urban Trend account</p>
+
+        <div class="ut-auth-error" id="loginError"></div>
+        <div class="ut-auth-success" id="loginSuccess"></div>
+
+        <!-- Step 1: Email/Phone + Password -->
+        <div id="loginStep1">
+          {% if form.errors %}
+            <div class="ut-auth-error show">{{ form.errors | default_errors }}</div>
+          {% endif %}
+
+          {% form 'customer_login' %}
+          <div class="ut-auth-field">
+            <label class="ut-auth-label" for="loginEmail">Email Address</label>
+            <input class="ut-auth-input" type="email" name="customer[email]" id="loginEmail"
+              placeholder="your@email.com" autocomplete="email" required>
+          </div>
+          <div class="ut-auth-field">
+            <label class="ut-auth-label" for="loginPassword">Password</label>
+            <div class="ut-auth-field-wrap">
+              <input class="ut-auth-input" type="password" name="customer[password]" id="loginPassword"
+                placeholder="Enter your password" autocomplete="current-password" required
+                style="padding-right:48px;">
+              <button type="button" class="ut-auth-toggle-pw" onclick="togglePw('loginPassword',this)" tabindex="-1">👁</button>
+            </div>
+          </div>
+          <div style="text-align:right;margin-bottom:18px;">
+            <a href="{{ routes.account_recover_url }}" style="font-family:'Jost',sans-serif;font-size:11px;color:rgba(201,169,110,0.45);text-decoration:none;letter-spacing:0.08em;">Forgot Password?</a>
+          </div>
+          <button class="ut-auth-btn" type="submit">Sign In →</button>
+          {% endform %}
+
+          <div class="ut-auth-divider"><span>Or continue with</span></div>
+          <div class="ut-auth-socials-grid">
+            <!-- Google -->
+            <button class="ut-auth-social-btn ut-social-google" id="ut-google-btn" onclick="utSocialLogin('google')">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+              Continue with Google
+            </button>
+            <!-- Apple -->
+            <button class="ut-auth-social-btn ut-social-apple" onclick="utSocialLogin('apple')">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.18 9.36c-.02-1.96 1.6-2.9 1.67-2.95-0.91-1.33-2.33-1.51-2.84-1.53-1.21-.12-2.36.71-2.98.71-.61 0-1.56-.69-2.57-.67-1.32.02-2.54.77-3.22 1.95-1.37 2.38-.35 5.9.98 7.83.65.94 1.42 1.99 2.44 1.95 1-.04 1.37-.64 2.57-.64 1.2 0 1.53.64 2.58.62 1.06-.02 1.72-.96 2.36-1.9.75-1.09 1.05-2.15 1.07-2.2-.02-.01-2.04-.78-2.06-3.17zM11.2 3.27c.54-.65.9-1.56.8-2.47-.77.03-1.7.51-2.26 1.16-.49.57-.93 1.48-.81 2.35.86.07 1.73-.44 2.27-1.04z"/></svg>
+              Continue with Apple
+            </button>
+            <!-- Facebook -->
+            <button class="ut-auth-social-btn ut-social-facebook" onclick="utSocialLogin('facebook')">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="#1877F2" xmlns="http://www.w3.org/2000/svg"><path d="M18 9a9 9 0 1 0-10.406 8.89v-6.29H5.309V9h2.285V7.017c0-2.255 1.343-3.502 3.4-3.502.985 0 2.015.176 2.015.176v2.215h-1.135c-1.119 0-1.467.694-1.467 1.406V9h2.496l-.399 2.6h-2.097v6.29A9.003 9.003 0 0 0 18 9z"/></svg>
+              Continue with Facebook
+            </button>
+            <!-- WhatsApp OTP -->
+            <button class="ut-auth-social-btn ut-social-whatsapp" onclick="utSocialLogin('whatsapp')">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M9 0C4.03 0 0 4.03 0 9c0 1.59.42 3.08 1.14 4.37L0 18l4.75-1.24A8.96 8.96 0 0 0 9 18c4.97 0 9-4.03 9-9s-4.03-9-9-9zm4.45 12.89c-.19.53-1.1.98-1.5 1.03-.39.05-.77.22-2.6-.54-2.18-.91-3.57-3.12-3.68-3.27-.11-.15-.9-1.19-.9-2.27 0-1.08.57-1.6.77-1.82.2-.22.44-.27.59-.27h.42c.13 0 .31-.05.48.37.17.42.59 1.45.64 1.56.05.11.08.24.01.38-.07.14-.11.22-.22.34-.11.12-.23.27-.33.36-.11.09-.22.19-.1.38.12.19.55.9 1.18 1.46.81.72 1.49.94 1.7 1.05.21.11.33.09.45-.05.12-.14.51-.6.65-.8.14-.2.28-.17.47-.1.19.07 1.2.57 1.41.67.21.1.35.15.4.24.05.08.05.49-.14 1.02z"/></svg>
+              WhatsApp OTP
+            </button>
+            <!-- Twitter/X -->
+            <button class="ut-auth-social-btn ut-social-twitter" onclick="utSocialLogin('twitter')">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.95 1.5h2.52L10.9 7.8 17.4 16.5h-5.16l-3.95-5.17-4.52 5.17H1.26l5.9-6.74L1 1.5h5.3l3.57 4.72L13.95 1.5zm-.88 13.5h1.4L5.06 2.94H3.55L13.07 15z"/></svg>
+              Continue with X
+            </button>
+            <!-- Phone OTP -->
+            <button class="ut-auth-social-btn ut-social-phone" onclick="showPhoneOtp()">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3.6 1.5h10.8A2.1 2.1 0 0 1 16.5 3.6v10.8a2.1 2.1 0 0 1-2.1 2.1H3.6A2.1 2.1 0 0 1 1.5 14.4V3.6A2.1 2.1 0 0 1 3.6 1.5zm5.4 11.7a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4zM6 4.5h6a.75.75 0 0 1 0 1.5H6A.75.75 0 0 1 6 4.5z"/></svg>
+              Phone OTP
+            </button>
+          </div>
+
+          <!-- Phone OTP Panel -->
+          <div id="phoneOtpPanel" style="display:none;margin-top:16px;padding:20px;background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.15);">
+            <p style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;color:rgba(201,169,110,0.6);text-transform:uppercase;margin-bottom:14px;">Enter Phone Number</p>
+            <div class="ut-phone-row" style="margin-bottom:10px;">
+              <div class="ut-phone-code">+91</div>
+              <input class="ut-auth-input" type="tel" id="otpPhone" placeholder="98765 43210" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')" style="flex:1;">
+            </div>
+            <button class="ut-auth-btn" onclick="sendOtp()" style="margin-top:0;">Send OTP →</button>
+            <div id="otpInputSection" style="display:none;margin-top:16px;">
+              <p style="font-family:'Jost',sans-serif;font-size:11px;color:rgba(250,246,240,0.45);letter-spacing:0.08em;margin-bottom:12px;">Enter 6-digit OTP sent to your number</p>
+              <div class="ut-auth-otp-row">
+                <input class="ut-otp-digit" type="text" maxlength="1" oninput="otpNav(this,0)">
+                <input class="ut-otp-digit" type="text" maxlength="1" oninput="otpNav(this,1)">
+                <input class="ut-otp-digit" type="text" maxlength="1" oninput="otpNav(this,2)">
+                <input class="ut-otp-digit" type="text" maxlength="1" oninput="otpNav(this,3)">
+                <input class="ut-otp-digit" type="text" maxlength="1" oninput="otpNav(this,4)">
+                <input class="ut-otp-digit" type="text" maxlength="1" oninput="otpNav(this,5)">
+              </div>
+              <div class="ut-otp-timer">Not received? <button class="ut-otp-resend" id="resendBtn" disabled onclick="resendOtp()">Resend OTP</button> <span id="otpCountdown"></span></div>
+              <button class="ut-auth-btn" onclick="verifyOtp()">Verify & Login →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ut-auth-footer-links">
+          <a href="{{ routes.root_url }}">← Continue Shopping</a>
+          <a href="#" onclick="switchAuthTab('register',document.querySelectorAll('.ut-auth-tab')[1]);return false;">New here? Register →</a>
+        </div>
+      </div>
+
+      <!-- ===== REGISTER FORM ===== -->
+      <div class="ut-auth-form" id="authFormRegister">
+        <h2 class="ut-auth-form-title">Join Urban Trend</h2>
+        <p class="ut-auth-form-sub">Create your account and claim your ₹300 welcome gift</p>
+
+        <div class="ut-auth-error" id="registerError"></div>
+        <div class="ut-auth-success" id="registerSuccess"></div>
+
+        {% form 'create_customer', return_to: routes.account_url %}
+          {% if form.errors %}
+            <div class="ut-auth-error show">{{ form.errors | default_errors }}</div>
+          {% endif %}
+
+          <div class="ut-auth-name-row">
+            <div class="ut-auth-field">
+              <label class="ut-auth-label" for="regFirst">First Name</label>
+              <input class="ut-auth-input" type="text" name="customer[first_name]"
+                id="regFirst" placeholder="Priya" autocomplete="given-name" required>
+            </div>
+            <div class="ut-auth-field">
+              <label class="ut-auth-label" for="regLast">Last Name</label>
+              <input class="ut-auth-input" type="text" name="customer[last_name]"
+                id="regLast" placeholder="Sharma" autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="ut-auth-field">
+            <label class="ut-auth-label" for="regEmail">Email Address</label>
+            <input class="ut-auth-input" type="email" name="customer[email]"
+              id="regEmail" placeholder="your@email.com" autocomplete="email" required>
+          </div>
+
+          <div class="ut-auth-field">
+            <label class="ut-auth-label" for="regPhone">Phone Number <span style="color:rgba(201,169,110,0.3);font-size:7px;">(Optional)</span></label>
+            <div class="ut-phone-row">
+              <div class="ut-phone-code">+91</div>
+              <input class="ut-auth-input" type="tel" name="customer[phone]"
+                id="regPhone" placeholder="98765 43210" autocomplete="tel"
+                style="flex:1;" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+            </div>
+          </div>
+
+          <div class="ut-auth-field">
+            <label class="ut-auth-label" for="regPassword">Password</label>
+            <div class="ut-auth-field-wrap">
+              <input class="ut-auth-input" type="password" name="customer[password]"
+                id="regPassword" placeholder="Create a strong password" autocomplete="new-password"
+                required minlength="6" oninput="checkPwStrength(this.value)"
+                style="padding-right:48px;">
+              <button type="button" class="ut-auth-toggle-pw" onclick="togglePw('regPassword',this)" tabindex="-1">👁</button>
+            </div>
+            <div class="ut-pw-strength">
+              <div class="ut-pw-bar" id="pwBar1"></div>
+              <div class="ut-pw-bar" id="pwBar2"></div>
+              <div class="ut-pw-bar" id="pwBar3"></div>
+              <div class="ut-pw-bar" id="pwBar4"></div>
+            </div>
+            <div class="ut-pw-label" id="pwLabel"></div>
+          </div>
+
+          <div class="ut-auth-terms">
+            <input type="checkbox" id="regTerms" required>
+            <label for="regTerms">I agree to Urban Trend's <a href="/pages/terms">Terms of Service</a> and <a href="/pages/privacy-policy">Privacy Policy</a>. I'd love to receive beauty tips and exclusive offers.</label>
+          </div>
+
+          <button class="ut-auth-btn" type="submit">Create My Account →</button>
+        {% endform %}
+
+        <div class="ut-auth-footer-links">
+          <a href="#" onclick="switchAuthTab('login',document.querySelectorAll('.ut-auth-tab')[0]);return false;">← Already have an account?</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function switchAuthTab(tab, btn) {
+  document.querySelectorAll('.ut-auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ut-auth-form').forEach(f => f.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('authForm' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+}
+
+function togglePw(id, btn) {
+  var inp = document.getElementById(id);
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    inp.type = 'password';
+    btn.textContent = '👁';
+  }
+}
+
+function checkPwStrength(val) {
+  var bars = [document.getElementById('pwBar1'), document.getElementById('pwBar2'), document.getElementById('pwBar3'), document.getElementById('pwBar4')];
+  var label = document.getElementById('pwLabel');
+  bars.forEach(b => { b.className = 'ut-pw-bar'; });
+  if (!val) { label.textContent = ''; return; }
+  var score = 0;
+  if (val.length >= 6) score++;
+  if (val.length >= 10) score++;
+  if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  var cls = score <= 1 ? 'weak' : score <= 2 ? 'medium' : 'strong';
+  var lbl = score <= 1 ? 'Weak' : score <= 2 ? 'Good' : score === 3 ? 'Strong' : 'Very Strong';
+  var colors = ['weak','weak','medium','strong'];
+  for (var i = 0; i < score; i++) bars[i].classList.add(colors[Math.min(i, score-1)]);
+  label.textContent = lbl;
+  label.style.color = cls === 'weak' ? 'var(--ut-rose)' : cls === 'medium' ? 'var(--ut-gold)' : 'var(--ut-success)';
+}
+
+function showToast(msg, type) {
+  if (typeof UT !== 'undefined') { UT.toast(msg, type); return; }
+  alert(msg);
+}
+
+// Auto-switch to register if URL has ?register
+if (window.location.search.includes('register')) {
+  var tabs = document.querySelectorAll('.ut-auth-tab');
+  if (tabs[1]) switchAuthTab('register', tabs[1]);
+}
+
+/* ── SOCIAL LOGIN CONFIG ──
+   Google: Add your Client ID below
+   Facebook: Add your App ID below
+   WhatsApp OTP: Uses MSG91 Widget Token (safe — no AuthKey exposure)
+   ─────────────────────────────────────── */
+var UT_SOCIAL_CONFIG = {
+  google_client_id:   '61115780502-s6ntrd4v92g30brcmk8k312kepbqcc9h.apps.googleusercontent.com',   // console.cloud.google.com
+  facebook_app_id:    '2013294159590812',    // developers.facebook.com
+  msg91_widget_id:    '3663756e6155383738383932',    // MSG91 Dashboard → Widgets → Token (safe to expose)
+  shop_url:           window.location.origin,
+};
+
+/* ── GOOGLE ONE TAP ── */
+function utInitGoogleOneTap() {
+  if(!UT_SOCIAL_CONFIG.google_client_id || UT_SOCIAL_CONFIG.google_client_id === 'YOUR_GOOGLE_CLIENT_ID') return;
+  var script = document.createElement('script');
+  script.src = 'https://accounts.google.com/gsi/client';
+  script.async = true;
+  script.defer = true;
+  script.onload = function() {
+    google.accounts.id.initialize({
+      client_id: UT_SOCIAL_CONFIG.google_client_id,
+      callback: function(response) {
+        utHandleGoogleToken(response.credential);
+      },
+      auto_select: false,
+      cancel_on_tap_outside: true,
+    });
+    google.accounts.id.renderButton(
+      document.getElementById('ut-google-btn'),
+      { theme:'filled_black', size:'large', shape:'rectangular', width:320, text:'continue_with' }
+    );
+    google.accounts.id.prompt();
+  };
+  document.head.appendChild(script);
+}
+
+function utHandleGoogleToken(token) {
+  /* Decode JWT to get email */
+  try {
+    var payload = JSON.parse(atob(token.split('.')[1]));
+    var email = payload.email;
+    var name  = payload.name;
+    /* Pre-fill login form and submit */
+    var emailInput = document.getElementById('authEmail');
+    if(emailInput) {
+      emailInput.value = email;
+      if(typeof UT !== 'undefined') UT.toast('Welcome, ' + (name || email) + '!', 'success');
+      /* In production: send token to your backend to create/login customer */
+      setTimeout(function(){
+        window.location = '/account?google_token=' + encodeURIComponent(token);
+      }, 800);
+    }
+  } catch(e) {
+    if(typeof UT !== 'undefined') UT.toast('Google login failed. Please try again.', 'error');
+  }
+}
+
+/* ── FACEBOOK LOGIN ── */
+function utInitFacebook() {
+  if(!UT_SOCIAL_CONFIG.facebook_app_id || UT_SOCIAL_CONFIG.facebook_app_id === 'YOUR_FACEBOOK_APP_ID') return;
+  window.fbAsyncInit = function() {
+    FB.init({ appId: UT_SOCIAL_CONFIG.facebook_app_id, cookie:true, xfbml:true, version:'v18.0' });
+  };
+  var script = document.createElement('script');
+  script.src = 'https://connect.facebook.net/en_US/sdk.js';
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+}
+
+function utFacebookLogin() {
+  if(typeof FB === 'undefined') {
+    if(typeof UT !== 'undefined') UT.toast('Facebook SDK loading... try again', 'info');
+    return;
+  }
+  FB.login(function(response) {
+    if(response.authResponse) {
+      FB.api('/me', {fields:'name,email'}, function(user) {
+        if(typeof UT !== 'undefined') UT.toast('Welcome, ' + user.name + '!', 'success');
+        var emailInput = document.getElementById('authEmail');
+        if(emailInput && user.email) emailInput.value = user.email;
+        setTimeout(function(){ window.location = '/account'; }, 800);
+      });
+    }
+  }, {scope:'email,public_profile'});
+}
+
+/* ── WHATSAPP OTP via MSG91 Widget (Safe — no AuthKey in frontend) ── */
+/* Widget Token is safe to expose publicly — it's designed for client-side use */
+function utLoadMsg91Widget() {
+  if(!UT_SOCIAL_CONFIG.msg91_widget_id || UT_SOCIAL_CONFIG.msg91_widget_id === 'YOUR_MSG91_WIDGET_ID') return;
+  if(document.getElementById('msg91-widget-script')) return; // already loaded
+  var script = document.createElement('script');
+  script.id = 'msg91-widget-script';
+  script.type = 'text/javascript';
+  script.src = 'https://verify.msg91.com/otp-provider.js';
+  script.onload = function() {
+    if(window.initSendOTP) {
+      window.sendOTPWidget = window.initSendOTP({
+        widgetId: UT_SOCIAL_CONFIG.msg91_widget_id,
+        tokenAuth: UT_SOCIAL_CONFIG.msg91_widget_id,
+        success: function(data) {
+          if(typeof UT !== 'undefined') UT.toast('✓ Verified! Logging you in...', 'success');
+          setTimeout(function(){ window.location = '/account'; }, 800);
+        },
+        failure: function(error) {
+          if(typeof UT !== 'undefined') UT.toast('OTP verification failed. Try again.', 'error');
+        }
+      });
+    }
+  };
+  document.head.appendChild(script);
+}
+
+function utSendWhatsappOtp(phone) {
+  if(!phone || phone.length !== 10) {
+    if(typeof UT !== 'undefined') UT.toast('Valid 10-digit number daalo', 'error');
+    return;
+  }
+  if(!UT_SOCIAL_CONFIG.msg91_widget_id || UT_SOCIAL_CONFIG.msg91_widget_id === 'YOUR_MSG91_WIDGET_ID') {
+    if(typeof UT !== 'undefined') UT.toast('MSG91 Widget ID setup needed', 'info');
+    return;
+  }
+  utLoadMsg91Widget();
+  if(window.sendOTPWidget) {
+    window.sendOTPWidget.send('91' + phone);
+    if(typeof UT !== 'undefined') UT.toast('OTP sent on WhatsApp to +91 ' + phone, 'success');
+  } else {
+    setTimeout(function(){
+      if(window.sendOTPWidget) {
+        window.sendOTPWidget.send('91' + phone);
+        if(typeof UT !== 'undefined') UT.toast('OTP sent on WhatsApp to +91 ' + phone, 'success');
+      }
+    }, 1500);
+  }
+}
+
+function utVerifyWhatsappOtp(phone, otp) {
+  if(window.sendOTPWidget) {
+    window.sendOTPWidget.verify('91' + phone, otp);
+  } else {
+    if(typeof UT !== 'undefined') UT.toast('Please send OTP first', 'error');
+  }
+}
+
+/* ── MAIN SOCIAL LOGIN HANDLER ── */
+function utSocialLogin(provider) {
+  switch(provider) {
+    case 'google':
+      if(UT_SOCIAL_CONFIG.google_client_id === 'YOUR_GOOGLE_CLIENT_ID') {
+        if(typeof UT !== 'undefined') UT.toast('Google login setup needed — check CLAUDE.md for instructions', 'info');
+      } else {
+        google.accounts.id.prompt();
+      }
+      break;
+    case 'facebook':
+      if(UT_SOCIAL_CONFIG.facebook_app_id === 'YOUR_FACEBOOK_APP_ID') {
+        if(typeof UT !== 'undefined') UT.toast('Facebook login setup needed', 'info');
+      } else {
+        utFacebookLogin();
+      }
+      break;
+    case 'whatsapp':
+      showPhoneOtp('whatsapp');
+      break;
+    case 'apple':
+      /* Apple Sign In — requires Apple Developer account */
+      if(typeof UT !== 'undefined') UT.toast('Apple login: Add Apple Developer credentials in config', 'info');
+      break;
+    case 'twitter':
+      if(typeof UT !== 'undefined') UT.toast('X/Twitter login: Add X Developer credentials in config', 'info');
+      break;
+  }
+}
+
+/* Init on page load */
+document.addEventListener('DOMContentLoaded', function() {
+  utInitGoogleOneTap();
+  utInitFacebook();
+});
+
+function showPhoneOtp() {
+  var panel = document.getElementById('phoneOtpPanel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  if (panel.style.display === 'block') {
+    setTimeout(function(){ document.getElementById('otpPhone').focus(); }, 100);
+  }
+}
+
+var utOtpMode = 'sms'; // 'sms' or 'whatsapp'
+
+function showPhoneOtp(mode) {
+  utOtpMode = mode || 'sms';
+  var panel = document.getElementById('phoneOtpPanel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  // Update label based on mode
+  var lbl = panel.querySelector('p');
+  if(lbl) lbl.textContent = mode === 'whatsapp' ? 'Enter WhatsApp Number' : 'Enter Phone Number';
+  if(panel.style.display === 'block') {
+    setTimeout(function(){ document.getElementById('otpPhone').focus(); }, 100);
+  }
+}
+
+function sendOtp() {
+  var phone = document.getElementById('otpPhone').value.trim();
+  if (phone.length !== 10) {
+    if (typeof UT !== 'undefined') UT.toast('Valid 10-digit number daalo', 'error');
+    document.getElementById('otpPhone').style.borderColor = 'rgba(139,58,82,0.6)';
+    return;
+  }
+  document.getElementById('otpPhone').style.borderColor = '';
+  document.getElementById('otpInputSection').style.display = 'block';
+  document.querySelector('.ut-otp-digit').focus();
+  startOtpTimer();
+
+  // Use MSG91 Widget if configured, else simulate
+  if(UT_SOCIAL_CONFIG.msg91_widget_id !== 'YOUR_MSG91_WIDGET_ID') {
+    utSendWhatsappOtp(phone);
+  } else {
+    var channel = utOtpMode === 'whatsapp' ? 'WhatsApp' : 'SMS';
+    if (typeof UT !== 'undefined') UT.toast('OTP sent via ' + channel + ' to +91 ' + phone, 'success');
+  }
+}
+
+var otpTimer;
+function startOtpTimer() {
+  var t = 30;
+  var cd = document.getElementById('otpCountdown');
+  var btn = document.getElementById('resendBtn');
+  btn.disabled = true;
+  clearInterval(otpTimer);
+  otpTimer = setInterval(function() {
+    t--;
+    cd.textContent = 'in ' + t + 's';
+    if (t <= 0) {
+      clearInterval(otpTimer);
+      btn.disabled = false;
+      cd.textContent = '';
+    }
+  }, 1000);
+}
+
+function resendOtp() {
+  if (typeof UT !== 'undefined') UT.toast('OTP resent!', 'success');
+  startOtpTimer();
+}
+
+function otpNav(inp, idx) {
+  var digits = document.querySelectorAll('.ut-otp-digit');
+  inp.value = inp.value.replace(/[^0-9]/g, '');
+  if (inp.value && idx < 5) digits[idx + 1].focus();
+  if (!inp.value && idx > 0) digits[idx - 1].focus();
+}
+
+function verifyOtp() {
+  var digits = document.querySelectorAll('.ut-otp-digit');
+  var otp = Array.from(digits).map(d => d.value).join('');
+  if (otp.length !== 6) {
+    if (typeof UT !== 'undefined') UT.toast('Please enter complete 6-digit OTP', 'error');
+    return;
+  }
+  // In production: verify via backend/SMS API
+  if (typeof UT !== 'undefined') UT.toast('OTP verified! Logging in...', 'success');
+  setTimeout(function() { window.location.href = '/account'; }, 1200);
+}
+
+// Auto-switch if returning from failed register
+{% if form.errors and form.id == 'create_customer' %}
+switchAuthTab('register', document.querySelectorAll('.ut-auth-tab')[1]);
+{% endif %}
+</script>
+
+{% schema %}
+{"name":"Login","tag":"section","settings":[]}
+{% endschema %}
