@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urban Trend — PDP CTA Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ut-bg:       #0a0908;
+    --ut-bg-2:     #111009;
+    --ut-bg-3:     #161410;
+    --ut-bg-4:     #1c1a16;
+    --ut-gold:     #c9a96e;
+    --ut-gold-lt:  #dfc28a;
+    --ut-text:     #faf6f0;
+    --ut-rose:     #8b3a52;
+    --ut-success:  #7bc87b;
+    --ut-border:   rgba(201,169,110,0.12);
+  }
+
+  body {
+    background: var(--ut-bg);
+    color: var(--ut-text);
+    font-family: 'Jost', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px 80px;
+  }
+
+  .preview-shell {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  /* ── PREVIEW LABEL ── */
+  .preview-label {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    color: rgba(201,169,110,0.35);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .preview-label::before,
+  .preview-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,169,110,0.1);
+  }
+
+  /* ── PRODUCT HEADER (context only) ── */
+  .pdp-context {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(201,169,110,0.08);
+  }
+  .pdp-context-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--ut-text);
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+  .pdp-context-vendor {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: rgba(250,246,240,0.28);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .pdp-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .pdp-price {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    color: var(--ut-gold);
+  }
+  .pdp-compare {
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    color: rgba(250,246,240,0.22);
+    text-decoration: line-through;
+  }
+  .pdp-save-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    background: var(--ut-rose);
+    color: var(--ut-text);
+    padding: 3px 10px;
+  }
+  .pdp-tax {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    color: rgba(250,246,240,0.25);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .pdp-emi {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    color: rgba(250,246,240,0.4);
+    padding: 9px 12px;
+    border: 1px solid rgba(201,169,110,0.1);
+    background: rgba(201,169,110,0.02);
+  }
+  .pdp-emi span { color: var(--ut-gold); }
+
+  /* ═══════════════════════════════════════
+     CTA BLOCK STARTS HERE
+  ═══════════════════════════════════════ */
+
+  .ut-cta { margin-top: 20px; }
+
+  /* ── COUNTDOWN ── */
+  .ut-cta-cd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(201,169,110,0.09);
+    border: 1px solid rgba(201,169,110,0.30);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 14px;
+    gap: 10px;
+  }
+  .ut-cta-cd-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--ut-gold);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .ut-cta-cd-label span { color: rgba(250,246,240,0.65); }
+  .ut-cta-cd-timer {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+  .ut-cta-cd-block {
+    text-align: center;
+    background: rgba(0,0,0,0.45);
+    border-radius: 5px;
+    padding: 4px 8px;
+    min-width: 36px;
+  }
+  .ut-cta-cd-block .n {
+    font-family: 'Cinzel', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+    line-height: 1;
+  }
+  .ut-cta-cd-block .u {
+    font-size: 7px;
+    color: rgba(250,246,240,0.5);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .ut-cta-cd-sep {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ut-gold);
+    padding: 0 1px;
+  }
+
+  /* ── ENDORSEMENT ── */
+  .ut-cta-endorse {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .ut-cta-endorse-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--ut-gold);
+    color: var(--ut-bg);
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ut-cta-endorse-text {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    color: rgba(250,246,240,0.6);
+  }
+  .ut-cta-endorse-text strong { color: var(--ut-text); }
+
+  /* ── META ROW ── */
+  .ut-cta-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .ut-cta-stars { color: var(--ut-gold); font-size: 12px; letter-spacing: 2px; }
+  .ut-cta-score {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--ut-gold);
+    margin-left: 5px;
+  }
+  .ut-cta-rcount {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    color: rgba(250,246,240,0.35);
+    margin-left: 5px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .ut-cta-stock {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(250,246,240,0.75);
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .ut-cta-stock::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--ut-gold);
+    border-radius: 50%;
+    animation: stockPulse 1.5s infinite;
+  }
+  @keyframes stockPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(1.5); }
+  }
+
+  /* ── BUNDLE OPTIONS ── */
+  .ut-cta-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .ut-cta-opt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1.5px solid rgba(201,169,110,0.25);
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+    background: rgba(255,255,255,0.02);
+    user-select: none;
+  }
+  .ut-cta-opt:hover {
+    border-color: rgba(201,169,110,0.55);
+    background: rgba(201,169,110,0.04);
+  }
+  .ut-cta-opt.selected {
+    border-color: var(--ut-gold) !important;
+    background: rgba(201,169,110,0.09) !important;
+  }
+  .ut-cta-opt-badge {
+    position: absolute;
+    top: -10px; right: 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 11px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+  .badge-gold { background: var(--ut-gold); color: var(--ut-bg); }
+  .badge-green { background: #4caf7d; color: #fff; }
+  .ut-cta-radio {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,169,110,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all .2s;
+  }
+  .ut-cta-opt.selected .ut-cta-radio {
+    border-color: var(--ut-gold);
+    background: var(--ut-gold);
+  }
+  .ut-cta-opt.selected .ut-cta-radio::after {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--ut-bg);
+  }
+  .ut-cta-opt-left { flex: 1; }
+  .ut-cta-opt-name {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .ut-cta-opt-save {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    color: var(--ut-gold);
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .ut-cta-opt-right { text-align: right; }
+  .ut-cta-opt-price {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+  }
+  .ut-cta-opt-compare {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    color: rgba(250,246,240,0.35);
+    text-decoration: line-through;
+    display: block;
+  }
+
+  /* ── REFILL ── */
+  .ut-cta-refill {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(201,169,110,0.05);
+    border: 1px solid rgba(201,169,110,0.22);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    margin-bottom: 16px;
+    transition: border-color .2s;
+  }
+  .ut-cta-refill:hover { border-color: rgba(201,169,110,0.4); }
+  .ut-cta-refill-box {
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    border: 2px solid var(--ut-gold);
+    background: var(--ut-gold);
+    color: var(--ut-bg);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all .2s;
+  }
+  .ut-cta-refill.unchecked .ut-cta-refill-box {
+    background: transparent;
+    color: transparent;
+  }
+  .ut-cta-refill-text strong {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .ut-cta-refill-text span {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    color: rgba(250,246,240,0.5);
+  }
+
+  /* ── SHIPS LINE ── */
+  .ut-cta-ships {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    color: rgba(250,246,240,0.45);
+    margin-bottom: 16px;
+  }
+  .ut-cta-ships strong { color: rgba(250,246,240,0.78); }
+
+  /* ── BUTTONS ── */
+  .ut-cta-atc {
+    width: 100%;
+    background: var(--ut-gold);
+    color: var(--ut-bg);
+    border: none;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    height: 54px;
+    cursor: pointer;
+    transition: all .3s;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ut-cta-atc::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background .2s;
+  }
+  .ut-cta-atc:hover { background: var(--ut-gold-lt); }
+  .ut-cta-atc:active { transform: scale(0.98); }
+  .ut-cta-atc.added {
+    background: rgba(40,74,40,0.92);
+    color: var(--ut-success);
+    letter-spacing: 0.2em;
+  }
+
+  .ut-cta-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .ut-cta-buy {
+    flex: 1;
+    background: none;
+    border: 1px solid rgba(201,169,110,0.28);
+    color: var(--ut-gold);
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    height: 48px;
+    cursor: pointer;
+    transition: all .2s;
+    border-radius: 6px;
+  }
+  .ut-cta-buy:hover { background: rgba(201,169,110,0.07); }
+  .ut-cta-wish {
+    width: 48px; height: 48px;
+    flex-shrink: 0;
+    border: 1px solid rgba(201,169,110,0.2);
+    background: none;
+    color: rgba(201,169,110,0.5);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all .2s;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .ut-cta-wish:hover, .ut-cta-wish.active {
+    border-color: var(--ut-rose);
+    color: var(--ut-rose);
+  }
+
+  /* ── TRUST GRID ── */
+  .ut-cta-trust {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .ut-cta-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    color: rgba(250,246,240,0.42);
+    padding: 8px 10px;
+    border: 1px solid rgba(201,169,110,0.07);
+    border-radius: 4px;
+    transition: border-color .2s;
+  }
+  .ut-cta-trust-item:hover { border-color: rgba(201,169,110,0.18); }
+  .ut-cta-trust-item i {
+    color: var(--ut-gold);
+    font-style: normal;
+    font-size: 13px;
+  }
+
+  /* ── TOAST ── */
+  .ut-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ut-bg-3);
+    border: 1px solid rgba(201,169,110,0.2);
+    color: var(--ut-text);
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s;
+    white-space: nowrap;
+    z-index: 999;
+  }
+  .ut-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── SHIMMER ENTRY ANIMATION ── */
+  .ut-cta > * {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp 0.4s ease forwards;
+  }
+  .ut-cta > *:nth-child(1) { animation-delay: 0.05s; }
+  .ut-cta > *:nth-child(2) { animation-delay: 0.12s; }
+  .ut-cta > *:nth-child(3) { animation-delay: 0.18s; }
+  .ut-cta > *:nth-child(4) { animation-delay: 0.24s; }
+  .ut-cta > *:nth-child(5) { animation-delay: 0.30s; }
+  .ut-cta > *:nth-child(6) { animation-delay: 0.36s; }
+  .ut-cta > *:nth-child(7) { animation-delay: 0.40s; }
+  .ut-cta > *:nth-child(8) { animation-delay: 0.44s; }
+  .ut-cta > *:nth-child(9) { animation-delay: 0.48s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── STATE SWITCHER (preview tool) ── */
+  .state-switcher {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .state-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.5);
+    border: 1px solid rgba(201,169,110,0.18);
+    background: none;
+    padding: 6px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all .2s;
+  }
+  .state-btn:hover, .state-btn.active {
+    border-color: var(--ut-gold);
+    color: var(--ut-gold);
+    background: rgba(201,169,110,0.06);
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-shell">
+
+  <div class="preview-label">CTA Section · Interactive Preview</div>
+
+  <!-- State switcher (preview tool only — not in real code) -->
+  <div class="state-switcher">
+    <button class="state-btn active" onclick="setProductState('instock')">In Stock</button>
+    <button class="state-btn" onclick="setProductState('preorder')">Pre-Order</button>
+    <button class="state-btn" onclick="setProductState('soldout')">Sold Out</button>
+  </div>
+
+  <!-- Product context (already exists above CTA on your real PDP) -->
+  <div class="pdp-context">
+    <h1 class="pdp-context-title">Vitamin E Moisturizing Gel<br>— Deep Hydration &amp; Glow</h1>
+    <p class="pdp-context-vendor">by Urban Trend<sup style="font-size:8px;color:rgba(201,169,110,0.4);">®</sup></p>
+    <div class="pdp-price-row">
+      <span class="pdp-price" id="ctxPrice">₹749</span>
+      <span class="pdp-compare">₹1,099</span>
+      <span class="pdp-save-badge">31% Off</span>
+    </div>
+    <p class="pdp-tax">Inclusive of all taxes · Free shipping above ₹999</p>
+    <div class="pdp-emi">💳 No-cost EMI from <span>₹249/mo</span> on orders above ₹1,999</div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       CTA BLOCK
+  ═══════════════════════════════ -->
+  <div class="ut-cta" id="utCta">
+
+    <!-- 1. COUNTDOWN -->
+    <div class="ut-cta-cd">
+      <span class="ut-cta-cd-label">⚡ <span>Flash Sale Ends In:</span></span>
+      <div class="ut-cta-cd-timer">
+        <div class="ut-cta-cd-block"><span class="n" id="cdH">18</span><span class="u">Hrs</span></div>
+        <span class="ut-cta-cd-sep">:</span>
+        <div class="ut-cta-cd-block"><span class="n" id="cdM">42</span><span class="u">Min</span></div>
+        <span class="ut-cta-cd-sep">:</span>
+        <div class="ut-cta-cd-block"><span class="n" id="cdS">09</span><span class="u">Sec</span></div>
+      </div>
+    </div>
+
+    <!-- 2. ENDORSEMENT -->
+    <div class="ut-cta-endorse">
+      <div class="ut-cta-endorse-dot">D</div>
+      <span class="ut-cta-endorse-text">
+        Recommended by <strong>Dr. Priya</strong> &nbsp;|&nbsp; Wellness Specialist
+      </span>
+    </div>
+
+    <!-- 3. META -->
+    <div class="ut-cta-meta">
+      <div>
+        <span class="ut-cta-stars">★★★★★</span>
+        <span class="ut-cta-score">4.9</span>
+        <span class="ut-cta-rcount">2,847 reviews</span>
+      </div>
+      <span class="ut-cta-stock" id="stockLabel">Limited Stock Available</span>
+    </div>
+
+    <!-- 4. BUNDLE OPTIONS -->
+    <div class="ut-cta-opts" id="bundleOpts">
+
+      <div class="ut-cta-opt" onclick="ctaSelOpt(this)" data-qty="1" data-price="749">
+        <span class="ut-cta-radio"></span>
+        <div class="ut-cta-opt-left">
+          <div class="ut-cta-opt-name">1 Set</div>
+          <div class="ut-cta-opt-save">Save 32%</div>
+        </div>
+        <div class="ut-cta-opt-right">
+          <span class="ut-cta-opt-price">₹749</span>
+          <span class="ut-cta-opt-compare">₹1,099</span>
+        </div>
+      </div>
+
+      <div class="ut-cta-opt selected" onclick="ctaSelOpt(this)" data-qty="2" data-price="1273">
+        <span class="ut-cta-opt-badge badge-gold">Most Popular</span>
+        <span class="ut-cta-radio"></span>
+        <div class="ut-cta-opt-left">
+          <div class="ut-cta-opt-name">2 Sets</div>
+          <div class="ut-cta-opt-save">Save 42%</div>
+        </div>
+        <div class="ut-cta-opt-right">
+          <span class="ut-cta-opt-price">₹1,273</span>
+          <span class="ut-cta-opt-compare">₹2,198</span>
+        </div>
+      </div>
+
+      <div class="ut-cta-opt" onclick="ctaSelOpt(this)" data-qty="3" data-price="1685">
+        <span class="ut-cta-opt-badge badge-green">Best Value</span>
+        <span class="ut-cta-radio"></span>
+        <div class="ut-cta-opt-left">
+          <div class="ut-cta-opt-name">3 Sets</div>
+          <div class="ut-cta-opt-save">Save 49%</div>
+        </div>
+        <div class="ut-cta-opt-right">
+          <span class="ut-cta-opt-price">₹1,685</span>
+          <span class="ut-cta-opt-compare">₹3,297</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 5. REFILL -->
+    <div class="ut-cta-refill" id="refillBlock" onclick="toggleRefill(this)">
+      <span class="ut-cta-refill-box" id="refillBox">✓</span>
+      <div class="ut-cta-refill-text">
+        <strong>Save More with Automatic Refills</strong>
+        <span>Zero commitment, cancel anytime</span>
+      </div>
+    </div>
+
+    <!-- 6. SHIPS LINE -->
+    <p class="ut-cta-ships" id="shipsLine">🚚 Order now — ships by <strong id="shipDate"></strong></p>
+
+    <!-- 7. PRIMARY CTA -->
+    <button class="ut-cta-atc" id="mainBtn" onclick="ctaAddBag()">Add to Bag</button>
+
+    <!-- 8. SECONDARY ROW -->
+    <div class="ut-cta-row" id="secondaryRow">
+      <button class="ut-cta-buy" onclick="ctaBuyNow()">Buy Now →</button>
+      <button class="ut-cta-wish" id="wishBtn" onclick="ctaToggleWish()">♡</button>
+    </div>
+
+    <!-- 9. TRUST GRID -->
+    <div class="ut-cta-trust">
+      <div class="ut-cta-trust-item"><i>🚚</i>Free shipping ₹999+</div>
+      <div class="ut-cta-trust-item"><i>💳</i>COD available</div>
+      <div class="ut-cta-trust-item"><i>↩</i>15-day returns</div>
+      <div class="ut-cta-trust-item"><i>🔒</i>Secure checkout</div>
+      <div class="ut-cta-trust-item"><i>🧪</i>Dermatologist tested</div>
+      <div class="ut-cta-trust-item"><i>🌿</i>Cruelty free</div>
+    </div>
+
+  </div><!-- /ut-cta -->
+
+</div><!-- /preview-shell -->
+
+<div class="ut-toast" id="toast"></div>
+
+<script>
+/* ── Countdown ── */
+(function(){
+  var KEY = 'ut-cta-preview-end';
+  var stored = parseInt(localStorage.getItem(KEY) || '0');
+  var now    = Math.floor(Date.now() / 1000);
+  var end    = (stored && stored > now) ? stored : now + 20 * 3600;
+  if (!stored || stored <= now) localStorage.setItem(KEY, end);
+
+  function tick() {
+    var rem = Math.max(0, end - Math.floor(Date.now() / 1000));
+    document.getElementById('cdH').textContent = String(Math.floor(rem / 3600)).padStart(2, '0');
+    document.getElementById('cdM').textContent = String(Math.floor((rem % 3600) / 60)).padStart(2, '0');
+    document.getElementById('cdS').textContent = String(rem % 60).padStart(2, '0');
+    if (rem > 0) setTimeout(tick, 1000);
+  }
+  tick();
+})();
+
+/* ── Ship date ── */
+var sd = new Date(Date.now() + 7 * 86400000);
+document.getElementById('shipDate').textContent =
+  sd.toLocaleDateString('en-IN', { day: 'numeric', month: 'long' });
+
+/* ── Bundle select ── */
+var selectedQty = 2;
+var selectedPrice = 1273;
+
+function ctaSelOpt(el) {
+  document.querySelectorAll('.ut-cta-opt').forEach(function(o) { o.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedQty   = parseInt(el.dataset.qty);
+  selectedPrice = parseInt(el.dataset.price);
+  showToast('Selected: ' + selectedQty + ' Set' + (selectedQty > 1 ? 's' : '') + ' — ₹' + selectedPrice.toLocaleString('en-IN'));
+}
+
+/* ── Refill toggle ── */
+function toggleRefill(el) {
+  el.classList.toggle('unchecked');
+  var isOn = !el.classList.contains('unchecked');
+  document.getElementById('refillBox').textContent = isOn ? '✓' : '';
+  showToast(isOn ? '✓ Automatic refills enabled' : 'Automatic refills disabled');
+}
+
+/* ── Add to Bag ── */
+function ctaAddBag() {
+  var btn = document.getElementById('mainBtn');
+  btn.textContent = 'Adding…';
+  btn.style.letterSpacing = '0.2em';
+  setTimeout(function() {
+    btn.textContent = '✓ Added to Bag';
+    btn.classList.add('added');
+    showToast('✓ ' + selectedQty + ' item(s) added to bag!');
+    setTimeout(function() {
+      btn.textContent = 'Add to Bag';
+      btn.classList.remove('added');
+      btn.style.letterSpacing = '';
+    }, 2400);
+  }, 700);
+}
+
+/* ── Buy Now ── */
+function ctaBuyNow() {
+  showToast('Redirecting to checkout…');
+}
+
+/* ── Wishlist ── */
+function ctaToggleWish() {
+  var btn = document.getElementById('wishBtn');
+  btn.classList.toggle('active');
+  btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
+  showToast(btn.classList.contains('active') ? 'Added to wishlist ♥' : 'Removed from wishlist');
+}
+
+/* ── Product state switcher ── */
+function setProductState(state) {
+  document.querySelectorAll('.state-btn').forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+
+  var bundleOpts   = document.getElementById('bundleOpts');
+  var refillBlock  = document.getElementById('refillBlock');
+  var shipsLine    = document.getElementById('shipsLine');
+  var mainBtn      = document.getElementById('mainBtn');
+  var secondaryRow = document.getElementById('secondaryRow');
+  var stockLabel   = document.getElementById('stockLabel');
+
+  /* Reset animations */
+  var cta = document.getElementById('utCta');
+  cta.style.animation = 'none';
+  cta.querySelectorAll(':scope > *').forEach(function(el, i) {
+    el.style.animation = 'none';
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+  });
+
+  if (state === 'instock') {
+    bundleOpts.style.display   = '';
+    refillBlock.style.display  = '';
+    shipsLine.style.display    = '';
+    secondaryRow.style.display = '';
+    stockLabel.style.display   = '';
+    mainBtn.textContent        = 'Add to Bag';
+    mainBtn.disabled           = false;
+    mainBtn.className          = 'ut-cta-atc';
+    mainBtn.style              = '';
+    mainBtn.onclick            = ctaAddBag;
+
+  } else if (state === 'preorder') {
+    bundleOpts.style.display   = 'none';
+    refillBlock.style.display  = 'none';
+    shipsLine.style.display    = 'none';
+    stockLabel.style.display   = 'none';
+    secondaryRow.style.display = '';
+    mainBtn.textContent        = 'Pre-Order Now →';
+    mainBtn.disabled           = false;
+    mainBtn.className          = 'ut-cta-atc';
+    mainBtn.style.background   = 'linear-gradient(90deg, #8b3a52, #6B2A3E)';
+    mainBtn.style.color        = '#faf6f0';
+    mainBtn.style.letterSpacing = '0.3em';
+    mainBtn.onclick            = ctaPreOrder;
+
+  } else if (state === 'soldout') {
+    bundleOpts.style.display   = 'none';
+    refillBlock.style.display  = 'none';
+    shipsLine.style.display    = 'none';
+    stockLabel.style.display   = 'none';
+    secondaryRow.style.display = 'none';
+    mainBtn.textContent        = 'Sold Out';
+    mainBtn.disabled           = true;
+    mainBtn.className          = 'ut-cta-atc';
+    mainBtn.style.background   = 'rgba(201,169,110,0.15)';
+    mainBtn.style.color        = 'rgba(250,246,240,0.2)';
+    mainBtn.style.cursor       = 'not-allowed';
+    mainBtn.onclick            = null;
+  }
+}
+
+function ctaPreOrder() {
+  var btn = document.getElementById('mainBtn');
+  btn.textContent = 'Reserving…';
+  btn.style.opacity = '0.7';
+  setTimeout(function() {
+    btn.textContent = '✓ Pre-Order Confirmed!';
+    btn.style.background = 'linear-gradient(90deg,rgba(40,74,40,0.9),#1A3A1A)';
+    btn.style.opacity = '1';
+    showToast('✓ Pre-order placed!');
+    setTimeout(function() {
+      btn.textContent = 'Pre-Order Now →';
+      btn.style.background = 'linear-gradient(90deg, #8b3a52, #6B2A3E)';
+    }, 3000);
+  }, 800);
+}
+
+/* ── Toast ── */
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(function() { t.classList.remove('show'); }, 2200);
+}
+</script>
+</body>
+</html>
