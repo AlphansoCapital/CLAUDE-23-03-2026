@@ -1,0 +1,38 @@
+<style>
+.ut-recover { background:var(--ut-bg); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
+.ut-recover-box { max-width:420px; width:100%; }
+.ut-recover-logo { font-family:'Cinzel',serif; font-size:18px; color:var(--ut-gold); letter-spacing:0.35em; text-align:center; margin-bottom:36px; text-transform:uppercase; text-decoration:none; display:block; }
+.ut-recover-title { font-family:'Cinzel',serif; font-size:22px; color:var(--ut-text); font-weight:400; letter-spacing:0.08em; margin-bottom:8px; }
+.ut-recover-sub { font-family:'Jost',sans-serif; font-size:13px; color:rgba(250,246,240,0.4); line-height:1.7; letter-spacing:0.06em; margin-bottom:28px; }
+.ut-recover-field { margin-bottom:16px; }
+.ut-recover-label { font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.35em; color:rgba(201,169,110,0.5); text-transform:uppercase; display:block; margin-bottom:7px; }
+.ut-recover-input { width:100%; background:rgba(201,169,110,0.03); border:1px solid rgba(201,169,110,0.18); color:var(--ut-text); font-family:'Jost',sans-serif; font-size:14px; padding:13px 16px; outline:none; box-sizing:border-box; transition:border-color 0.25s; }
+.ut-recover-input:focus { border-color:rgba(201,169,110,0.55); }
+.ut-recover-input::placeholder { color:rgba(250,246,240,0.18); }
+.ut-recover-btn { width:100%; background:var(--ut-gold); color:var(--ut-bg); border:none; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.42em; text-transform:uppercase; padding:16px; cursor:pointer; transition:background 0.2s; margin-top:4px; }
+.ut-recover-btn:hover { background:var(--ut-gold-light); }
+.ut-recover-back { display:block; text-align:center; margin-top:18px; font-family:'Jost',sans-serif; font-size:11px; color:rgba(201,169,110,0.4); text-decoration:none; letter-spacing:0.1em; transition:color 0.2s; }
+.ut-recover-back:hover { color:var(--ut-gold); }
+.ut-recover-success { background:rgba(40,120,40,0.1); border:1px solid rgba(40,150,40,0.3); color:var(--ut-success); font-family:'Jost',sans-serif; font-size:12px; padding:12px 14px; letter-spacing:0.04em; margin-bottom:16px; display:none; }
+</style>
+<div class="ut-recover">
+  <div class="ut-recover-box">
+    <a href="{{ routes.root_url }}" class="ut-recover-logo">Urban Trend</a>
+    {% if form.posted_successfully? %}
+      <div class="ut-recover-success" style="display:block;">✓ We've sent a password reset link to your email.</div>
+      <a href="{{ routes.account_login_url }}" class="ut-recover-back">← Back to Sign In</a>
+    {% else %}
+      <h1 class="ut-recover-title">Reset Password</h1>
+      <p class="ut-recover-sub">Enter your email address and we'll send you a link to reset your password.</p>
+      {% form 'recover_customer_password' %}
+        <div class="ut-recover-field">
+          <label class="ut-recover-label" for="recoverEmail">Email Address</label>
+          <input class="ut-recover-input" type="email" name="email" id="recoverEmail" placeholder="your@email.com" autocomplete="email" required>
+        </div>
+        <button class="ut-recover-btn" type="submit">Send Reset Link →</button>
+      {% endform %}
+      <a href="{{ routes.account_login_url }}" class="ut-recover-back">← Back to Sign In</a>
+    {% endif %}
+  </div>
+</div>
+{% schema %}{"name":"Recover","tag":"section","settings":[]}{% endschema %}
