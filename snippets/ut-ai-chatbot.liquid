@@ -1,0 +1,656 @@
+{% comment %}
+  Urban Trend AI Chatbot — Powered by Claude
+  Full customer service bot with product knowledge
+{% endcomment %}
+
+<style>
+/* ── CHATBOT CONTAINER ── */
+#ut-chatbot-btn {
+  position: fixed;
+  bottom: 28px;
+  left: 24px;
+  z-index: 8001;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(201,169,110,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+  font-size: 22px;
+}
+#ut-chatbot-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 32px rgba(201,169,110,0.6);
+}
+#ut-chatbot-btn .ut-chat-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: #8B3A52;
+  color: #FAF6F0;
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  animation: ut-pulse 2s ease-in-out infinite;
+}
+@keyframes ut-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* ── CHAT WINDOW ── */
+#ut-chatbot-window {
+  position: fixed;
+  bottom: 100px;
+  left: 24px;
+  width: 380px;
+  max-height: 580px;
+  background: #0F0D0B;
+  border: 1px solid rgba(201,169,110,0.25);
+  border-radius: 16px;
+  z-index: 8002;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  overflow: hidden;
+  animation: ut-chat-open 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+#ut-chatbot-window.open {
+  display: flex;
+}
+@keyframes ut-chat-open {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (max-width: 440px) {
+  #ut-chatbot-window {
+    left: 8px;
+    right: 8px;
+    width: auto;
+    bottom: 90px;
+  }
+}
+
+/* ── CHAT HEADER ── */
+.ut-chat-header {
+  background: linear-gradient(135deg, #1A1410, #141210);
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.ut-chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  position: relative;
+}
+.ut-chat-avatar::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  background: #4CAF50;
+  border-radius: 50%;
+  border: 2px solid #141210;
+}
+.ut-chat-header-info { flex: 1; }
+.ut-chat-header-name {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: #C9A96E;
+  text-transform: uppercase;
+  display: block;
+}
+.ut-chat-header-status {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 200;
+  color: rgba(250,246,240,0.4);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+}
+.ut-chat-header-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #4CAF50;
+  border-radius: 50%;
+  display: inline-block;
+}
+.ut-chat-close {
+  background: none;
+  border: none;
+  color: rgba(250,246,240,0.4);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.ut-chat-close:hover { color: #C9A96E; }
+
+/* ── QUICK ACTIONS ── */
+.ut-chat-quick {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(201,169,110,0.08);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  background: rgba(20,18,16,0.5);
+}
+.ut-quick-btn {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.08em;
+  color: rgba(201,169,110,0.7);
+  background: rgba(201,169,110,0.06);
+  border: 1px solid rgba(201,169,110,0.15);
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.ut-quick-btn:hover {
+  background: rgba(201,169,110,0.12);
+  border-color: rgba(201,169,110,0.4);
+  color: #C9A96E;
+}
+
+/* ── MESSAGES ── */
+.ut-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,169,110,0.2) transparent;
+}
+.ut-chat-messages::-webkit-scrollbar { width: 3px; }
+.ut-chat-messages::-webkit-scrollbar-thumb { background: rgba(201,169,110,0.2); border-radius: 2px; }
+
+.ut-msg {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  max-width: 88%;
+}
+.ut-msg.bot { align-self: flex-start; }
+.ut-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+
+.ut-msg-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.ut-msg-bubble {
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 200;
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+}
+.ut-msg.bot .ut-msg-bubble {
+  background: rgba(201,169,110,0.08);
+  border: 1px solid rgba(201,169,110,0.12);
+  color: rgba(250,246,240,0.85);
+  border-bottom-left-radius: 4px;
+}
+.ut-msg.user .ut-msg-bubble {
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  color: #0A0908;
+  font-weight: 300;
+  border-bottom-right-radius: 4px;
+}
+
+/* Typing indicator */
+.ut-typing {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 12px 16px;
+}
+.ut-typing span {
+  width: 6px;
+  height: 6px;
+  background: rgba(201,169,110,0.5);
+  border-radius: 50%;
+  animation: ut-typing-dot 1.4s ease-in-out infinite;
+}
+.ut-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ut-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes ut-typing-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ── INPUT AREA ── */
+.ut-chat-input-area {
+  border-top: 1px solid rgba(201,169,110,0.12);
+  padding: 12px 14px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  background: rgba(10,9,8,0.6);
+  flex-shrink: 0;
+}
+#ut-chat-input {
+  flex: 1;
+  background: rgba(201,169,110,0.05);
+  border: 1px solid rgba(201,169,110,0.15);
+  color: rgba(250,246,240,0.9);
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 200;
+  padding: 10px 14px;
+  border-radius: 24px;
+  outline: none;
+  resize: none;
+  max-height: 80px;
+  min-height: 40px;
+  line-height: 1.5;
+  transition: border-color 0.2s;
+  scrollbar-width: none;
+}
+#ut-chat-input:focus { border-color: rgba(201,169,110,0.4); }
+#ut-chat-input::placeholder { color: rgba(250,246,240,0.25); }
+
+#ut-chat-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: transform 0.2s, opacity 0.2s;
+  flex-shrink: 0;
+  color: #0A0908;
+}
+#ut-chat-send:hover { transform: scale(1.08); }
+#ut-chat-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.ut-chat-footer {
+  text-align: center;
+  padding: 6px 14px 10px;
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  color: rgba(250,246,240,0.2);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+</style>
+
+<!-- ── CHATBOT BUTTON ── -->
+<button id="ut-chatbot-btn" onclick="utChatToggle()" aria-label="Chat with Urban Trend AI">
+  ✦
+  <span class="ut-chat-badge">AI</span>
+</button>
+
+<!-- ── CHAT WINDOW ── -->
+<div id="ut-chatbot-window" role="dialog" aria-label="Urban Trend AI Assistant">
+  <!-- Header -->
+  <div class="ut-chat-header">
+    <div class="ut-chat-avatar">✦</div>
+    <div class="ut-chat-header-info">
+      <span class="ut-chat-header-name">Priya — Urban Trend AI</span>
+      <span class="ut-chat-header-status">Online · Replies instantly</span>
+    </div>
+    <button class="ut-chat-close" onclick="utChatToggle()" aria-label="Close chat">✕</button>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="ut-chat-quick">
+    <button class="ut-quick-btn" onclick="utQuickAsk('What are your bestsellers?')">🔥 Bestsellers</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('Track my order')">📦 Track Order</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('Skincare routine for Indian skin')">✨ Skincare Tips</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('What is your return policy?')">↩️ Returns</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('Recommend a fragrance for gifting')">🎁 Gifting</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('Offer and discounts available today')">🏷️ Offers</button>
+  </div>
+
+  <!-- Messages -->
+  <div class="ut-chat-messages" id="ut-chat-messages"></div>
+
+  <!-- Input -->
+  <div class="ut-chat-input-area">
+    <textarea
+      id="ut-chat-input"
+      placeholder="Ask anything about our products..."
+      rows="1"
+      onkeydown="utChatKeydown(event)"
+      oninput="utChatAutoResize(this)"
+      aria-label="Type your message"
+    ></textarea>
+    <button id="ut-chat-send" onclick="utChatSend()" aria-label="Send message">➤</button>
+  </div>
+  <div class="ut-chat-footer">Powered by Urban Trend AI · Always here for you</div>
+</div>
+
+<script>
+(function() {
+  // ── SYSTEM PROMPT ──
+  const UT_SYSTEM = `You are Priya, Urban Trend's expert AI beauty advisor. Urban Trend is India's premium beauty brand founded in Mumbai in 2010.
+
+YOUR PERSONALITY:
+- Warm, knowledgeable, like a trusted beauty expert friend
+- Use occasional Hindi words naturally (like "bilkul", "zaroor", "ek second")
+- Be enthusiastic about beauty but precise with product info
+- Always helpful, never pushy
+
+YOUR KNOWLEDGE BASE:
+
+BRAND:
+- Founded: 2010, Mumbai by Ishaan Urban
+- PETA certified cruelty-free, dermatologist-tested
+- 4M+ happy customers across India
+- Free shipping above ₹999, 30-day returns, COD available
+- Payment: UPI, cards, net banking, COD
+
+BESTSELLING PRODUCTS:
+1. Street Glow Serum No. 7 (₹3,499) - Vitamin C + Saffron, 4.2M views, 30% off currently, bestseller for brightening
+2. Urban Velvet Base Foundation (₹1,899) - 12 Indian skin shades, 24% off, skin-blur perfection
+3. Street Noir EDP Fragrance (₹4,999) - Oud & Amber, 12+ hour lasting, Old Delhi inspired
+4. Peptide Eye Gel (₹2,299) - De-puff overnight, 23% off
+5. Kashmir Saffron Mask (₹1,499) - 210% trending, weekly treatment
+6. Himalayan Rose Toner (₹999) - Bestseller, 128% trending
+7. Urban Glow Powder (₹1,499) - Limited edition, 380% trending
+8. Vitamin C Booster (₹2,799) - 20% off, 155% trending
+9. Lip Velvet Set (₹1,799) - 140% trending
+10. Peptide Eye Gel (₹2,299) - 3,024 reviews, 79% claimed
+
+SKINCARE CATEGORIES:
+- Serums: Vitamin C, Peptide, Hyaluronic Acid
+- Moisturisers: All skin types, SPF variants
+- Cleansers: Gel, foam, micellar
+- Toners: Rose, AHA/BHA
+- Sunscreens: SPF 30, 50, tinted
+- Eye care: Peptide, caffeine
+- Face masks: Saffron, clay, sheet
+
+MAKEUP CATEGORIES:
+- Foundation: 12 Indian skin shades, dewy & matte finish
+- Kajal: Smudge-proof, waterproof, 24-hour
+- Lipstick: 40+ shades, matte & glossy
+- Eyeshadow: Pigmented palettes for Indian skin
+- Blush & bronzer, highlighter, mascara
+
+FRAGRANCE:
+- Oud & amber, saffron, sandalwood, rose, jasmine
+- 12+ hour longevity on EDP range
+- India-inspired compositions
+
+LOYALTY PROGRAMME:
+- Urban tier: 0-999 points
+- Prestige tier: 1000-4999 points (10% discount, early access)
+- Elite tier: 5000+ points (15% discount, free shipping always, exclusive products)
+
+CURRENT OFFERS:
+- Use code GLOW15 for 15% off
+- Free shipping above ₹999
+- Flash sales running on select items
+
+POLICIES:
+- Free 30-day returns
+- COD available pan-India
+- Delivery 3-7 business days
+- Track at urbantrend.in/pages/tracking
+
+SKINCARE ADVICE FOR INDIAN SKIN:
+- Morning routine: Cleanser → Vitamin C serum → Moisturiser → SPF
+- Evening routine: Double cleanse → Treatment serum → Night moisturiser
+- Concerns: hyperpigmentation (Vitamin C), dullness (saffron), oiliness (niacinamide), acne (salicylic acid)
+- Indian skin needs: SPF daily even indoors, antioxidant protection from pollution, hydration in dry seasons
+
+RULES:
+- If asked about order tracking, direct to urbantrend.in/pages/tracking
+- If asked about specific order details you don't have, ask for order number and offer to help
+- For complaints, be empathetic and offer to escalate
+- Never make up prices — if unsure, say "check our website for current pricing"
+- Keep responses concise (2-4 sentences usually) unless detailed info needed
+- Suggest products when relevant but don't be pushy
+- Use ₹ symbol for prices always`;
+
+  // ── STATE ──
+  let utMessages = [];
+  let utIsOpen = false;
+  let utIsLoading = false;
+  let utGreeted = false;
+
+  // ── TOGGLE ──
+  window.utChatToggle = function() {
+    utIsOpen = !utIsOpen;
+    const win = document.getElementById('ut-chatbot-window');
+    if (utIsOpen) {
+      win.classList.add('open');
+      if (!utGreeted) {
+        utGreeted = true;
+        setTimeout(() => {
+          utAddMessage('bot', 'Namaste! 🌸 I\'m Priya, your Urban Trend beauty advisor.\n\nHow can I help you today? Whether it\'s finding the perfect serum for Indian skin, tracking your order, or knowing about our latest offers — I\'m here!');
+        }, 300);
+      }
+      setTimeout(() => document.getElementById('ut-chat-input').focus(), 400);
+    } else {
+      win.classList.remove('open');
+    }
+  };
+
+  // ── QUICK ASK ──
+  window.utQuickAsk = function(text) {
+    document.getElementById('ut-chat-input').value = text;
+    utChatSend();
+  };
+
+  // ── ADD MESSAGE ──
+  function utAddMessage(role, text) {
+    utMessages.push({ role, content: text });
+    const container = document.getElementById('ut-chat-messages');
+
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'ut-msg ' + (role === 'bot' ? 'bot' : 'user');
+
+    if (role === 'bot') {
+      msgDiv.innerHTML = `
+        <div class="ut-msg-avatar">✦</div>
+        <div class="ut-msg-bubble">${utFormatText(text)}</div>`;
+    } else {
+      msgDiv.innerHTML = `<div class="ut-msg-bubble">${utEscape(text)}</div>`;
+    }
+
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  // ── TYPING INDICATOR ──
+  function utShowTyping() {
+    const container = document.getElementById('ut-chat-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'ut-msg bot';
+    typingDiv.id = 'ut-typing-indicator';
+    typingDiv.innerHTML = `
+      <div class="ut-msg-avatar">✦</div>
+      <div class="ut-msg-bubble ut-typing">
+        <span></span><span></span><span></span>
+      </div>`;
+    container.appendChild(typingDiv);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function utHideTyping() {
+    const el = document.getElementById('ut-typing-indicator');
+    if (el) el.remove();
+  }
+
+  // ── FORMAT TEXT ──
+  function utFormatText(text) {
+    return utEscape(text)
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function utEscape(text) {
+    return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── SEND MESSAGE ──
+  window.utChatSend = async function() {
+    const input = document.getElementById('ut-chat-input');
+    const text = input.value.trim();
+    if (!text || utIsLoading) return;
+
+    input.value = '';
+    utChatAutoResize(input);
+    utAddMessage('user', text);
+
+    utIsLoading = true;
+    document.getElementById('ut-chat-send').disabled = true;
+    utShowTyping();
+
+    // Smart rule-based response — no API needed
+    setTimeout(() => {
+      utHideTyping();
+      const reply = utPriyaRespond(text.toLowerCase());
+      utAddMessage('bot', reply);
+      utIsLoading = false;
+      document.getElementById('ut-chat-send').disabled = false;
+      input.focus();
+    }, 900 + Math.random() * 600);
+  };
+
+  // ── PRIYA SMART RESPONSES ──
+  function utPriyaRespond(msg) {
+    // Greetings
+    if (/^(hi|hello|hey|namaste|hii|helo|namaskar|hola)/.test(msg))
+      return 'Namaste! 🌸 Main Priya hoon — aapki Urban Trend Beauty Advisor. Aaj main aapki kya help kar sakti hoon?\n\nAap poochh sakti hain:\n• Products & prices\n• Skincare routine\n• Order tracking\n• Offers & discount codes';
+
+    // Offers / discount
+    if (/(offer|discount|code|coupon|promo|sale|deal|glow15|off)/.test(msg))
+      return '✨ **Aaj ka special offer:**\n\n🎁 Code **GLOW15** use karein — 15% off puri order pe!\n⭐ ₹999+ pe free shipping milegi\n💛 ₹1,999+ pe free gift sample\n\nKoi bhi product pe apply hoga. Bilkul valid hai aaj! 🛍';
+
+    // Bestsellers / popular
+    if (/(best|popular|trending|top|viral|recommend|suggest|konsa|kya lu|kya loon)/.test(msg))
+      return '🌟 **Hamare Best Sellers:**\n\n1. **Street Glow Serum No. 7** — ₹3,499\n   Vitamin C + Himalayan Rose — glass skin guaranteed!\n\n2. **Kashmir Saffron Mask** — ₹2,799\n   15 min mein radiant glow\n\n3. **Urban Velvet Base** — ₹1,899\n   18-hour wear foundation\n\n4. **Street Noir EDP** — ₹4,999\n   Oud & Amber — luxury fragrance\n\nCode **GLOW15** se 15% off milega! ✨';
+
+    // Skincare routine / tips
+    if (/(routine|skincare|skin care|tip|step|kaise|glowing|glow|dark spot|pigment|oily|dry|acne|pimple)/.test(msg))
+      return '✨ **Urban Trend Skincare Routine:**\n\n☀️ **Subah (Morning):**\n1. Cleanser\n2. Himalayan Rose Toner — ₹1,299\n3. Street Glow Serum — ₹3,499\n4. Moisturizer\n5. Sunscreen\n\n🌙 **Raat (Night):**\n1. Double cleanse\n2. Toner\n3. Peptide Eye Gel — ₹2,299\n4. Night cream\n\nCode **GLOW15** se 15% off milega! Zaroor try karein 🌸';
+
+    // Serum
+    if (/(serum|vitamin c|glow serum|brightening|bright)/.test(msg))
+      return '✨ **Street Glow Serum No. 7 — ₹3,499**\n\nHamara #1 bestseller! Kyun?\n• Himalayan Rose + Vitamin C complex\n• Dark spots 2 hafte mein kam hote hain\n• Glass skin effect\n• Dermatologist tested\n• 30ml bottle — 3 mahine chalti hai\n\n⭐ 4.9/5 stars — 2,847 reviews!\n\nCode **GLOW15** se ₹524 off milega! 💛';
+
+    // Foundation / makeup
+    if (/(foundation|base|coverage|makeup|velvet base|bb|cc|concealer|primer)/.test(msg))
+      return '💄 **Urban Velvet Base — ₹1,899**\n\nIndian skin ke liye specially made:\n• 18-hour long wear\n• SPF 20 protection\n• 12 Indian skin shades available\n• Sweat & transfer proof\n• Full coverage\n\nCode **GLOW15** se ₹284 off! 💛\n\nAur koi makeup product chahiye? Eyeshadow, lipstick, kajal — sab available hai!';
+
+    // Fragrance / perfume
+    if (/(perfume|fragrance|edp|scent|smell|khushboo|attar|noir)/.test(msg))
+      return '🌹 **Street Noir EDP — ₹4,999**\n\nOur luxury fragrance:\n• Notes: Oud, Amber, Saffron, Sandalwood\n• 12+ hours lasting\n• Inspired by Old Delhi\n• 50ml luxury bottle\n\nEk baar lagao — din bhar compliments aate hain! 😊\n\nCode **GLOW15** se ₹749 off milega!';
+
+    // Hair
+    if (/(hair|baal|oil|shampoo|conditioner|mask|dandruff|growth|fall)/.test(msg))
+      return '💆 **Hamari Hair Care Range:**\n\n1. **Saffron Hair Oil** — ₹1,299\n   Pure Kashmiri saffron + Argan oil\n   Hair fall reduce karta hai\n\n2. **Hair Masks** — ₹1,499\n   Deep conditioning treatment\n\n3. **Scalp Serum** — ₹1,799\n   Growth booster\n\nCode **GLOW15** se 15% off puri range pe! ✨';
+
+    // Tracking order
+    if (/(track|order|delivery|status|kahan|shipped|dispatch|courier|parcel|package)/.test(msg))
+      return '📦 **Order Track Karne Ke Liye:**\n\n1. Apna **Order ID** ready rakhein\n2. Hamare **Track Order** page pe jaayein\n3. Ya email check karein — tracking link aaya hoga\n\n🚚 Delivery time:\n• Metro cities: 2-4 days\n• Other cities: 4-7 days\n\nOrder ID chahiye toh reply karein — main help karti hoon! 😊';
+
+    // Returns / refund
+    if (/(return|refund|exchange|waapas|replace|damaged|broken|wrong)/.test(msg))
+      return '↩ **Return Policy:**\n\n✅ 7-din easy returns\n✅ Damaged ya wrong product — full refund\n✅ Unused products — exchange available\n\n**Kaise return karein:**\n1. Email karein: returns@urbantrend.in\n2. Order ID + photo attach karein\n3. 2-3 din mein pickup arrange hogi\n4. Refund 5-7 business days mein\n\nKoi problem hai? Bilkul batayein! 😊';
+
+    // Shipping
+    if (/(shipping|delivery charge|free|cod|cash on delivery|payment|upi|card)/.test(msg))
+      return '🚚 **Shipping & Payment:**\n\n✅ **Free shipping** — ₹999+ orders pe\n✅ **COD available** — pan-India\n✅ **UPI, Cards, NetBanking** — sab accepted\n✅ Delivery: 2-7 working days\n\n₹999 se kam pe ₹49 shipping charge lagta hai.\n\nCode **GLOW15** se 15% off + ₹999 cross karo = free shipping! Double fayda! 😊';
+
+    // Gift / gifting
+    if (/(gift|present|birthday|anniversary|diwali|wedding|brides|hamper)/.test(msg))
+      return '🎁 **Gift Options:**\n\n✨ **Gift Sets available:**\n• Skincare Starter Kit — ₹2,499\n• Glow & Glow Set — ₹3,999\n• Luxury Bridal Kit — ₹6,999\n\n💛 **Free gift wrapping** on all orders!\n💛 **Personalised message** add kar sakte hain\n💛 **₹1,999+** pe free sample gift\n\nCode **GLOW15** se 15% off!\n\nKiske liye gift lena hai? Main perfect set suggest kar sakti hoon! 😊';
+
+    // Price / kitna
+    if (/(price|cost|kitna|rate|how much|expensive|cheap|budget)/.test(msg))
+      return '💰 **Our Price Range:**\n\n• Serums: ₹1,299 — ₹3,499\n• Foundations: ₹1,299 — ₹2,499\n• Fragrances: ₹2,999 — ₹4,999\n• Hair Care: ₹999 — ₹1,799\n• Gift Sets: ₹2,499 — ₹6,999\n\n✨ Code **GLOW15** se **15% off** milega!\n🚚 ₹999+ pe free shipping\n\nKaunsa product ka price jaanna hai? Bilkul batayein!';
+
+    // Loyalty / points
+    if (/(loyalty|points|reward|membership|tier|silver|gold|platinum)/.test(msg))
+      return '⭐ **Urban Trend Loyalty Program:**\n\n🥈 **Silver** — 0-4,999 points\n   5% extra discount\n\n🥇 **Gold** — 5,000-14,999 points\n   10% extra + priority support\n\n💎 **Platinum** — 15,000+ points\n   15% extra + free express shipping + exclusive access\n\n**Points kaise milte hain:**\n• ₹100 spend = 10 points\n• Review likhna = 50 points\n• Birthday bonus = 500 points\n\nAbhi join karein — free hai! 😊';
+
+    // Ingredients / natural
+    if (/(ingredient|natural|chemical|safe|organic|himalayan|saffron|rose|botanical)/.test(msg))
+      return '🌿 **Urban Trend Philosophy:**\n\n✅ **98% Natural Origin** ingredients\n✅ **Himalayan Botanicals** — Rose, Saffron, Ashwagandha\n✅ **Cruelty Free** — no animal testing\n✅ **Dermatologist Tested**\n✅ No harmful parabens or sulfates\n✅ Made for **Indian skin tones & climate**\n\nHar product mein rare Indian botanicals use hoti hain jo generations se use ho rahi hain! 🌸';
+
+    // Skin type
+    if (/(oily skin|dry skin|combination|sensitive|normal skin|skin type|mera skin)/.test(msg))
+      return '✨ **Apne Skin Type Ke Liye:**\n\n🫧 **Oily skin:**\nNiacinamide Serum + Matte Foundation\n\n💧 **Dry skin:**\nHyaluronic Acid Serum + Rich Moisturizer\n\n🌸 **Combination:**\nStreet Glow Serum + Balancing Toner\n\n🌿 **Sensitive:**\nGentle Cleanser + Rose Toner (alcohol-free)\n\nApna skin type batao — main exact product suggest kar sakti hoon! 😊\n\nCode **GLOW15** se 15% off milega!';
+
+    // Contact / human agent
+    if (/(human|agent|support|help|contact|call|whatsapp|speak|talk|complaint|issue|problem)/.test(msg))
+      return '👩 **Hamare Support Team Se Baat Karein:**\n\n📱 **WhatsApp:** +91-XXXXXXXXXX\n   (Mon-Sat, 9am-7pm)\n\n📧 **Email:** hello@urbantrend.in\n   (24 ghante mein reply)\n\n💬 **Live Chat:** Abhi available hai!\n\nMain bhi yahan hoon — aap mujhse seedha poochh sakti hain! Kya problem hai? 😊';
+
+    // Thanks / bye
+    if (/(thanks|thank you|shukriya|dhanyawad|bye|goodbye|ok|okay|great|perfect|amazing)/.test(msg))
+      return 'Bahut shukriya! 🌸 Aapka din sundar ho!\n\nKoi bhi sawaal ho — main yahan hoon. Code **GLOW15** mat bhulieyega — 15% off milega! ✨\n\nUrban Trend ki taraf se pyaar 💛';
+
+    // Default — helpful fallback
+    return `Zaroor! Aapne poochha: "${msg.substring(0,50)}${msg.length > 50 ? '...' : ''}"\n\nMain aapki help karna chahti hoon! Yeh topics pe seedha poochh sakti hain:\n\n• 🌟 **Bestsellers** — konsa product lena chahiye\n• 💰 **Offers** — discount codes\n• 📦 **Order tracking** — delivery status\n• ↩ **Returns** — refund process\n• 💆 **Skincare tips** — apni skin ke liye\n• 🎁 **Gifting** — gift sets\n\nYa WhatsApp karein: +91-XXXXXXXXXX 😊`;
+  }
+
+  // ── KEYBOARD HANDLER ──
+  window.utChatKeydown = function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      utChatSend();
+    }
+  };
+
+  // ── AUTO RESIZE TEXTAREA ──
+  window.utChatAutoResize = function(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+  };
+
+})();
+</script>
