@@ -1,0 +1,368 @@
+<style>
+/* ── AFFILIATE PAGE — Urban Trend Partner Programme ── */
+.aff{background:var(--obs);min-height:100vh;font-family:var(--fb);}
+
+/* HERO */
+.aff-hero{position:relative;overflow:hidden;padding:100px 52px 80px;text-align:center;background:linear-gradient(180deg,#141210 0%,#0A0908 100%);border-bottom:1px solid var(--border);}
+.aff-hero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,169,110,0.09) 0%,transparent 65%);pointer-events:none;}
+.aff-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(201,169,110,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,110,.018) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;}
+.aff-eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--fl);font-size:8px;letter-spacing:.46em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;}
+.aff-eyebrow::before,.aff-eyebrow::after{content:'';display:block;width:28px;height:1px;background:var(--gold);opacity:.6;}
+.aff-hero-title{font-family:var(--fd);font-size:clamp(38px,5vw,68px);font-weight:300;line-height:1.05;color:var(--ww);margin-bottom:20px;}
+.aff-hero-title em{font-style:italic;color:var(--gold-l);}
+.aff-hero-sub{font-family:var(--fb);font-size:14px;font-weight:200;color:rgba(250,246,240,.45);max-width:540px;margin:0 auto 44px;line-height:1.9;letter-spacing:.06em;}
+.aff-hero-cta{display:inline-flex;align-items:center;gap:14px;background:var(--gold);color:var(--obs);font-family:var(--fl);font-size:9px;letter-spacing:.36em;text-transform:uppercase;padding:16px 36px;border:1px solid var(--gold);cursor:pointer;position:relative;overflow:hidden;transition:color .4s;font-weight:500;text-decoration:none;}
+.aff-hero-cta::before{content:'';position:absolute;inset:0;background:var(--obs);transform:scaleX(0);transform-origin:right;transition:transform .5s cubic-bezier(.76,0,.24,1);}
+.aff-hero-cta:hover::before{transform:scaleX(1);transform-origin:left;}
+.aff-hero-cta:hover{color:var(--gold);}
+.aff-hero-cta span{position:relative;z-index:1;}
+.aff-hero-note{font-family:var(--fb);font-size:10px;font-weight:200;color:rgba(250,246,240,.22);margin-top:16px;letter-spacing:.1em;}
+
+/* STATS STRIP */
+.aff-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,169,110,.1);border-top:1px solid rgba(201,169,110,.1);border-bottom:1px solid rgba(201,169,110,.1);}
+.aff-stat{background:var(--obs);padding:32px 24px;text-align:center;}
+.aff-stat-num{font-family:var(--fd);font-size:40px;font-weight:300;color:var(--gold-l);display:block;line-height:1;margin-bottom:8px;}
+.aff-stat-lbl{font-family:var(--fb);font-size:9px;font-weight:200;letter-spacing:.22em;text-transform:uppercase;color:rgba(250,246,240,.3);}
+
+/* BODY */
+.aff-body{max-width:1200px;margin:0 auto;padding:80px 52px;}
+@media(max-width:600px){.aff-body{padding:48px 20px;}}
+
+/* HOW IT WORKS */
+.aff-section-label{font-family:var(--fl);font-size:7px;letter-spacing:.44em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px;opacity:.7;}
+.aff-section-title{font-family:var(--fd);font-size:clamp(28px,3vw,42px);font-weight:300;color:var(--ww);margin-bottom:48px;line-height:1.15;}
+.aff-section-title em{font-style:italic;color:var(--gold-l);}
+.aff-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:80px;}
+@media(max-width:768px){.aff-steps{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.aff-steps{grid-template-columns:1fr;}}
+.aff-step{background:#141210;border:1px solid rgba(201,169,110,.1);padding:28px 24px;position:relative;transition:border-color .3s;}
+.aff-step:hover{border-color:rgba(201,169,110,.38);}
+.aff-step-num{font-family:var(--fd);font-size:52px;font-weight:300;color:rgba(201,169,110,.1);line-height:1;display:block;margin-bottom:12px;}
+.aff-step-icon{font-size:22px;display:block;margin-bottom:12px;}
+.aff-step-title{font-family:var(--fl);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
+.aff-step-desc{font-family:var(--fb);font-size:12px;font-weight:200;color:rgba(250,246,240,.45);line-height:1.8;}
+
+/* COMMISSION TIERS */
+.aff-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:80px;}
+@media(max-width:700px){.aff-tiers{grid-template-columns:1fr;}}
+.aff-tier{background:#141210;border:1px solid rgba(201,169,110,.1);padding:32px 28px;transition:border-color .3s,transform .3s;position:relative;}
+.aff-tier:hover{border-color:rgba(201,169,110,.4);transform:translateY(-4px);}
+.aff-tier.featured{border-color:rgba(201,169,110,.35);background:linear-gradient(160deg,#1A1510,#141210);}
+.aff-tier.featured::before{content:'Most Popular';position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--obs);font-family:var(--fl);font-size:7px;letter-spacing:.3em;text-transform:uppercase;padding:4px 16px;font-weight:500;}
+.aff-tier-name{font-family:var(--fl);font-size:8px;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px;opacity:.7;}
+.aff-tier-pct{font-family:var(--fd);font-size:56px;font-weight:300;color:var(--gold-l);line-height:1;display:block;margin-bottom:4px;}
+.aff-tier-pct span{font-size:22px;vertical-align:top;margin-top:10px;display:inline-block;}
+.aff-tier-sub{font-family:var(--fb);font-size:10px;font-weight:200;color:rgba(250,246,240,.3);letter-spacing:.12em;display:block;margin-bottom:22px;}
+.aff-tier-divider{width:32px;height:1px;background:linear-gradient(to right,var(--gold),transparent);margin-bottom:20px;}
+.aff-tier-perks{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.aff-tier-perk{font-family:var(--fb);font-size:12px;font-weight:200;color:rgba(250,246,240,.5);display:flex;align-items:flex-start;gap:8px;}
+.aff-tier-perk::before{content:'✓';color:var(--gold);font-size:11px;flex-shrink:0;margin-top:1px;}
+.aff-tier-range{font-family:var(--fb);font-size:10px;font-weight:200;color:rgba(250,246,240,.25);letter-spacing:.1em;margin-top:20px;padding-top:16px;border-top:1px solid rgba(201,169,110,.08);display:block;}
+
+/* WHAT YOU GET */
+.aff-perks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:80px;}
+@media(max-width:700px){.aff-perks-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.aff-perks-grid{grid-template-columns:1fr;}}
+.aff-perk-card{background:#141210;border:1px solid rgba(201,169,110,.09);padding:24px 22px;transition:border-color .3s;}
+.aff-perk-card:hover{border-color:rgba(201,169,110,.35);}
+.aff-perk-icon{font-size:24px;display:block;margin-bottom:14px;}
+.aff-perk-title{font-family:var(--fl);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:8px;}
+.aff-perk-desc{font-family:var(--fb);font-size:12px;font-weight:200;color:rgba(250,246,240,.4);line-height:1.8;}
+
+/* FAQ */
+.aff-faq{margin-bottom:80px;}
+.aff-faq-item{border-bottom:1px solid rgba(201,169,110,.1);padding:20px 0;}
+.aff-faq-q{font-family:var(--fd);font-size:17px;font-weight:300;color:var(--ww);margin-bottom:10px;cursor:pointer;}
+.aff-faq-a{font-family:var(--fb);font-size:12px;font-weight:200;color:rgba(250,246,240,.45);line-height:1.9;}
+
+/* SIGNUP FORM */
+.aff-signup{background:#141210;border:1px solid rgba(201,169,110,.2);padding:52px;text-align:center;position:relative;overflow:hidden;}
+.aff-signup::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(201,169,110,.06) 0%,transparent 70%);pointer-events:none;}
+.aff-signup-title{font-family:var(--fd);font-size:clamp(28px,3vw,42px);font-weight:300;color:var(--ww);margin-bottom:12px;position:relative;z-index:1;}
+.aff-signup-title em{font-style:italic;color:var(--gold-l);}
+.aff-signup-sub{font-family:var(--fb);font-size:13px;font-weight:200;color:rgba(250,246,240,.4);margin-bottom:36px;line-height:1.8;position:relative;z-index:1;}
+.aff-form{display:flex;flex-direction:column;gap:14px;max-width:520px;margin:0 auto;position:relative;z-index:1;}
+.aff-form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.aff-form-row{grid-template-columns:1fr;}}
+.aff-input{width:100%;background:rgba(10,9,8,.8);border:1px solid rgba(201,169,110,.2);padding:14px 18px;font-family:var(--fb);font-size:12px;font-weight:200;color:var(--ww);letter-spacing:.06em;outline:none;transition:border-color .3s;box-sizing:border-box;}
+.aff-input::placeholder{color:rgba(250,246,240,.22);}
+.aff-input:focus{border-color:rgba(201,169,110,.55);}
+.aff-select{width:100%;background:rgba(10,9,8,.8);border:1px solid rgba(201,169,110,.2);padding:14px 18px;font-family:var(--fb);font-size:12px;font-weight:200;color:rgba(250,246,240,.7);letter-spacing:.06em;outline:none;transition:border-color .3s;box-sizing:border-box;cursor:pointer;appearance:none;-webkit-appearance:none;}
+.aff-select:focus{border-color:rgba(201,169,110,.55);}
+.aff-submit{width:100%;background:var(--gold);color:var(--obs);font-family:var(--fl);font-size:9px;letter-spacing:.4em;text-transform:uppercase;padding:16px;border:none;cursor:pointer;font-weight:500;transition:background .3s;position:relative;overflow:hidden;}
+.aff-submit:hover{background:var(--gold-l);}
+.aff-form-note{font-family:var(--fb);font-size:9px;font-weight:200;color:rgba(250,246,240,.2);letter-spacing:.08em;margin-top:8px;}
+
+/* SUCCESS STATE */
+.aff-success{display:none;text-align:center;padding:32px;}
+.aff-success-icon{font-size:48px;display:block;margin-bottom:16px;}
+.aff-success-title{font-family:var(--fd);font-size:28px;font-weight:300;color:var(--ww);margin-bottom:10px;}
+.aff-success-sub{font-family:var(--fb);font-size:13px;font-weight:200;color:rgba(250,246,240,.45);}
+
+@media(max-width:768px){
+  .aff-stats{grid-template-columns:repeat(2,1fr);}
+  .aff-hero{padding:72px 24px 60px;}
+  .aff-signup{padding:36px 24px;}
+}
+</style>
+
+<div class="aff">
+
+  <!-- HERO -->
+  <div class="aff-hero">
+    <span class="aff-eyebrow">Partner Programme</span>
+    <h1 class="aff-hero-title">Earn While You<br><em>Recommend Beauty</em></h1>
+    <p class="aff-hero-sub">Join Urban Trend's affiliate programme. Share products you believe in — earn real commission on every sale. No investment. No risk. Just results.</p>
+    <a href="#aff-apply" class="aff-hero-cta"><span>Apply Now — It's Free</span><span style="position:relative;z-index:1;">→</span></a>
+    <p class="aff-hero-note">Free to join · Instant approval · UPI payouts · No minimum orders</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="aff-stats">
+    <div class="aff-stat">
+      <span class="aff-stat-num">5%</span>
+      <span class="aff-stat-lbl">Commission Per Sale</span>
+    </div>
+    <div class="aff-stat">
+      <span class="aff-stat-num">30</span>
+      <span class="aff-stat-lbl">Day Cookie Window</span>
+    </div>
+    <div class="aff-stat">
+      <span class="aff-stat-num">₹0</span>
+      <span class="aff-stat-lbl">To Join</span>
+    </div>
+    <div class="aff-stat">
+      <span class="aff-stat-num">50+</span>
+      <span class="aff-stat-lbl">Years Brand Trust</span>
+    </div>
+  </div>
+
+  <div class="aff-body">
+
+    <!-- HOW IT WORKS -->
+    <div style="margin-bottom:60px;">
+      <span class="aff-section-label">Simple Process</span>
+      <h2 class="aff-section-title">How It <em>Works</em></h2>
+      <div class="aff-steps">
+        <div class="aff-step">
+          <span class="aff-step-num">01</span>
+          <span class="aff-step-icon">📝</span>
+          <span class="aff-step-title">Apply Free</span>
+          <p class="aff-step-desc">Fill the form below. Instant approval for influencers, bloggers, and beauty enthusiasts.</p>
+        </div>
+        <div class="aff-step">
+          <span class="aff-step-num">02</span>
+          <span class="aff-step-icon">🔗</span>
+          <span class="aff-step-title">Get Your Link</span>
+          <p class="aff-step-desc">Receive a unique tracking link for every product. Share on Instagram, YouTube, WhatsApp, or your blog.</p>
+        </div>
+        <div class="aff-step">
+          <span class="aff-step-num">03</span>
+          <span class="aff-step-icon">🛍</span>
+          <span class="aff-step-title">Customer Buys</span>
+          <p class="aff-step-desc">Your follower clicks your link and places an order on Urban Trend. 30-day cookie ensures you get credit.</p>
+        </div>
+        <div class="aff-step">
+          <span class="aff-step-num">04</span>
+          <span class="aff-step-icon">💰</span>
+          <span class="aff-step-title">You Earn</span>
+          <p class="aff-step-desc">Commission credited to your account. Withdraw anytime via UPI, bank transfer, or store credit.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMISSION TIERS -->
+    <div style="margin-bottom:80px;">
+      <span class="aff-section-label">Earnings Structure</span>
+      <h2 class="aff-section-title">Commission <em>Tiers</em></h2>
+      <div class="aff-tiers">
+        <div class="aff-tier">
+          <span class="aff-tier-name">Starter</span>
+          <span class="aff-tier-pct"><span>%</span>5</span>
+          <span class="aff-tier-sub">Per confirmed sale</span>
+          <div class="aff-tier-divider"></div>
+          <ul class="aff-tier-perks">
+            <li class="aff-tier-perk">Unique tracking link</li>
+            <li class="aff-tier-perk">Real-time dashboard</li>
+            <li class="aff-tier-perk">30-day cookie window</li>
+            <li class="aff-tier-perk">UPI / Bank payout</li>
+            <li class="aff-tier-perk">Monthly payments</li>
+          </ul>
+          <span class="aff-tier-range">0 – 10 sales/month</span>
+        </div>
+        <div class="aff-tier featured">
+          <span class="aff-tier-name">Growth</span>
+          <span class="aff-tier-pct"><span>%</span>7</span>
+          <span class="aff-tier-sub">Per confirmed sale</span>
+          <div class="aff-tier-divider"></div>
+          <ul class="aff-tier-perks">
+            <li class="aff-tier-perk">Everything in Starter</li>
+            <li class="aff-tier-perk">Free product samples</li>
+            <li class="aff-tier-perk">Priority WhatsApp support</li>
+            <li class="aff-tier-perk">Early access to launches</li>
+            <li class="aff-tier-perk">Bi-weekly payments</li>
+          </ul>
+          <span class="aff-tier-range">11 – 30 sales/month</span>
+        </div>
+        <div class="aff-tier">
+          <span class="aff-tier-name">Elite</span>
+          <span class="aff-tier-pct"><span>%</span>10</span>
+          <span class="aff-tier-sub">Per confirmed sale</span>
+          <div class="aff-tier-divider"></div>
+          <ul class="aff-tier-perks">
+            <li class="aff-tier-perk">Everything in Growth</li>
+            <li class="aff-tier-perk">Dedicated account manager</li>
+            <li class="aff-tier-perk">Custom discount codes</li>
+            <li class="aff-tier-perk">Co-branded content</li>
+            <li class="aff-tier-perk">Weekly payments</li>
+          </ul>
+          <span class="aff-tier-range">31+ sales/month</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHAT YOU GET -->
+    <div style="margin-bottom:80px;">
+      <span class="aff-section-label">Partner Benefits</span>
+      <h2 class="aff-section-title">What You <em>Get</em></h2>
+      <div class="aff-perks-grid">
+        <div class="aff-perk-card">
+          <span class="aff-perk-icon">📊</span>
+          <span class="aff-perk-title">Live Dashboard</span>
+          <p class="aff-perk-desc">Track clicks, conversions, and earnings in real time. Full transparency, always.</p>
+        </div>
+        <div class="aff-perk-card">
+          <span class="aff-perk-icon">🎁</span>
+          <span class="aff-perk-title">Free Samples</span>
+          <p class="aff-perk-desc">Growth and Elite partners receive free products to review and share authentically.</p>
+        </div>
+        <div class="aff-perk-card">
+          <span class="aff-perk-icon">🏷</span>
+          <span class="aff-perk-title">Exclusive Codes</span>
+          <p class="aff-perk-desc">Your own discount code for your audience — boosts conversions and builds loyalty.</p>
+        </div>
+        <div class="aff-perk-card">
+          <span class="aff-perk-icon">💸</span>
+          <span class="aff-perk-title">UPI Payouts</span>
+          <p class="aff-perk-desc">Fast, hassle-free payments directly to your UPI or bank account. No delays.</p>
+        </div>
+        <div class="aff-perk-card">
+          <span class="aff-perk-icon">📱</span>
+          <span class="aff-perk-title">Ready-Made Assets</span>
+          <p class="aff-perk-desc">Product images, banners, and copy — everything you need to start sharing immediately.</p>
+        </div>
+        <div class="aff-perk-card">
+          <span class="aff-perk-icon">🛡</span>
+          <span class="aff-perk-title">50 Year Brand</span>
+          <p class="aff-perk-desc">Recommend a brand your audience can trust — 100% authentic products since 1975.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div style="margin-bottom:80px;">
+      <span class="aff-section-label">Common Questions</span>
+      <h2 class="aff-section-title" style="margin-bottom:32px;">FAQ</h2>
+      <div class="aff-faq">
+        <div class="aff-faq-item">
+          <p class="aff-faq-q">Who can join the affiliate programme?</p>
+          <p class="aff-faq-a">Anyone! Influencers, bloggers, YouTubers, WhatsApp group admins, or anyone with an audience interested in beauty and skincare. No minimum follower count required.</p>
+        </div>
+        <div class="aff-faq-item">
+          <p class="aff-faq-q">How do I get paid?</p>
+          <p class="aff-faq-a">Payments are made via UPI or bank transfer. Minimum payout threshold is ₹500. Starter partners are paid monthly, Growth bi-weekly, and Elite weekly.</p>
+        </div>
+        <div class="aff-faq-item">
+          <p class="aff-faq-q">What is a 30-day cookie window?</p>
+          <p class="aff-faq-a">If someone clicks your link and buys within 30 days — even if they don't buy immediately — you still get the commission. No sale lost.</p>
+        </div>
+        <div class="aff-faq-item">
+          <p class="aff-faq-q">Can I promote on Instagram and WhatsApp?</p>
+          <p class="aff-faq-a">Yes — Instagram, YouTube, WhatsApp, Telegram, blogs, emails, anywhere. Share your unique link across all platforms.</p>
+        </div>
+        <div class="aff-faq-item">
+          <p class="aff-faq-q">Is there a cost to join?</p>
+          <p class="aff-faq-a">Zero. Joining is completely free. No subscription, no hidden fees, no commitment. You earn — we earn. Simple.</p>
+        </div>
+        <div class="aff-faq-item">
+          <p class="aff-faq-q">How long does approval take?</p>
+          <p class="aff-faq-a">Most applications are reviewed within 24 hours. You'll receive your tracking link and dashboard access via WhatsApp or email.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div class="aff-signup" id="aff-apply">
+      <div id="affFormWrap">
+        <h2 class="aff-signup-title" style="position:relative;z-index:1;">Join the <em>Partner Programme</em></h2>
+        <p class="aff-signup-sub" style="position:relative;z-index:1;">Fill in your details — we'll send your unique affiliate link within 24 hours.</p>
+        <form class="aff-form" id="affForm" onsubmit="submitAffForm(event)">
+          <div class="aff-form-row">
+            <input class="aff-input" type="text" placeholder="Your Full Name *" required id="affName">
+            <input class="aff-input" type="tel" placeholder="WhatsApp Number *" required id="affPhone">
+          </div>
+          <input class="aff-input" type="email" placeholder="Email Address *" required id="affEmail">
+          <div class="aff-form-row">
+            <select class="aff-select" id="affPlatform" required>
+              <option value="" disabled selected style="color:#666;">Primary Platform *</option>
+              <option value="instagram">Instagram</option>
+              <option value="youtube">YouTube</option>
+              <option value="whatsapp">WhatsApp Groups</option>
+              <option value="blog">Blog / Website</option>
+              <option value="telegram">Telegram</option>
+              <option value="other">Other</option>
+            </select>
+            <select class="aff-select" id="affFollowers" required>
+              <option value="" disabled selected style="color:#666;">Audience Size *</option>
+              <option value="under1k">Under 1,000</option>
+              <option value="1k-5k">1,000 – 5,000</option>
+              <option value="5k-25k">5,000 – 25,000</option>
+              <option value="25k-100k">25,000 – 1 Lakh</option>
+              <option value="above1l">1 Lakh+</option>
+            </select>
+          </div>
+          <input class="aff-input" type="url" placeholder="Profile / Channel / Blog URL (optional)" id="affUrl">
+          <button type="submit" class="aff-submit">Apply Now — Free →</button>
+          <p class="aff-form-note">✓ Free to join &nbsp;·&nbsp; ✓ No spam &nbsp;·&nbsp; ✓ Response within 24 hours on WhatsApp</p>
+        </form>
+      </div>
+      <div class="aff-success" id="affSuccess">
+        <span class="aff-success-icon">✦</span>
+        <h3 class="aff-success-title">Application Received!</h3>
+        <p class="aff-success-sub">Thank you for applying to Urban Trend's Partner Programme.<br>We'll send your affiliate link and dashboard access on WhatsApp within 24 hours.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function submitAffForm(e) {
+  e.preventDefault();
+  var name = document.getElementById('affName').value;
+  var phone = document.getElementById('affPhone').value;
+  var email = document.getElementById('affEmail').value;
+  var platform = document.getElementById('affPlatform').value;
+  var followers = document.getElementById('affFollowers').value;
+  var url = document.getElementById('affUrl').value;
+
+  // WhatsApp message to owner
+  var msg = encodeURIComponent(
+    '🤝 *New Affiliate Application — Urban Trend*\n\n' +
+    '👤 Name: ' + name + '\n' +
+    '📱 WhatsApp: ' + phone + '\n' +
+    '📧 Email: ' + email + '\n' +
+    '📲 Platform: ' + platform + '\n' +
+    '👥 Audience: ' + followers + '\n' +
+    '🔗 URL: ' + (url || 'Not provided') + '\n\n' +
+    'Please send affiliate link & onboarding details.'
+  );
+
+  // Send to owner WhatsApp — update number below
+  window.open('https://wa.me/918901623093?text=' + msg, '_blank');
+
+  // Show success
+  document.getElementById('affFormWrap').style.display = 'none';
+  document.getElementById('affSuccess').style.display = 'block';
+}
+</script>
