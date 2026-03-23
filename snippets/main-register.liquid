@@ -1,0 +1,64 @@
+<style>
+.ut-auth { background:var(--ut-bg); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:60px 24px; }
+.ut-auth-box { max-width:440px; width:100%; }
+.ut-auth-logo { font-family:'Cinzel',serif; font-size:18px; color:var(--ut-gold); letter-spacing:0.35em; text-align:center; margin-bottom:40px; text-transform:uppercase; }
+.ut-auth-title { font-family:'Cinzel',serif; font-size:24px; color:var(--ut-text); font-weight:400; letter-spacing:0.1em; text-align:center; margin-bottom:8px; }
+.ut-auth-sub { font-family:'Jost',sans-serif; font-size:13px; color:rgba(250,246,240,0.4); text-align:center; margin-bottom:36px; }
+.ut-auth-form { display:flex; flex-direction:column; gap:14px; }
+.ut-auth-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.ut-auth-field { display:flex; flex-direction:column; gap:6px; }
+.ut-auth-label { font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.25em; color:rgba(250,246,240,0.35); text-transform:uppercase; }
+.ut-auth-input { background:none; border:1px solid rgba(201,169,110,0.18); color:var(--ut-text); font-family:'Jost',sans-serif; font-size:14px; padding:14px 16px; letter-spacing:0.05em; outline:none; transition:border-color 0.2s; width:100%; }
+.ut-auth-input:focus { border-color:rgba(201,169,110,0.5); }
+.ut-auth-input::placeholder { color:rgba(250,246,240,0.18); }
+.ut-auth-submit { background:var(--ut-gold); color:var(--ut-bg); border:none; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; padding:16px; cursor:pointer; transition:background 0.2s; margin-top:6px; }
+.ut-auth-submit:hover { background:#E2C98A; }
+.ut-auth-divider { text-align:center; font-family:'Jost',sans-serif; font-size:11px; color:rgba(250,246,240,0.2); margin:8px 0; }
+.ut-auth-switch { text-align:center; font-family:'Jost',sans-serif; font-size:12px; color:rgba(250,246,240,0.4); margin-top:20px; }
+.ut-auth-switch a { color:var(--ut-gold); text-decoration:none; }
+.ut-auth-error { background:rgba(200,50,50,0.08); border:1px solid rgba(200,50,50,0.2); padding:12px 16px; font-family:'Jost',sans-serif; font-size:12px; color:#E57373; margin-bottom:16px; }
+</style>
+
+<div class="ut-auth">
+  <div class="ut-auth-box">
+    <div class="ut-auth-logo">Urban Trend</div>
+    <h1 class="ut-auth-title">Create Account</h1>
+    <p class="ut-auth-sub">Join the Urban Trend beauty community</p>
+
+    {% form 'create_customer', return_to: routes.account_url %}
+      {% if form.errors %}
+        <div class="ut-auth-error">{{ form.errors | default_errors }}</div>
+      {% endif %}
+
+      <div class="ut-auth-form">
+        <div class="ut-auth-row">
+          <div class="ut-auth-field">
+            <label class="ut-auth-label" for="FirstName">First Name</label>
+            <input class="ut-auth-input" type="text" id="FirstName" name="customer[first_name]" placeholder="Priya" autocomplete="given-name" required>
+          </div>
+          <div class="ut-auth-field">
+            <label class="ut-auth-label" for="LastName">Last Name</label>
+            <input class="ut-auth-input" type="text" id="LastName" name="customer[last_name]" placeholder="Sharma" autocomplete="family-name" required>
+          </div>
+        </div>
+        <div class="ut-auth-field">
+          <label class="ut-auth-label" for="Email">Email</label>
+          <input class="ut-auth-input" type="email" id="Email" name="customer[email]" placeholder="priya@email.com" autocomplete="email" required>
+        </div>
+        <div class="ut-auth-field">
+          <label class="ut-auth-label" for="Phone">Phone (Optional)</label>
+          <input class="ut-auth-input" type="tel" id="Phone" name="customer[phone]" placeholder="+91 98765 43210" autocomplete="tel">
+        </div>
+        <div class="ut-auth-field">
+          <label class="ut-auth-label" for="CreatePassword">Password</label>
+          <input class="ut-auth-input" type="password" id="CreatePassword" name="customer[password]" placeholder="Min 8 characters" autocomplete="new-password" required>
+        </div>
+        <button class="ut-auth-submit" type="submit">Create Account →</button>
+      </div>
+    {% endform %}
+
+    <div class="ut-auth-switch">Already have an account? <a href="{{ routes.account_login_url }}">Sign In</a></div>
+  </div>
+</div>
+
+{% schema %}{"name":"Register","tag":"section","settings":[]}{% endschema %}
