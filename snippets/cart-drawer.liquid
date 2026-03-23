@@ -1,0 +1,145 @@
+<style>
+.ut-drawer-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9998; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.ut-drawer-overlay.open { opacity:1; pointer-events:all; }
+.ut-cart-drawer { position:fixed; top:0; right:0; width:420px; max-width:100vw; height:100vh; background:var(--ut-bg-2); border-left:1px solid rgba(201,169,110,0.12); z-index:9999; transform:translateX(100%); transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); display:flex; flex-direction:column; }
+.ut-cart-drawer.open { transform:translateX(0); }
+.ut-drawer-head { display:flex; align-items:center; justify-content:space-between; padding:20px 24px; border-bottom:1px solid rgba(201,169,110,0.08); flex-shrink:0; }
+.ut-drawer-title { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.3em; color:var(--ut-text); text-transform:uppercase; }
+.ut-drawer-count { font-family:'Jost',sans-serif; font-size:10px; color:rgba(201,169,110,0.5); margin-left:8px; }
+.ut-drawer-close { background:none; border:none; color:rgba(201,169,110,0.5); font-size:22px; cursor:pointer; padding:4px; line-height:1; transition:color 0.2s; }
+.ut-drawer-close:hover { color:var(--ut-gold); }
+.ut-drawer-body { flex:1; overflow-y:auto; padding:0 24px; }
+.ut-drawer-empty { text-align:center; padding:60px 20px; font-family:'Cinzel',serif; color:rgba(201,169,110,0.3); font-size:11px; letter-spacing:0.25em; text-transform:uppercase; }
+.ut-drawer-item { display:grid; grid-template-columns:64px 1fr; gap:14px; padding:16px 0; border-bottom:1px solid rgba(201,169,110,0.06); }
+.ut-drawer-item-img { width:64px; height:80px; background:linear-gradient(145deg,var(--ut-bg-4),var(--ut-bg)); border:1px solid rgba(201,169,110,0.08); overflow:hidden; flex-shrink:0; }
+.ut-drawer-item-img img { width:100%; height:100%; object-fit:cover; }
+.ut-drawer-item-name { font-family:'Cinzel',serif; font-size:11px; color:var(--ut-text); letter-spacing:0.05em; margin:0 0 3px; line-height:1.3; }
+.ut-drawer-item-variant { font-family:'Jost',sans-serif; font-size:10px; color:rgba(250,246,240,0.3); }
+.ut-drawer-item-price { font-family:'Cinzel',serif; font-size:12px; color:var(--ut-gold); margin-top:4px; }
+.ut-drawer-item-row { display:flex; align-items:center; justify-content:space-between; margin-top:8px; }
+.ut-drawer-qty { display:flex; align-items:center; border:1px solid rgba(201,169,110,0.15); }
+.ut-drawer-qty button { background:none; border:none; color:var(--ut-gold); font-size:14px; width:24px; height:24px; cursor:pointer; }
+.ut-drawer-qty span { font-family:'Cinzel',serif; font-size:10px; color:var(--ut-text); width:24px; text-align:center; }
+.ut-drawer-rm { background:none; border:none; font-family:'Jost',sans-serif; font-size:9px; color:rgba(250,246,240,0.2); letter-spacing:0.15em; cursor:pointer; text-transform:uppercase; transition:color 0.2s; }
+.ut-drawer-rm:hover { color:rgba(139,58,82,0.8); }
+.ut-drawer-foot { padding:20px 24px; border-top:1px solid rgba(201,169,110,0.1); flex-shrink:0; }
+.ut-drawer-subtotal { display:flex; justify-content:space-between; font-family:'Cinzel',serif; font-size:13px; color:var(--ut-text); margin-bottom:16px; }
+.ut-drawer-subtotal span:last-child { color:var(--ut-gold); }
+.ut-drawer-checkout { display:block; width:100%; background:var(--ut-gold); color:var(--ut-bg); border:none; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.4em; text-transform:uppercase; padding:16px; cursor:pointer; text-align:center; text-decoration:none; transition:background 0.2s; }
+.ut-drawer-checkout:hover { background:var(--ut-gold-light); }
+.ut-drawer-view-cart { display:block; text-align:center; margin-top:10px; font-family:'Jost',sans-serif; font-size:11px; color:rgba(201,169,110,0.45); text-decoration:none; letter-spacing:0.1em; transition:color 0.2s; }
+.ut-drawer-view-cart:hover { color:var(--ut-gold); }
+.ut-shipping-bar { background:rgba(201,169,110,0.04); border:1px solid rgba(201,169,110,0.08); padding:10px 14px; margin-bottom:14px; }
+.ut-shipping-bar p { font-family:'Jost',sans-serif; font-size:10px; color:rgba(250,246,240,0.45); letter-spacing:0.08em; margin:0 0 6px; }
+.ut-shipping-progress { height:2px; background:rgba(201,169,110,0.1); border-radius:1px; }
+.ut-shipping-fill { height:100%; background:var(--ut-gold); border-radius:1px; transition:width 0.5s; }
+</style>
+
+<!-- Overlay -->
+<div class="ut-drawer-overlay" id="cartDrawerOverlay" onclick="closeCartDrawer()"></div>
+
+<!-- Cart Drawer -->
+<div class="ut-cart-drawer" id="cartDrawer" aria-label="Cart">
+  <div class="ut-drawer-head">
+    <div>
+      <span class="ut-drawer-title">Your Bag</span>
+      <span class="ut-drawer-count" id="drawerCount"></span>
+    </div>
+    <button class="ut-drawer-close" onclick="closeCartDrawer()" aria-label="Close">×</button>
+  </div>
+
+  <div class="ut-drawer-body" id="drawerBody">
+    <div class="ut-drawer-empty">Your bag is empty</div>
+  </div>
+
+  <div class="ut-drawer-foot" id="drawerFoot" style="display:none;">
+    <div class="ut-shipping-bar">
+      <p id="drawerShippingMsg">Loading…</p>
+      <div class="ut-shipping-progress"><div class="ut-shipping-fill" id="drawerShippingBar" style="width:0%"></div></div>
+    </div>
+    <div class="ut-drawer-subtotal">
+      <span>Subtotal</span>
+      <span id="drawerSubtotal"></span>
+    </div>
+    <a href="/checkout" class="ut-drawer-checkout">Checkout →</a>
+    <a href="/cart" class="ut-drawer-view-cart">View Full Cart</a>
+  </div>
+</div>
+
+<script>
+const FREE_SHIPPING = 99900;
+
+function openCartDrawer() {
+  fetchCart();
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartDrawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCartDrawer() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartDrawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function fetchCart() {
+  fetch('/cart.js')
+    .then(r => r.json())
+    .then(cart => renderDrawer(cart));
+}
+function renderDrawer(cart) {
+  var body = document.getElementById('drawerBody');
+  var foot = document.getElementById('drawerFoot');
+  var count = document.getElementById('drawerCount');
+  count.textContent = cart.item_count > 0 ? '(' + cart.item_count + ')' : '';
+  if(cart.item_count === 0) {
+    body.innerHTML = '<div class="ut-drawer-empty">Your bag is empty</div>';
+    foot.style.display = 'none';
+    return;
+  }
+  foot.style.display = '';
+  var html = '';
+  cart.items.forEach(function(item) {
+    var imgHtml = item.featured_image
+      ? '<img src="' + item.featured_image.url + '" alt="' + (item.featured_image.alt || '') + '">'
+      : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:Cinzel,serif;font-size:8px;color:var(--ut-gold);letter-spacing:0.1em;text-align:center;padding:6px;">' + item.product_title + '</div>';
+    var varHtml = item.variant_title !== 'Default Title' ? '<p class="ut-drawer-item-variant">' + item.variant_title + '</p>' : '';
+    html += '<div class="ut-drawer-item" id="di-' + item.key + '">' +
+      '<div class="ut-drawer-item-img">' + imgHtml + '</div>' +
+      '<div>' +
+        '<p class="ut-drawer-item-name">' + item.product_title + '</p>' +
+        varHtml +
+        '<p class="ut-drawer-item-price">' + formatMoney(item.price) +
+        (item.variant_compare_at_price && item.variant_compare_at_price > item.price ?
+          '<span style="font-family:Jost,sans-serif;font-size:9px;color:rgba(250,246,240,0.25);text-decoration:line-through;margin-left:5px;">' + formatMoney(item.variant_compare_at_price) + '</span>' +
+          '<span style="font-family:Jost,sans-serif;font-size:9px;color:var(--ut-success);margin-left:4px;">' + Math.round((item.variant_compare_at_price-item.price)*100/item.variant_compare_at_price) + '% off</span>'
+        : '') +
+        '</p>' +
+        '<div class="ut-drawer-item-row">' +
+          '<div class="ut-drawer-qty">' +
+            '<button onclick="drawerQty(\'' + item.key + '\',' + (item.quantity-1) + ')">−</button>' +
+            '<span>' + item.quantity + '</span>' +
+            '<button onclick="drawerQty(\'' + item.key + '\',' + (item.quantity+1) + ')">+</button>' +
+          '</div>' +
+          '<button class="ut-drawer-rm" onclick="drawerQty(\'' + item.key + '\',0)">Remove</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  });
+  body.innerHTML = html;
+  document.getElementById('drawerSubtotal').textContent = formatMoney(cart.total_price);
+  var remaining = FREE_SHIPPING - cart.total_price;
+  var pct = Math.min(100, (cart.total_price / FREE_SHIPPING) * 100);
+  document.getElementById('drawerShippingBar').style.width = pct + '%';
+  document.getElementById('drawerShippingMsg').textContent = remaining > 0
+    ? 'Add ' + formatMoney(remaining) + ' more for free shipping'
+    : '✓ You qualify for free shipping!';
+}
+function drawerQty(key, qty) {
+  fetch('/cart/change.js', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({id: key, quantity: qty})
+  }).then(r => r.json()).then(cart => renderDrawer(cart));
+}
+function formatMoney(cents) {
+  return '₹' + (cents/100).toLocaleString('en-IN', {minimumFractionDigits:0});
+}
+</script>
