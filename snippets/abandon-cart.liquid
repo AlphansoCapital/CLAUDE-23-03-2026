@@ -1,0 +1,242 @@
+{% comment %}
+  Urban Trend — Abandon Cart Recovery System
+  
+  LAYER 1: Exit-Intent Popup — mouse leaves viewport top → popup fires
+  LAYER 2: Tab Title Flash — "Wait! Your cart is waiting 🛒"
+  LAYER 3: Cart Reminder Bar — returns after 30min → sticky bar at top
+  LAYER 4: WhatsApp Cart Recovery — sends cart link via WA
+  
+  Triggers only when cart has items.
+  Never shows more than once per session.
+{% endcomment %}
+
+{%- comment -%} ── EXIT INTENT POPUP ── {%- endcomment -%}
+<div class="ut-exit-overlay" id="utExitOverlay">
+  <div class="ut-exit-modal" id="utExitModal">
+    <button class="ut-exit-close" onclick="utCloseExit()" aria-label="Close">×</button>
+
+    <div class="ut-exit-badge">WAIT — DON'T LEAVE YET</div>
+
+    <div class="ut-exit-headline">
+      Your cart is<br><em>calling you back</em>
+    </div>
+
+    <div class="ut-exit-subhead">
+      Complete your order in the next <span class="ut-exit-countdown" id="utExitCd">10:00</span> and get
+    </div>
+
+    <div class="ut-exit-offer">
+      <div class="ut-exit-offer-item">
+        <span class="ut-exit-offer-icon">🚚</span>
+        <span>Free Express Shipping</span>
+      </div>
+      <div class="ut-exit-offer-item">
+        <span class="ut-exit-offer-icon">🎁</span>
+        <span>Free Sample with Order</span>
+      </div>
+      <div class="ut-exit-offer-item">
+        <span class="ut-exit-offer-icon">🔒</span>
+        <span>30-Day Money Back Guarantee</span>
+      </div>
+    </div>
+
+    {%- if cart.items.size > 0 -%}
+    <div class="ut-exit-cart-preview">
+      {%- for item in cart.items limit: 2 -%}
+      <div class="ut-exit-cart-item">
+        {%- if item.image -%}
+          <img src="{{ item.image | img_url: '80x80', crop: 'center' }}" alt="{{ item.title | escape }}">
+        {%- endif -%}
+        <div class="ut-exit-cart-item-info">
+          <span class="ut-exit-cart-item-name">{{ item.title | truncate: 30 }}</span>
+          <span class="ut-exit-cart-item-price">{{ item.price | money }}</span>
+        </div>
+      </div>
+      {%- endfor -%}
+      {%- if cart.items.size > 2 -%}
+        <div class="ut-exit-cart-more">+{{ cart.items.size | minus: 2 }} more item{% if cart.items.size > 3 %}s{% endif %} in cart</div>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+
+    <a href="/checkout" class="ut-exit-cta" onclick="utCloseExit()">
+      Complete My Order →
+    </a>
+
+    <div class="ut-exit-wa-row">
+      <span>Need help deciding?</span>
+      <a href="https://wa.me/918901623093?text=Hi%2C%20I%20need%20help%20completing%20my%20Urban%20Trend%20order" target="_blank" rel="noopener" class="ut-exit-wa-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+
+    <div class="ut-exit-dismiss" onclick="utCloseExit()">No thanks, I'll pay full price</div>
+  </div>
+</div>
+
+{%- comment -%} ── CART REMINDER BAR (shows after tab switch / return visit) ── {%- endcomment -%}
+{%- if cart.items.size > 0 -%}
+<div class="ut-cart-bar" id="utCartBar" style="display:none;">
+  <div class="ut-cart-bar-inner">
+    <span class="ut-cart-bar-icon">🛒</span>
+    <span class="ut-cart-bar-text">
+      You have <strong>{{ cart.items.size }} item{% if cart.items.size > 1 %}s{% endif %}</strong> waiting — 
+      <strong>{{ cart.total_price | money }}</strong> total
+    </span>
+    <a href="/checkout" class="ut-cart-bar-cta">Complete Order →</a>
+    <button class="ut-cart-bar-close" onclick="document.getElementById('utCartBar').style.display='none'" aria-label="Close">×</button>
+  </div>
+</div>
+{%- endif -%}
+
+<style>
+/* ── EXIT OVERLAY ── */
+.ut-exit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:99990;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:16px;}
+.ut-exit-overlay.open{display:flex;}
+
+.ut-exit-modal{background:var(--ut-bg-2);border:1px solid var(--ut-border-md);max-width:460px;width:100%;padding:36px 32px;position:relative;animation:utExitIn 0.4s cubic-bezier(0.22,1,0.36,1);}
+@keyframes utExitIn{from{opacity:0;transform:scale(0.94) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
+
+.ut-exit-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--ut-text-45);font-size:22px;cursor:pointer;line-height:1;transition:color 0.2s;z-index:1;}
+.ut-exit-close:hover{color:var(--ut-text);}
+
+.ut-exit-badge{display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.32em;text-transform:uppercase;color:var(--ut-bg);background:var(--ut-gold);padding:5px 14px;margin-bottom:18px;}
+
+.ut-exit-headline{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(28px,5vw,38px);font-weight:300;line-height:1.15;color:var(--ut-text);margin-bottom:12px;}
+.ut-exit-headline em{font-style:italic;color:var(--ut-gold-light);}
+
+.ut-exit-subhead{font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--ut-text-65);margin-bottom:16px;}
+.ut-exit-countdown{font-family:'Cinzel',serif;font-weight:600;color:var(--ut-gold);font-size:15px;}
+
+.ut-exit-offer{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;padding:16px;background:rgba(201,169,110,0.05);border:1px solid var(--ut-border);}
+.ut-exit-offer-item{display:flex;align-items:center;gap:10px;font-family:'Jost',sans-serif;font-size:13px;color:var(--ut-text-65);}
+.ut-exit-offer-icon{font-size:16px;flex-shrink:0;}
+
+/* Cart preview */
+.ut-exit-cart-preview{margin-bottom:20px;display:flex;flex-direction:column;gap:10px;}
+.ut-exit-cart-item{display:flex;align-items:center;gap:12px;padding:10px;background:var(--ut-bg-3);border:1px solid var(--ut-border);}
+.ut-exit-cart-item img{width:48px;height:48px;object-fit:cover;flex-shrink:0;}
+.ut-exit-cart-item-info{flex:1;min-width:0;}
+.ut-exit-cart-item-name{display:block;font-family:'Jost',sans-serif;font-size:12px;color:var(--ut-text-65);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ut-exit-cart-item-price{font-family:'Cinzel',serif;font-size:13px;color:var(--ut-gold);}
+.ut-exit-cart-more{font-family:'Jost',sans-serif;font-size:11px;color:var(--ut-text-45);padding:6px 10px;text-align:center;}
+
+/* CTA */
+.ut-exit-cta{display:block;width:100%;text-align:center;background:var(--ut-gold);color:var(--ut-bg);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;padding:16px;text-decoration:none;transition:background 0.2s,transform 0.15s;margin-bottom:14px;}
+.ut-exit-cta:hover{background:var(--ut-gold-light);}
+.ut-exit-cta:active{transform:scale(0.99);}
+
+/* WA row */
+.ut-exit-wa-row{display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Jost',sans-serif;font-size:11px;color:var(--ut-text-45);margin-bottom:14px;}
+.ut-exit-wa-link{display:inline-flex;align-items:center;gap:5px;color:#25D366;font-weight:500;text-decoration:none;transition:opacity 0.2s;}
+.ut-exit-wa-link:hover{opacity:0.8;}
+
+/* Dismiss */
+.ut-exit-dismiss{text-align:center;font-family:'Jost',sans-serif;font-size:10px;color:var(--ut-text-28);cursor:pointer;letter-spacing:0.06em;transition:color 0.2s;}
+.ut-exit-dismiss:hover{color:var(--ut-text-45);}
+
+/* ── CART REMINDER BAR ── */
+.ut-cart-bar{position:fixed;top:0;left:0;right:0;z-index:9980;background:var(--ut-gold);animation:utBarIn 0.4s ease;}
+@keyframes utBarIn{from{transform:translateY(-100%);}to{transform:translateY(0);}}
+.ut-cart-bar-inner{max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.ut-cart-bar-icon{font-size:16px;flex-shrink:0;}
+.ut-cart-bar-text{font-family:'Jost',sans-serif;font-size:13px;color:var(--ut-bg);flex:1;min-width:0;}
+.ut-cart-bar-text strong{font-weight:600;}
+.ut-cart-bar-cta{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:var(--ut-bg);background:rgba(0,0,0,0.2);border:1px solid rgba(0,0,0,0.3);padding:8px 18px;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:background 0.2s;}
+.ut-cart-bar-cta:hover{background:rgba(0,0,0,0.35);}
+.ut-cart-bar-close{background:none;border:none;color:rgba(10,9,8,0.6);font-size:20px;cursor:pointer;flex-shrink:0;line-height:1;transition:color 0.2s;padding:0 4px;}
+.ut-cart-bar-close:hover{color:var(--ut-bg);}
+
+@media(max-width:480px){
+  .ut-exit-modal{padding:24px 20px;}
+  .ut-exit-headline{font-size:26px;}
+  .ut-cart-bar-text{font-size:12px;}
+}
+</style>
+
+<script>
+(function(){
+  var cartCount = {{ cart.items.size }};
+  var shown = sessionStorage.getItem('ut-exit-shown');
+
+  /* ── EXIT INTENT ── */
+  function utShowExit(){
+    if(shown || cartCount === 0) return;
+    document.getElementById('utExitOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    shown = '1';
+    sessionStorage.setItem('ut-exit-shown','1');
+    utStartExitCd();
+    utFlashTab();
+  }
+
+  window.utCloseExit = function(){
+    document.getElementById('utExitOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  /* Mouse leaves top of viewport */
+  document.addEventListener('mouseleave', function(e){
+    if(e.clientY <= 10) utShowExit();
+  });
+
+  /* Mobile: page visibility change (user switches tab/app) */
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden && cartCount > 0) utFlashTab();
+  });
+
+  /* Close on overlay click */
+  document.getElementById('utExitOverlay')?.addEventListener('click', function(e){
+    if(e.target === this) utCloseExit();
+  });
+
+  /* ── EXIT COUNTDOWN ── */
+  function utStartExitCd(){
+    var cdEl = document.getElementById('utExitCd');
+    if(!cdEl) return;
+    var secs = 600;
+    var iv = setInterval(function(){
+      secs--;
+      if(secs <= 0){ clearInterval(iv); cdEl.textContent = '0:00'; return; }
+      var m = Math.floor(secs/60);
+      var s = secs%60;
+      cdEl.textContent = m+':'+(s<10?'0':'')+s;
+    },1000);
+  }
+
+  /* ── TAB TITLE FLASH ── */
+  var origTitle = document.title;
+  var flashIv;
+  function utFlashTab(){
+    if(cartCount === 0) return;
+    clearInterval(flashIv);
+    var msgs = ['🛒 Your cart is waiting!', origTitle];
+    var idx = 0;
+    flashIv = setInterval(function(){
+      document.title = msgs[idx%2];
+      idx++;
+      if(idx > 10){ clearInterval(flashIv); document.title = origTitle; }
+    }, 1500);
+  }
+
+  /* Restore title on focus */
+  window.addEventListener('focus', function(){
+    clearInterval(flashIv);
+    document.title = origTitle;
+  });
+
+  /* ── CART REMINDER BAR ── */
+  /* Show if returning visitor with cart (stored in localStorage) */
+  if(cartCount > 0){
+    localStorage.setItem('ut-cart-time', Date.now());
+    var lastVisit = localStorage.getItem('ut-cart-last');
+    var bar = document.getElementById('utCartBar');
+    if(bar && lastVisit && (Date.now() - parseInt(lastVisit)) > 1800000){ /* 30 min */
+      setTimeout(function(){ bar.style.display = 'block'; }, 3000);
+    }
+    localStorage.setItem('ut-cart-last', Date.now());
+  }
+
+})();
+</script>
