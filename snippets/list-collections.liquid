@@ -1,0 +1,69 @@
+<style>
+.ut-cats { background:var(--ut-bg); min-height:100vh; padding:56px 0 80px; }
+.ut-cats-head { max-width:1200px; margin:0 auto; padding:0 32px 48px; text-align:center; }
+.ut-cats-eyebrow { font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.45em; color:rgba(201,169,110,0.45); text-transform:uppercase; margin-bottom:14px; }
+.ut-cats-title { font-family:'Cinzel',serif; font-size:clamp(26px,4vw,42px); font-weight:400; color:var(--ut-text); letter-spacing:0.08em; margin:0 0 12px; }
+.ut-cats-desc { font-family:'Jost',sans-serif; font-size:13px; color:rgba(250,246,240,0.4); letter-spacing:0.06em; line-height:1.8; max-width:480px; margin:0 auto; }
+
+/* Category grid */
+.ut-cats-grid { max-width:1200px; margin:0 auto; padding:0 32px; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+@media(max-width:900px){ .ut-cats-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:600px){ .ut-cats-grid{ grid-template-columns:1fr; padding:0 20px; } }
+
+/* Big featured first card */
+.ut-cats-grid .ut-cat-card:first-child { grid-column: 1 / -1; }
+@media(max-width:600px){ .ut-cats-grid .ut-cat-card:first-child { grid-column:1; } }
+
+/* Category card */
+.ut-cat-card { position:relative; overflow:hidden; display:block; text-decoration:none; border:1px solid rgba(201,169,110,0.07); transition:border-color 0.3s; }
+.ut-cat-card:hover { border-color:rgba(201,169,110,0.3); }
+.ut-cat-card-media { aspect-ratio:4/3; background:linear-gradient(145deg,#1A0A05,var(--ut-bg)); position:relative; overflow:hidden; }
+.ut-cats-grid .ut-cat-card:first-child .ut-cat-card-media { aspect-ratio:21/6; }
+@media(max-width:600px){ .ut-cats-grid .ut-cat-card:first-child .ut-cat-card-media { aspect-ratio:4/3; } }
+.ut-cat-card-media img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease; }
+.ut-cat-card:hover .ut-cat-card-media img { transform:scale(1.06); }
+.ut-cat-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(10,9,8,0.85) 0%, rgba(10,9,8,0.1) 60%); display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; padding:28px 28px 24px; }
+.ut-cat-name { font-family:'Cinzel',serif; font-size:clamp(16px,2.5vw,22px); color:var(--ut-text); letter-spacing:0.08em; font-weight:400; margin:0 0 6px; }
+.ut-cat-count { font-family:'Jost',sans-serif; font-size:11px; color:rgba(201,169,110,0.55); letter-spacing:0.2em; text-transform:uppercase; }
+.ut-cat-arrow { margin-top:14px; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.3em; color:var(--ut-gold); text-transform:uppercase; display:flex; align-items:center; gap:8px; border:1px solid rgba(201,169,110,0.3); padding:7px 16px; background:rgba(10,9,8,0.6); backdrop-filter:blur(4px); transform:translateY(4px); opacity:0; transition:all 0.3s; }
+.ut-cat-card:hover .ut-cat-arrow { opacity:1; transform:translateY(0); }
+/* No image fallback */
+.ut-cat-no-img { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:clamp(14px,2vw,20px); color:var(--ut-gold); letter-spacing:0.25em; text-transform:uppercase; }
+</style>
+
+<div class="ut-cats">
+  <div class="ut-cats-head">
+    <p class="ut-cats-eyebrow">Explore</p>
+    <h1 class="ut-cats-title">Shop by Category</h1>
+    <p class="ut-cats-desc">Luxury Indian beauty — crafted with Himalayan botanicals for every skin ritual.</p>
+  </div>
+
+  <div class="ut-cats-grid">
+    {% for collection in collections %}
+      {% unless collection.handle == 'frontpage' or collection.handle == 'all' %}
+        <a href="{{ collection.url }}" class="ut-cat-card">
+          <div class="ut-cat-card-media">
+            {% if collection.image %}
+              <img src="{{ collection.image | img_url: '800x' }}" alt="{{ collection.image.alt | default: collection.title | escape }}" loading="lazy">
+            {% else %}
+              <div class="ut-cat-no-img">{{ collection.title }}</div>
+            {% endif %}
+            <div class="ut-cat-overlay">
+              <h2 class="ut-cat-name">{{ collection.title }}</h2>
+              <p class="ut-cat-count">{{ collection.products_count }} Products</p>
+              <div class="ut-cat-arrow">Shop Now →</div>
+            </div>
+          </div>
+        </a>
+      {% endunless %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections List",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
