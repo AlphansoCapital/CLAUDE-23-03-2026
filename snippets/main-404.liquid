@@ -1,0 +1,32 @@
+<style>
+.ut-404 { background:var(--ut-bg); min-height:80vh; display:flex; align-items:center; justify-content:center; padding:60px 32px; text-align:center; }
+.ut-404-inner { max-width:480px; }
+.ut-404-num { font-family:'Cinzel',serif; font-size:clamp(80px,15vw,140px); color:rgba(201,169,110,0.08); line-height:1; margin-bottom:-20px; letter-spacing:0.1em; }
+.ut-404-title { font-family:'Cinzel',serif; font-size:clamp(18px,3vw,24px); color:var(--ut-text); letter-spacing:0.15em; font-weight:400; margin:0 0 16px; }
+.ut-404-sub { font-family:'Jost',sans-serif; font-size:13px; color:rgba(250,246,240,0.4); letter-spacing:0.1em; line-height:1.8; margin-bottom:40px; }
+.ut-404-links { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.ut-404-btn-primary { background:var(--ut-gold); color:var(--ut-bg); border:none; font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.35em; text-transform:uppercase; padding:14px 28px; cursor:pointer; text-decoration:none; transition:background 0.2s; }
+.ut-404-btn-primary:hover { background:var(--ut-gold-light); }
+.ut-404-btn-secondary { background:none; color:var(--ut-gold); border:1px solid rgba(201,169,110,0.3); font-family:'Cinzel',serif; font-size:9px; letter-spacing:0.35em; text-transform:uppercase; padding:14px 28px; cursor:pointer; text-decoration:none; transition:all 0.2s; }
+.ut-404-btn-secondary:hover { background:rgba(201,169,110,0.05); }
+</style>
+
+<div class="ut-404">
+  <div class="ut-404-inner">
+    <div class="ut-404-num">404</div>
+    <h1 class="ut-404-title">Page Not Found</h1>
+    <p class="ut-404-sub">The page you're looking for may have moved or doesn't exist.<br>Let's get you back to something beautiful.</p>
+    <div class="ut-404-links">
+      <a href="/" class="ut-404-btn-primary">Back to Home</a>
+      <a href="/collections/all" class="ut-404-btn-secondary">Shop All</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
