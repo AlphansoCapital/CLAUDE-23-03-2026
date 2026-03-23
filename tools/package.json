@@ -1,0 +1,27 @@
+{
+  "name": "urban-trend-push",
+  "version": "3.0.0",
+  "description": "Urban Trend — GitHub Push Tool Desktop App",
+  "main": "main.js",
+  "author": "Urban Trend",
+  "license": "MIT",
+  "scripts": {
+    "start":       "electron .",
+    "build:win":   "electron-builder --win --x64",
+    "build:mac":   "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.urbantrend.push",
+    "productName": "Urban Trend Push",
+    "directories": { "output": "dist" },
+    "win":   { "target": "nsis",     "icon": "assets/icon.ico" },
+    "mac":   { "target": "dmg",      "icon": "assets/icon.icns", "category": "public.app-category.developer-tools" },
+    "linux": { "target": "AppImage", "icon": "assets/icon.png" },
+    "nsis":  { "oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true }
+  }
+}
