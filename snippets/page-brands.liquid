@@ -1,0 +1,526 @@
+<style>
+/* ===== BRANDS PAGE ===== */
+.ut-brands { background:var(--ut-bg); min-height:100vh; }
+
+/* Hero */
+.ut-brands-hero {
+  background:linear-gradient(155deg,var(--ut-bg-4),var(--ut-bg),var(--ut-bg));
+  padding:72px 32px 56px;
+  text-align:center;
+  position:relative;overflow:hidden;
+  border-bottom:1px solid rgba(201,169,110,0.1);
+}
+.ut-brands-hero::before {
+  content:'';position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:300px;
+  background:radial-gradient(ellipse,rgba(201,169,110,0.06),transparent 70%);
+  pointer-events:none;
+}
+.ut-brands-eyebrow {
+  font-family:'Cinzel',serif;font-size:8px;
+  letter-spacing:0.45em;color:rgba(201,169,110,0.45);
+  text-transform:uppercase;margin-bottom:16px;
+  position:relative;z-index:1;
+}
+.ut-brands-hero-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,5vw,56px);
+  font-weight:300;color:var(--ut-text);
+  line-height:1.15;margin-bottom:14px;
+  position:relative;z-index:1;
+}
+.ut-brands-hero-title em { font-style:italic;color:var(--ut-gold); }
+.ut-brands-hero-sub {
+  font-family:'Jost',sans-serif;font-size:13px;
+  color:rgba(250,246,240,0.4);line-height:1.85;
+  max-width:520px;margin:0 auto 32px;
+  letter-spacing:0.06em;position:relative;z-index:1;
+}
+/* Brands search */
+.ut-brands-search-bar {
+  display:flex;max-width:480px;margin:0 auto;
+  border:1px solid rgba(201,169,110,0.25);
+  background:rgba(201,169,110,0.03);
+  position:relative;z-index:1;
+}
+.ut-brands-search-input {
+  flex:1;background:none;border:none;
+  color:var(--ut-text);font-family:'Jost',sans-serif;
+  font-size:14px;padding:14px 18px;
+  letter-spacing:0.04em;outline:none;
+}
+.ut-brands-search-input::placeholder { color:rgba(250,246,240,0.2); }
+.ut-brands-search-btn {
+  background:none;border:none;border-left:1px solid rgba(201,169,110,0.15);
+  color:var(--ut-gold);font-size:18px;padding:0 18px;cursor:pointer;
+}
+/* Stats strip */
+.ut-brands-stats {
+  display:flex;justify-content:center;gap:48px;
+  margin-top:36px;padding-top:32px;
+  border-top:1px solid rgba(201,169,110,0.08);
+  flex-wrap:wrap;position:relative;z-index:1;
+}
+@media(max-width:600px){ .ut-brands-stats{ gap:24px; } }
+.ut-brands-stat-num {
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;font-weight:300;color:var(--ut-gold);
+  display:block;line-height:1;margin-bottom:4px;
+}
+.ut-brands-stat-lbl {
+  font-family:'Jost',sans-serif;font-size:9px;
+  color:rgba(250,246,240,0.3);letter-spacing:0.22em;
+  text-transform:uppercase;
+}
+
+/* Toolbar */
+.ut-brands-toolbar {
+  max-width:1300px;margin:0 auto;
+  padding:28px 32px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  border-bottom:1px solid rgba(201,169,110,0.08);
+}
+@media(max-width:600px){ .ut-brands-toolbar{ padding:16px 16px; gap:8px; } }
+.ut-brands-filter {
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.4);
+  border:1px solid rgba(201,169,110,0.12);
+  background:none;padding:7px 16px;
+  cursor:pointer;letter-spacing:0.08em;
+  transition:all 0.2s;white-space:nowrap;
+}
+.ut-brands-filter:hover,.ut-brands-filter.active {
+  border-color:var(--ut-gold);color:var(--ut-gold);
+  background:rgba(201,169,110,0.05);
+}
+.ut-brands-alpha { display:flex;gap:4px;flex-wrap:wrap;margin-left:auto; }
+.ut-alpha-btn {
+  font-family:'Cinzel',serif;font-size:9px;
+  color:rgba(201,169,110,0.3);
+  background:none;border:none;cursor:pointer;
+  padding:5px 7px;
+  transition:color 0.2s;letter-spacing:0.05em;
+}
+.ut-alpha-btn:hover,.ut-alpha-btn.active { color:var(--ut-gold); }
+
+/* A-Z Index */
+.ut-brands-az {
+  max-width:1300px;margin:0 auto;padding:32px 32px 0;
+}
+@media(max-width:600px){ .ut-brands-az{ padding:20px 16px 0; } }
+.ut-brands-section { margin-bottom:48px; }
+.ut-brands-section-letter {
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:300;color:rgba(201,169,110,0.15);
+  margin-bottom:16px;padding-bottom:10px;
+  border-bottom:1px solid rgba(201,169,110,0.08);
+  line-height:1;
+}
+
+/* Brand cards grid */
+.ut-brands-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+@media(max-width:1100px){ .ut-brands-grid{ grid-template-columns:repeat(3,1fr); } }
+@media(max-width:768px){ .ut-brands-grid{ grid-template-columns:repeat(2,1fr); gap:12px; } }
+@media(max-width:440px){ .ut-brands-grid{ grid-template-columns:1fr 1fr; gap:10px; } }
+
+.ut-brand-card {
+  background:var(--ut-bg-2);
+  border:1px solid rgba(201,169,110,0.08);
+  text-decoration:none;display:block;
+  transition:border-color 0.3s,transform 0.2s;
+  position:relative;overflow:hidden;
+}
+.ut-brand-card:hover {
+  border-color:rgba(201,169,110,0.35);
+  transform:translateY(-3px);
+}
+.ut-brand-card-img {
+  aspect-ratio:3/2;
+  background:linear-gradient(145deg,var(--ut-bg-4),var(--ut-bg));
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;position:relative;
+}
+.ut-brand-card-img img {
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.5s;
+}
+.ut-brand-card:hover .ut-brand-card-img img { transform:scale(1.05); }
+.ut-brand-logo-placeholder {
+  font-family:'Cinzel',serif;
+  font-size:clamp(14px,2vw,20px);
+  color:var(--ut-gold);letter-spacing:0.15em;
+  text-align:center;padding:16px;
+  text-transform:uppercase;
+}
+.ut-brand-card-overlay {
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,9,8,0.85) 0%,transparent 60%);
+  opacity:0;transition:opacity 0.3s;
+}
+.ut-brand-card:hover .ut-brand-card-overlay { opacity:1; }
+.ut-brand-card-btn {
+  position:absolute;bottom:12px;left:50%;
+  transform:translateX(-50%) translateY(8px);
+  background:var(--ut-gold);color:var(--ut-bg);
+  font-family:'Cinzel',serif;font-size:7px;
+  letter-spacing:0.3em;text-transform:uppercase;
+  padding:8px 18px;white-space:nowrap;
+  border:none;cursor:pointer;
+  opacity:0;transition:all 0.3s;
+}
+.ut-brand-card:hover .ut-brand-card-btn {
+  opacity:1;transform:translateX(-50%) translateY(0);
+}
+/* Badge */
+.ut-brand-badge {
+  position:absolute;top:10px;left:10px;
+  font-family:'Cinzel',serif;font-size:7px;
+  letter-spacing:0.28em;text-transform:uppercase;
+  padding:3px 10px;z-index:2;
+}
+.ut-brand-badge.exclusive { background:var(--ut-gold);color:var(--ut-bg); }
+.ut-brand-badge.new { background:var(--ut-rose);color:var(--ut-text); }
+.ut-brand-badge.popular { background:rgba(10,9,8,0.8);color:var(--ut-gold);border:1px solid rgba(201,169,110,0.3); }
+
+.ut-brand-card-info { padding:14px; }
+.ut-brand-name {
+  font-family:'Cinzel',serif;font-size:13px;
+  color:var(--ut-text);letter-spacing:0.06em;
+  margin:0 0 3px;
+}
+.ut-brand-origin {
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.3);letter-spacing:0.12em;
+  text-transform:uppercase;margin-bottom:8px;
+}
+.ut-brand-meta {
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ut-brand-count {
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(201,169,110,0.5);letter-spacing:0.1em;
+}
+.ut-brand-tags { display:flex;gap:5px;flex-wrap:wrap; }
+.ut-brand-tag {
+  font-family:'Jost',sans-serif;font-size:8px;
+  color:rgba(201,169,110,0.4);
+  border:1px solid rgba(201,169,110,0.1);
+  padding:2px 7px;letter-spacing:0.06em;
+}
+
+/* Featured brands banner */
+.ut-featured-brands {
+  max-width:1300px;margin:0 auto;
+  padding:40px 32px 0;
+}
+@media(max-width:600px){ .ut-featured-brands{ padding:28px 16px 0; } }
+.ut-fb-title {
+  font-family:'Cinzel',serif;font-size:10px;
+  letter-spacing:0.38em;color:rgba(201,169,110,0.5);
+  text-transform:uppercase;margin-bottom:20px;
+  display:flex;align-items:center;gap:14px;
+}
+.ut-fb-title::after {
+  content:'';flex:1;height:1px;
+  background:rgba(201,169,110,0.08);
+}
+.ut-featured-grid {
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr;
+  gap:3px;margin-bottom:40px;
+}
+@media(max-width:900px){ .ut-featured-grid{ grid-template-columns:1fr 1fr; } }
+@media(max-width:560px){ .ut-featured-grid{ grid-template-columns:1fr; } }
+
+.ut-fb-card {
+  position:relative;overflow:hidden;cursor:pointer;
+  text-decoration:none;display:block;
+  transition:filter 0.3s;
+}
+.ut-fb-card:hover { filter:brightness(1.08); }
+.ut-fb-card:first-child { grid-row:span 2; }
+@media(max-width:900px){ .ut-fb-card:first-child{ grid-row:auto; } }
+.ut-fb-card-img {
+  width:100%;height:100%;min-height:200px;
+  background:linear-gradient(145deg,var(--ut-bg-4),var(--ut-bg));
+  display:flex;align-items:center;justify-content:center;
+}
+.ut-fb-card:first-child .ut-fb-card-img { min-height:420px; }
+@media(max-width:600px){
+  .ut-fb-card-img { min-height:160px !important; }
+}
+.ut-fb-overlay {
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,9,8,0.9) 0%,rgba(10,9,8,0.2) 60%,transparent 100%);
+  display:flex;flex-direction:column;
+  justify-content:flex-end;padding:24px;
+}
+.ut-fb-brand-name {
+  font-family:'Cinzel',serif;
+  font-size:clamp(16px,2vw,24px);
+  color:var(--ut-text);letter-spacing:0.08em;
+  font-weight:400;margin-bottom:5px;
+}
+.ut-fb-brand-sub {
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.5);letter-spacing:0.1em;
+  margin-bottom:12px;
+}
+.ut-fb-brand-cta {
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Cinzel',serif;font-size:8px;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--ut-gold);border:1px solid rgba(201,169,110,0.3);
+  padding:8px 18px;background:rgba(10,9,8,0.5);
+  backdrop-filter:blur(4px);width:fit-content;
+  transition:all 0.2s;
+}
+.ut-fb-card:hover .ut-fb-brand-cta {
+  background:var(--ut-gold);color:var(--ut-bg);
+}
+
+/* Brand logos strip */
+.ut-brands-logos-strip {
+  background:var(--ut-bg-2);
+  border-top:1px solid rgba(201,169,110,0.08);
+  border-bottom:1px solid rgba(201,169,110,0.08);
+  padding:28px 0;overflow:hidden;
+  margin:0;
+}
+.ut-logos-track {
+  display:flex;gap:0;
+  animation:logosScroll 25s linear infinite;
+  white-space:nowrap;
+}
+.ut-logos-track:hover { animation-play-state:paused; }
+@keyframes logosScroll {
+  from { transform:translateX(0); }
+  to { transform:translateX(-50%); }
+}
+.ut-logo-item {
+  flex:0 0 auto;
+  padding:0 48px;
+  display:flex;align-items:center;justify-content:center;
+  border-right:1px solid rgba(201,169,110,0.08);
+}
+.ut-logo-text {
+  font-family:'Cinzel',serif;font-size:12px;
+  letter-spacing:0.3em;
+  color:rgba(250,246,240,0.18);
+  text-transform:uppercase;
+  transition:color 0.3s;cursor:pointer;
+  user-select:none;
+}
+.ut-logo-item:hover .ut-logo-text { color:rgba(201,169,110,0.6); }
+</style>
+
+<!-- ===== PAGE BODY ===== -->
+<div class="ut-brands">
+
+  <!-- Hero -->
+  <div class="ut-brands-hero">
+    <p class="ut-brands-eyebrow">Shop by Brand</p>
+    <h1 class="ut-brands-hero-title">Discover <em>Premium</em><br>Beauty Brands</h1>
+    <p class="ut-brands-hero-sub">
+      From Himalayan skincare to cult Indian beauty — shop authentic products from India's finest brands, all in one place.
+    </p>
+    <div class="ut-brands-search-bar">
+      <input class="ut-brands-search-input" type="text" id="brandSearch"
+        placeholder="Search brand name…"
+        oninput="filterBrands(this.value)">
+      <button class="ut-brands-search-btn">⌕</button>
+    </div>
+    <div class="ut-brands-stats">
+      <div>
+        <span class="ut-brands-stat-num">50+</span>
+        <span class="ut-brands-stat-lbl">Premium Brands</span>
+      </div>
+      <div>
+        <span class="ut-brands-stat-num">2,000+</span>
+        <span class="ut-brands-stat-lbl">Products</span>
+      </div>
+      <div>
+        <span class="ut-brands-stat-num">100%</span>
+        <span class="ut-brands-stat-lbl">Authentic</span>
+      </div>
+      <div>
+        <span class="ut-brands-stat-num">Free</span>
+        <span class="ut-brands-stat-lbl">Shipping ₹999+</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logos scrolling strip -->
+  <div class="ut-brands-logos-strip">
+    <div class="ut-logos-track">
+      {% assign all_brands = "Urban Trend,Lakmé,Mamaearth,Dot & Key,Plum,mCaffeine,Minimalist,WOW Skin,Nykaa,SUGAR,Biotique,Himalaya,Kama Ayurveda,Forest Essentials,Juicy Chemistry,Pilgrim,Derma Co,Cetaphil,Neutrogena,L'Oréal,Maybelline,MAC,Bobbi Brown,The Body Shop,Clinique" | split: "," %}
+      {% for brand in all_brands %}
+        <div class="ut-logo-item"><span class="ut-logo-text">{{ brand }}</span></div>
+      {% endfor %}
+      {% for brand in all_brands %}
+        <div class="ut-logo-item"><span class="ut-logo-text">{{ brand }}</span></div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Featured brands -->
+  <div class="ut-featured-brands">
+    <p class="ut-fb-title">Featured Brands</p>
+    <div class="ut-featured-grid">
+      {% assign featured = "Urban Trend,Kama Ayurveda,Forest Essentials,The Minimalist,Dot & Key" | split: "," %}
+      {% assign feat_sub = "Luxury Indian Skincare,Ayurvedic Luxury,Heritage Beauty,Science-backed,Skincare Essentials" | split: "," %}
+      {% for brand in featured %}
+        <a href="/collections/{{ brand | handleize }}" class="ut-fb-card">
+          <div class="ut-fb-card-img">
+            <span style="font-family:'Cinzel',serif;font-size:18px;color:var(--ut-gold);letter-spacing:0.2em;text-align:center;padding:20px;">{{ brand }}</span>
+          </div>
+          <div class="ut-fb-overlay">
+            <div class="ut-fb-brand-name">{{ brand }}</div>
+            <div class="ut-fb-brand-sub">{{ feat_sub[forloop.index0] }}</div>
+            <div class="ut-fb-brand-cta">Shop Now →</div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="ut-brands-toolbar">
+    <button class="ut-brands-filter active" onclick="catFilter(this,'all')">All Brands</button>
+    <button class="ut-brands-filter" onclick="catFilter(this,'skincare')">Skincare</button>
+    <button class="ut-brands-filter" onclick="catFilter(this,'makeup')">Makeup</button>
+    <button class="ut-brands-filter" onclick="catFilter(this,'hair')">Hair</button>
+    <button class="ut-brands-filter" onclick="catFilter(this,'fragrance')">Fragrance</button>
+    <button class="ut-brands-filter" onclick="catFilter(this,'wellness')">Wellness</button>
+    <button class="ut-brands-filter" onclick="catFilter(this,'international')">International</button>
+    <div class="ut-brands-alpha">
+      {% assign alphabet = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z" | split: "," %}
+      {% for letter in alphabet %}
+        <button class="ut-alpha-btn" onclick="scrollToLetter('{{ letter }}')">{{ letter }}</button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- A-Z Brand Grid -->
+  <div class="ut-brands-az" id="brandsAz">
+    {% comment %}
+    Brands data — in production these would come from vendor tags on products.
+    Structure: Letter → [brand name, origin, category, product_count, tags, badge]
+    {% endcomment %}
+    {% assign brands_data = "
+    B|Biotique|India|Skincare|45|Ayurveda,Natural|popular,
+    B|Bobbi Brown|USA|Makeup|120|Foundation,Luxury|new,
+    C|Cetaphil|Switzerland|Skincare|28|Sensitive,Dermatologist||,
+    C|Clinique|USA|Skincare|95|Allergy Tested,Fragrance Free|popular,
+    D|Derma Co|India|Skincare|62|Science Backed,Actives|exclusive,
+    D|Dot & Key|India|Skincare|80|Vitamin C,Hydration|popular,
+    F|Forest Essentials|India|Skincare|150|Ayurveda,Luxury|exclusive,
+    H|Himalaya|India|Wellness|200|Herbal,Natural|popular,
+    J|Juicy Chemistry|India|Skincare|55|Organic,Vegan|exclusive,
+    K|Kama Ayurveda|India|Skincare|130|Ayurveda,Premium|exclusive,
+    L|Lakmé|India|Makeup|180|Foundation,Kajal|popular,
+    L|L'Oréal|France|Makeup|220|Hair,Foundation|international,
+    M|MAC|USA|Makeup|300|Pro,Lipstick|popular,
+    M|Mamaearth|India|Skincare|160|Natural,Toxin Free|popular,
+    M|Maybelline|USA|Makeup|190|Mascara,Foundation|popular,
+    M|mCaffeine|India|Skincare|70|Coffee,Body Care|popular,
+    M|Minimalist|India|Skincare|90|Actives,Science|new,
+    N|Neutrogena|USA|Skincare|110|Dermatologist,Acne|popular,
+    N|Nykaa|India|Makeup|140|Lipstick,Foundation|exclusive,
+    P|Pilgrim|India|Skincare|75|Korean,Clean Beauty|new,
+    P|Plum|India|Skincare|100|Vegan,Goodness|popular,
+    S|SUGAR Cosmetics|India|Makeup|145|Lipstick,Long Lasting|popular,
+    T|The Body Shop|UK|Skincare|160|Ethical,Vegan|international,
+    U|Urban Trend|India|Skincare|50|Himalayan,Luxury|exclusive,
+    W|WOW Skin Science|India|Hair|120|Apple Cider,Natural|popular
+    " | split: "," %}
+
+    {% assign current_letter = "" %}
+    {% for entry in brands_data %}
+      {% assign parts = entry | strip | split: "|" %}
+      {% if parts[0] != blank %}
+        {% assign letter = parts[0] %}
+        {% if letter != current_letter %}
+          {% unless current_letter == "" %}</div></div>{% endunless %}
+          {% assign current_letter = letter %}
+          <div class="ut-brands-section" id="letter-{{ letter }}" data-letter="{{ letter }}">
+            <div class="ut-brands-section-letter">{{ letter }}</div>
+            <div class="ut-brands-grid">
+        {% endif %}
+        {% assign bname = parts[1] %}
+        {% assign borigin = parts[2] %}
+        {% assign bcat = parts[3] | downcase %}
+        {% assign bcount = parts[4] %}
+        {% assign btags = parts[5] | split: "," %}
+        {% assign bbadge = parts[6] %}
+        <a href="/collections/{{ bname | handleize }}"
+          class="ut-brand-card"
+          data-brand="{{ bname | downcase }}"
+          data-cat="{{ bcat }}">
+          <div class="ut-brand-card-img">
+            {% if bbadge != blank %}
+              <span class="ut-brand-badge {{ bbadge }}">{{ bbadge }}</span>
+            {% endif %}
+            <span class="ut-brand-logo-placeholder">{{ bname }}</span>
+            <div class="ut-brand-card-overlay"></div>
+            <button class="ut-brand-card-btn">Shop Brand</button>
+          </div>
+          <div class="ut-brand-card-info">
+            <div class="ut-brand-name">{{ bname }}</div>
+            <div class="ut-brand-origin">{{ borigin }} · {{ parts[3] }}</div>
+            <div class="ut-brand-meta">
+              <span class="ut-brand-count">{{ bcount }} products</span>
+              <div class="ut-brand-tags">
+                {% for tag in btags limit:2 %}
+                  <span class="ut-brand-tag">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+    </div></div>
+  </div>
+</div>
+
+<script>
+function filterBrands(q) {
+  q = q.toLowerCase().trim();
+  document.querySelectorAll('.ut-brand-card').forEach(card => {
+    var name = card.dataset.brand || '';
+    card.style.display = (!q || name.includes(q)) ? '' : 'none';
+  });
+  // Show/hide section letters
+  document.querySelectorAll('.ut-brands-section').forEach(sec => {
+    var visible = sec.querySelectorAll('.ut-brand-card:not([style*="none"])').length;
+    sec.style.display = visible ? '' : 'none';
+  });
+}
+
+function catFilter(btn, cat) {
+  document.querySelectorAll('.ut-brands-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ut-brand-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+  });
+  document.querySelectorAll('.ut-brands-section').forEach(sec => {
+    var visible = sec.querySelectorAll('.ut-brand-card:not([style*="none"])').length;
+    sec.style.display = visible ? '' : 'none';
+  });
+}
+
+function scrollToLetter(letter) {
+  var el = document.getElementById('letter-' + letter);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.ut-alpha-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+
+{% schema %}{"name":"Brands Page","tag":"section","settings":[]}{% endschema %}
