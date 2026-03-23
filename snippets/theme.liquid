@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  {%- comment -%} ── CORE SEO ── {%- endcomment -%}
+  <title>
+    {%- if template.name == 'index' -%}
+      Urban Trend — Premium Indian Beauty | Skincare, Makeup & Fragrance
+    {%- elsif template.name == 'product' -%}
+      {{ product.title }} | {{ product.type }} | Urban Trend
+    {%- elsif template.name == 'collection' -%}
+      {{ collection.title }} | Shop {{ collection.title }} Online | Urban Trend
+    {%- elsif template.name == 'page' -%}
+      {{ page.title }} | Urban Trend
+    {%- elsif template.name == 'blog' -%}
+      {{ blog.title }} | Beauty Tips & Trends | Urban Trend
+    {%- elsif template.name == 'article' -%}
+      {{ article.title }} | Urban Trend Beauty Blog
+    {%- elsif template.name == 'search' -%}
+      Search Results{% if search.performed %} for "{{ search.terms }}"{% endif %} | Urban Trend
+    {%- elsif template.name == 'cart' -%}
+      Shopping Bag | Urban Trend
+    {%- else -%}
+      {{ page_title }}{%- unless page_title contains shop.name %} | Urban Trend{%- endunless -%}
+    {%- endif -%}
+    {%- if current_page != 1 %} — Page {{ current_page }}{%- endif -%}
+  </title>
+
+  {%- comment -%} ── META DESCRIPTION ── {%- endcomment -%}
+  {%- if template.name == 'index' -%}
+    <meta name="description" content="Urban Trend — India's Beauty Problem Solver since 1975. 100% authentic skincare, makeup & fragrance. Dark spots, hair fall, wedding makeup, bridal skin — real solutions from a 50-year trusted family business. Free delivery ₹999+.">
+  {%- elsif template.name == 'product' and product.description != blank -%}
+    <meta name="description" content="{{ product.description | strip_html | truncate: 155 | escape }}">
+  {%- elsif template.name == 'product' -%}
+    <meta name="description" content="Buy genuine {{ product.title }} — 100% authentic, sourced direct. Free delivery ₹999+. 7-day returns. Urban Trend Est. 1975.">
+  {%- elsif template.name == 'collection' and collection.description != blank -%}
+    <meta name="description" content="{{ collection.description | strip_html | truncate: 155 | escape }}">
+  {%- elsif template.name == 'collection' -%}
+    <meta name="description" content="Shop {{ collection.title }} at Urban Trend. 100% authentic products sourced direct from brands. Free delivery ₹999+. 7-day returns. Est. 1975.">
+  {%- elsif page_description != blank -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- else -%}
+    <meta name="description" content="Urban Trend — 50 years of trusted beauty expertise. 100% authentic skincare, makeup & fragrance. Real solutions for Indian skin concerns. Free delivery ₹999+. Est. 1975.">
+  {%- endif -%}
+
+  {%- comment -%} ── ROBOTS ── {%- endcomment -%}
+  {%- if template.name == 'cart' or template.name == 'account' or template.suffix == 'password' -%}
+    <meta name="robots" content="noindex, nofollow">
+  {%- else -%}
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  {%- endif -%}
+
+  {%- comment -%} ── CANONICAL ── {%- endcomment -%}
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- comment -%} ── OPEN GRAPH ── {%- endcomment -%}
+  <meta property="og:site_name" content="Urban Trend">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if template.name == 'product' -%}
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="{{ product.title | escape }} | Urban Trend">
+    <meta property="og:description" content="{{ product.description | strip_html | truncate: 200 | escape }}">
+    {%- if product.featured_image -%}
+      <meta property="og:image" content="https:{{ product.featured_image | img_url: '1200x630', crop: 'center' }}">
+      <meta property="og:image:width" content="1200">
+      <meta property="og:image:height" content="630">
+      <meta property="og:image:alt" content="{{ product.featured_image.alt | escape }}">
+    {%- endif -%}
+    <meta property="product:price:amount" content="{{ product.price | money_without_currency }}">
+    <meta property="product:price:currency" content="{{ cart.currency.iso_code }}">
+  {%- elsif template.name == 'collection' -%}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ collection.title | escape }} | Urban Trend">
+    <meta property="og:description" content="Shop {{ collection.title }} at Urban Trend. {% if collection.description != blank %}{{ collection.description | strip_html | truncate: 150 | escape }}{% else %}Premium Indian beauty — dermatologist-tested, cruelty-free.{% endif %}">
+    {%- if collection.image -%}
+      <meta property="og:image" content="https:{{ collection.image | img_url: '1200x630', crop: 'center' }}">
+    {%- endif -%}
+  {%- elsif template.name == 'article' -%}
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ article.title | escape }} | Urban Trend">
+    <meta property="og:description" content="{{ article.excerpt_or_content | strip_html | truncate: 200 | escape }}">
+    {%- if article.image -%}
+      <meta property="og:image" content="https:{{ article.image | img_url: '1200x630', crop: 'center' }}">
+    {%- endif -%}
+  {%- else -%}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Urban Trend — Premium Indian Beauty">
+    <meta property="og:description" content="India's premium beauty brand. Skincare, makeup & fragrance crafted for Indian skin. Dermatologist-tested. Free shipping above ₹999.">
+    <meta property="og:image" content="{{ 'og-image.jpg' | asset_url }}">
+  {%- endif -%}
+
+  {%- comment -%} ── TWITTER CARD ── {%- endcomment -%}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@urbantrend">
+  <meta name="twitter:creator" content="@urbantrend">
+  {%- if template.name == 'product' -%}
+    <meta name="twitter:title" content="{{ product.title | escape }} | Urban Trend">
+    <meta name="twitter:description" content="{{ product.description | strip_html | truncate: 200 | escape }}">
+    {%- if product.featured_image -%}
+      <meta name="twitter:image" content="https:{{ product.featured_image | img_url: '1200x628', crop: 'center' }}">
+    {%- endif -%}
+  {%- else -%}
+    <meta name="twitter:title" content="{% if template.name == 'index' %}Urban Trend — Premium Indian Beauty{% else %}{{ page_title }} | Urban Trend{% endif %}">
+    <meta name="twitter:description" content="India's premium beauty brand. Skincare, makeup & fragrance for Indian skin.">
+  {%- endif -%}
+
+  {%- comment -%} ── GLOBAL JSON-LD (Organisation + WebSite) ── {%- endcomment -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "{{ shop.url }}/#organization",
+        "name": "Urban Trend",
+        "url": "{{ shop.url }}",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ 'logo.png' | asset_url }}",
+          "width": 200,
+          "height": 60
+        },
+        "description": "India's premium beauty brand. Dermatologist-tested skincare, makeup for Indian skin tones, and luxury fragrances with Indian botanicals.",
+        "foundingDate": "2010",
+        "foundingLocation": "Mumbai, India",
+        "sameAs": [
+          "https://www.instagram.com/urbantrend",
+          "https://www.facebook.com/urbantrend",
+          "https://twitter.com/urbantrend",
+          "https://www.youtube.com/urbantrend",
+          "https://www.pinterest.com/urbantrend"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "availableLanguage": ["English", "Hindi"],
+          "areaServed": "IN"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "{{ shop.url }}/#website",
+        "url": "{{ shop.url }}",
+        "name": "Urban Trend",
+        "description": "Premium Indian beauty brand",
+        "publisher": {"@id": "{{ shop.url }}/#organization"},
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {"@type": "EntryPoint", "urlTemplate": "{{ shop.url }}/search?q={search_term_string}"},
+          "query-input": "required name=search_term_string"
+        }
+      }
+      {%- if template.name == 'product' -%}
+      ,{
+        "@type": "Product",
+        "@id": "{{ canonical_url }}#product",
+        "name": "{{ product.title | escape }}",
+        "description": "{{ product.description | strip_html | truncate: 500 | escape }}",
+        "brand": {"@type": "Brand", "name": "Urban Trend"},
+        "category": "{{ product.type | escape }}",
+        "sku": "{{ product.selected_or_first_available_variant.sku | escape }}",
+        "url": "{{ canonical_url }}",
+        {%- if product.featured_image -%}
+        "image": ["https:{{ product.featured_image | img_url: '800x800', crop: 'center' }}"
+          {%- for image in product.images limit: 5 -%}
+            {%- unless image == product.featured_image -%}
+            ,"https:{{ image | img_url: '800x800', crop: 'center' }}"
+            {%- endunless -%}
+          {%- endfor -%}
+        ],
+        {%- endif -%}
+        "offers": {
+          "@type": "Offer",
+          "url": "{{ canonical_url }}",
+          "priceCurrency": "INR",
+          "price": "{{ product.price | money_without_currency }}",
+          "priceValidUntil": "{{ 'now' | date: '%Y' | plus: 1 }}-12-31",
+          "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+          "seller": {"@type": "Organization", "name": "Urban Trend"},
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "INR"},
+            "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"},
+            "doesNotShip": false
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 30,
+            "returnMethod": "https://schema.org/ReturnByMail"
+          }
+        }
+        {%- if product.metafields.reviews.rating -%}
+        ,"aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "{{ product.metafields.reviews.rating.value }}",
+          "reviewCount": "{{ product.metafields.reviews.rating_count.value }}",
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+        {%- endif -%}
+      }
+      {%- endif -%}
+      {%- if template.name == 'index' -%}
+      ,{
+        "@type": "Store",
+        "@id": "{{ shop.url }}/#store",
+        "name": "Urban Trend",
+        "url": "{{ shop.url }}",
+        "image": "{{ 'og-image.jpg' | asset_url }}",
+        "description": "India's premium beauty brand — skincare, makeup & fragrance crafted for Indian skin.",
+        "priceRange": "₹₹₹",
+        "currenciesAccepted": "INR",
+        "paymentAccepted": "Credit Card, Debit Card, UPI, Net Banking, COD",
+        "areaServed": "India",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Urban Trend Products",
+          "itemListElement": [
+            {"@type": "OfferCatalog", "name": "Skincare", "url": "{{ shop.url }}/collections/skincare"},
+            {"@type": "OfferCatalog", "name": "Makeup", "url": "{{ shop.url }}/collections/makeup"},
+            {"@type": "OfferCatalog", "name": "Fragrance", "url": "{{ shop.url }}/collections/fragrance"},
+            {"@type": "OfferCatalog", "name": "Hair Care", "url": "{{ shop.url }}/collections/hair"},
+            {"@type": "OfferCatalog", "name": "Body Care", "url": "{{ shop.url }}/collections/body-care"}
+          ]
+        }
+      }
+      {%- endif -%}
+    ]
+  }
+  </script>
+
+  {%- comment -%} ── FAVICONS ── {%- endcomment -%}
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">
+    <link rel="apple-touch-icon" href="{{ settings.favicon | img_url: '180x180' }}">
+  {%- endif -%}
+  <meta name="theme-color" content="#0A0908">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  {%- comment -%} ── PERFORMANCE ── {%- endcomment -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+  {%- comment -%} Preload hero font weights {%- endcomment -%}
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="https://fonts.gstatic.com/s/cormorantgaramond/v22/co3YmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="https://fonts.gstatic.com/s/jost/v18/90AIv2-RGj9EMgHEILjKp604.woff2">
+  <link rel="dns-prefetch" href="https://cdn.shopify.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://monorail-edge.shopifysvc.com" crossorigin>
+
+  {%- comment -%} ── FONT PRELOAD (critical fonts first) ── {%- endcomment -%}
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap"></noscript>
+
+  {%- comment -%} ── CRITICAL CSS INLINE ── {%- endcomment -%}
+  <style>
+    /* CRITICAL CSS — above fold only */
+    :root{
+      --ut-bg:#0A0908;--ut-bg-2:#141210;--ut-bg-3:#141210;--ut-bg-4:#1E1A16;--ut-bg-5:#1C1510;
+      --ut-gold:#C9A96E;--ut-gold-light:#E2C98A;--ut-gold-dark:#9A7840;
+      --ut-gold-10:rgba(201,169,110,0.10);--ut-gold-25:rgba(201,169,110,0.25);
+      --ut-rose:#8B3A52;--ut-text:#FAF6F0;--ut-text-65:rgba(250,246,240,0.65);
+      --ut-text-45:rgba(250,246,240,0.45);--ut-text-35:rgba(250,246,240,0.35);
+      --ut-text-28:rgba(250,246,240,0.28);--ut-border:rgba(201,169,110,0.12);
+      --ut-border-md:rgba(201,169,110,0.22);--ut-font-serif:'Cinzel',serif;
+      --ut-font-display:'Cormorant Garamond',Georgia,serif;--ut-font-body:'Jost',sans-serif;
+      --ut-radius:2px;--ut-ease:0.25s ease;
+      --gold:#C9A96E;--gold-l:#E2C98A;--obs:#0A0908;--char:#141210;
+      --ww:#FAF6F0;--muted:rgba(250,246,240,0.45);--border:rgba(201,169,110,0.18);
+      --fd:'Cormorant Garamond',Georgia,serif;--fl:'Cinzel',serif;--fb:'Jost',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:#0A0908;color:#FAF6F0;font-family:'Jost',system-ui,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    img,video,svg{max-width:100%;height:auto;display:block}
+    a{color:inherit;text-decoration:none}
+    /* Nav critical */
+    .nav,.ut-nav{display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:rgba(10,9,8,0.96);border-bottom:1px solid rgba(201,169,110,0.18);position:sticky;top:0;z-index:200;backdrop-filter:blur(16px)}
+    .nav-logo,.ut-nav-logo{font-family:'Cinzel',serif;font-size:15px;letter-spacing:0.4em;color:#E2C98A;text-transform:uppercase}
+    /* Hero critical */
+    .hero{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;position:relative;overflow:hidden;background:#0A0908}
+    .hero-left{background:#141210;display:flex;flex-direction:column;justify-content:center;padding:90px 60px 90px 72px}
+    .hero-right{background:linear-gradient(155deg,#1A1410 0%,#0D0B09 60%,#130F0D 100%);position:relative;overflow:hidden}
+    .headline{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(46px,5vw,74px);line-height:1.05;color:#FAF6F0;margin-bottom:24px}
+    .headline em{font-style:italic;color:#E2C98A}
+    /* Jump bar */
+    .jump-bar{display:flex;justify-content:center;gap:4px;padding:10px 0;background:#0A0908;border-bottom:1px solid rgba(201,169,110,0.1);position:sticky;top:61px;z-index:190}
+    /* Prevent FOUC */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.9s ease,transform 0.9s ease}
+    .reveal.vis{opacity:1;transform:translateY(0)}
+    @media(max-width:960px){.hero{grid-template-columns:1fr;min-height:auto}.nav,.ut-nav{padding:0 24px;height:64px}}
+    @media(max-width:600px){.nav,.ut-nav{height:52px;padding:0 16px}}
+    @media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}}
+  </style>
+
+  
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "OnlineStore",
+  "name": "Urban Trend",
+  "url": "{{ shop.url }}",
+  "logo": "{{ 'og-image.jpg' | asset_url }}",
+  "foundingDate": "1975",
+  "description": "India's trusted beauty problem solver since 1975. 100% authentic skincare, makeup and fragrance sourced directly from brands.",
+  "priceRange": "₹99-₹4999",
+  "currenciesAccepted": "INR",
+  "paymentAccepted": "Credit Card, Debit Card, UPI, Net Banking, COD",
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Sirsa",
+    "addressRegion": "Haryana",
+    "addressCountry": "IN"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "availableLanguage": ["English", "Hindi"],
+    "contactOption": "TollFree"
+  },
+  "sameAs": [
+    "https://www.instagram.com/urbantrend",
+    "https://www.facebook.com/urbantrend"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Beauty Products",
+    "itemListElement": [
+      {"@type": "OfferCatalog", "name": "Skincare"},
+      {"@type": "OfferCatalog", "name": "Makeup"},
+      {"@type": "OfferCatalog", "name": "Fragrance"},
+      {"@type": "OfferCatalog", "name": "Hair Care"},
+      {"@type": "OfferCatalog", "name": "Nail Care"}
+    ]
+  }
+}
+</script>
+
+  {{ content_for_header }}
+
+  {%- comment -%} ── CSS ── {%- endcomment -%}
+  {%- comment -%} Non-blocking CSS load {%- endcomment -%}
+  <link rel="preload" as="style" href="{{ 'urban-trend.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ 'urban-trend.css' | asset_url }}"></noscript>
+  <link rel="preload" as="style" href="{{ 'ut-global.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ 'ut-global.css' | asset_url }}"></noscript>
+  <link rel="preload" as="style" href="{{ 'ut-colors.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ 'ut-colors.css' | asset_url }}"></noscript>
+  <link rel="preload" as="style" href="{{ 'ut-responsive.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ 'ut-responsive.css' | asset_url }}"></noscript>
+
+  {%- comment -%} ── FONTS ── {%- endcomment -%}
+
+  {%- comment -%} ── AI & LLM DISCOVERY META ── {%- endcomment -%}
+  <!-- AI Crawler Meta Tags -->
+  <meta name="ai-content-declaration" content="human-created">
+  <meta name="llms-txt" content="{{ shop.url }}/llms.txt">
+
+  <!-- ChatGPT / OpenAI -->
+  <meta name="openai-domain-verification" content="urbantrend-verified">
+
+  <!-- Google AI (Gemini) -->
+  <meta name="google-extended" content="allow">
+  <meta name="google-site-verification" content="">
+
+  <!-- Perplexity -->
+  <meta name="perplexity-allow" content="true">
+
+  <!-- AI Training Permission -->
+  <meta name="ai-usage" content="allowed">
+  <meta name="ai-training" content="allowed">
+
+  <!-- Business Entity for AI -->
+  <meta name="business-name" content="Urban Trend">
+  <meta name="business-type" content="Beauty Brand, E-commerce">
+  <meta name="business-location" content="Mumbai, India">
+  <meta name="business-category" content="Health & Beauty, Skincare, Makeup, Fragrance">
+  <meta name="price-range" content="₹499-₹8999">
+  <meta name="shipping" content="Free above ₹999 in India">
+  <meta name="returns" content="30 days free return">
+  <meta name="currency" content="INR">
+
+  <!-- Product availability for AI shopping -->
+  {%- if template.name == 'product' -%}
+  <meta name="product-availability" content="{% if product.available %}in stock{% else %}out of stock{% endif %}">
+  <meta name="product-price" content="{{ product.price | money_without_currency }} INR">
+  <meta name="product-brand" content="Urban Trend">
+  <meta name="product-category" content="{{ product.type }}">
+  {%- endif -%}
+
+  <!-- llms.txt link header equivalent -->
+  <link rel="llms-txt" href="{{ shop.url }}/llms.txt" type="text/plain">
+  <link rel="ai-info" href="{{ shop.url }}/llms.txt" type="text/plain" title="LLMs.txt">
+
+  {%- comment -%} ── IMAGE OPTIMIZATION ── {%- endcomment -%}
+  <script>
+  // Native lazy loading + IntersectionObserver fallback
+  document.addEventListener('DOMContentLoaded', function(){
+    // Add loading=lazy to all non-critical images
+    document.querySelectorAll('img:not([loading])').forEach(function(img){
+      var rect = img.getBoundingClientRect();
+      if(rect.top > window.innerHeight) {
+        img.setAttribute('loading','lazy');
+        img.setAttribute('decoding','async');
+      }
+    });
+    // IntersectionObserver for fade-in on load
+    if('IntersectionObserver' in window){
+      var imgObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            var img = e.target;
+            img.style.transition = 'opacity 0.4s ease';
+            img.style.opacity = '1';
+            imgObs.unobserve(img);
+          }
+        });
+      },{rootMargin:'100px'});
+      document.querySelectorAll('img[loading="lazy"]').forEach(function(img){
+        img.style.opacity = '0';
+        imgObs.observe(img);
+      });
+    }
+  });
+  </script>
+</head>
+<body class="template-{{ template.name }}{% if template.suffix != blank %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
+
+  {%- comment -%} ── PAGE LOADER ── {%- endcomment -%}
+  <div id="ut-page-loader">
+    <div class="ut-loader-inner">
+      <div class="ut-loader-logo">URBAN TREND</div>
+      <div class="ut-loader-bar"><div class="ut-loader-fill" id="utLoaderFill"></div></div>
+    </div>
+  </div>
+  <style>
+  #ut-page-loader{position:fixed;inset:0;background:#0A0908;z-index:999999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease,visibility 0.5s ease;}
+  #ut-page-loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+  .ut-loader-inner{text-align:center;}
+  .ut-loader-logo{font-family:'Cinzel',serif;font-size:16px;letter-spacing:0.55em;color:#C9A96E;text-transform:uppercase;margin-bottom:28px;opacity:0;animation:utLogoIn 0.8s ease 0.1s forwards;}
+  @keyframes utLogoIn{from{opacity:0;letter-spacing:0.8em}to{opacity:1;letter-spacing:0.55em}}
+  .ut-loader-bar{width:180px;height:1px;background:rgba(201,169,110,0.15);margin:0 auto;overflow:hidden;}
+  .ut-loader-fill{height:100%;background:linear-gradient(to right,#C9A96E,#E2C98A);width:0%;transition:width 0.4s ease;}
+  </style>
+  <script>
+  (function(){
+    var fill = document.getElementById('utLoaderFill');
+    var loader = document.getElementById('ut-page-loader');
+    var p = 0;
+    var t = setInterval(function(){
+      p += Math.random() * 22;
+      if(p > 90) p = 90;
+      fill.style.width = p + '%';
+    }, 120);
+    window.addEventListener('load', function(){
+      clearInterval(t);
+      fill.style.width = '100%';
+      setTimeout(function(){ loader.classList.add('hide'); }, 400);
+    });
+    // Fallback — remove after 3s max
+    setTimeout(function(){ loader.classList.add('hide'); }, 3000);
+  })();
+  </script>
+
+  {%- comment -%} Custom cursor elements {%- endcomment -%}
+  <div id="ut-cursor"></div>
+  <div id="ut-cursor-ring"></div>
+
+    {%- render 'ai-meta' -%}
+  {%- render 'mega-nav' -%}
+  {{ content_for_layout }}
+{%- render 'footer-global' -%}
+  <script src="{{ 'urban-trend.js' | asset_url }}" defer></script>
+
+  {%- comment -%} ── CONVERSION FEATURES ── {%- endcomment -%}
+  {%- render 'social-proof-popup' -%}
+  {%- render 'abandon-cart' -%}
+
+  {%- render 'ut-ai-chatbot' -%}
+  {%- render 'review-request' -%}
+  {%- render 'rto-guard' -%}
+
+  {%- comment -%} ── PERFORMANCE: Spin animation for loaders ── {%- endcomment -%}
+  <script>
+  if (!document.querySelector('#ut-spin-style')) {
+    var s = document.createElement('style');
+    s.id = 'ut-spin-style';
+    s.textContent = '@keyframes ut-spin{to{transform:rotate(360deg)}}';
+    document.head.appendChild(s);
+  }
+  if (window.UTCart) UTCart.updateCount();
+  </script>
+</body>
+</html>
