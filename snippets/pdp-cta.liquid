@@ -1,0 +1,596 @@
+{% comment %}
+  ============================================================
+  PDP CTA SECTION — Urban Trend
+  Drop this snippet into main-product.liquid with:
+    {% render 'pdp-cta', product: product %}
+
+  REPLACES:
+  • The old ut-pdp-atc-row (qty + inline bundle mixed together)
+  • The below-fold ut-bundle duplicate block
+  • The scattered preorder logic
+
+  WHAT THIS DOES:
+  • Single bundle widget, correct placement (above ATC)
+  • One shared countdown timer (key: ut-cta-end)
+  • Dr. Priya endorsement moved here from below-fold
+  • Pre-order / In-stock / Sold-out handled cleanly
+  • Bundle math fixed — savings shown vs compare_at_price
+  • Full-width ATC button, secondary Buy Now
+  • Trust badges below CTA
+  ============================================================
+{% endcomment %}
+
+{%- liquid
+  assign variant     = product.selected_or_first_available_variant
+  assign base_price  = variant.price
+  assign compare     = variant.compare_at_price
+  assign is_preorder = false
+  if product.tags contains 'pre-order'
+    assign is_preorder = true
+  endif
+
+  comment
+    Bundle prices — set 2 and 3 discounted vs compare_at_price
+    2-set: 60% off compare × 2  → compare × 2 × 0.40
+    3-set: 70% off compare × 3  → compare × 3 × 0.30
+    If no compare_at_price fall back to base_price discounts
+  endcomment
+
+  if compare > base_price
+    assign bundle2_price = compare | times: 2 | times: 40 | divided_by: 100
+    assign bundle3_price = compare | times: 3 | times: 30 | divided_by: 100
+    assign bundle2_orig  = compare | times: 2
+    assign bundle3_orig  = compare | times: 3
+  else
+    assign bundle2_price = base_price | times: 2 | times: 75 | divided_by: 100
+    assign bundle3_price = base_price | times: 3 | times: 65 | divided_by: 100
+    assign bundle2_orig  = base_price | times: 2
+    assign bundle3_orig  = base_price | times: 3
+  endif
+
+  assign bundle2_save_pct = bundle2_orig | minus: bundle2_price | times: 100 | divided_by: bundle2_orig
+  assign bundle3_save_pct = bundle3_orig | minus: bundle3_price | times: 100 | divided_by: bundle3_orig
+-%}
+
+<style>
+/* ─── CTA WRAPPER ─── */
+.ut-cta{margin-top:20px;}
+
+/* ─── COUNTDOWN BAR ─── */
+.ut-cta-cd{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(201,169,110,0.10);
+  border:1px solid rgba(201,169,110,0.30);
+  border-radius:8px;padding:10px 16px;margin-bottom:14px;
+}
+.ut-cta-cd-label{
+  font-family:'Cinzel',serif;font-size:10px;
+  letter-spacing:0.14em;color:var(--ut-gold);font-weight:600;
+}
+.ut-cta-cd-label span{color:rgba(250,246,240,0.7);}
+.ut-cta-cd-timer{display:flex;align-items:center;gap:3px;}
+.ut-cta-cd-block{
+  text-align:center;background:rgba(0,0,0,0.4);
+  border-radius:5px;padding:4px 8px;min-width:36px;
+}
+.ut-cta-cd-block .n{
+  font-family:'Cinzel',serif;font-size:17px;
+  font-weight:700;color:#ffffff;display:block;line-height:1;
+}
+.ut-cta-cd-block .u{
+  font-size:7px;color:rgba(250,246,240,0.55);
+  letter-spacing:0.12em;text-transform:uppercase;
+}
+.ut-cta-cd-sep{
+  font-family:'Cinzel',serif;font-size:15px;
+  font-weight:700;color:var(--ut-gold);padding:0 1px;
+}
+
+/* ─── ENDORSEMENT ─── */
+.ut-cta-endorse{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;
+}
+.ut-cta-endorse-dot{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--ut-gold);color:var(--ut-bg);
+  font-family:'Cinzel',serif;font-size:14px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ut-cta-endorse-text{
+  font-family:'Jost',sans-serif;font-size:12px;
+  color:rgba(250,246,240,0.65);
+}
+.ut-cta-endorse-text strong{color:var(--ut-text);}
+
+/* ─── RATING + STOCK ─── */
+.ut-cta-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;flex-wrap:wrap;gap:6px;
+}
+.ut-cta-stars{color:var(--ut-gold);font-size:12px;letter-spacing:2px;}
+.ut-cta-score{
+  font-family:'Cinzel',serif;font-size:12px;
+  color:var(--ut-gold);margin-left:5px;
+}
+.ut-cta-rcount{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.38);margin-left:5px;
+  text-decoration:underline;cursor:pointer;
+}
+.ut-cta-stock{
+  font-family:'Jost',sans-serif;font-size:11px;
+  font-weight:600;color:rgba(250,246,240,0.75);
+  letter-spacing:0.05em;
+}
+.ut-cta-stock::before{
+  content:'⚡ ';
+}
+
+/* ─── BUNDLE OPTIONS ─── */
+.ut-cta-opts{
+  display:flex;flex-direction:column;gap:8px;
+  margin-bottom:14px;
+}
+.ut-cta-opt{
+  display:flex;align-items:center;gap:12px;
+  border:1.5px solid rgba(201,169,110,0.28);
+  border-radius:10px;padding:14px 16px;
+  cursor:pointer;transition:all .2s;
+  position:relative;background:rgba(255,255,255,0.02);
+}
+.ut-cta-opt:hover{
+  border-color:rgba(201,169,110,0.6);
+  background:rgba(201,169,110,0.05);
+}
+.ut-cta-opt.selected{
+  border-color:var(--ut-gold) !important;
+  background:rgba(201,169,110,0.09) !important;
+}
+.ut-cta-opt-badge{
+  position:absolute;top:-10px;right:14px;
+  font-family:'Jost',sans-serif;font-size:10px;
+  font-weight:700;padding:2px 11px;border-radius:20px;
+  letter-spacing:0.05em;
+}
+.ut-cta-opt-badge.gold{background:var(--ut-gold);color:var(--ut-bg);}
+.ut-cta-opt-badge.green{background:#4caf7d;color:#fff;}
+.ut-cta-radio{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid rgba(201,169,110,0.45);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .2s;
+}
+.ut-cta-opt.selected .ut-cta-radio{
+  border-color:var(--ut-gold);background:var(--ut-gold);
+}
+.ut-cta-opt.selected .ut-cta-radio::after{
+  content:'';width:7px;height:7px;
+  border-radius:50%;background:var(--ut-bg);
+}
+.ut-cta-opt-left{flex:1;}
+.ut-cta-opt-name{
+  font-family:'Jost',sans-serif;font-size:14px;
+  font-weight:700;color:#fff;
+}
+.ut-cta-opt-save{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:var(--ut-gold);margin-top:2px;font-weight:600;
+}
+.ut-cta-opt-right{text-align:right;}
+.ut-cta-opt-price{
+  font-family:'Cinzel',serif;font-size:16px;
+  font-weight:700;color:#fff;display:block;
+}
+.ut-cta-opt-compare{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.4);
+  text-decoration:line-through;display:block;
+}
+
+/* ─── REFILL ─── */
+.ut-cta-refill{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(201,169,110,0.06);
+  border:1px solid rgba(201,169,110,0.22);
+  border-radius:10px;padding:12px 14px;
+  cursor:pointer;margin-bottom:18px;
+  transition:border-color .2s;
+}
+.ut-cta-refill:hover{border-color:rgba(201,169,110,0.4);}
+.ut-cta-refill input{display:none;}
+.ut-cta-refill-box{
+  width:18px;height:18px;border-radius:4px;
+  border:2px solid var(--ut-gold);background:var(--ut-gold);
+  color:var(--ut-bg);font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;transition:all .2s;
+}
+.ut-cta-refill.unchecked .ut-cta-refill-box{
+  background:transparent;color:transparent;
+}
+.ut-cta-refill-text strong{
+  display:block;font-family:'Jost',sans-serif;
+  font-size:13px;color:#fff;margin-bottom:2px;
+}
+.ut-cta-refill-text span{
+  font-family:'Jost',sans-serif;font-size:11px;
+  color:rgba(250,246,240,0.55);
+}
+
+/* ─── SHIPS LINE ─── */
+.ut-cta-ships{
+  font-family:'Jost',sans-serif;font-size:12px;
+  color:rgba(250,246,240,0.5);margin-bottom:16px;
+}
+.ut-cta-ships strong{color:rgba(250,246,240,0.8);}
+
+/* ─── BUTTONS ─── */
+.ut-cta-atc{
+  width:100%;background:var(--ut-gold);color:var(--ut-bg);
+  border:none;font-family:'Cinzel',serif;
+  font-size:11px;letter-spacing:0.4em;text-transform:uppercase;
+  height:54px;cursor:pointer;transition:all .3s;
+  border-radius:6px;margin-bottom:10px;
+}
+.ut-cta-atc:hover{background:var(--ut-gold-light);}
+.ut-cta-atc:active{transform:scale(0.98);}
+.ut-cta-atc.added{
+  background:rgba(40,74,40,0.9);
+  color:var(--ut-success);letter-spacing:0.2em;
+}
+.ut-cta-atc:disabled{
+  background:rgba(201,169,110,0.2);
+  color:rgba(250,246,240,0.25);
+  cursor:not-allowed;letter-spacing:0.3em;
+}
+.ut-cta-row{display:flex;gap:10px;margin-bottom:18px;}
+.ut-cta-buy{
+  flex:1;background:none;
+  border:1px solid rgba(201,169,110,0.3);color:var(--ut-gold);
+  font-family:'Cinzel',serif;font-size:10px;
+  letter-spacing:0.38em;text-transform:uppercase;
+  height:48px;cursor:pointer;transition:all .2s;border-radius:6px;
+}
+.ut-cta-buy:hover{background:rgba(201,169,110,0.07);}
+.ut-cta-wish{
+  width:48px;height:48px;flex-shrink:0;
+  border:1px solid rgba(201,169,110,0.2);background:none;
+  color:rgba(201,169,110,0.5);font-size:20px;
+  cursor:pointer;transition:all .2s;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+}
+.ut-cta-wish:hover,.ut-cta-wish.active{
+  border-color:var(--ut-rose);color:var(--ut-rose);
+}
+
+/* ─── PREORDER BUTTON ─── */
+.ut-cta-preorder-btn{
+  width:100%;
+  background:linear-gradient(90deg,var(--ut-rose),#6B2A3E);
+  color:var(--ut-text);border:none;font-family:'Cinzel',serif;
+  font-size:11px;letter-spacing:0.38em;text-transform:uppercase;
+  height:54px;cursor:pointer;transition:all .3s;
+  border-radius:6px;margin-bottom:10px;
+}
+.ut-cta-preorder-btn:hover{
+  background:linear-gradient(90deg,#A04060,var(--ut-rose));
+}
+
+/* ─── TRUST GRID ─── */
+.ut-cta-trust{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.ut-cta-trust-item{
+  display:flex;align-items:center;gap:8px;
+  font-family:'Jost',sans-serif;font-size:10px;
+  color:rgba(250,246,240,0.45);
+  padding:8px 10px;
+  border:1px solid rgba(201,169,110,0.07);
+  border-radius:4px;
+}
+.ut-cta-trust-item i{
+  color:var(--ut-gold);font-style:normal;font-size:13px;
+}
+
+/* ─── MOBILE ─── */
+@media(max-width:480px){
+  .ut-cta-cd{flex-direction:column;gap:8px;align-items:flex-start;}
+  .ut-cta-opt-name{font-size:13px;}
+  .ut-cta-opt-price{font-size:15px;}
+}
+</style>
+
+<div class="ut-cta" id="utCtaBlock">
+
+  {% comment %} ── 1. COUNTDOWN ── {% endcomment %}
+  <div class="ut-cta-cd">
+    <span class="ut-cta-cd-label">⚡ <span>Flash Sale Ends In:</span></span>
+    <div class="ut-cta-cd-timer">
+      <div class="ut-cta-cd-block"><span class="n" id="ctaCdH">00</span><span class="u">Hrs</span></div>
+      <span class="ut-cta-cd-sep">:</span>
+      <div class="ut-cta-cd-block"><span class="n" id="ctaCdM">00</span><span class="u">Min</span></div>
+      <span class="ut-cta-cd-sep">:</span>
+      <div class="ut-cta-cd-block"><span class="n" id="ctaCdS">00</span><span class="u">Sec</span></div>
+    </div>
+  </div>
+
+  {% comment %} ── 2. ENDORSEMENT ── {% endcomment %}
+  <div class="ut-cta-endorse">
+    <div class="ut-cta-endorse-dot">D</div>
+    <span class="ut-cta-endorse-text">
+      Recommended by <strong>Dr. Priya</strong> &nbsp;|&nbsp; Wellness Specialist
+    </span>
+  </div>
+
+  {% comment %} ── 3. RATING + STOCK ── {% endcomment %}
+  <div class="ut-cta-meta">
+    <div>
+      <span class="ut-cta-stars">★★★★★</span>
+      <span class="ut-cta-score">4.9</span>
+      <span class="ut-cta-rcount" onclick="pdpSwitchTab('reviews')">2,847 reviews</span>
+    </div>
+    {% unless is_preorder %}
+      {% if product.available %}
+        <span class="ut-cta-stock">Limited Stock Available</span>
+      {% endif %}
+    {% endunless %}
+  </div>
+
+  {% comment %} ── 4. BUNDLE OPTIONS (only when in stock, not pre-order) ── {% endcomment %}
+  {% if product.available and is_preorder == false %}
+    <div class="ut-cta-opts" id="ctaOpts">
+
+      <label class="ut-cta-opt" onclick="ctaSelOpt(this)" data-qty="1" data-price="{{ base_price }}">
+        <input type="radio" name="cta-bundle" style="display:none;">
+        <span class="ut-cta-radio"></span>
+        <div class="ut-cta-opt-left">
+          <div class="ut-cta-opt-name">1 Set</div>
+          <div class="ut-cta-opt-save">
+            {% if compare > base_price %}
+              Save {{ compare | minus: base_price | times: 100 | divided_by: compare }}%
+            {% else %}
+              Best starter pack
+            {% endif %}
+          </div>
+        </div>
+        <div class="ut-cta-opt-right">
+          <span class="ut-cta-opt-price">{{ base_price | money }}</span>
+          {% if compare > base_price %}
+            <span class="ut-cta-opt-compare">{{ compare | money }}</span>
+          {% endif %}
+        </div>
+      </label>
+
+      <label class="ut-cta-opt selected" onclick="ctaSelOpt(this)" data-qty="2" data-price="{{ bundle2_price }}">
+        <span class="ut-cta-opt-badge gold">Most Popular</span>
+        <input type="radio" name="cta-bundle" checked style="display:none;">
+        <span class="ut-cta-radio"></span>
+        <div class="ut-cta-opt-left">
+          <div class="ut-cta-opt-name">2 Sets</div>
+          <div class="ut-cta-opt-save">Save {{ bundle2_save_pct }}%</div>
+        </div>
+        <div class="ut-cta-opt-right">
+          <span class="ut-cta-opt-price">{{ bundle2_price | money }}</span>
+          <span class="ut-cta-opt-compare">{{ bundle2_orig | money }}</span>
+        </div>
+      </label>
+
+      <label class="ut-cta-opt" onclick="ctaSelOpt(this)" data-qty="3" data-price="{{ bundle3_price }}">
+        <span class="ut-cta-opt-badge green">Best Value</span>
+        <input type="radio" name="cta-bundle" style="display:none;">
+        <span class="ut-cta-radio"></span>
+        <div class="ut-cta-opt-left">
+          <div class="ut-cta-opt-name">3 Sets</div>
+          <div class="ut-cta-opt-save">Save {{ bundle3_save_pct }}%</div>
+        </div>
+        <div class="ut-cta-opt-right">
+          <span class="ut-cta-opt-price">{{ bundle3_price | money }}</span>
+          <span class="ut-cta-opt-compare">{{ bundle3_orig | money }}</span>
+        </div>
+      </label>
+
+    </div>
+
+    {% comment %} ── 5. REFILL ── {% endcomment %}
+    <label class="ut-cta-refill" id="ctaRefill" onclick="ctaToggleRefill(this)">
+      <input type="checkbox" checked>
+      <span class="ut-cta-refill-box">✓</span>
+      <div class="ut-cta-refill-text">
+        <strong>Save More with Automatic Refills</strong>
+        <span>Zero commitment, cancel anytime</span>
+      </div>
+    </label>
+
+    {% comment %} ── 6. SHIPS LINE ── {% endcomment %}
+    <p class="ut-cta-ships">
+      🚚 Order now — ships by
+      <strong>
+        {%- assign ship_date = 'now' | date: '%s' | plus: 604800 -%}
+        {{ ship_date | date: '%B %e' }}
+      </strong>
+    </p>
+
+  {% endif %}
+
+  {% comment %} ── 7. PRIMARY CTA ── {% endcomment %}
+  {% if is_preorder %}
+    <button class="ut-cta-preorder-btn" id="ctaMainBtn" onclick="ctaPreOrder()">
+      Pre-Order Now →
+    </button>
+  {% elsif product.available %}
+    <button class="ut-cta-atc" id="ctaMainBtn" onclick="ctaAddBag()">
+      Add to Bag
+    </button>
+  {% else %}
+    <button class="ut-cta-atc" disabled>Sold Out</button>
+    {% render 'back-in-stock', product: product %}
+  {% endif %}
+
+  {% comment %} ── 8. SECONDARY ROW ── {% endcomment %}
+  {% if product.available %}
+    <div class="ut-cta-row">
+      <button class="ut-cta-buy" onclick="ctaBuyNow()">Buy Now →</button>
+      <button class="ut-cta-wish" id="ctaWishBtn" onclick="ctaToggleWish()" title="Wishlist">♡</button>
+    </div>
+  {% endif %}
+
+  {% comment %} ── 9. TRUST GRID ── {% endcomment %}
+  <div class="ut-cta-trust">
+    <div class="ut-cta-trust-item"><i>🚚</i>Free shipping ₹999+</div>
+    <div class="ut-cta-trust-item"><i>💳</i>COD available</div>
+    <div class="ut-cta-trust-item"><i>↩</i>15-day returns</div>
+    <div class="ut-cta-trust-item"><i>🔒</i>Secure checkout</div>
+    <div class="ut-cta-trust-item"><i>🧪</i>Dermatologist tested</div>
+    <div class="ut-cta-trust-item"><i>🌿</i>Cruelty free</div>
+  </div>
+
+</div><!-- /ut-cta -->
+
+<script>
+(function(){
+  /* ── Shared countdown — one key for the whole page ── */
+  var KEY  = 'ut-cta-end-{{ product.handle | escape }}';
+  var SECS = 20 * 3600; /* 20-hour flash sale */
+  var stored = parseInt(localStorage.getItem(KEY) || '0');
+  var now    = Math.floor(Date.now() / 1000);
+  var end    = (stored && stored > now) ? stored : now + SECS;
+  if (!stored || stored <= now) localStorage.setItem(KEY, end);
+
+  var hEl = document.getElementById('ctaCdH');
+  var mEl = document.getElementById('ctaCdM');
+  var sEl = document.getElementById('ctaCdS');
+
+  function tick() {
+    var rem = Math.max(0, end - Math.floor(Date.now() / 1000));
+    if (hEl) hEl.textContent = String(Math.floor(rem / 3600)).padStart(2, '0');
+    if (mEl) mEl.textContent = String(Math.floor((rem % 3600) / 60)).padStart(2, '0');
+    if (sEl) sEl.textContent = String(rem % 60).padStart(2, '0');
+    if (rem > 0) setTimeout(tick, 1000);
+    else {
+      var wrap = document.querySelector('.ut-cta-cd');
+      if (wrap) wrap.style.display = 'none';
+      localStorage.removeItem(KEY);
+    }
+  }
+  tick();
+})();
+
+/* ── Bundle option select ── */
+var ctaSelectedQty   = 2; /* default: Most Popular */
+var ctaSelectedPrice = {{ bundle2_price }};
+
+function ctaSelOpt(el) {
+  document.querySelectorAll('.ut-cta-opt').forEach(function(o) {
+    o.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+  ctaSelectedQty   = parseInt(el.dataset.qty   || '1');
+  ctaSelectedPrice = parseInt(el.dataset.price || '{{ base_price }}');
+}
+
+/* ── Refill toggle (visual only — no subscription logic yet) ── */
+function ctaToggleRefill(el) {
+  el.classList.toggle('unchecked');
+  var cb = el.querySelector('input');
+  if (cb) cb.checked = !el.classList.contains('unchecked');
+}
+
+/* ── Add to Bag ── */
+function ctaAddBag() {
+  var btn = document.getElementById('ctaMainBtn');
+  var variantId = {{ variant.id }};
+
+  /* If bundle qty > 1 add directly then open cart drawer */
+  if (ctaSelectedQty > 1) {
+    if (btn) { btn.textContent = 'Adding…'; btn.disabled = true; }
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: ctaSelectedQty })
+    }).then(function() {
+      if (btn) {
+        btn.textContent = '✓ Added to Bag';
+        btn.classList.add('added');
+        btn.disabled = false;
+      }
+      if (typeof UT !== 'undefined') { UT.updateCartBadge(); }
+      if (typeof openCartDrawer === 'function') setTimeout(openCartDrawer, 350);
+      setTimeout(function() {
+        if (btn) { btn.textContent = 'Add to Bag'; btn.classList.remove('added'); }
+      }, 2400);
+    }).catch(function() {
+      if (btn) { btn.textContent = 'Add to Bag'; btn.disabled = false; }
+    });
+    return;
+  }
+
+  /* Single qty — use global UT helper */
+  if (typeof UT !== 'undefined') UT.addToCart(variantId, 1);
+  if (btn) {
+    btn.textContent = '✓ Added to Bag';
+    btn.classList.add('added');
+    setTimeout(function() {
+      btn.textContent = 'Add to Bag';
+      btn.classList.remove('added');
+    }, 2400);
+  }
+}
+
+/* ── Buy Now ── */
+function ctaBuyNow() {
+  var variantId = {{ variant.id }};
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: variantId, quantity: ctaSelectedQty })
+  }).then(function() { window.location = '/checkout'; });
+}
+
+/* ── Wishlist ── */
+function ctaToggleWish() {
+  var btn = document.getElementById('ctaWishBtn');
+  if (!btn) return;
+  btn.classList.toggle('active');
+  btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
+  if (typeof UT !== 'undefined') {
+    UT.toast(btn.classList.contains('active') ? 'Added to wishlist' : 'Removed from wishlist', 'info');
+  }
+}
+
+/* ── Pre-order ── */
+function ctaPreOrder() {
+  var btn = document.getElementById('ctaMainBtn');
+  var variantId = {{ variant.id }};
+  if (btn) { btn.textContent = 'Reserving…'; btn.style.opacity = '0.7'; }
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: variantId, quantity: 1,
+      properties: { 'Pre-order': 'Yes' }
+    })
+  }).then(function() {
+    if (btn) {
+      btn.textContent = '✓ Pre-Order Confirmed!';
+      btn.style.background = 'linear-gradient(90deg,rgba(40,74,40,0.9),#1A3A1A)';
+      btn.style.opacity = '1';
+    }
+    if (typeof UT !== 'undefined') {
+      UT.fetchCart();
+      UT.toast('✓ Pre-order placed!', 'success');
+    }
+    if (typeof openCartDrawer === 'function') setTimeout(openCartDrawer, 400);
+    setTimeout(function() {
+      if (btn) {
+        btn.textContent = 'Pre-Order Now →';
+        btn.style.background = '';
+      }
+    }, 3200);
+  }).catch(function() {
+    if (btn) { btn.textContent = 'Pre-Order Now →'; btn.style.opacity = '1'; }
+  });
+}
+</script>
