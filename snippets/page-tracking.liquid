@@ -1,0 +1,228 @@
+{%- comment -%} SEO {%- endcomment -%}
+<title>Track Your Order | Urban Trend</title>
+<meta name="description" content="Track your Urban Trend order. Get real-time updates on your beauty order delivery status.">
+<meta name="robots" content="noindex, follow">
+
+<style>
+.ut-track{background:var(--ut-bg);min-height:100vh;padding:60px 0 80px;}
+.ut-track-inner{max-width:860px;margin:0 auto;padding:0 32px;}
+@media(max-width:600px){.ut-track-inner{padding:0 16px;}}
+.ut-track-hero{text-align:center;margin-bottom:48px;}
+.ut-track-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.42em;color:rgba(201,169,110,0.45);text-transform:uppercase;margin-bottom:12px;display:block;}
+.ut-track-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,40px);font-weight:300;color:var(--ut-text);margin-bottom:10px;}
+.ut-track-sub{font-family:'Jost',sans-serif;font-size:13px;color:var(--ut-text-45);letter-spacing:0.06em;line-height:1.7;}
+/* Search box */
+.ut-track-search{background:var(--ut-bg-2);border:1px solid var(--ut-border);padding:28px;margin-bottom:36px;}
+.ut-track-search-row{display:flex;gap:0;margin-bottom:12px;}
+.ut-track-inp{flex:1;background:rgba(201,169,110,0.04);border:1px solid var(--ut-border);border-right:none;color:var(--ut-text);font-family:'Jost',sans-serif;font-size:14px;padding:13px 16px;outline:none;transition:border-color 0.2s;letter-spacing:0.04em;}
+.ut-track-inp:focus{border-color:var(--ut-gold-45);}
+.ut-track-inp::placeholder{color:rgba(250,246,240,0.2);}
+.ut-track-btn{background:var(--ut-gold);color:var(--ut-bg);border:none;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.38em;text-transform:uppercase;padding:0 24px;cursor:pointer;transition:background 0.2s;white-space:nowrap;}
+.ut-track-btn:hover{background:var(--ut-gold-light);}
+.ut-track-hint{font-family:'Jost',sans-serif;font-size:11px;color:rgba(250,246,240,0.3);letter-spacing:0.08em;}
+/* Timeline */
+.ut-track-result{display:none;}
+.ut-track-result.show{display:block;}
+.ut-track-order-head{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px;padding:20px;background:var(--ut-bg-2);border:1px solid var(--ut-border);}
+.ut-track-order-id{font-family:'Cinzel',serif;font-size:13px;color:var(--ut-gold);letter-spacing:0.1em;}
+.ut-track-order-date{font-family:'Jost',sans-serif;font-size:11px;color:var(--ut-text-45);letter-spacing:0.1em;margin-top:3px;}
+.ut-track-status-pill{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.28em;text-transform:uppercase;padding:6px 14px;}
+.ut-track-status-pill.shipped{background:rgba(201,169,110,0.1);color:var(--ut-gold);border:1px solid rgba(201,169,110,0.25);}
+.ut-track-status-pill.delivered{background:var(--ut-success-bg);color:var(--ut-success);border:1px solid rgba(40,150,40,0.25);}
+.ut-track-status-pill.processing{background:rgba(139,58,82,0.1);color:var(--ut-rose-light);border:1px solid rgba(139,58,82,0.25);}
+/* Progress bar */
+.ut-track-progress{display:flex;align-items:center;margin-bottom:36px;padding:0 10px;}
+.ut-tp-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;position:relative;}
+.ut-tp-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--ut-border);background:var(--ut-bg);display:flex;align-items:center;justify-content:center;font-size:14px;z-index:1;transition:all 0.3s;}
+.ut-tp-step.done .ut-tp-dot{background:var(--ut-success-bg);border-color:var(--ut-success);color:var(--ut-success);}
+.ut-tp-step.active .ut-tp-dot{background:rgba(201,169,110,0.1);border-color:var(--ut-gold);box-shadow:0 0 0 4px rgba(201,169,110,0.1);}
+.ut-tp-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.2em;color:rgba(250,246,240,0.3);text-transform:uppercase;text-align:center;white-space:nowrap;}
+.ut-tp-step.done .ut-tp-label,.ut-tp-step.active .ut-tp-label{color:var(--ut-gold);}
+.ut-tp-line{flex:1;height:2px;background:var(--ut-border);margin:0 -2px;position:relative;top:-14px;z-index:0;}
+.ut-tp-line.done{background:linear-gradient(to right,var(--ut-success),var(--ut-success));}
+/* Timeline events */
+.ut-track-events{display:flex;flex-direction:column;gap:0;}
+.ut-track-event{display:flex;gap:18px;position:relative;}
+.ut-track-event::before{content:'';position:absolute;left:13px;top:28px;width:1px;bottom:-1px;background:var(--ut-border);}
+.ut-track-event:last-child::before{display:none;}
+.ut-te-dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--ut-border);background:var(--ut-bg);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;z-index:1;}
+.ut-track-event.done .ut-te-dot{background:var(--ut-success-bg);border-color:rgba(40,150,40,0.3);}
+.ut-track-event.active .ut-te-dot{background:rgba(201,169,110,0.1);border-color:rgba(201,169,110,0.4);box-shadow:0 0 0 3px rgba(201,169,110,0.08);}
+.ut-te-body{padding:2px 0 24px;}
+.ut-te-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.25em;color:var(--ut-text);text-transform:uppercase;margin-bottom:3px;}
+.ut-track-event:not(.done):not(.active) .ut-te-title{color:var(--ut-text-35);}
+.ut-te-date{font-family:'Jost',sans-serif;font-size:11px;color:var(--ut-text-35);letter-spacing:0.08em;}
+.ut-te-desc{font-family:'Jost',sans-serif;font-size:12px;color:var(--ut-text-45);margin-top:4px;line-height:1.6;letter-spacing:0.04em;}
+/* Item summary */
+.ut-track-items{margin-top:28px;}
+.ut-track-items-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.35em;color:rgba(201,169,110,0.45);text-transform:uppercase;margin-bottom:14px;}
+.ut-track-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--ut-border);}
+.ut-track-item:last-child{border-bottom:none;}
+.ut-track-item-img{width:56px;height:72px;background:var(--ut-bg-4);border:1px solid var(--ut-border);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.ut-track-item-name{font-family:'Cinzel',serif;font-size:12px;color:var(--ut-text);letter-spacing:0.05em;margin-bottom:4px;}
+.ut-track-item-meta{font-family:'Jost',sans-serif;font-size:11px;color:var(--ut-text-45);letter-spacing:0.06em;}
+.ut-track-item-price{font-family:'Cinzel',serif;font-size:13px;color:var(--ut-gold);margin-top:6px;}
+/* No order found */
+.ut-track-notfound{text-align:center;padding:40px 20px;display:none;}
+.ut-track-notfound.show{display:block;}
+</style>
+
+<div class="ut-track">
+  <div class="ut-track-inner">
+    <div class="ut-track-hero">
+      <span class="ut-track-eyebrow">Order Status</span>
+      <h1 class="ut-track-title">Track Your Order</h1>
+      <p class="ut-track-sub">Enter your order number and email to see real-time delivery updates</p>
+    </div>
+
+    <div class="ut-track-search">
+      <div class="ut-track-search-row">
+        <input class="ut-track-inp" type="text" id="trackOrderId" placeholder="Order number (e.g. #UT-1234)" autocomplete="off">
+        <button class="ut-track-btn" onclick="trackOrder()">Track →</button>
+      </div>
+      <div class="ut-track-search-row" style="margin-top:10px;">
+        <input class="ut-track-inp" type="email" id="trackEmail" placeholder="Email address used at checkout" style="border-right:1px solid rgba(201,169,110,0.12);" autocomplete="email">
+      </div>
+      <p class="ut-track-hint" style="margin-top:12px;">💡 Order number is in your confirmation email · Try demo: <a href="#" onclick="demoTrack();return false;" style="color:var(--ut-gold);">#UT-8742</a></p>
+    </div>
+
+    <!-- Not found -->
+    <div class="ut-track-notfound" id="trackNotFound">
+      <p style="font-family:'Cinzel',serif;font-size:16px;color:rgba(201,169,110,0.35);letter-spacing:0.15em;margin-bottom:10px;">Order Not Found</p>
+      <p style="font-family:'Jost',sans-serif;font-size:13px;color:var(--ut-text-45);">Please check your order number and email. <a href="/pages/contact" style="color:var(--ut-gold);">Contact support →</a></p>
+    </div>
+
+    <!-- Result -->
+    <div class="ut-track-result" id="trackResult">
+
+      <!-- Order header -->
+      <div class="ut-track-order-head">
+        <div>
+          <div class="ut-track-order-id" id="trackOrderNum">#UT-8742</div>
+          <div class="ut-track-order-date" id="trackOrderDate">Placed on 15 March 2026</div>
+          <div style="font-family:'Jost',sans-serif;font-size:11px;color:var(--ut-text-45);margin-top:3px;" id="trackCarrier">Carrier: Delhivery · Tracking: <span style="color:var(--ut-gold);" id="trackAwb">—</span></div>
+        </div>
+        <span class="ut-track-status-pill shipped" id="trackStatusPill">Shipped</span>
+      </div>
+
+      <!-- Progress -->
+      <div class="ut-track-progress">
+        <div class="ut-tp-step done"><div class="ut-tp-dot">✓</div><span class="ut-tp-label">Ordered</span></div>
+        <div class="ut-tp-line done"></div>
+        <div class="ut-tp-step done"><div class="ut-tp-dot">✓</div><span class="ut-tp-label">Confirmed</span></div>
+        <div class="ut-tp-line done"></div>
+        <div class="ut-tp-step done"><div class="ut-tp-dot">✓</div><span class="ut-tp-label">Packed</span></div>
+        <div class="ut-tp-line done"></div>
+        <div class="ut-tp-step active"><div class="ut-tp-dot">🚚</div><span class="ut-tp-label">Shipped</span></div>
+        <div class="ut-tp-line"></div>
+        <div class="ut-tp-step"><div class="ut-tp-dot">📦</div><span class="ut-tp-label">Delivered</span></div>
+      </div>
+
+      <!-- Timeline events -->
+      <div class="ut-track-events">
+        <div class="ut-track-event done">
+          <div class="ut-te-dot">✓</div>
+          <div class="ut-te-body">
+            <div class="ut-te-title">Order Placed</div>
+            <div class="ut-te-date">15 Mar 2026 · 11:42 AM</div>
+            <div class="ut-te-desc">Your order was placed successfully. Payment confirmed.</div>
+          </div>
+        </div>
+        <div class="ut-track-event done">
+          <div class="ut-te-dot">✓</div>
+          <div class="ut-te-body">
+            <div class="ut-te-title">Order Confirmed</div>
+            <div class="ut-te-date">15 Mar 2026 · 12:15 PM</div>
+            <div class="ut-te-desc">Our team has confirmed your order and started preparing it.</div>
+          </div>
+        </div>
+        <div class="ut-track-event done">
+          <div class="ut-te-dot">✓</div>
+          <div class="ut-te-body">
+            <div class="ut-te-title">Quality Check & Packed</div>
+            <div class="ut-te-date">16 Mar 2026 · 9:30 AM</div>
+            <div class="ut-te-desc">Your items passed quality inspection and are beautifully packed in our luxury packaging.</div>
+          </div>
+        </div>
+        <div class="ut-track-event active">
+          <div class="ut-te-dot">🚚</div>
+          <div class="ut-te-body">
+            <div class="ut-te-title">Shipped · In Transit</div>
+            <div class="ut-te-date">16 Mar 2026 · 2:00 PM</div>
+            <div class="ut-te-desc">Your order is with Delhivery and is on the way. Expected delivery: <strong style="color:var(--ut-gold);">18–20 March 2026</strong></div>
+          </div>
+        </div>
+        <div class="ut-track-event">
+          <div class="ut-te-dot">📦</div>
+          <div class="ut-te-body">
+            <div class="ut-te-title">Out for Delivery</div>
+            <div class="ut-te-date">Expected 18 Mar 2026</div>
+            <div class="ut-te-desc">Your order will be out for delivery soon.</div>
+          </div>
+        </div>
+        <div class="ut-track-event">
+          <div class="ut-te-dot">🌹</div>
+          <div class="ut-te-body">
+            <div class="ut-te-title">Delivered</div>
+            <div class="ut-te-date">Awaiting</div>
+            <div class="ut-te-desc">Your Urban Trend experience awaits!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div class="ut-track-items">
+        <div class="ut-track-items-title">Items in this Order</div>
+        <div class="ut-track-item">
+          <div class="ut-track-item-img">🌹</div>
+          <div>
+            <div class="ut-track-item-name">Street Glow Serum No. 7</div>
+            <div class="ut-track-item-meta">30ml · Qty: 1</div>
+            <div class="ut-track-item-price">₹3,499</div>
+          </div>
+        </div>
+        <div class="ut-track-item">
+          <div class="ut-track-item-img">✨</div>
+          <div>
+            <div class="ut-track-item-name">Kashmir Saffron Mask</div>
+            <div class="ut-track-item-meta">75ml · Qty: 1</div>
+            <div class="ut-track-item-price">₹2,799</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;padding:16px;background:rgba(201,169,110,0.04);border:1px solid var(--ut-border);display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-family:'Jost',sans-serif;font-size:12px;color:var(--ut-text-45);">Need help with this order?</span>
+        <a href="https://wa.me/919876543210" target="_blank" style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:var(--ut-bg);background:#25D366;padding:9px 18px;">WhatsApp Us</a>
+        <a href="/pages/contact" style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:var(--ut-gold);border:1px solid rgba(201,169,110,0.25);padding:9px 18px;">Contact Support</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function trackOrder(){
+  var id=document.getElementById('trackOrderId').value.trim();
+  var email=document.getElementById('trackEmail').value.trim();
+  if(!id){document.getElementById('trackOrderId').style.borderColor='rgba(139,58,82,0.5)';return;}
+  document.getElementById('trackResult').classList.remove('show');
+  document.getElementById('trackNotFound').classList.remove('show');
+  document.querySelector('.ut-track-btn').textContent='Tracking…';
+  setTimeout(function(){
+    document.querySelector('.ut-track-btn').textContent='Track →';
+    // Simulate: show demo result for any order
+    document.getElementById('trackOrderNum').textContent=id.startsWith('#')?id:'#'+id;
+    document.getElementById('trackResult').classList.add('show');
+    document.getElementById('trackResult').scrollIntoView({behavior:'smooth',block:'start'});
+  },900);
+}
+function demoTrack(){
+  document.getElementById('trackOrderId').value='#UT-8742';
+  document.getElementById('trackEmail').value='customer@example.com';
+  trackOrder();
+}
+document.getElementById('trackOrderId').addEventListener('keydown',function(e){if(e.key==='Enter')trackOrder();});
+</script>
+
+{% schema %}{"name":"Order Tracking","tag":"section","settings":[]}{% endschema %}
