@@ -1,0 +1,84 @@
+{% comment %}
+  Urban Trend — COD Nudge v2
+  - Shows ₹75 COD surcharge warning
+  - Shows minimum ₹999 warning if cart below threshold
+  - Nudges prepaid with discount
+{% endcomment %}
+
+{% assign cart_total = cart.total_price %}
+{% assign cod_min = 99900 %}
+{% assign cod_fee = 75 %}
+{% assign prepaid_save = 75 %}
+
+<style>
+.ut-cod-wrap{margin:16px 0;display:flex;flex-direction:column;gap:10px;}
+
+/* Minimum order warning */
+.ut-cod-min-warn{background:rgba(139,58,82,0.08);border:1px solid rgba(139,58,82,0.3);padding:14px 16px;display:flex;align-items:flex-start;gap:10px;}
+.ut-cod-min-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.ut-cod-min-text{font-family:'Jost',sans-serif;font-size:12px;color:rgba(250,246,240,0.65);line-height:1.6;}
+.ut-cod-min-text strong{color:#C47A8A;font-weight:600;}
+.ut-cod-min-bar{height:3px;background:rgba(139,58,82,0.15);margin-top:10px;border-radius:2px;overflow:hidden;}
+.ut-cod-min-fill{height:100%;background:linear-gradient(to right,rgba(139,58,82,0.6),var(--ut-rose));border-radius:2px;transition:width 0.6s ease;}
+
+/* COD fee notice */
+.ut-cod-fee{background:rgba(201,169,110,0.05);border:1px solid rgba(201,169,110,0.2);padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.ut-cod-fee-icon{font-size:15px;flex-shrink:0;}
+.ut-cod-fee-text{font-family:'Jost',sans-serif;font-size:12px;color:rgba(250,246,240,0.6);line-height:1.5;flex:1;}
+.ut-cod-fee-text strong{color:rgba(250,246,240,0.85);}
+
+/* Prepaid nudge */
+.ut-cod-nudge{background:linear-gradient(135deg,rgba(201,169,110,0.08),rgba(201,169,110,0.04));border:1px solid rgba(201,169,110,0.25);padding:18px 20px;position:relative;overflow:hidden;}
+.ut-cod-nudge::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--ut-gold);}
+.ut-cod-nudge-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.2em;color:var(--ut-gold);text-transform:uppercase;margin-bottom:6px;}
+.ut-cod-nudge-desc{font-family:'Jost',sans-serif;font-size:12px;color:rgba(250,246,240,0.6);line-height:1.6;margin-bottom:12px;}
+.ut-cod-nudge-desc strong{color:rgba(250,246,240,0.85);}
+.ut-cod-nudge-btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.ut-cod-prepaid-btn{background:var(--ut-gold);color:#0A0908;border:none;padding:11px 18px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;text-decoration:none;display:inline-block;white-space:nowrap;}
+.ut-cod-prepaid-btn:hover{background:#E2C98A;}
+.ut-cod-skip{font-family:'Jost',sans-serif;font-size:11px;color:rgba(250,246,240,0.28);background:none;border:none;cursor:pointer;padding:8px 4px;text-decoration:underline;white-space:nowrap;}
+.ut-cod-nudge-badge{position:absolute;top:10px;right:12px;background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.25);font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.15em;color:var(--ut-gold);padding:3px 8px;text-transform:uppercase;}
+</style>
+
+<div class="ut-cod-wrap" id="utCodWrap">
+
+  {% if cart_total < cod_min %}
+  {%- comment -%} Below minimum — show warning {%- endcomment -%}
+  <div class="ut-cod-min-warn" id="utCodMinWarn">
+    <span class="ut-cod-min-icon">⚠️</span>
+    <div style="flex:1;">
+      <div class="ut-cod-min-text">
+        <strong>COD not available</strong> — minimum order ₹999 required for Cash on Delivery.<br>
+        Add <strong>₹{{ cod_min | minus: cart_total | divided_by: 100 }} more</strong> to unlock COD.
+      </div>
+      <div class="ut-cod-min-bar">
+        <div class="ut-cod-min-fill" style="width:{{ cart_total | times: 100 | divided_by: cod_min }}%;"></div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  {%- comment -%} Above minimum — show COD fee {%- endcomment -%}
+  <div class="ut-cod-fee" id="utCodFee">
+    <span class="ut-cod-fee-icon">🚚</span>
+    <div class="ut-cod-fee-text">
+      COD available · <strong>₹75 handling fee</strong> will be added at checkout.
+      Pay online to avoid this charge.
+    </div>
+  </div>
+  {% endif %}
+
+  {%- comment -%} Prepaid nudge — always show {%- endcomment -%}
+  <div class="ut-cod-nudge" id="utCodNudge">
+    <div class="ut-cod-nudge-badge">Save ₹{{ prepaid_save }}</div>
+    <div class="ut-cod-nudge-title">💳 Pay Online & Save ₹{{ prepaid_save }}</div>
+    <div class="ut-cod-nudge-desc">
+      Skip the ₹75 COD fee + get <strong>priority dispatch within 24 hours.</strong><br>
+      <span style="font-size:11px;color:rgba(250,246,240,0.35);">UPI · Cards · Net Banking · EMI available</span>
+    </div>
+    <div class="ut-cod-nudge-btns">
+      <a href="/checkout" class="ut-cod-prepaid-btn">Pay Online — No Extra Charge →</a>
+      <button class="ut-cod-skip" onclick="document.getElementById('utCodNudge').style.display='none'">Continue with COD</button>
+    </div>
+  </div>
+
+</div>
