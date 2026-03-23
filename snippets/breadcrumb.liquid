@@ -1,0 +1,99 @@
+<style>
+.ut-breadcrumb-wrap {
+  background: var(--ut-bg);
+  border-bottom: 1px solid rgba(201,169,110,0.08);
+  padding: 12px 0;
+}
+.ut-breadcrumb {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.4);
+}
+@media(max-width: 768px) {
+  .ut-breadcrumb { padding: 0 20px; font-size: 8px; }
+}
+.ut-breadcrumb a {
+  color: rgba(201,169,110,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.ut-breadcrumb a:hover { color: var(--ut-gold); }
+.ut-breadcrumb-sep {
+  color: rgba(201,169,110,0.2);
+  font-size: 8px;
+  margin: 0 2px;
+}
+.ut-breadcrumb-current {
+  color: rgba(201,169,110,0.75);
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
+
+<div class="ut-breadcrumb-wrap">
+  <nav class="ut-breadcrumb" aria-label="Breadcrumb">
+
+    {%- comment %} Always show Home {%- endcomment %}
+    <a href="{{ routes.root_url }}">Home</a>
+
+    {%- if template.name == 'product' -%}
+      <span class="ut-breadcrumb-sep">›</span>
+      {%- if product.collections.first -%}
+        <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+        <span class="ut-breadcrumb-sep">›</span>
+      {%- endif -%}
+      <span class="ut-breadcrumb-current" aria-current="page">{{ product.title }}</span>
+
+    {%- elsif template.name == 'collection' -%}
+      <span class="ut-breadcrumb-sep">›</span>
+      {%- if current_tags -%}
+        <a href="{{ collection.url }}">{{ collection.title }}</a>
+        <span class="ut-breadcrumb-sep">›</span>
+        <span class="ut-breadcrumb-current" aria-current="page">{{ current_tags | join: ' + ' }}</span>
+      {%- else -%}
+        <span class="ut-breadcrumb-current" aria-current="page">{{ collection.title }}</span>
+      {%- endif -%}
+
+    {%- elsif template.name == 'page' -%}
+      <span class="ut-breadcrumb-sep">›</span>
+      <span class="ut-breadcrumb-current" aria-current="page">{{ page.title }}</span>
+
+    {%- elsif template.name == 'blog' -%}
+      <span class="ut-breadcrumb-sep">›</span>
+      <span class="ut-breadcrumb-current" aria-current="page">{{ blog.title }}</span>
+
+    {%- elsif template.name == 'article' -%}
+      <span class="ut-breadcrumb-sep">›</span>
+      <a href="{{ blog.url }}">{{ blog.title }}</a>
+      <span class="ut-breadcrumb-sep">›</span>
+      <span class="ut-breadcrumb-current" aria-current="page">{{ article.title }}</span>
+
+    {%- elsif template.name == 'cart' -%}
+      <span class="ut-breadcrumb-sep">›</span>
+      <span class="ut-breadcrumb-current" aria-current="page">Your Bag</span>
+
+    {%- elsif template.name == 'search' -%}
+      <span class="ut-breadcrumb-sep">›</span>
+      <span class="ut-breadcrumb-current" aria-current="page">
+        Search{% if search.performed %}: {{ search.terms }}{% endif %}
+      </span>
+
+    {%- elsif template.name == '404' -%}
+      <span class="ut-breadcrumb-sep">›</span>
+      <span class="ut-breadcrumb-current" aria-current="page">Page Not Found</span>
+
+    {%- endif -%}
+
+  </nav>
+</div>
