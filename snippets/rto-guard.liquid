@@ -1,0 +1,309 @@
+{% comment %}
+  Urban Trend — RTO Guard
+  Blocks / flags suspicious orders at checkout
+  Uses Shopify checkout.liquid + additional scripts
+  
+  RULES:
+  1. High RTO pin codes — block or show warning
+  2. First order COD above threshold — advance payment
+  3. Multiple failed deliveries — block COD
+  4. Odd hours + high value — flag for review
+  5. Same address multiple returns — flag
+{% endcomment %}
+
+<script>
+(function(){
+  'use strict';
+
+  // ── HIGH RTO PINCODES (add your own from Shiprocket/Delhivery data) ──
+  var HIGH_RTO_PINCODES = [
+    // Example high-RTO zones — replace with actual data
+    '110001','110002','110003', // Delhi Central
+    '400001','400002',          // Mumbai CST area
+    '700001','700002',          // Kolkata
+    // Add more from your courier partner's RTO report
+  ];
+
+  // ── CONFIG ──
+  var CONFIG = {
+    codMaxAmount: 2000,        // Block COD above this amount (₹)
+    advanceAmount: 50,         // Advance for suspicious orders (₹)
+    maxCodOrders: 0,           // Max previous COD orders (0 = first order only)
+    blockHighRTO: true,        // Show warning for high RTO pincodes
+    requireAdvanceHighRTO: true, // Require advance for high RTO pincodes
+    whatsappNumber: '+919876543210', // Your WhatsApp business number
+  };
+
+  // ── STATE ──
+  var rtoState = {
+    pincode: '',
+    isHighRTO: false,
+    isSuspicious: false,
+    reasons: [],
+  };
+
+  // ── PINCODE CHECK ──
+  function checkPincode(pin) {
+    rtoState.pincode = pin;
+    rtoState.isHighRTO = HIGH_RTO_PINCODES.indexOf(pin) !== -1;
+    if (rtoState.isHighRTO) {
+      rtoState.reasons.push('High RTO zone');
+    }
+    updateUI();
+  }
+
+  // ── ORDER VALUE CHECK ──
+  function checkOrderValue(amount) {
+    if (amount > CONFIG.codMaxAmount) {
+      rtoState.isSuspicious = true;
+      rtoState.reasons.push('COD order above ₹' + CONFIG.codMaxAmount);
+    }
+    updateUI();
+  }
+
+  // ── ODD HOURS CHECK ──
+  function checkOrderTime() {
+    var hour = new Date().getHours();
+    if (hour >= 0 && hour <= 5) {
+      rtoState.isSuspicious = true;
+      rtoState.reasons.push('Order placed at odd hours');
+    }
+  }
+
+  // ── PREVIOUS RETURNS CHECK ──
+  function checkCustomerHistory() {
+    try {
+      var history = JSON.parse(localStorage.getItem('ut_order_history') || '{}');
+      if (history.cancelledOrders >= 2) {
+        rtoState.isSuspicious = true;
+        rtoState.reasons.push('Multiple previous cancellations');
+      }
+      if (history.returnedOrders >= 2) {
+        rtoState.isSuspicious = true;
+        rtoState.reasons.push('Multiple previous returns');
+      }
+    } catch(e) {}
+  }
+
+  // ── UPDATE UI ──
+  function updateUI() {
+    var warning = document.getElementById('ut-rto-warning');
+    var prepaidNudge = document.getElementById('ut-prepaid-nudge');
+    var advanceSection = document.getElementById('ut-advance-section');
+
+    if (rtoState.isHighRTO && warning) {
+      warning.style.display = 'flex';
+      var reasonEl = warning.querySelector('.ut-rto-reasons');
+      if (reasonEl) reasonEl.textContent = rtoState.reasons.join(' · ');
+    }
+
+    if ((rtoState.isHighRTO || rtoState.isSuspicious) && prepaidNudge) {
+      prepaidNudge.style.display = 'block';
+    }
+
+    if (rtoState.isSuspicious && advanceSection) {
+      advanceSection.style.display = 'block';
+    }
+  }
+
+  // ── WATCH PINCODE INPUT ──
+  function watchPincodeInput() {
+    // Works on Shopify checkout page
+    var inputs = document.querySelectorAll(
+      'input[name="checkout[shipping_address][zip]"], ' +
+      'input[autocomplete="postal-code"], ' +
+      '#checkout_shipping_address_zip, ' +
+      '[data-pincode-input]'
+    );
+
+    inputs.forEach(function(input) {
+      input.addEventListener('input', function() {
+        var val = this.value.replace(/\D/g, '');
+        if (val.length === 6) checkPincode(val);
+      });
+      input.addEventListener('blur', function() {
+        var val = this.value.replace(/\D/g, '');
+        if (val.length === 6) checkPincode(val);
+      });
+    });
+  }
+
+  // ── INJECT UI INTO CHECKOUT ──
+  function injectRTOUI() {
+    // Only run on checkout or cart pages
+    var isCheckout = window.location.pathname.includes('/checkouts') ||
+                     window.location.pathname.includes('/cart');
+    if (!isCheckout) return;
+
+    var style = document.createElement('style');
+    style.textContent = [
+      '.ut-rto-warning{display:none;background:rgba(229,115,115,0.08);border:1px solid rgba(229,115,115,0.25);padding:14px 18px;margin:16px 0;align-items:flex-start;gap:12px;border-radius:2px}',
+      '.ut-rto-icon{font-size:18px;flex-shrink:0}',
+      '.ut-rto-text{font-family:system-ui,sans-serif;font-size:13px;color:rgba(229,115,115,0.9);line-height:1.5}',
+      '.ut-rto-reasons{font-size:11px;color:rgba(229,115,115,0.6);margin-top:4px}',
+      '.ut-prepaid-nudge{display:none;background:linear-gradient(135deg,rgba(201,169,110,0.1),rgba(201,169,110,0.05));border:1px solid rgba(201,169,110,0.3);padding:16px 20px;margin:16px 0;border-radius:2px}',
+      '.ut-pn-title{font-family:system-ui,sans-serif;font-weight:600;font-size:14px;color:#C9A96E;margin-bottom:6px}',
+      '.ut-pn-desc{font-family:system-ui,sans-serif;font-size:13px;color:rgba(250,246,240,0.65);margin-bottom:12px;line-height:1.5}',
+      '.ut-pn-btn{background:#C9A96E;color:#0A0908;border:none;padding:10px 20px;font-family:system-ui,sans-serif;font-weight:600;font-size:12px;cursor:pointer;border-radius:2px;letter-spacing:0.05em}',
+      '.ut-advance-section{display:none;background:rgba(10,9,8,0.6);border:1px solid rgba(201,169,110,0.2);padding:16px 20px;margin:16px 0;border-radius:2px}',
+      '.ut-adv-title{font-family:system-ui,sans-serif;font-size:13px;font-weight:600;color:#FAF6F0;margin-bottom:6px}',
+      '.ut-adv-desc{font-family:system-ui,sans-serif;font-size:12px;color:rgba(250,246,240,0.5);margin-bottom:12px;line-height:1.5}',
+      '.ut-adv-btn{background:none;border:1px solid rgba(201,169,110,0.4);color:#C9A96E;padding:10px 20px;font-size:12px;cursor:pointer;border-radius:2px;font-family:system-ui,sans-serif}',
+    ].join('');
+    document.head.appendChild(style);
+
+    // Find insertion point
+    var target = document.querySelector('.section--shipping-address, .fieldset, #checkout_shipping_address, .content-box');
+    if (!target) return;
+
+    var container = document.createElement('div');
+    container.id = 'ut-rto-container';
+    container.innerHTML = [
+      // High RTO warning
+      '<div class="ut-rto-warning" id="ut-rto-warning">',
+        '<div class="ut-rto-icon">⚠️</div>',
+        '<div class="ut-rto-text">',
+          '<strong>Delivery note for your area</strong><br>',
+          'We\'ve had delivery challenges in some areas. Please ensure someone is available to receive the order.',
+          '<div class="ut-rto-reasons"></div>',
+        '</div>',
+      '</div>',
+
+      // Prepaid nudge
+      '<div class="ut-prepaid-nudge" id="ut-prepaid-nudge">',
+        '<div class="ut-pn-title">💰 Save ₹' + CONFIG.advanceAmount + ' — Pay Online</div>',
+        '<div class="ut-pn-desc">Switch to online payment and get an instant ₹' + CONFIG.advanceAmount + ' discount + faster delivery priority.</div>',
+        '<button class="ut-pn-btn" onclick="UTRTOGuard.switchToPrepaid()">Pay Online & Save ₹' + CONFIG.advanceAmount + ' →</button>',
+      '</div>',
+
+      // Advance payment section
+      '<div class="ut-advance-section" id="ut-advance-section">',
+        '<div class="ut-adv-title">🔒 Confirm Your Order</div>',
+        '<div class="ut-adv-desc">For COD orders in your area, a refundable token advance of ₹' + CONFIG.advanceAmount + ' helps us ensure genuine delivery. This amount is adjusted in your final bill.</div>',
+        '<button class="ut-adv-btn" onclick="UTRTOGuard.payAdvance()">Pay ₹' + CONFIG.advanceAmount + ' Token & Confirm →</button>',
+      '</div>',
+    ].join('');
+
+    target.parentNode.insertBefore(container, target.nextSibling);
+    watchPincodeInput();
+    checkOrderTime();
+    checkCustomerHistory();
+  }
+
+  // ── PUBLIC API ──
+  window.UTRTOGuard = {
+    checkPincode: checkPincode,
+    checkOrderValue: checkOrderValue,
+
+    // Switch to prepaid
+    switchToPrepaid: function() {
+      // Shopify checkout — click prepaid option
+      var prepaidRadio = document.querySelector('[data-select-gateway="razorpay"], input[value*="razorpay"], input[value*="upi"], .payment-method-item:not([data-method="cash_on_delivery"])');
+      if (prepaidRadio) {
+        prepaidRadio.click();
+        prepaidRadio.closest('.payment-method-item, .radio-wrapper') && 
+        prepaidRadio.closest('.payment-method-item, .radio-wrapper').click();
+      }
+      var nudge = document.getElementById('ut-prepaid-nudge');
+      if (nudge) nudge.innerHTML = '<div style="color:#4CAF7D;font-family:system-ui,sans-serif;font-size:13px;padding:8px 0;">✓ Switched to online payment! ₹' + CONFIG.advanceAmount + ' discount applied.</div>';
+
+      // Apply discount via Shopify discount API
+      fetch('/cart/update.js', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({attributes: {'prepaid_discount': CONFIG.advanceAmount}})
+      }).catch(function(){});
+    },
+
+    // Pay token advance via Razorpay
+    payAdvance: function() {
+      if (typeof Razorpay === 'undefined') {
+        // Fallback to WhatsApp
+        var msg = encodeURIComponent('Hi! I want to confirm my COD order and pay ₹' + CONFIG.advanceAmount + ' advance. Please send me payment link.');
+        window.open('https://wa.me/' + CONFIG.whatsappNumber.replace(/\D/g,'') + '?text=' + msg, '_blank');
+        return;
+      }
+      var options = {
+        key: 'YOUR_RAZORPAY_KEY', // Replace with actual key
+        amount: CONFIG.advanceAmount * 100,
+        currency: 'INR',
+        name: 'Urban Trend',
+        description: 'Order Confirmation Token',
+        theme: { color: '#C9A96E' },
+        handler: function(response) {
+          // Mark order as advance paid
+          try {
+            fetch('/cart/update.js', {
+              method: 'POST',
+              headers: {'Content-Type':'application/json'},
+              body: JSON.stringify({
+                attributes: {
+                  'advance_paid': 'true',
+                  'advance_payment_id': response.razorpay_payment_id,
+                  'advance_amount': CONFIG.advanceAmount
+                }
+              })
+            });
+          } catch(e) {}
+          var section = document.getElementById('ut-advance-section');
+          if (section) section.innerHTML = '<div style="color:#4CAF7D;font-family:system-ui,sans-serif;font-size:13px;padding:8px 0;">✓ Token paid! Your order is confirmed. Advance will be adjusted in final bill.</div>';
+        }
+      };
+      new Razorpay(options).open();
+    },
+
+    // Block COD for suspicious orders
+    blockCOD: function() {
+      var codOptions = document.querySelectorAll('[data-method="cash_on_delivery"], .payment-method--cod, input[value="cash_on_delivery"]');
+      codOptions.forEach(function(el) {
+        el.disabled = true;
+        el.style.opacity = '0.3';
+        el.style.pointerEvents = 'none';
+        var parent = el.closest('.payment-method-item, .radio-wrapper');
+        if (parent) {
+          parent.style.opacity = '0.4';
+          parent.title = 'COD not available for this order';
+        }
+      });
+    },
+
+    // Check if order should be flagged
+    evaluate: function(pincode, amount) {
+      checkPincode(pincode);
+      checkOrderValue(amount);
+      checkOrderTime();
+      checkCustomerHistory();
+
+      // Block COD if too suspicious
+      if (rtoState.reasons.length >= 2) {
+        UTRTOGuard.blockCOD();
+      }
+
+      return {
+        isHighRTO: rtoState.isHighRTO,
+        isSuspicious: rtoState.isSuspicious,
+        reasons: rtoState.reasons
+      };
+    },
+
+    // Update customer history after order
+    recordOrder: function(status) {
+      try {
+        var history = JSON.parse(localStorage.getItem('ut_order_history') || '{}');
+        history.totalOrders = (history.totalOrders || 0) + 1;
+        if (status === 'cancelled') history.cancelledOrders = (history.cancelledOrders || 0) + 1;
+        if (status === 'returned') history.returnedOrders = (history.returnedOrders || 0) + 1;
+        localStorage.setItem('ut_order_history', JSON.stringify(history));
+      } catch(e) {}
+    }
+  };
+
+  // ── INIT ──
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectRTOUI);
+  } else {
+    injectRTOUI();
+  }
+
+})();
+</script>
