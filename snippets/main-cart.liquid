@@ -1,0 +1,197 @@
+{%- comment -%} SEO {%- endcomment -%}
+<title>Shopping Bag | Urban Trend</title>
+<meta name="description" content="Your Urban Trend shopping bag. Free shipping above ₹999. Secure checkout with UPI, cards & COD.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Shopping Bag | Urban Trend">
+<meta property="og:description" content="Your Urban Trend shopping bag.">
+<link rel="canonical" href="{{ canonical_url }}">
+
+<style>
+.ut-cart { background:var(--ut-bg); min-height:100vh; padding:48px 0 80px; }
+.ut-cart-inner { max-width:1100px; margin:0 auto; padding:0 32px; display:grid; grid-template-columns:1fr 380px; gap:48px; align-items:start; }
+@media(max-width:900px){ .ut-cart-inner{ grid-template-columns:1fr; } }
+@media(max-width:600px){ .ut-cart-inner{ padding:0 20px; } }
+.ut-cart-title { font-family:'Cinzel',serif; font-size:clamp(22px,3vw,32px); color:var(--ut-text); letter-spacing:0.08em; font-weight:400; margin:0 0 32px; }
+.ut-cart-empty { text-align:center; padding:80px 20px; font-family:'Cinzel',serif; color:rgba(201,169,110,0.4); letter-spacing:0.25em; font-size:12px; text-transform:uppercase; }
+.ut-cart-empty a { display:inline-block; margin-top:24px; border:1px solid rgba(201,169,110,0.35); color:var(--ut-gold); padding:12px 32px; font-size:9px; letter-spacing:0.35em; text-decoration:none; transition:all 0.2s; }
+.ut-cart-empty a:hover { background:rgba(201,169,110,0.08); }
+
+/* Cart items */
+.ut-cart-items { display:flex; flex-direction:column; gap:0; }
+.ut-cart-item { display:grid; grid-template-columns:80px 1fr auto; gap:20px; align-items:center; padding:20px 0; border-bottom:1px solid rgba(201,169,110,0.08); }
+.ut-cart-item-img { width:80px; height:100px; background:linear-gradient(145deg,var(--ut-bg-4),var(--ut-bg)); border:1px solid rgba(201,169,110,0.1); overflow:hidden; flex-shrink:0; }
+.ut-cart-item-img img { width:100%; height:100%; object-fit:cover; }
+.ut-cart-item-img .ut-no-img { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:8px; color:var(--ut-gold); letter-spacing:0.15em; text-align:center; padding:8px; }
+.ut-cart-item-info { flex:1; }
+.ut-cart-item-name { font-family:'Cinzel',serif; font-size:13px; color:var(--ut-text); letter-spacing:0.05em; margin:0 0 4px; }
+.ut-cart-item-variant { font-family:'Jost',sans-serif; font-size:11px; color:rgba(250,246,240,0.35); letter-spacing:0.1em; margin-bottom:10px; }
+.ut-cart-item-price { font-family:'Cinzel',serif; font-size:13px; color:var(--ut-gold); }
+.ut-cart-qty { display:flex; align-items:center; border:1px solid rgba(201,169,110,0.2); margin-top:10px; width:fit-content; }
+.ut-cart-qty button { background:none; border:none; color:var(--ut-gold); font-size:16px; width:32px; height:32px; cursor:pointer; }
+.ut-cart-qty span { font-family:'Cinzel',serif; font-size:12px; color:var(--ut-text); width:32px; text-align:center; }
+.ut-cart-item-remove { font-family:'Jost',sans-serif; font-size:10px; color:rgba(250,246,240,0.25); letter-spacing:0.15em; cursor:pointer; background:none; border:none; text-transform:uppercase; padding:4px; transition:color 0.2s; }
+.ut-cart-item-remove:hover { color:rgba(139,58,82,0.8); }
+.ut-cart-item-total { font-family:'Cinzel',serif; font-size:15px; color:var(--ut-gold); text-align:right; white-space:nowrap; }
+
+/* Order summary */
+.ut-cart-summary { background:var(--ut-bg-2); border:1px solid rgba(201,169,110,0.1); padding:28px; position:sticky; top:20px; }
+.ut-summary-title { font-family:'Cinzel',serif; font-size:11px; letter-spacing:0.35em; color:rgba(201,169,110,0.6); text-transform:uppercase; margin:0 0 24px; padding-bottom:16px; border-bottom:1px solid rgba(201,169,110,0.08); }
+.ut-summary-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-family:'Jost',sans-serif; font-size:13px; color:rgba(250,246,240,0.6); }
+.ut-summary-row.total { font-family:'Cinzel',serif; font-size:16px; color:var(--ut-text); border-top:1px solid rgba(201,169,110,0.1); padding-top:16px; margin-top:8px; }
+.ut-summary-row .val { color:var(--ut-gold); }
+.ut-promo-row { margin:16px 0; display:flex; gap:8px; }
+.ut-promo-input { flex:1; background:none; border:1px solid rgba(201,169,110,0.15); color:var(--ut-text); font-family:'Jost',sans-serif; font-size:12px; padding:10px 14px; letter-spacing:0.08em; outline:none; }
+.ut-promo-input::placeholder { color:rgba(250,246,240,0.25); }
+.ut-promo-btn { background:none; border:1px solid rgba(201,169,110,0.3); color:var(--ut-gold); font-family:'Cinzel',serif; font-size:8px; letter-spacing:0.3em; padding:10px 16px; cursor:pointer; text-transform:uppercase; white-space:nowrap; transition:all 0.2s; }
+.ut-promo-btn:hover { background:rgba(201,169,110,0.08); }
+.ut-checkout-btn { width:100%; background:var(--ut-gold); color:var(--ut-bg); border:none; font-family:'Cinzel',serif; font-size:10px; letter-spacing:0.4em; text-transform:uppercase; padding:18px; cursor:pointer; margin-top:20px; transition:all 0.3s; }
+.ut-checkout-btn:hover { background:var(--ut-gold-light); }
+.ut-cart-trust { display:flex; flex-direction:column; gap:8px; margin-top:20px; padding-top:20px; border-top:1px solid rgba(201,169,110,0.08); }
+.ut-cart-trust-item { display:flex; align-items:center; gap:8px; font-family:'Jost',sans-serif; font-size:10px; color:rgba(250,246,240,0.4); }
+.ut-cart-trust-item span { color:var(--ut-gold); font-size:12px; }
+.ut-continue-link { display:block; text-align:center; margin-top:14px; font-family:'Jost',sans-serif; font-size:11px; color:rgba(201,169,110,0.45); text-decoration:none; letter-spacing:0.15em; }
+.ut-continue-link:hover { color:var(--ut-gold); }
+</style>
+
+<div class="ut-cart">
+  <div class="ut-cart-inner">
+    <div>
+      <h1 class="ut-cart-title">Your Bag
+        <span style="font-family:'Jost',sans-serif;font-size:14px;color:rgba(201,169,110,0.4);font-weight:300;margin-left:12px;">
+          ({{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %})
+        </span>
+      </h1>
+
+      {% if cart.item_count == 0 %}
+        <div class="ut-cart-empty">
+          <p>Your bag is empty</p>
+          <a href="/collections/all">Continue Shopping →</a>
+        </div>
+      {% else %}
+        <form action="/cart" method="post" id="cartForm">
+          <div class="ut-cart-items">
+            {% for item in cart.items %}
+              <div class="ut-cart-item">
+                <a href="{{ item.url }}">
+                  <div class="ut-cart-item-img">
+                    {% if item.image %}
+                      <img src="{{ item.image | img_url: '200x' }}" alt="{{ item.image.alt | escape }}">
+                    {% else %}
+                      <div class="ut-no-img">{{ item.product.title | truncate: 20 }}</div>
+                    {% endif %}
+                  </div>
+                </a>
+                <div class="ut-cart-item-info">
+                  <p class="ut-cart-item-name">{{ item.product.title }}</p>
+                  {% unless item.variant.title == 'Default Title' %}
+                    <p class="ut-cart-item-variant">{{ item.variant.title }}</p>
+                  {% endunless %}
+                  <p class="ut-cart-item-price">{{ item.price | money }}
+                    {% if item.variant.compare_at_price > item.price %}
+                      <span style="font-family:'Jost',sans-serif;font-size:10px;color:rgba(250,246,240,0.25);text-decoration:line-through;margin-left:5px;">{{ item.variant.compare_at_price | money }}</span>
+                      {% assign cart_disc = item.variant.compare_at_price | minus: item.price | times: 100 | divided_by: item.variant.compare_at_price %}
+                      <span style="font-family:'Jost',sans-serif;font-size:10px;color:var(--ut-success);margin-left:4px;">{{ cart_disc }}% off</span>
+                    {% endif %}
+                  </p>
+                  <div class="ut-cart-qty">
+                    <button type="button" onclick="updateQty('{{ item.key }}', {{ item.quantity | minus: 1 }})">−</button>
+                    <span>{{ item.quantity }}</span>
+                    <button type="button" onclick="updateQty('{{ item.key }}', {{ item.quantity | plus: 1 }})">+</button>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;">
+                  <span class="ut-cart-item-total">{{ item.line_price | money }}</span>
+                  <button type="button" class="ut-cart-item-remove" onclick="removeItem('{{ item.key }}')">Remove</button>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </form>
+
+        {% assign free_shipping_threshold = 99900 %}
+        {% assign remaining = free_shipping_threshold | minus: cart.total_price %}
+        {% if remaining > 0 %}
+          <div style="margin-top:24px;padding:14px 16px;border:1px solid rgba(201,169,110,0.12);background:rgba(201,169,110,0.03);">
+            <p style="font-family:'Jost',sans-serif;font-size:12px;color:rgba(250,246,240,0.55);letter-spacing:0.08em;">
+              Add <strong style="color:var(--ut-gold);">{{ remaining | money }}</strong> more for free shipping
+            </p>
+            <div style="height:3px;background:rgba(201,169,110,0.1);margin-top:10px;border-radius:2px;">
+              <div style="height:100%;background:var(--ut-gold);border-radius:2px;width:{{ cart.total_price | times: 100 | divided_by: free_shipping_threshold }}%;transition:width 0.5s;"></div>
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <!-- Order Summary -->
+    {% if cart.item_count > 0 %}
+    <div class="ut-cart-summary">
+      <p class="ut-summary-title">Order Summary</p>
+      <div class="ut-summary-row">
+        <span>Subtotal</span>
+        <span class="val">{{ cart.total_price | money }}</span>
+      </div>
+      <div class="ut-summary-row">
+        <span>Shipping</span>
+        <span class="val">{% if cart.total_price >= 99900 %}Free{% else %}Calculated at checkout{% endif %}</span>
+      </div>
+      <div class="ut-summary-row">
+        <span>GST (Incl.)</span>
+        <span class="val">Included</span>
+      </div>
+      <div class="ut-promo-row">
+        <input class="ut-promo-input" type="text" placeholder="Promo code" id="promoInput">
+        <button class="ut-promo-btn" onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="ut-summary-row total">
+        <span>Total</span>
+        <span class="val">{{ cart.total_price | money }}</span>
+      </div>
+
+      {%- render 'cod-nudge' -%}
+
+      <a href="/checkout">
+        <button class="ut-checkout-btn">Proceed to Checkout →</button>
+      </a>
+      <a href="/collections/all" class="ut-continue-link">Continue Shopping</a>
+      <div class="ut-cart-trust">
+        <div class="ut-cart-trust-item"><span>🔒</span> Secure 256-bit SSL checkout</div>
+        <div class="ut-cart-trust-item"><span>↩</span> Easy 15-day returns</div>
+        <div class="ut-cart-trust-item"><span>🚚</span> Free shipping above ₹999</div>
+        <div class="ut-cart-trust-item"><span>💳</span> COD available (₹75 fee · min ₹999)</div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+function updateQty(key, qty) {
+  if(qty < 1) { removeItem(key); return; }
+  fetch('/cart/change.js', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({id: key, quantity: qty})
+  }).then(() => location.reload());
+}
+function removeItem(key) {
+  fetch('/cart/change.js', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({id: key, quantity: 0})
+  }).then(() => location.reload());
+}
+function applyPromo() {
+  var code = document.getElementById('promoInput').value.trim();
+  if(!code) return;
+  fetch('/discount/' + code).then(() => {
+    window.location.href = '/cart?discount=' + code;
+  });
+}
+</script>
+
+{% schema %}
+{
+  "name": "Cart",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
