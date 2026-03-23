@@ -1,0 +1,93 @@
+<footer class="ut-footer">
+  <div class="ut-footer-inner">
+    <div class="ut-footer-brand">
+      <a href="{{ routes.root_url }}" class="ut-footer-logo">{{ shop.name }}<sup style="font-size:10px;vertical-align:super;color:rgba(201,169,110,0.6);letter-spacing:0;">®</sup></a>
+      <p class="ut-footer-tagline">Luxury Indian skincare crafted with Himalayan botanicals. Bold beauty for bold lives.</p>
+      <div class="ut-footer-socials">
+        <a href="https://instagram.com/urbantrend.beauty" class="ut-footer-social" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+        <a href="https://youtube.com" class="ut-footer-social" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+        <a href="https://twitter.com/UrbanTrendIN" class="ut-footer-social" target="_blank" rel="noopener" aria-label="Twitter">𝕏</a>
+        <a href="https://facebook.com" class="ut-footer-social" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+        <a href="https://pinterest.com" class="ut-footer-social" target="_blank" rel="noopener" aria-label="Pinterest">P</a>
+      </div>
+      <div class="ut-footer-nl" style="margin-top:24px;">
+        <div class="ut-footer-nl-label">Join the Glow List</div>
+        <div class="ut-footer-nl-row">
+          <input class="ut-footer-nl-input" type="email" id="footerEmail" placeholder="your@email.com">
+          <button class="ut-footer-nl-btn" onclick="subscribeFooter()">Subscribe</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="ut-footer-col-title">Shop</div>
+      <a class="ut-footer-link" href="/collections/skincare">Skincare</a>
+      <a class="ut-footer-link" href="/collections/makeup">Makeup</a>
+      <a class="ut-footer-link" href="/collections/hair">Hair Care</a>
+      <a class="ut-footer-link" href="/collections/fragrance">Fragrance</a>
+      <a class="ut-footer-link" href="/collections/all">New Arrivals</a>
+      <a class="ut-footer-link" href="/collections/all">Best Sellers</a>
+      <a class="ut-footer-link" href="/collections/all">Gift Sets</a>
+    </div>
+    <div>
+      <div class="ut-footer-col-title">Help</div>
+      <a class="ut-footer-link" href="/pages/faq">FAQ</a>
+      <a class="ut-footer-link" href="/pages/tracking">Track Order</a>
+      <a class="ut-footer-link" href="/pages/loyalty">Glow Rewards</a>
+      <a class="ut-footer-link" href="/pages/track-order">Track Order</a>
+      <a class="ut-footer-link" href="/policies/shipping-policy">Shipping Info</a>
+      <a class="ut-footer-link" href="/policies/refund-policy">Returns</a>
+      <a class="ut-footer-link" href="/pages/contact">Contact Us</a>
+      <a class="ut-footer-link" href="/blogs/beauty">Beauty Journal</a>
+    </div>
+    <div>
+      <div class="ut-footer-col-title">Company</div>
+      <a class="ut-footer-link" href="/pages/about">About Us</a>
+      <a class="ut-footer-link" href="/pages/ingredients">Our Ingredients</a>
+      <a class="ut-footer-link" href="/pages/sustainability">Sustainability</a>
+      <a class="ut-footer-link" href="/policies/privacy-policy">Privacy Policy</a>
+      <a class="ut-footer-link" href="/pages/trademark">Trademark & IP</a>
+      <a class="ut-footer-link" href="/policies/terms-of-service">Terms of Service</a>
+      <a class="ut-footer-link" href="/pages/careers">Careers</a>
+    </div>
+  </div>
+  <!-- ™ Trademark Strip -->
+  <div style="max-width:1200px;margin:0 auto;padding:16px 32px;border-top:1px solid rgba(201,169,110,0.08);display:flex;align-items:center;flex-wrap:wrap;gap:12px;">
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid rgba(201,169,110,0.2);background:rgba(201,169,110,0.04);">
+      <span style="font-family:'Cinzel',serif;font-size:13px;color:var(--ut-gold);letter-spacing:0.15em;">URBAN TREND<sup style="font-size:9px;">®</sup></span>
+      <span style="width:1px;height:16px;background:rgba(201,169,110,0.2);display:block;"></span>
+      <span style="font-family:'Jost',sans-serif;font-size:9px;color:rgba(201,169,110,0.5);letter-spacing:0.1em;">Registered Trademark</span>
+    </div>
+    <p style="font-family:'Jost',sans-serif;font-size:10px;color:rgba(250,246,240,0.3);letter-spacing:0.06em;line-height:1.6;">
+      URBAN TREND™ is a registered trademark of Urban Trend Pvt. Ltd., protected under Class 3 (Cosmetics & Toiletries) of the Trade Marks Act, 1999 (India). Unauthorized use of the trademark, brand name, logo, or any associated intellectual property is strictly prohibited and may result in legal action.
+    </p>
+  </div>
+
+  <div class="ut-footer-bottom">
+    <p class="ut-footer-copy">© {{ 'now' | date: '%Y' }} Urban Trend Pvt. Ltd. All rights reserved. URBAN TREND® is a registered trademark under Class 3. Made with ♡ in India.</p>
+    <div class="ut-footer-payments">
+      <span class="ut-payment-icon">VISA</span>
+      <span class="ut-payment-icon">MC</span>
+      <span class="ut-payment-icon">UPI</span>
+      <span class="ut-payment-icon">RazorPay</span>
+      <span class="ut-payment-icon">COD</span>
+    </div>
+    <div class="ut-footer-lang">
+      <select onchange="location.href=this.value" aria-label="Language">
+        <option value="#">🇮🇳 English</option>
+        <option value="#">🇫🇷 Français</option>
+        <option value="#">🇩🇪 Deutsch</option>
+        <option value="#">🇮🇹 Italiano</option>
+        <option value="#">🇪🇸 Español</option>
+      </select>
+    </div>
+  </div>
+</footer>
+<script>
+function subscribeFooter(){
+  var inp=document.getElementById('footerEmail');
+  if(!inp?.value?.includes('@')){inp.style.borderColor='rgba(139,58,82,0.5)';return;}
+  UT.toast('✓ Welcome to the Glow List!','success');
+  inp.value=''; inp.placeholder='You\'re in! ✓'; inp.style.color='var(--ut-success)';
+  setTimeout(()=>{inp.placeholder='your@email.com';inp.style.color='';},3000);
+}
+</script>
