@@ -1,0 +1,1756 @@
+  <div id="page-search" class="page-inner" style="display:none">
+    <div class="page-header">
+      <span class="page-title">Search</span>
+      <button class="page-close" onclick="hidePage()">← Back</button>
+    </div>
+    <div class="page-body">
+      <div class="search-bar-wrap">
+        <input type="text" class="search-input-big" placeholder="Search serums, foundations, fragrances…" id="searchInput" oninput="liveSearch(this.value)">
+        <button class="search-btn">⌕</button>
+      </div>
+      <div class="search-tags">
+        <button class="s-tag" onclick="tagSearch('Serum')">Serum</button>
+        <button class="s-tag" onclick="tagSearch('Foundation')">Foundation</button>
+        <button class="s-tag" onclick="tagSearch('Perfume')">Perfume</button>
+        <button class="s-tag" onclick="tagSearch('Eye Cream')">Eye Cream</button>
+        <button class="s-tag" onclick="tagSearch('Toner')">Toner</button>
+        <button class="s-tag" onclick="tagSearch('Mask')">Mask</button>
+        <button class="s-tag" onclick="tagSearch('Highlighter')">Highlighter</button>
+        <button class="s-tag" onclick="tagSearch('Hair Oil')">Hair Oil</button>
+        <button class="s-tag" onclick="tagSearch('Cleanser')">Cleanser</button>
+        <button class="s-tag" onclick="tagSearch('Moisturiser')">Moisturiser</button>
+      </div>
+      <p style="font-family:var(--fl);font-size:8px;letter-spacing:.32em;color:var(--muted);text-align:center;text-transform:uppercase;margin-bottom:32px;">Trending Products</p>
+      <div class="search-results-grid" id="resultsGrid">
+        <div class="src-card" data-name="Vitamin C Brightening Serum Skincare"><div class="src-img">💧</div><div class="src-cat">Skincare</div><div class="src-name">Vitamin C Brightening Serum</div><div class="src-price">₹ 799</div></div>
+        <div class="src-card" data-name="Foundation for Indian Skin Tones Makeup Foundation"><div class="src-img">💄</div><div class="src-cat">Makeup</div><div class="src-name">Foundation for Indian Skin Tones</div><div class="src-price">₹ 1,899</div></div>
+        <div class="src-card" data-name="Rose & Jasmine EDP Perfume Fragrance"><div class="src-img">🖤</div><div class="src-cat">Fragrance</div><div class="src-name">Rose & Jasmine EDP</div><div class="src-price">₹ 4,999</div></div>
+        <div class="src-card" data-name="Bronze Glow Highlighter Highlighter Makeup"><div class="src-img">✨</div><div class="src-cat">Makeup</div><div class="src-name">Bronze Glow Highlighter</div><div class="src-price">₹ 1,499</div></div>
+        <div class="src-card" data-name="Onion Hair Growth Mask Skincare"><div class="src-img">🌸</div><div class="src-cat">Skincare</div><div class="src-name">Onion Hair Growth Mask</div><div class="src-price">₹ 1,899</div></div>
+        <div class="src-card" data-name="Caffeine Eye Cream Eye Cream Skincare"><div class="src-img">👁</div><div class="src-cat">Skincare</div><div class="src-name">Caffeine Eye Cream</div><div class="src-price">₹ 2,299</div></div>
+        <div class="src-card" data-name="Saffron Hair Oil Hair"><div class="src-img">💆</div><div class="src-cat">Hair</div><div class="src-name">Saffron Hair Oil</div><div class="src-price">₹ 1,299</div></div>
+        <div class="src-card" data-name="Niacinamide Toner 10% Skincare"><div class="src-img">🧴</div><div class="src-cat">Skincare</div><div class="src-name">Niacinamide Toner 10%</div><div class="src-price">₹ 899</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="page-collections" class="page-inner" style="display:none">
+    <div class="page-header">
+      <span class="page-title">All Collections</span>
+      <button class="page-close" onclick="hidePage()">← Back</button>
+    </div>
+    <div class="page-body">
+      <div style="text-align:center;padding:40px 0 40px;border-bottom:1px solid var(--border);margin-bottom:48px;">
+        <span style="font-family:var(--fl);font-size:7px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:12px;">Urban Trend</span>
+        <h2 style="font-family:var(--fd);font-size:42px;font-weight:300;color:var(--cream);margin-bottom:16px;">The Complete Collection</h2>
+        <p style="font-family:var(--fb);font-size:13px;font-weight:200;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.8;">Bold beauty for bold lives. Every formula crafted with intention, every ingredient sourced with purpose.</p>
+      </div>
+      <div class="coll-tabs">
+        <button class="coll-tab active" onclick="filterColl(this,'All')">All</button>
+        <button class="coll-tab" onclick="filterColl(this,'Skincare')">Skincare</button>
+        <button class="coll-tab" onclick="filterColl(this,'Makeup')">Makeup</button>
+        <button class="coll-tab" onclick="filterColl(this,'Fragrance')">Fragrance</button>
+        <button class="coll-tab" onclick="filterColl(this,'Hair')">Hair</button>
+        <button class="coll-tab" onclick="filterColl(this,'Body')">Body</button>
+        <button class="coll-tab" onclick="filterColl(this,'Gift Sets')">Gift Sets</button>
+      </div>
+      <div class="coll-grid" id="collGrid">
+        <div class="coll-card" data-cat="Skincare"><div class="coll-card-img"><span style="font-size:52px;">🧴</span><div class="coll-card-overlay"><div class="coll-card-name">Skincare</div><div class="coll-card-count">24 products</div></div></div><div class="us21"><span class="us20">Serums, Toners &amp; Treatments</span><span style="font-family:var(--fl);font-size:12px;color:var(--gold);">→</span></div></div>
+        <div class="coll-card" data-cat="Makeup"><div class="coll-card-img"><span style="font-size:52px;">💄</span><div class="coll-card-overlay"><div class="coll-card-name">Makeup</div><div class="coll-card-count">18 products</div></div></div><div class="us21"><span class="us20">Foundations, Lips &amp; Eyes</span><span style="font-family:var(--fl);font-size:12px;color:var(--gold);">→</span></div></div>
+        <div class="coll-card" data-cat="Fragrance"><div class="coll-card-img"><span style="font-size:52px;">🖤</span><div class="coll-card-overlay"><div class="coll-card-name">Fragrance</div><div class="coll-card-count">12 products</div></div></div><div class="us21"><span class="us20">Perfumes, EDPs &amp; Mists</span><span style="font-family:var(--fl);font-size:12px;color:var(--gold);">→</span></div></div>
+        <div class="coll-card" data-cat="Hair"><div class="coll-card-img"><span style="font-size:52px;">💆</span><div class="coll-card-overlay"><div class="coll-card-name">Hair</div><div class="coll-card-count">10 products</div></div></div><div class="us21"><span class="us20">Oils, Masks &amp; Treatments</span><span style="font-family:var(--fl);font-size:12px;color:var(--gold);">→</span></div></div>
+        <div class="coll-card" data-cat="Body"><div class="coll-card-img"><span style="font-size:52px;">🫧</span><div class="coll-card-overlay"><div class="coll-card-name">Body</div><div class="coll-card-count">8 products</div></div></div><div class="us21"><span class="us20">Scrubs, Oils &amp; Lotions</span><span style="font-family:var(--fl);font-size:12px;color:var(--gold);">→</span></div></div>
+        <div class="coll-card" data-cat="Gift Sets"><div class="coll-card-img"><span style="font-size:52px;">🎁</span><div class="coll-card-overlay"><div class="coll-card-name">Gift Sets</div><div class="coll-card-count">6 products</div></div></div><div class="us21"><span class="us20">Curated Collections</span><span style="font-family:var(--fl);font-size:12px;color:var(--gold);">→</span></div></div>
+      </div>
+    </div>
+  </div>
+  <div id="page-about" class="page-inner" style="display:none">
+    <div class="page-header">
+      <span class="page-title">About Urban Trend</span>
+      <button class="page-close" onclick="hidePage()">← Back</button>
+    </div>
+    <div class="page-body">
+      <div class="about-hero-split">
+        <div>
+          <span style="font-family:var(--fl);font-size:7px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:14px;">Urban Trend · India</span>
+          <h2 style="font-family:var(--fd);font-size:40px;font-weight:300;color:var(--cream);line-height:1.3;margin-bottom:24px;">From a 50-Year Family Store to India's Favourite Beauty Brand</h2>
+          <p style="font-family:var(--fb);font-size:13px;font-weight:200;color:var(--muted);line-height:1.9;margin-bottom:20px;">Urban Trend began as a dream — to bring the finest beauty products from a family store in Sirsa, Haryana to every corner of India. Founded by Manish Jain with just ₹2 lakh of personal savings, the brand grew from a single online listing to a nationally recognised beauty house.</p>
+          <p style="font-family:var(--fb);font-size:13px;font-weight:200;color:var(--muted);line-height:1.9;margin-bottom:28px;">Featured in The Economic Times "Power of Ideas" 2014 alongside IIT graduates and VC-funded startups, Urban Trend's story is one of grit, vision, and an unwavering belief that quality beauty should be accessible to everyone.</p>
+          <a href="#" onclick="hidePage();document.getElementById('press').scrollIntoView({behavior:'smooth'});return false;" class="us12" onmouseover="this.style.background='rgba(201,169,110,.08)'" onmouseout="this.style.background='none'">Read Our Press Story →</a>
+        </div>
+        <div style="background:var(--char);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:320px;padding:32px;">
+          <span style="font-size:64px;">🏙️</span>
+          <div style="text-align:center;">
+            <div style="font-family:var(--fl);font-size:9px;letter-spacing:.28em;color:var(--gold);margin-bottom:6px;text-transform:uppercase;">Urban Trend HQ</div>
+            <div style="font-family:var(--fb);font-size:12px;font-weight:200;color:var(--muted);">India</div>
+            <div style="font-family:var(--fb);font-size:11px;font-weight:200;color:var(--muted);margin-top:4px;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="59313c353536192c2b3b38372d2b3c373d773037">[email&#160;protected]</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="about-stat-row">
+        <div class="about-stat"><span class="about-stat-num">₹3Cr+</span><span class="about-stat-lbl">Annual Revenue Target</span></div>
+        <div class="about-stat"><span class="about-stat-num">50+</span><span class="about-stat-lbl">Years Family Legacy</span></div>
+        <div class="about-stat"><span class="about-stat-num">10K+</span><span class="about-stat-lbl">Happy Customers</span></div>
+        <div class="about-stat"><span class="about-stat-num">2014</span><span class="about-stat-lbl">ET Power of Ideas</span></div>
+      </div>
+      <div style="margin-top:52px;">
+        <h3 class="us22">Our Values</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+          <div class="us23"><span style="font-size:28px;display:block;margin-bottom:14px;">🌱</span><h4 class="us24">Sustainability</h4><p class="us25">Every product we create is designed with the planet in mind. We are committed to net-zero by 2030.</p></div>
+          <div class="us23"><span style="font-size:28px;display:block;margin-bottom:14px;">🔬</span><h4 class="us24">Science-Led Beauty</h4><p class="us25">Our formulas are developed with leading dermatologists, combining ancient Indian wisdom with modern science.</p></div>
+          <div class="us23"><span style="font-size:28px;display:block;margin-bottom:14px;">🤝</span><h4 class="us24">Community First</h4><p class="us25">From farmer partnerships in Ooty and Kashmir to our loyalty programme, community is at the heart of everything.</p></div>
+        </div>
+      </div>
+      <div style="margin-top:60px;">
+        <h3 class="us22">The Team</h3>
+        <div class="team-grid">
+          <div class="team-card"><div class="team-avatar"><span style="font-family:var(--fl);font-size:18px;color:var(--gold);">MJ</span></div><div class="team-name">Manish Jain</div><div class="team-role">Founder &amp; CEO</div><p class="us26">The visionary behind Urban Trend, featured in ET Power of Ideas 2014. Started with ₹2L, now targeting ₹3Cr+.</p></div>
+          <div class="team-card"><div class="team-avatar"><span style="font-family:var(--fl);font-size:18px;color:var(--gold);">IU</span></div><div class="team-name">Our Founder</div><div class="team-role">Creative Director</div><p class="us26">Leading the brand's aesthetic direction and product design with a sharp editorial eye.</p></div>
+          <div class="team-card"><div class="team-avatar"><span style="font-family:var(--fl);font-size:18px;color:var(--gold);">PR</span></div><div class="team-name">Priya Rao</div><div class="team-role">Head of Formulations</div><p class="us26">Dermatologist-approved formulas crafted with premium Indian ingredients from Ooty and Kashmir.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="page-contact" class="page-inner" style="display:none">
+    <div class="page-header">
+      <span class="page-title">Contact Us</span>
+      <button class="page-close" onclick="hidePage()">← Back</button>
+    </div>
+    <div class="page-body">
+      <div class="contact-layout">
+        <div>
+          <h2 style="font-family:var(--fd);font-size:36px;font-weight:300;color:var(--cream);margin-bottom:8px;">Get in Touch</h2>
+          <p style="font-family:var(--fb);font-size:13px;font-weight:200;color:var(--muted);margin-bottom:36px;line-height:1.8;">We'd love to hear from you — orders, press, collaborations or just to say hello.</p>
+          <div class="contact-field"><label class="contact-label">Full Name</label><input type="text" class="contact-input" placeholder="Your name"></div>
+          <div class="contact-field"><label class="contact-label">Email Address</label><input type="email" class="contact-input" placeholder="hello@example.com"></div>
+          <div class="contact-field"><label class="contact-label">Subject</label><select class="contact-input" style="cursor:pointer;"><option value="">Select a topic</option><option>Order Inquiry</option><option>Product Question</option><option>Press &amp; Media</option><option>Partnership</option><option>Returns &amp; Refunds</option><option>Other</option></select></div>
+          <div class="contact-field"><label class="contact-label">Message</label><textarea class="contact-textarea" placeholder="Tell us how we can help…"></textarea></div>
+          <button class="submit-btn" onclick="submitContact(this)">Send Message →</button>
+        </div>
+        <div>
+          <h3 style="font-family:var(--fd);font-size:22px;font-weight:300;color:var(--cream);margin-bottom:32px;">Our Details</h3>
+          <div class="contact-info-item"><div class="contact-info-icon">📍</div><div><span class="contact-info-label">Head Office</span><span class="contact-info-val">India</span></div></div>
+          <div class="contact-info-item"><div class="contact-info-icon">📧</div><div><span class="contact-info-label">Email Us</span><span class="contact-info-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5d35383131321d282f3f3c33292f383339733433">[email&#160;protected]</a><br><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1666647365655663647477786264737872387f78">[email&#160;protected]</a></span></div></div>
+          <div class="contact-info-item"><div class="contact-info-icon">📞</div><div><span class="contact-info-label">Call Us</span><span class="contact-info-val">+91 98765 43210<br>Mon–Sat, 10am–6pm IST</span></div></div>
+          <div class="contact-info-item"><div class="contact-info-icon">🕐</div><div><span class="contact-info-label">Response Time</span><span class="contact-info-val">Within 24 hours<br>Priority support for all orders</span></div></div>
+          <div style="margin-top:24px;padding:24px;background:var(--char);border:1px solid var(--border);">
+            <p style="font-family:var(--fl);font-size:8px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;margin-bottom:12px;">Press &amp; Media</p>
+            <p class="us25">For press inquiries, brand collaborations, or features, please reach out to <span style="color:var(--gold);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d3a3a1b6a0a093a6a1b1b2bda7a1b6bdb7fdbabd">[email&#160;protected]</a></span></p>
+            <p style="font-family:var(--fl);font-size:8px;letter-spacing:.18em;color:rgba(201,169,110,.4);margin-top:12px;">As featured in · The Economic Times · Economic Times · Flipkart Top Seller 2014</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="page-social" class="page-inner" style="display:none">
+    <div class="page-header">
+      <span class="page-title">Follow Urban Trend</span>
+      <button class="page-close" onclick="hidePage()">← Back</button>
+    </div>
+    <div class="page-body">
+      <div style="text-align:center;padding:48px 20px 56px;border-bottom:1px solid var(--border);margin-bottom:52px;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(201,169,110,.07) 0%,transparent 70%);pointer-events:none;"></div>
+        <span style="font-family:var(--fl);font-size:7px;letter-spacing:.42em;text-transform:uppercase;color:rgba(201,169,110,.4);display:block;margin-bottom:14px;">Join Our Community</span>
+        <h2 style="font-family:var(--fd);font-size:clamp(28px,5vw,44px);font-weight:300;color:var(--cream);line-height:1.3;margin-bottom:16px;">Follow the <em>Urban Trend</em> World</h2>
+        <p style="font-family:var(--fb);font-size:13px;font-weight:200;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.9;">127,000+ beauty lovers follow our journey. Behind-the-scenes formulation, new launches, tutorials, and the glow community you've been looking for.</p>
+      </div>
+      <div class="social-follow-grid">
+        <div class="sf-card sf-ig">
+          <div class="sf-card-top">
+            <div class="sf-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="url(#ig)" stroke-width="1.8"/>
+                <circle cx="12" cy="12" r="4.5" stroke="url(#ig)" stroke-width="1.5"/>
+                <circle cx="17.5" cy="6.5" r="1.2" fill="url(#ig)"/>
+                <defs>
+                  <linearGradient id="ig" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F9A825"/>
+                    <stop offset=".4" stop-color="#E91E8C"/>
+                    <stop offset="1" stop-color="#8B17D8"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="sf-info">
+              <span class="sf-name">Instagram</span>
+              <span class="sf-handle">@urbantrend.beauty</span>
+            </div>
+            <span class="sf-count">2.1K</span>
+          </div>
+          <p class="sf-desc">Daily skincare tips, new product drops, Reels, and BTS from our Mumbai lab. Our most active platform.</p>
+          <div class="sf-stats">
+            <div class="sf-stat"><span>482</span><small>Posts</small></div>
+            <div class="sf-stat"><span>2.1K</span><small>Followers</small></div>
+            <div class="sf-stat"><span>4.8%</span><small>Eng. rate</small></div>
+          </div>
+          <div class="sf-actions">
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="sf-follow-btn sf-follow-ig" onclick="trackFollow('Instagram',this)">Follow on Instagram</a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="sf-view-btn">View Profile →</a>
+          </div>
+        </div>
+        <div class="sf-card sf-fb">
+          <div class="sf-card-top">
+            <div class="sf-icon" style="background:rgba(24,119,242,.15);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" stroke="#1877F2" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="sf-info">
+              <span class="sf-name">Facebook</span>
+              <span class="sf-handle">Urban Trend Official</span>
+            </div>
+            <span class="sf-count">890</span>
+          </div>
+          <p class="sf-desc">Product reviews, customer stories, exclusive Facebook-only offers, and our growing beauty community group.</p>
+          <div class="sf-stats">
+            <div class="sf-stat"><span>890</span><small>Followers</small></div>
+            <div class="sf-stat"><span>8.2K</span><small>Group members</small></div>
+            <div class="sf-stat"><span>Daily</span><small>Posts</small></div>
+          </div>
+          <div class="sf-actions">
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="sf-follow-btn sf-follow-fb" onclick="trackFollow('Facebook',this)">Like on Facebook</a>
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="sf-view-btn">View Page →</a>
+          </div>
+        </div>
+        <div class="sf-card sf-wa">
+          <div class="sf-card-top">
+            <div class="sf-icon" style="background:rgba(37,211,102,.12);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="#25D366" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="sf-info">
+              <span class="sf-name">WhatsApp</span>
+              <span class="sf-handle">UrbanTrend Channel</span>
+            </div>
+            <span class="sf-count">84K</span>
+          </div>
+          <p class="sf-desc">Get exclusive deals, flash sales, and new launch alerts directly on WhatsApp. First to know, first to shop.</p>
+          <div class="sf-stats">
+            <div class="sf-stat"><span>84K</span><small>Subscribers</small></div>
+            <div class="sf-stat"><span>3–5</span><small>msgs/week</small></div>
+            <div class="sf-stat"><span>Flash</span><small>Sales</small></div>
+          </div>
+          <div class="sf-actions">
+            <a href="https://whatsapp.com/channel/" target="_blank" rel="noopener" class="sf-follow-btn sf-follow-wa" onclick="trackFollow('WhatsApp',this)">Follow on WhatsApp</a>
+            <a href="https://wa.me/918901623093" target="_blank" rel="noopener" class="sf-view-btn">Chat with Us →</a>
+          </div>
+        </div>
+        <div class="sf-card sf-tw">
+          <div class="sf-card-top">
+            <div class="sf-icon" style="background:rgba(255,255,255,.08);">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M4 4l16 16M20 4L4 20" stroke="none"/>
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" fill="white" opacity="0.85"/>
+              </svg>
+            </div>
+            <div class="sf-info">
+              <span class="sf-name">X / Twitter</span>
+              <span class="sf-handle">@UrbanTrendIN</span>
+            </div>
+            <span class="sf-count">38K</span>
+          </div>
+          <p class="sf-desc">Beauty conversations, industry news, founder thoughts, and the occasional hot take on Indian beauty culture.</p>
+          <div class="sf-stats">
+            <div class="sf-stat"><span>38K</span><small>Followers</small></div>
+            <div class="sf-stat"><span>2.1K</span><small>Tweets</small></div>
+            <div class="sf-stat"><span>Active</span><small>Daily</small></div>
+          </div>
+          <div class="sf-actions">
+            <a href="https://twitter.com/" target="_blank" rel="noopener" class="sf-follow-btn sf-follow-tw" onclick="trackFollow('X/Twitter',this)">Follow on X</a>
+            <a href="https://twitter.com/" target="_blank" rel="noopener" class="sf-view-btn">View Profile →</a>
+          </div>
+        </div>
+        <div class="sf-card sf-pin">
+          <div class="sf-card-top">
+            <div class="sf-icon" style="background:rgba(230,0,35,.12);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.76 1.26-5.33 1.26-5.33s-.32-.64-.32-1.59c0-1.49.86-2.6 1.94-2.6.91 0 1.36.69 1.36 1.51 0 .92-.59 2.3-.89 3.58-.25 1.07.53 1.94 1.58 1.94 1.9 0 3.17-2.43 3.17-5.31 0-2.19-1.48-3.72-3.59-3.72-2.45 0-3.89 1.84-3.89 3.74 0 .74.28 1.53.64 1.96.07.08.08.16.06.24l-.24.96c-.04.15-.12.18-.28.11-1.04-.49-1.69-2.01-1.69-3.24 0-2.63 1.91-5.05 5.51-5.05 2.89 0 5.14 2.06 5.14 4.81 0 2.87-1.81 5.18-4.32 5.18-.84 0-1.64-.44-1.91-.95l-.52 1.94c-.19.72-.69 1.62-1.03 2.17.78.24 1.6.37 2.45.37 5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="#E60023" opacity="0.9"/>
+              </svg>
+            </div>
+            <div class="sf-info">
+              <span class="sf-name">Pinterest</span>
+              <span class="sf-handle">UrbanTrendBeauty</span>
+            </div>
+            <span class="sf-count">29K</span>
+          </div>
+          <p class="sf-desc">Save skincare routines, beauty inspo boards, ingredient guides, and our editorial lookbooks. 1,200+ pins and counting.</p>
+          <div class="sf-stats">
+            <div class="sf-stat"><span>29K</span><small>Followers</small></div>
+            <div class="sf-stat"><span>1.2K</span><small>Pins</small></div>
+            <div class="sf-stat"><span>18</span><small>Boards</small></div>
+          </div>
+          <div class="sf-actions">
+            <a href="https://www.pinterest.com/" target="_blank" rel="noopener" class="sf-follow-btn sf-follow-pin" onclick="trackFollow('Pinterest',this)">Follow on Pinterest</a>
+            <a href="https://www.pinterest.com/" target="_blank" rel="noopener" class="sf-view-btn">View Boards →</a>
+          </div>
+        </div>
+        <div class="sf-card sf-yt">
+          <div class="sf-card-top">
+            <div class="sf-icon" style="background:rgba(255,0,0,.12);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="5" width="20" height="14" rx="4" stroke="#FF0000" stroke-width="1.8"/>
+                <polygon points="10,9 10,15 16,12" fill="#FF0000" opacity="0.9"/>
+              </svg>
+            </div>
+            <div class="sf-info">
+              <span class="sf-name">YouTube</span>
+              <span class="sf-handle">Urban Trend Beauty</span>
+            </div>
+            <span class="sf-count">18K</span>
+          </div>
+          <p class="sf-desc">In-depth tutorials, founder vlogs, ingredient deep-dives, and honest before/after videos. New video every week.</p>
+          <div class="sf-stats">
+            <div class="sf-stat"><span>18K</span><small>Subscribers</small></div>
+            <div class="sf-stat"><span>124</span><small>Videos</small></div>
+            <div class="sf-stat"><span>Weekly</span><small>Upload</small></div>
+          </div>
+          <div class="sf-actions">
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="sf-follow-btn sf-follow-yt" onclick="trackFollow('YouTube',this)">Subscribe on YouTube</a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="sf-view-btn">Watch Videos →</a>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:64px;padding:48px 20px;background:var(--char);border:1px solid var(--border);position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,.06) 0%,transparent 60%);pointer-events:none;"></div>
+        <span style="font-family:var(--fl);font-size:7px;letter-spacing:.42em;text-transform:uppercase;color:rgba(201,169,110,.4);display:block;margin-bottom:12px;">Tag Us</span>
+        <h3 style="font-family:var(--fd);font-size:clamp(22px,4vw,32px);font-weight:300;color:var(--cream);margin-bottom:12px;">Share Your Glow</h3>
+        <p style="font-family:var(--fb);font-size:12px;font-weight:200;color:var(--muted);max-width:400px;margin:0 auto 24px;line-height:1.8;">Use <span style="color:var(--gold);">#UrbanTrendBeauty</span> or tag <span style="color:var(--gold);">@urbantrend.beauty</span> on any platform — we repost our favourites every week.</p>
+        <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+          <span class="us27">#UrbanTrendBeauty</span>
+          <span class="us27">#UrbanTrend1975</span>
+          <span class="us27">#GlowWithUT</span>
+          <span class="us27">#BoldBeautyIndia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="page-tracking" class="page-inner" style="display:none">
+    <div class="page-header">
+      <span class="page-title">Track Your Order</span>
+      <button class="page-close" onclick="hidePage()">← Back</button>
+    </div>
+    <div class="page-body">
+      <div style="max-width:680px;margin:0 auto;">
+        <p style="font-family:'Jost',sans-serif;font-size:13px;font-weight:200;color:rgba(250,246,240,0.5);line-height:1.8;margin-bottom:28px;">Enter your order number or the email address used at checkout to get a real-time update on your delivery.</p>
+        <div class="track-input-wrap">
+          <input type="text" class="track-input" id="trackingInput" placeholder="Order ID (e.g. UT-2024-8847) or email address">
+          <button class="track-btn" onclick="trackOrder()">Track →</button>
+        </div>
+        <div id="trackingResult" style="display:none;">
+          <div style="background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.18);padding:24px;margin-bottom:32px;">
+            <div class="track-info-grid" style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(201,169,110,0.1);">
+              <div><div class="us28">Order ID</div><div class="us29">UT-2024-8847</div></div>
+              <div><div class="us28">Expected Delivery</div><div style="font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:#C9A96E;">Tomorrow, 6 PM</div></div>
+              <div><div class="us28">Carrier</div><div class="us29">Delhivery Express</div></div>
+            </div>
+            <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.32em;text-transform:uppercase;color:#7BC87B;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:#7BC87B;display:inline-block;animation:pulse-green 1.5s infinite;"></span>Out for Delivery</div>
+          </div>
+          <div class="track-timeline">
+            <div class="track-step"><div class="track-dot done">✓</div><div class="track-step-body"><div class="track-step-label">Order Confirmed</div><div class="track-step-date">Dec 18, 2024 · 2:34 PM</div><div class="track-step-desc">Payment received. Your order has been confirmed and sent to our fulfilment team.</div></div></div>
+            <div class="track-step"><div class="track-dot done">✓</div><div class="track-step-body"><div class="track-step-label">Processing & Packed</div><div class="track-step-date">Dec 18, 2024 · 6:12 PM</div><div class="track-step-desc">Order processed and packed at our Mumbai warehouse. Quality check completed.</div></div></div>
+            <div class="track-step"><div class="track-dot done">✓</div><div class="track-step-body"><div class="track-step-label">Shipped</div><div class="track-step-date">Dec 19, 2024 · 8:45 AM</div><div class="track-step-desc">Handed to Delhivery Express. Tracking ID: DEL4892773IN</div></div></div>
+            <div class="track-step"><div class="track-dot active">📦</div><div class="track-step-body"><div class="track-step-label">Out for Delivery</div><div class="track-step-date">Today · 9:00 AM</div><div class="track-step-desc">Your order is with the delivery partner and will arrive today by 6 PM.</div></div></div>
+            <div class="track-step"><div class="track-dot" style="opacity:0.3;">○</div><div class="track-step-body" style="opacity:0.35;"><div class="track-step-label muted">Delivered</div><div class="track-step-date">Pending</div></div></div>
+          </div>
+          <div style="margin-top:36px;padding:20px;background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.1);">
+            <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.32em;text-transform:uppercase;color:rgba(201,169,110,0.6);margin-bottom:12px;">Need Help?</div>
+            <p style="font-family:'Jost',sans-serif;font-size:12px;font-weight:200;color:rgba(250,246,240,0.45);line-height:1.7;margin-bottom:14px;">If you have issues with your delivery, our support team is here to help.</p>
+            <button onclick="showPage('contact')" style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#C9A96E;background:none;border:1px solid rgba(201,169,110,0.3);padding:10px 20px;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.background='rgba(201,169,110,0.08)'" onmouseout="this.style.background='none'">Contact Support →</button>
+          </div>
+        </div>
+        <div style="margin-top:40px;padding-top:40px;border-top:1px solid rgba(201,169,110,0.08);">
+          <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.36em;text-transform:uppercase;color:rgba(201,169,110,0.4);margin-bottom:20px;text-align:center;">Recently Ordered</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <div style="background:#141210;border:1px solid rgba(201,169,110,0.1);padding:16px;display:flex;align-items:center;gap:14px;flex:1;min-width:240px;">
+              <span style="font-size:24px;">💧</span>
+              <div><div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:#FAF6F0;">Vitamin C Brightening Serum</div><div style="font-family:'Jost',sans-serif;font-size:10px;font-weight:200;color:rgba(201,169,110,0.6);">30ml · Qty 1</div></div>
+              <span style="margin-left:auto;font-family:'Jost',sans-serif;font-size:13px;color:#C9A96E;">₹ 799</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+<div id="mobileNav">
+  <button class="mnav-close" onclick="closeMobileNav()">✕</button>
+  <div class="mnav-section">Collections</div>
+  <a href="#" onclick="closeMobileNav();document.getElementById('products').scrollIntoView({behavior:'smooth'});return false;" class="mnav-item">Skincare</a>
+  <a href="#" onclick="closeMobileNav();document.getElementById('products').scrollIntoView({behavior:'smooth'});return false;" class="mnav-item">Makeup</a>
+  <a href="#" onclick="closeMobileNav();document.getElementById('products').scrollIntoView({behavior:'smooth'});return false;" class="mnav-item">Fragrance</a>
+  <a href="#" onclick="closeMobileNav();document.getElementById('products').scrollIntoView({behavior:'smooth'});return false;" class="mnav-item">Hair</a>
+  <a href="#" onclick="closeMobileNav();document.getElementById('products').scrollIntoView({behavior:'smooth'});return false;" class="mnav-item">Body</a>
+  <div class="mnav-section">Discover</div>
+  <a href="#" onclick="closeMobileNav();document.getElementById('viral').scrollIntoView({behavior:'smooth'});return false;" class="mnav-item">Viral Products</a>
+  <a href="#" onclick="closeMobileNav();document.getElementById('story').scrollIntoView({behavior:'smooth'});return false;" class="mnav-item">Our Story</a>
+  <a href="#" onclick="closeMobileNav();document.getElementById('founder').scrollIntoView({behavior:'smooth'});return false;" class="mnav-item">Founder</a>
+  <a href="#" onclick="closeMobileNav();document.getElementById('press').scrollIntoView({behavior:'smooth'});return false;" class="mnav-item">Press</a>
+  <div class="mnav-section">Social</div>
+  <a href="#" onclick="closeMobileNav();showPage('social');" class="mnav-item">📲 Follow Us</a>
+  <div class="mnav-section">Pages</div>
+  <a href="#" onclick="closeMobileNav();showPage('pdp');" class="mnav-item">🔍 Product Detail</a>
+  <a href="#" onclick="closeMobileNav();showPage('cart');" class="mnav-item">🛒 Cart</a>
+  <a href="#" onclick="closeMobileNav();showPage('wishlist');" class="mnav-item">♡ Wishlist</a>
+  <a href="#" onclick="closeMobileNav();showPage('tracking');" class="mnav-item">📦 Track Order</a>
+  <a href="#" onclick="closeMobileNav();showPage('collections');" class="mnav-item">🛍 All Collections</a>
+  <a href="#" onclick="closeMobileNav();showPage('about');" class="mnav-item">🏢 About Us</a>
+  <a href="#" onclick="closeMobileNav();showPage('contact');" class="mnav-item">✉ Contact</a>
+</div>
+<div id="cookieBanner" style="position:fixed;bottom:0;left:0;right:0;z-index:10000;background:rgba(10,9,8,0.98);border-top:1px solid rgba(201,169,110,0.22);padding:18px 52px;display:flex;align-items:center;justify-content:space-between;gap:24px;backdrop-filter:blur(16px);transform:translateY(100%);transition:transform 0.5s cubic-bezier(0.22,1,0.36,1);">
+  <div style="flex:1;">
+    <p style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.38em;text-transform:uppercase;color:rgba(201,169,110,0.7);margin-bottom:6px;">Cookie Preferences</p>
+    <p style="font-family:'Jost',sans-serif;font-size:11px;font-weight:200;color:rgba(250,246,240,0.5);line-height:1.7;max-width:600px;">We use cookies to personalise your experience, improve our site, and show you relevant offers. By continuing, you agree to our <span style="color:#C9A96E;cursor:pointer;text-decoration:underline;" onclick="showCookiePolicy()">Cookie Policy</span>.</p>
+  </div>
+  <div style="display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap;">
+    <button onclick="cookieDecline()" style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(250,246,240,0.4);background:none;border:1px solid rgba(201,169,110,0.15);padding:10px 20px;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(201,169,110,0.4)';this.style.color='rgba(250,246,240,0.7)'" onmouseout="this.style.borderColor='rgba(201,169,110,0.15)';this.style.color='rgba(250,246,240,0.4)'">Decline</button>
+    <button onclick="cookieManage()" style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:#C9A96E;background:none;border:1px solid rgba(201,169,110,0.35);padding:10px 20px;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.background='rgba(201,169,110,0.08)'" onmouseout="this.style.background='none'">Manage</button>
+    <button onclick="cookieAccept()" style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:#0A0908;background:#C9A96E;border:1px solid #C9A96E;padding:10px 24px;cursor:pointer;transition:all 0.3s;font-weight:500;" onmouseover="this.style.background='#E2C98A'" onmouseout="this.style.background='#C9A96E'">Accept All</button>
+  </div>
+</div>
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top" style="position:fixed;bottom:88px;right:28px;z-index:9000;width:44px;height:44px;background:rgba(10,9,8,0.92);border:1px solid rgba(201,169,110,0.3);color:#C9A96E;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s,border-color 0.3s;backdrop-filter:blur(12px);" onmouseover="this.style.borderColor='rgba(201,169,110,0.7)'" onmouseout="this.style.borderColor='rgba(201,169,110,0.3)'">↑</button>
+<div id="toastContainer" style="position:fixed;top:80px;right:20px;z-index:9998;display:flex;flex-direction:column;gap:8px;pointer-events:none;"></div>
+<div id="stickyATC" style="position:fixed;bottom:-80px;left:0;right:0;z-index:8000;background:rgba(10,9,8,0.97);border-top:1px solid rgba(201,169,110,0.2);padding:12px 52px;display:flex;align-items:center;justify-content:space-between;gap:20px;backdrop-filter:blur(16px);transition:bottom 0.4s cubic-bezier(0.22,1,0.36,1);">
+  <div style="display:flex;align-items:center;gap:20px;">
+    <span style="font-size:28px;">💧</span>
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:#FAF6F0;">Vitamin C Brightening Serum</div>
+      <div style="font-family:'Jost',sans-serif;font-size:9px;font-weight:200;color:rgba(201,169,110,0.7);">30ml · 4.9★ (2,847 reviews)</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <span style="font-family:'Jost',sans-serif;font-size:18px;font-weight:300;color:#C9A96E;">₹ 799</span>
+    <button onclick="pdpAddToCart(this);showToast('✓ Added to bag!','success')" style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:#0A0908;background:#C9A96E;border:none;padding:12px 28px;cursor:pointer;font-weight:500;transition:background 0.3s;white-space:nowrap;" onmouseover="this.style.background='#E2C98A'" onmouseout="this.style.background='#C9A96E'"><span>Add to Bag →</span></button>
+  </div>
+</div>
+<div id="sizeGuideModal" onclick="if(event.target===this)closeSizeGuide()" style="position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;">
+  <div style="background:#141210;border:1px solid rgba(201,169,110,0.2);max-width:680px;width:90%;max-height:85vh;overflow-y:auto;position:relative;padding:40px;">
+    <button onclick="closeSizeGuide()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:rgba(250,246,240,0.4);font-size:20px;cursor:pointer;line-height:1;" onmouseover="this.style.color='#C9A96E'" onmouseout="this.style.color='rgba(250,246,240,0.4)'">✕</button>
+    <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.42em;text-transform:uppercase;color:rgba(201,169,110,0.6);display:block;margin-bottom:10px;">Urban Trend</span>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#FAF6F0;margin-bottom:24px;">Size Guide</h2>
+    <p style="font-family:'Jost',sans-serif;font-size:12px;font-weight:200;color:rgba(250,246,240,0.5);line-height:1.8;margin-bottom:28px;">Choose the right size for your skincare routine. Our formulas are concentrated — a little goes a long way.</p>
+    <div class="size-guide-grid" style="margin-bottom:28px;">
+      <div class="us30">
+        <div class="us31">15ml</div>
+        <div class="us32">Trial</div>
+        <div class="us33">Perfect for first-time users. ~2 weeks supply.</div>
+      </div>
+      <div style="background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.3);padding:20px;text-align:center;position:relative;">
+        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#C9A96E;color:#0A0908;font-family:'Cinzel',serif;font-size:6px;letter-spacing:0.3em;text-transform:uppercase;padding:3px 12px;white-space:nowrap;">Most Popular</div>
+        <div class="us31">30ml</div>
+        <div class="us32">Standard</div>
+        <div class="us33">Full routine size. ~6 weeks with AM + PM use.</div>
+      </div>
+      <div class="us30">
+        <div class="us31">50ml</div>
+        <div class="us32">Value</div>
+        <div class="us33">Best value. ~12 weeks. Great for gifting.</div>
+      </div>
+    </div>
+    <div style="background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.1);padding:20px;margin-bottom:20px;">
+      <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.34em;text-transform:uppercase;color:#C9A96E;margin-bottom:10px;">Usage Guide</div>
+      <div style="font-family:'Jost',sans-serif;font-size:11px;font-weight:200;color:rgba(250,246,240,0.5);line-height:1.8;">Apply 2–3 drops to clean, dry skin each morning and evening. Pat gently — do not rub. Follow with moisturiser. For best results, use consistently for 28 days.</div>
+    </div>
+    <button onclick="closeSizeGuide()" style="width:100%;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.32em;text-transform:uppercase;color:#0A0908;background:#C9A96E;border:none;padding:14px;cursor:pointer;font-weight:500;transition:background 0.3s;" onmouseover="this.style.background='#E2C98A'" onmouseout="this.style.background='#C9A96E'">Close Guide</button>
+  </div>
+</div>
+<div id="pdModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);overflow-y:auto;">
+  <div style="max-width:880px;margin:40px auto;background:#1A1510;border:1px solid rgba(201,169,110,0.3);display:grid;grid-template-columns:1fr 1fr;position:relative;">
+    <button onclick="closePD()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:#C9A96E;font-size:22px;cursor:pointer;z-index:10;font-family:Cinzel,serif;">✕</button>
+    <div id="pdImg" style="background:linear-gradient(135deg,#1C1510,#141210);display:flex;align-items:center;justify-content:center;min-height:460px;padding:40px;"></div>
+    <div style="padding:48px 40px;display:flex;flex-direction:column;justify-content:space-between;">
+      <div>
+        <span id="pdCat" style="font-family:Cinzel,serif;font-size:9px;letter-spacing:0.3em;color:#C9A96E;text-transform:uppercase;opacity:0.8;display:block;margin-bottom:10px;"></span>
+        <h2 id="pdName" style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#FAF6F0;margin:0 0 8px;line-height:1.2;"></h2>
+        <p id="pdSub" style="font-family:Jost,sans-serif;font-size:12px;color:rgba(250,246,240,0.5);letter-spacing:0.1em;margin:0 0 20px;"></p>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+          <span style="color:#C9A96E;font-size:13px;">★★★★★</span>
+          <span style="font-family:Jost,sans-serif;font-size:11px;color:rgba(250,246,240,0.5);">4.9 · 2,847 reviews</span>
+        </div>
+        <div id="pdPrice" style="font-family:Jost,sans-serif;font-size:24px;font-weight:300;color:#E2C98A;margin-bottom:24px;letter-spacing:0.1em;"></div>
+        <p id="pdDesc" style="font-family:Jost,sans-serif;font-size:13px;font-weight:300;color:rgba(250,246,240,0.7);line-height:1.8;margin-bottom:24px;"></p>
+        <div style="margin-bottom:28px;">
+          <p style="font-family:Cinzel,serif;font-size:8px;letter-spacing:0.25em;color:#C9A96E;text-transform:uppercase;margin-bottom:10px;">Key Benefits</p>
+          <div id="pdBenefits" style="display:flex;flex-direction:column;gap:6px;"></div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;border:1px solid rgba(201,169,110,0.3);">
+            <button onclick="changeQty(-1)" class="us34">−</button>
+            <span id="pdQty" style="font-family:Jost,sans-serif;font-size:14px;color:#FAF6F0;padding:0 16px;">1</span>
+            <button onclick="changeQty(1)" class="us34">+</button>
+          </div>
+          <span style="font-family:Jost,sans-serif;font-size:11px;color:rgba(250,246,240,0.4);letter-spacing:0.08em;">In Stock</span>
+        </div>
+        <button onclick="addToCartPD()" style="width:100%;background:#C9A96E;color:#0A0908;border:none;padding:16px;font-family:Cinzel,serif;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;cursor:pointer;margin-bottom:10px;transition:background 0.3s;">Add to Bag</button>
+        <button style="width:100%;background:none;color:#C9A96E;border:1px solid rgba(201,169,110,0.4);padding:16px;font-family:Cinzel,serif;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;cursor:pointer;">Buy Now</button>
+        <div style="display:flex;gap:16px;margin-top:16px;justify-content:center;">
+          <span class="us35">🚚 Free shipping ₹799+</span>
+          <span class="us35">↩ Easy returns</span>
+          <span class="us35">💳 COD available</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>function showPage(name, productName, productCat){
+  var o=document.getElementById('pageOverlay');
+  document.querySelectorAll('.page-inner').forEach(function(d){d.style.display='none';});
+  var pg=document.getElementById('page-'+name);
+  if(pg){pg.style.display='block';}
+  o.classList.add('visible');
+  o.scrollTop=0;
+  document.body.style.overflow='hidden';
+  document.querySelectorAll('#mainJumpBar .jtab').forEach(function(b){b.classList.remove('active');});
+
+  var bc = document.getElementById('pdpBreadcrumb');
+  if(bc && name === 'pdp'){
+    var cat = productCat || 'Products';
+    var pname = productName || 'Product Detail';
+    bc.textContent = 'Home / ' + cat + ' / ' + pname;
+  }
+}
+function hidePage(){
+  document.getElementById('pageOverlay').classList.remove('visible');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')hidePage();});
+function switchPdpImg(thumb,type){
+  document.querySelectorAll('.pdp-thumb').forEach(function(t){t.classList.remove('active');});
+  thumb.classList.add('active');
+  var main=document.getElementById('pdpMainImg');
+  var emojis={bottle:'🧴',texture:'💧',ingredient:'🌸',result:'✨'};
+  var svg=main.querySelector('svg');
+  if(svg) svg.style.opacity=(type==='bottle')?'1':'0.3';
+  main.querySelector('svg') && (main.querySelector('svg').style.display=(type==='bottle')?'':'none');
+  var existing=main.querySelector('.pdp-alt-img');
+  if(existing) existing.remove();
+  if(type!=='bottle'){
+    var d=document.createElement('div');
+    d.className='pdp-alt-img';
+    d.style.cssText='font-size:90px;display:flex;align-items:center;justify-content:center;height:100%;';
+    d.textContent=emojis[type]||'💧';
+    main.appendChild(d);
+  }
+}
+function selectSize(el){document.querySelectorAll('.pdp-size').forEach(function(s){s.classList.remove('active');});el.classList.add('active');}
+function pdpAddToCart(btn){
+  var orig=btn.innerHTML;
+  btn.innerHTML='✓  Added to Bag!';
+  btn.style.opacity='.7';
+  var b=document.getElementById('cartBadge');
+  if(b){b.textContent=parseInt(b.textContent||0)+1;}
+  setTimeout(function(){btn.innerHTML=orig;btn.style.opacity='';},2000);
+}
+function pdpBuyNow(btn){
+  btn.textContent='Redirecting…';
+  btn.style.opacity='.7';
+  setTimeout(function(){btn.textContent='Buy Now →';btn.style.opacity='';},1500);
+}
+function pdpWishlist(btn){
+  if(btn.classList.contains('active')){
+    btn.classList.remove('active');
+    btn.textContent='♡ Save to Wishlist';
+  } else {
+    btn.classList.add('active');
+    btn.textContent='♥ Saved to Wishlist';
+  }
+}
+function toggleAccord(el){
+  el.classList.toggle('open');
+  var body=el.nextElementSibling;
+  body.classList.toggle('open');
+}
+function recAdd(btn){
+  var orig=btn.textContent;
+  btn.textContent='✓ Added';
+  btn.style.color='#7BC87B';
+  btn.style.borderColor='rgba(120,200,120,.4)';
+  var b=document.getElementById('cartBadge');
+  if(b){b.textContent=parseInt(b.textContent||0)+1;}
+  setTimeout(function(){btn.textContent=orig;btn.style.color='';btn.style.borderColor='';},1500);
+}
+function changeQty(btn,delta){
+  var row=btn.closest('.cart-item');
+  var n=row.querySelector('.qty-num');
+  var v=Math.max(1,parseInt(n.textContent)+delta);
+  n.textContent=v;
+}
+function removeCartItem(btn){
+  var item=btn.closest('.cart-item');
+  item.style.opacity='0';item.style.transition='opacity .3s';
+  setTimeout(function(){item.remove();},300);
+}
+function applyPromo(btn){
+  btn.textContent='✓';
+  btn.style.color='#7BC87B';
+  btn.style.borderColor='rgba(120,200,120,.4)';
+}
+function addToCartFromWishlist(btn){
+  var orig=btn.textContent;
+  btn.textContent='✓ Added!';
+  btn.style.color='#7BC87B';
+  btn.style.borderColor='rgba(120,200,120,.4)';
+  var b=document.getElementById('cartBadge');
+  if(b){b.textContent=parseInt(b.textContent||0)+1;}
+  setTimeout(function(){btn.textContent=orig;btn.style.color='';btn.style.borderColor='';},1500);
+}
+function removeWishlist(btn){
+  var card=btn.closest('.wl-card');
+  card.style.opacity='0';card.style.transition='opacity .3s';
+  setTimeout(function(){card.remove();},300);
+}
+function liveSearch(v){
+  var q=v.toLowerCase();
+  document.querySelectorAll('.src-card').forEach(function(c){
+    c.style.display=(!q||c.dataset.name.toLowerCase().includes(q))?'':'none';
+  });
+}
+function tagSearch(tag){
+  var inp=document.getElementById('searchInput');
+  if(inp){inp.value=tag;liveSearch(tag);}
+}
+function filterColl(btn,cat){
+  document.querySelectorAll('.coll-tab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.querySelectorAll('.coll-card').forEach(function(c){
+    c.style.display=(cat==='All'||c.dataset.cat===cat)?'':'none';
+  });
+}
+function submitContact(btn){
+  btn.textContent='Sending…';
+  btn.disabled=true;
+  setTimeout(function(){
+    btn.textContent='✓ Message Sent — We\'ll reply within 24 hours';
+    btn.style.background='rgba(40,130,60,.25)';
+    btn.style.color='#7BC87B';
+    btn.style.padding='16px 32px';
+  },1400);
+}
+(function(){
+  var t=document.getElementById('mtrack');
+  ['Cruelty Free','Vegan Formulas','Sustainably Sourced','Paraben Free','Dermatologist Tested','Made in India'].concat(['Cruelty Free','Vegan Formulas','Sustainably Sourced','Paraben Free','Dermatologist Tested','Made in India']).concat(['Cruelty Free','Vegan Formulas','Sustainably Sourced','Paraben Free','Dermatologist Tested','Made in India']).concat(['Cruelty Free','Vegan Formulas','Sustainably Sourced','Paraben Free','Dermatologist Tested','Made in India']).forEach(function(tx){
+    var s=document.createElement('span');s.className='marquee-item';s.innerHTML=tx+' <span style="color:#C9A96E;opacity:.4;font-size:8px;">✦</span>';t.appendChild(s);
+  });
+})();
+function goTo(id,btn){document.getElementById(id).scrollIntoView({behavior:'smooth'});document.querySelectorAll('.jtab').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');}
+function setF(btn){document.querySelectorAll('.fbtn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');}
+function toggleH(btn){btn.textContent=btn.textContent==='♡'?'♥':'♡';btn.style.color=btn.textContent==='♥'?'#C9A96E':'';}
+(function(){
+  var el=document.getElementById('timer1');
+  if(!el)return;
+  var t=5*3600+47*60+32;
+  (function tick(){
+    var h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60;
+    el.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    if(t-->0)setTimeout(tick,1000);
+  })();
+})();
+(function(){
+  var o=document.getElementById('orders');
+  if(!o)return;setInterval(function(){var v=parseInt(o.textContent.replace(/,/g,''))+Math.floor(Math.random()*3+1);o.textContent=v.toLocaleString('en-IN');},4000);
+})();
+(function(){
+  var fills=document.querySelectorAll('.vstock-fill');
+  var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){setTimeout(function(){e.target.style.width=e.target.dataset.w+'%';},200);io.unobserve(e.target);}});},{threshold:.1});
+  fills.forEach(function(f){io.observe(f);});
+})();
+var sliderCur=0;
+function slide(dir){
+  var track=document.getElementById('strack');
+  var cards=track.querySelectorAll('.tcard');
+  var cw=cards[0]?cards[0].offsetWidth+16:336;
+  var pages=Math.max(1,cards.length-2);
+  sliderCur=Math.max(0,Math.min(sliderCur+dir,pages-1));
+  track.style.transform='translateX(-'+(sliderCur*cw)+'px)';
+  document.querySelectorAll('.sdot').forEach(function(d,i){d.classList.toggle('active',i===sliderCur);});
+}
+(function(){
+  var dotsEl=document.getElementById('sdots');
+  for(var i=0;i<3;i++){
+    var d=document.createElement('div');d.className='sdot'+(i===0?' active':'');
+    (function(idx){d.onclick=function(){var diff=idx-sliderCur;if(diff)slide(diff);};})(i);
+    dotsEl.appendChild(d);
+  }
+  setInterval(function(){slide(sliderCur>=2?-sliderCur:1);},5000);
+})();
+function openShare(platform){
+  var url=encodeURIComponent(window.location.href||'https://urbantrend.in');
+  var text=encodeURIComponent('Discover Urban Trend — Bold beauty for bold lives ✨');
+  var urls={
+    instagram:'https://www.instagram.com/',
+    whatsapp:'https://wa.me/?text='+text+'%20'+url,
+    facebook:'https://www.facebook.com/sharer/sharer.php?u='+url,
+    twitter:'https://twitter.com/intent/tweet?text='+text+'&url='+url,
+    pinterest:'https://pinterest.com/pin/create/button/?url='+url+'&description='+text
+  };
+  if(urls[platform])window.open(urls[platform],'_blank','noopener,noreferrer,width=600,height=500');
+}
+function shareClick(platform,btn){
+  var orig=btn.querySelector('.share-platform-name').textContent;
+  btn.style.borderColor='rgba(201,169,110,0.6)';
+  btn.style.background='rgba(201,169,110,0.1)';
+  setTimeout(function(){btn.style.borderColor='';btn.style.background='';},1200);
+  var tip=document.createElement('div');
+  tip.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(10,9,8,.96);border:1px solid rgba(201,169,110,.4);padding:18px 32px;font-family:Cinzel,serif;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#C9A96E;z-index:9999;pointer-events:none;';
+  tip.textContent='Opening '+platform+' share...';
+  document.body.appendChild(tip);
+  setTimeout(function(){document.body.removeChild(tip);},1600);
+}
+function pdpShare(platform){
+  var productName='Vitamin C Brightening Serum';
+  var price='₹3,499';
+  var url=encodeURIComponent('https://urbantrend.in/products/street-glow-serum');
+  var text=encodeURIComponent('✨ Just found my holy grail — '+productName+' by @urbantrend.beauty is life-changing! '+price+' #UrbanTrendBeauty #GlowWithUT');
+  var img=encodeURIComponent('https://urbantrend.in/products/street-glow-serum');
+  var urls={
+    instagram:'https://www.instagram.com/',
+    whatsapp:'https://wa.me/?text='+text+'%20'+url,
+    facebook:'https://www.facebook.com/sharer/sharer.php?u='+url+'&quote='+text,
+    twitter:'https://twitter.com/intent/tweet?text='+text+'&url='+url,
+    pinterest:'https://pinterest.com/pin/create/button/?url='+url+'&media='+img+'&description='+text
+  };
+  if(urls[platform])window.open(urls[platform],'_blank','noopener,noreferrer,width=600,height=520');
+  var map={instagram:'.pdp-share-ig',whatsapp:'.pdp-share-wa',facebook:'.pdp-share-fb',twitter:'.pdp-share-tw',pinterest:'.pdp-share-pin'};
+  var btn=document.querySelector(map[platform]);
+  if(btn){btn.style.opacity='.5';setTimeout(function(){btn.style.opacity='';},600);}
+}
+function pdpCopyLink(btn){
+  var url='https://urbantrend.in/products/street-glow-serum';
+  if(navigator.clipboard){navigator.clipboard.writeText(url);}
+  var orig=btn.innerHTML;
+  btn.innerHTML='<span>✓ Copied!</span>';
+  btn.style.color='#7BC87B';btn.style.borderColor='rgba(120,200,120,.4)';
+  setTimeout(function(){btn.innerHTML=orig;btn.style.color='';btn.style.borderColor='';},2000);
+}
+function pdpCopyCaption(btn){
+  var cap=document.getElementById('pdpCaption');
+  var text=cap?cap.querySelector('.pdp-caption-text').textContent:'';
+  if(navigator.clipboard&&text)navigator.clipboard.writeText(text);
+  var orig=btn.textContent;
+  btn.textContent='✓ Caption copied!';
+  btn.style.color='#7BC87B';btn.style.borderColor='rgba(120,200,120,.4)';
+  setTimeout(function(){btn.textContent=orig;btn.style.color='';btn.style.borderColor='';},2000);
+}
+function trackFollow(platform,btn){
+  var orig=btn.textContent;
+  btn.textContent='✓ Following '+platform+'!';
+  btn.style.opacity='.7';
+  setTimeout(function(){btn.textContent=orig;btn.style.opacity='';},2000);
+}
+var captions=[
+  '✨ My current skincare obsession — the Vitamin C Brightening Serum by Urban Trend is genuinely life-changing. Woke up with this glow and I\'m not ok 😭🔥',
+  '🌿 Switched to Urban Trend 3 months ago and my skin has never looked better. The Caffeine Eye Cream is EVERYTHING. Bye dark circles, hello glow ✨',
+  '💛 Okay the Foundation for Indian Skin Tones is the most comfortable foundation I\'ve worn. Full coverage but feels like nothing. Total game changer for Indian skin 🇮🇳',
+  '🖤 Rose & Jasmine EDP is my signature scent now. Everyone asks what I\'m wearing and I just smile. @urbantrend.beauty never misses 🌹',
+  '⚡ The Vitamin C Serum 15% + Vitamin C Brightening Serum combo is UNREAL. Two weeks in and my skin is brighter, smoother, and honestly just glowing nonstop.'
+];
+var capIdx=0;
+function rotateCaption(btn){
+  capIdx=(capIdx+1)%captions.length;
+  var el=document.getElementById('shareCaption');
+  el.style.opacity='0';
+  setTimeout(function(){el.textContent=captions[capIdx];el.style.opacity='1';},200);
+  el.style.transition='opacity .2s';
+  btn.style.transform='rotate(360deg)';btn.style.transition='transform .5s';
+  setTimeout(function(){btn.style.transform='';},600);
+}
+function copyCaption(){
+  var text=document.getElementById('shareCaption').textContent+'\n\n';
+  document.querySelectorAll('#shareHashtags .hash').forEach(function(h){text+=h.textContent+' ';});
+  navigator.clipboard&&navigator.clipboard.writeText(text.trim());
+  var btn=document.getElementById('copyBtn');
+  var orig=document.getElementById('copyBtnText').textContent;
+  btn.classList.add('copied');
+  document.getElementById('copyBtnText').textContent='\u2713 Copied!';
+  setTimeout(function(){btn.classList.remove('copied');document.getElementById('copyBtnText').textContent=orig;},2200);
+}
+var tabContent={
+  story:{ caption:'✨ My current skincare obsession — the Vitamin C Brightening Serum by Urban Trend is genuinely life-changing. Woke up with this glow and I\'m not ok 😭🔥', tags:['#UrbanTrendBeauty','#UrbanTrend1975','#GlowUp','#SkincareIndia','#LuxuryBeauty','#SkincareTok'] },
+  post:{ caption:'Found my forever skincare brand 💛 Urban Trend\'s Vitamin C Brightening Serum has completely transformed my skin in just 4 weeks. No filter, just Urban Trend ✨', tags:['#UrbanTrendBeauty','#NoFilter','#SkincareRoutine','#GlassSkın','#IndianBeauty','#SkinFirst'] },
+  reel:{ caption:'POV: You tried Urban Trend\'s Vitamin C Brightening Serum and now you can\'t stop showing everyone your skin 😭✨ Link in bio for the full routine.', tags:['#UrbanTrend','#SkincareTok','#GlowUp','#BeautyTok','#SkinTransformation','#IndianSkincare'] }
+};
+function switchTab(btn,type){
+  document.querySelectorAll('.share-tab').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+  var c=document.getElementById('shareCaption');
+  var h=document.getElementById('shareHashtags');
+  c.style.opacity='0';h.style.opacity='0';
+  setTimeout(function(){
+    c.textContent=tabContent[type].caption;
+    h.innerHTML=tabContent[type].tags.map(function(t){return'<span class="hash">'+t+'</span>';}).join('');
+    c.style.opacity='1';h.style.opacity='1';
+  },180);
+  [c,h].forEach(function(el){el.style.transition='opacity .18s';});
+}
+(function(){
+  var intro=document.getElementById('ut-intro');
+  if(!intro)return;
+  var pf=document.getElementById('introParticles');
+  if(pf){
+    for(var i=0;i<40;i++){
+      var p=document.createElement('div');
+      p.className='intro-particle';
+      p.style.cssText='left:'+Math.random()*100+'%;animation-duration:'+(4+Math.random()*8)+'s;animation-delay:'+(Math.random()*4)+'s;';
+      pf.appendChild(p);
+    }
+  }
+  setTimeout(function(){closeIntro();},3000);
+})();
+function closeIntro(){
+  var intro=document.getElementById('ut-intro');
+  if(!intro||intro.classList.contains('hide'))return;
+  intro.classList.add('hide');
+  intro.addEventListener('animationend',function(){
+    intro.style.display='none';
+  },{once:true});
+  setTimeout(function(){
+    if(intro)intro.style.display='none';
+  },1000);
+  openPopup();
+}
+function openPopup(){
+  if(localStorage.getItem('ut-popup-dismissed')){return;}
+  setTimeout(function(){var o=document.getElementById('ut-popup-overlay');if(o)o.classList.add('open');},8000);
+}
+function closePopup(){
+  var o=document.getElementById('ut-popup-overlay');if(o)o.classList.remove('open');
+  localStorage.setItem('ut-popup-dismissed', Date.now());
+}
+function submitPopup(){
+  var e=document.getElementById('popupEmail');
+  if(!e||!e.value.includes('@')){if(e)e.style.borderColor='rgba(226,75,74,.6)';return;}
+  e.style.borderColor='';
+  var btn=document.querySelector('.popup-submit');
+  if(btn){btn.textContent='\u2713 You\'re In!';btn.style.background='#2A8A4A';btn.style.color='#FAF6F0';}
+  localStorage.setItem('ut-popup-dismissed', Date.now());
+  setTimeout(closePopup,2200);
+}
+(function(){
+  var c=document.getElementById('ut-cursor');var r=document.getElementById('ut-cursor-ring');
+  if(!c||!r)return;
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+  (function lerp(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;r.style.left=Math.round(rx)+'px';r.style.top=Math.round(ry)+'px';requestAnimationFrame(lerp);})();
+  document.querySelectorAll('button,a,.pcard,.vcard,.ipost,.tier-card,.share-platform,.tpill').forEach(function(el){el.addEventListener('mouseenter',function(){c.classList.add('expand');r.classList.add('expand');});el.addEventListener('mouseleave',function(){c.classList.remove('expand');r.classList.remove('expand');});});
+})();
+window.addEventListener('scroll',function(){var h=document.documentElement.scrollHeight-window.innerHeight;var bar=document.getElementById('ut-progress');if(bar)bar.style.width=(window.scrollY/h*100)+'%';});
+(function(){
+  var awards=[{icon:'🏆',name:'Beauty Awards India 2024',year:'Best Serum'},{icon:'⭐',name:'50 Years of Trust Beauty Award',year:"Editor's Choice 2024"},{icon:'🌿',name:'Green Beauty Certified',year:'PETA Cruelty-Free'},{icon:'🔬',name:'Dermatologist Tested',year:'12 Clinical Studies'},{icon:'🥇',name:'Flipkart Top Seller 2014 Beauty Awards',year:'Best Luxury Brand 2023'},{icon:'💎',name:'Elle Beauty Grand Prix',year:'Innovation Award'},{icon:'🌍',name:'Sustainable Beauty Global',year:'Net Zero Pledge 2030'},{icon:'✦',name:'Economic Times Beauty Awards',year:'Best Indian Brand'},{icon:'🏅',name:"Harper's Bazaar Beauty",year:'Breakthrough Brand 2023'}];
+  var track=document.getElementById('awardsTrack');
+  if(!track)return;
+  [...awards,...awards].forEach(function(a){var d=document.createElement('div');d.className='award-item';d.innerHTML='<span class="award-icon">'+a.icon+'</span><div class="award-text"><span class="award-name">'+a.name+'</span><span class="award-year">'+a.year+'</span></div>';track.appendChild(d);});
+})();
+(function(){
+  var slider=document.getElementById('baSlider');var clip=document.getElementById('baClip');var divider=document.getElementById('baDivider');
+  if(!slider)return;
+  var dragging=false;
+  function setPos(x){var rect=slider.getBoundingClientRect();var pct=Math.max(5,Math.min(95,(x-rect.left)/rect.width*100));clip.style.width=pct+'%';divider.style.left=pct+'%';}
+  slider.addEventListener('mousedown',function(e){dragging=true;setPos(e.clientX);});
+  document.addEventListener('mousemove',function(e){if(dragging)setPos(e.clientX);});
+  document.addEventListener('mouseup',function(){dragging=false;});
+  slider.addEventListener('touchstart',function(e){dragging=true;setPos(e.touches[0].clientX);},{passive:true});
+  slider.addEventListener('touchmove',function(e){if(dragging)setPos(e.touches[0].clientX);},{passive:true});
+  slider.addEventListener('touchend',function(){dragging=false;});
+})();
+var baData={serum:{s1:'94%',l1:'Brighter skin',s2:'87%',l2:'Even skin tone',s3:'91%',l3:'Reduced dark spots',s4:'4.9★',l4:'Customer rating'},eye:{s1:'88%',l1:'Reduced puffiness',s2:'82%',l2:'Dark circle reduction',s3:'95%',l3:'Smoother eye area',s4:'4.8★',l4:'Customer rating'},base:{s1:'97%',l1:'Full coverage',s2:'92%',l2:'12-hour wear',s3:'89%',l3:'Skin-blur effect',s4:'4.9★',l4:'Customer rating'}};
+function baSwitch(btn,type){document.querySelectorAll('.ba-tab').forEach(function(t){t.classList.remove('active');});btn.classList.add('active');var d=baData[type];['1','2','3','4'].forEach(function(n){var s=document.getElementById('baStat'+n);var l=document.getElementById('baStatL'+n);if(s)s.textContent=d['s'+n];if(l)l.textContent=d['l'+n];});}
+function joinTier(btn,tier){
+  var orig=btn.textContent;
+  btn.textContent='\u2713 Joined '+tier+'!';
+  btn.style.background='rgba(40,130,60,.25)';btn.style.color='#7BC87B';btn.style.borderColor='rgba(40,130,60,.5)';
+  localStorage.setItem('ut-loyalty-tier', tier);
+  setTimeout(function(){btn.textContent=orig;btn.style.background='';btn.style.color='';btn.style.borderColor='';},2500);
+}
+(function(){
+  var nums=document.querySelectorAll('.sustain-num[data-target]');
+  var done=false;
+  var obs=new IntersectionObserver(function(entries){if(done)return;entries.forEach(function(e){if(e.isIntersecting){done=true;obs.disconnect();nums.forEach(function(el){var target=parseInt(el.dataset.target);var dur=2000,start=null;(function tick(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1);var ease=1-Math.pow(1-p,3);var val=Math.round(ease*target);el.textContent=val>=1000?val.toLocaleString('en-IN'):val;if(p<1)requestAnimationFrame(tick);else el.textContent=target>=1000?target.toLocaleString('en-IN'):target;})(performance.now());});}});},{threshold:.3});
+  var sustain=document.getElementById('sustainability');if(sustain)obs.observe(sustain);
+})();
+(function(){
+  var obs=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});},{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+})();
+(function(){
+  if(localStorage.getItem('ut-cookie-consent')) return;
+  setTimeout(function(){
+    var b=document.getElementById('cookieBanner');
+    if(b) b.style.transform='translateY(0)';
+  },1800);
+})();
+function cookieAccept(){
+  localStorage.setItem('ut-cookie-consent','all');
+  var b=document.getElementById('cookieBanner');
+  if(b){b.style.transform='translateY(100%)';setTimeout(function(){b.style.display='none';},500);}
+  showToast('Preferences saved ✓','success');
+}
+function cookieDecline(){
+  localStorage.setItem('ut-cookie-consent','essential');
+  var b=document.getElementById('cookieBanner');
+  if(b){b.style.transform='translateY(100%)';setTimeout(function(){b.style.display='none';},500);}
+}
+function cookieManage(){
+  showToast('Cookie preferences panel coming soon','info');
+}
+function showCookiePolicy(){
+  showToast('Cookie policy: we use analytics and personalisation cookies only','info');
+}
+window.addEventListener('scroll',function(){
+  var btn=document.getElementById('backToTop');
+  if(!btn) return;
+  if(window.scrollY>400){btn.style.opacity='1';btn.style.pointerEvents='auto';}
+  else{btn.style.opacity='0';btn.style.pointerEvents='none';}
+},{passive:true});
+function showToast(msg,type){
+  var c=document.getElementById('toastContainer');
+  if(!c) return;
+  var t=document.createElement('div');
+  var colors={success:'rgba(40,130,60,0.95)',error:'rgba(180,40,40,0.95)',info:'rgba(10,9,8,0.97)'};
+  var borders={success:'rgba(120,200,120,0.5)',error:'rgba(226,75,74,0.5)',info:'rgba(201,169,110,0.4)'};
+  t.style.cssText='background:'+colors[type||'info']+';border:1px solid '+borders[type||'info']+';padding:12px 20px;font-family:Cinzel,serif;font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:#FAF6F0;pointer-events:auto;opacity:0;transform:translateX(20px);transition:all 0.35s cubic-bezier(0.22,1,0.36,1);backdrop-filter:blur(12px);min-width:220px;cursor:pointer;';
+  t.textContent=msg;
+  t.onclick=function(){dismissToast(t);};
+  c.appendChild(t);
+  requestAnimationFrame(function(){t.style.opacity='1';t.style.transform='translateX(0)';});
+  setTimeout(function(){dismissToast(t);},3800);
+}
+function dismissToast(t){
+  t.style.opacity='0';t.style.transform='translateX(20px)';
+  setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},350);
+}
+(function(){
+  var atc=document.getElementById('stickyATC');
+  var overlay=document.getElementById('pageOverlay');
+  if(!atc||!overlay) return;
+  function checkAtc(){
+    var pdp=document.getElementById('page-pdp');
+    var pdpVisible=overlay.classList.contains('visible')&&pdp&&pdp.style.display!=='none';
+    atc.style.bottom=(pdpVisible&&overlay.scrollTop>320)?'0':'-80px';
+  }
+  overlay.addEventListener('scroll',checkAtc,{passive:true});
+  var origShow=window.showPage;
+  window.showPage=function(n){if(origShow)origShow(n);setTimeout(checkAtc,50);};
+  var origHide=window.hidePage;
+  window.hidePage=function(){if(origHide)origHide();atc.style.bottom='-80px';};
+})();
+function openSizeGuide(){
+  var m=document.getElementById('sizeGuideModal');
+  if(m){m.style.display='flex';document.body.style.overflow='hidden';}
+}
+function closeSizeGuide(){
+  var m=document.getElementById('sizeGuideModal');
+  if(m){m.style.display='none';document.body.style.overflow='';}
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    closeSizeGuide();
+    hidePage();
+    closeMobileNav();
+  }
+});
+var pincodeData={'400001':{city:'Mumbai',days:1,express:true},'400050':{city:'Bandra, Mumbai',days:1,express:true},'110001':{city:'New Delhi',days:2,express:true},'560001':{city:'Bengaluru',days:2,express:true},'600001':{city:'Chennai',days:3,express:false},'700001':{city:'Kolkata',days:3,express:false}};
+function checkPincode(){
+  var inp=document.getElementById('pincodeInput');
+  var res=document.getElementById('pincodeResult');
+  if(!inp||!res) return;
+  var val=inp.value.trim();
+  if(val.length!==6){res.style.display='block';res.innerHTML='<span style="color:rgba(226,75,74,0.8);">Please enter a valid 6-digit PIN code.</span>';return;}
+  var data=pincodeData[val];
+  res.style.display='block';
+  if(data){
+    var badge=data.days===1?'<span style="background:rgba(40,130,60,0.2);color:#7BC87B;border:1px solid rgba(120,200,120,0.3);padding:2px 8px;font-family:Cinzel,serif;font-size:6px;letter-spacing:0.28em;text-transform:uppercase;margin-left:8px;">Same / Next Day</span>':'';
+    res.innerHTML='<span style="color:#7BC87B;">✓ Delivery available to '+data.city+'</span><br>'+(data.days===1?'Expected tomorrow':'Expected in '+data.days+' days')+badge+(data.express?'<br><span style="color:rgba(201,169,110,0.6);">Express delivery available</span>':'');
+  } else {
+    res.innerHTML='<span style="color:#C9A96E;">✓ Delivery available — expected in 4–6 days.</span>';
+  }
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var inp=document.getElementById('pincodeInput');
+  if(inp) inp.addEventListener('keydown',function(e){if(e.key==='Enter')checkPincode();});
+});
+var giftWrapEnabled=false;
+function toggleGiftWrap(row){
+  giftWrapEnabled=!giftWrapEnabled;
+  var check=document.getElementById('giftWrapCheck');
+  if(check) check.textContent=giftWrapEnabled?'✓':'';
+  row.style.borderColor=giftWrapEnabled?'rgba(201,169,110,0.4)':'rgba(201,169,110,0.12)';
+  row.style.background=giftWrapEnabled?'rgba(201,169,110,0.06)':'';
+  showToast(giftWrapEnabled?'🎁 Gift wrapping added — ₹149':'Gift wrapping removed',giftWrapEnabled?'success':'info');
+}
+function trackOrder(){
+  var inp=document.getElementById('trackingInput');
+  var res=document.getElementById('trackingResult');
+  if(!inp||!res) return;
+  var val=inp.value.trim();
+  if(!val){inp.style.borderColor='rgba(226,75,74,0.5)';return;}
+  inp.style.borderColor='';
+  var btn=inp.nextElementSibling;
+  if(btn){btn.textContent='Tracking…';btn.disabled=true;}
+  setTimeout(function(){
+    res.style.display='block';
+    res.style.opacity='0';
+    setTimeout(function(){res.style.transition='opacity 0.5s';res.style.opacity='1';},50);
+    if(btn){btn.textContent='Track →';btn.disabled=false;}
+    res.scrollIntoView({behavior:'smooth',block:'start'});
+    document.querySelectorAll('#revBars .rev-bar-fill').forEach(function(f){
+      setTimeout(function(){f.style.width=f.dataset.w+'%';},300);
+    });
+  },1200);
+}
+function subscribeNewsletter(){
+  var inp=document.querySelector('.nl-email-input');
+  if(!inp) return;
+  var v=inp.value.trim();
+  if(!v||!v.includes('@')){inp.style.borderColor='rgba(226,75,74,0.5)';inp.focus();return;}
+  inp.style.borderColor='';
+  inp.value='';
+  inp.placeholder='You\'re on the Glow List! ✓';
+  inp.style.color='#7BC87B';
+  inp.style.borderColor='rgba(120,200,120,0.4)';
+  showToast('✓ Welcome to the Glow List!','success');
+  localStorage.setItem('ut-newsletter','1');
+  setTimeout(function(){inp.placeholder='your@email.com';inp.style.color='';inp.style.borderColor='';},3000);
+}
+(function(){
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){document.querySelectorAll('#revBars .rev-bar-fill').forEach(function(f){f.style.width=f.dataset.w+'%';});obs.disconnect();}});},{threshold:0.3});
+  var revSection=document.querySelector('.pdp-reviews');
+  if(revSection) obs.observe(revSection);
+})();
+function filterRevs(btn,type){
+  document.querySelectorAll('.rev-filter-btn').forEach(function(b){b.style.background='none';b.style.borderColor='rgba(201,169,110,0.15)';b.style.color='rgba(201,169,110,0.5)';});
+  btn.style.background='rgba(201,169,110,0.08)';btn.style.borderColor='rgba(201,169,110,0.35)';btn.style.color='#C9A96E';
+  document.querySelectorAll('.review-card').forEach(function(c){
+    if(type==='all') c.style.display='';
+    else if(type==='5') c.style.display=c.dataset.stars==='5'?'':'none';
+    else if(type==='photos') c.style.display=c.dataset.photos==='true'?'':'none';
+  });
+}
+function loadMoreReviews(btn){
+  btn.textContent='Loading…';
+  setTimeout(function(){
+    btn.textContent='All reviews shown';
+    btn.disabled=true;
+    btn.style.opacity='0.4';
+    showToast('All 2,847 reviews loaded','info');
+  },1000);
+}
+function openWriteReview(){
+  showToast('Review form coming soon — connect Okendo or Judge.me SDK','info');
+}
+function openMobileNav(){
+  document.getElementById('mobileNav').classList.add('open');
+  document.getElementById('mobileNavOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMobileNav(){
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('mobileNavOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+const products = {
+  'Vitamin C Brightening Serum': { cat:'Skincare', sub:'30ml · Brightening', price:'₹ 799', desc:'India\'s most repurchased brightening serum. Vitamin C 15% + Niacinamide 10% — clinically proven to fade dark spots and even skin tone in 4 weeks. 100% authentic.', benefits:['Fades dark spots in 4 weeks','Vitamin C 15% formula','Even skin tone','8,247 verified reviews'] },
+  'Onion Hair Growth Mask': { cat:'Skincare', sub:'75ml · Radiance mask', price:'₹ 2,799', desc:'Pure Kashmiri saffron infused clay mask. Deep cleanses pores while delivering intense hydration and a natural golden glow.', benefits:['Pure Kashmiri saffron','Deep pore cleansing','15 min express glow','Suitable all skin types'] },
+  'Foundation for Indian Skin Tones': { cat:'Makeup', sub:'30ml · Full coverage', price:'₹ 1,899', desc:'Velvety smooth foundation crafted for Indian skin tones. 18-hour wear, transfer-proof formula with SPF 20 protection.', benefits:['18-hour long wear','SPF 20 protection','12 Indian skin shades','Sweat & transfer proof'] },
+  'Rose & Jasmine EDP': { cat:'Fragrance', sub:'50ml · Oud & Amber', price:'₹ 4,999', desc:'A bold oriental fragrance inspired by the streets of Old Delhi. Notes of oud, amber, saffron, and sandalwood.', benefits:['12+ hour lasting','Oud & Amber base','Inspired by Old Delhi','Luxury glass bottle'] },
+  'Caffeine Eye Cream': { cat:'Skincare', sub:'15ml · De-puffing', price:'₹ 2,299', desc:'Advanced peptide complex targets dark circles, puffiness, and fine lines. Cool-touch applicator for instant relief.', benefits:['Reduces puffiness instantly','Triple peptide complex','Cool-touch applicator','Fragrance free'] },
+  'Bronze Glow Highlighter': { cat:'Makeup', sub:'Gold & bronze shades for Indian skin', price:'₹ 1,499', desc:'Weightless illuminating powder with real pearl extract. Buildable from subtle sheen to full glow.', benefits:['Real pearl extract','Buildable radiance','Suits all skin tones','Weightless formula'] },
+  'Niacinamide Toner 10%': { cat:'Skincare', sub:'150ml · Balancing', price:'₹ 1,299', desc:'Alcohol-free toner with Himalayan rose water. Balances pH, tightens pores, and preps skin for serums.', benefits:['Alcohol-free formula','Himalayan rose water','pH balancing','Suitable for sensitive skin'] },
+  'Saffron Hair Oil': { cat:'Hair', sub:'100ml · Strengthening', price:'₹ 1,299', desc:'Luxurious hair oil with pure saffron, coconut, and argan. Reduces breakage, adds shine, and promotes growth.', benefits:['Pure Kashmiri saffron','Reduces hair fall','Overnight repair mask','Suitable all hair types'] },
+};
+let currentQty = 1;
+function openPD(name) {
+  const p = products[name] || { cat:'Beauty', sub:'Premium formula', price:'₹ 1,999', desc:'Premium Urban Trend formula crafted for Indian skin. Dermatologist tested and approved.', benefits:['Dermatologist tested','Made for Indian skin','Cruelty free','Premium ingredients'] };
+  document.getElementById('pdCat').textContent = p.cat;
+  document.getElementById('pdName').textContent = name;
+  document.getElementById('pdSub').textContent = p.sub;
+  document.getElementById('pdPrice').textContent = p.price;
+  document.getElementById('pdDesc').textContent = p.desc;
+  document.getElementById('pdBenefits').innerHTML = p.benefits.map(b => `<div style="display:flex;align-items:center;gap:8px;"><span style="color:#C9A96E;font-size:12px;">✓</span><span style="font-family:Jost,sans-serif;font-size:12px;color:rgba(250,246,240,0.75);">${b}</span></div>`).join('');
+  document.getElementById('pdImg').innerHTML = `<div style="text-align:center;"><div style="width:180px;height:220px;background:linear-gradient(145deg,#2A1A0E,#1A1008);border:1px solid rgba(201,169,110,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto;"><span style="font-family:Cinzel,serif;font-size:13px;color:#C9A96E;letter-spacing:0.2em;text-transform:uppercase;text-align:center;padding:20px;">${name}</span></div><p style="font-family:Cinzel,serif;font-size:8px;color:rgba(201,169,110,0.5);letter-spacing:0.3em;margin-top:16px;text-transform:uppercase;">Urban Trend</p></div>`;
+  currentQty = 1;
+  document.getElementById('pdQty').textContent = 1;
+  document.getElementById('pdModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+function closePD() {
+  document.getElementById('pdModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function changeQty(d) {
+  currentQty = Math.max(1, currentQty + d);
+  document.getElementById('pdQty').textContent = currentQty;
+}
+function addToCartPD() {
+  const name = document.getElementById('pdName').textContent;
+  closePD();
+  if(typeof addToCart === 'function') addToCart(name);
+}
+document.getElementById('pdModal').addEventListener('click', function(e) {
+  if(e.target === this) closePD();
+});
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.pcard').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function(e) {
+      if(e.target.classList.contains('heart') || e.target.classList.contains('pcard-overlay-btn')) return;
+      const name = this.querySelector('.pcard-name');
+      if(name) openPD(name.textContent.trim());
+    });
+    const btn = card.querySelector('.pcard-overlay-btn');
+    if(btn) {
+      btn.textContent = 'View Details';
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const name = card.querySelector('.pcard-name');
+        if(name) openPD(name.textContent.trim());
+      });
+    }
+  });
+});</script>
+
+<style>
+/* ut */
+.us0{display:inline-flex;align-items:center;gap:5px;background:rgba(201,169,110,0.06);border:1px solid rgba(201,169,110,0.18);padding:6px 12px;font-family:var(--fl);font-size:6px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,169,110,0.7);text-decoration:none;transition:all 0.25s;}
+.us1{font-family:var(--fl);font-size:8px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:3px;}
+.us2{font-size:11px;font-weight:200;color:rgba(250,246,240,0.45);letter-spacing:0.06em;}
+.us3{font-family:var(--fl);font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);}
+.us4{font-family:'Jost',sans-serif;font-size:9px;font-weight:200;color:rgba(250,246,240,0.22);margin-top:10px;letter-spacing:0.1em;}
+.us5{font-size:8px;letter-spacing:0;vertical-align:super;opacity:0.7;}
+.us6{display:inline-flex;align-items:center;gap:7px;margin-top:12px;background:rgba(201,169,110,0.07);border:1px solid rgba(201,169,110,0.25);padding:6px 12px;}
+.us7{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.28em;text-transform:uppercase;color:var(--ut-gold);display:block;}
+.us8{font-family:'Jost',sans-serif;font-size:9px;font-weight:200;color:rgba(250,246,240,0.45);letter-spacing:0.06em;}
+.us9{width:36px;height:36px;border:1px solid rgba(201,169,110,.18);display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;transition:border-color .3s,background .3s;border-radius:4px;}
+.us10{width:36px;height:36px;border:1px solid rgba(201,169,110,.18);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:rgba(255,255,255,.7);text-decoration:none;transition:border-color .3s,background .3s;border-radius:4px;font-family:serif;}
+.us11{margin-top:16px;background:none;border:1px solid rgba(201,169,110,.25);color:var(--gold);font-family:var(--fl);font-size:7px;letter-spacing:.32em;text-transform:uppercase;padding:10px 20px;cursor:pointer;transition:all .3s;display:inline-block;}
+.us12{font-family:var(--fl);font-size:8px;letter-spacing:.28em;color:var(--gold);border:1px solid rgba(201,169,110,.3);padding:12px 24px;text-decoration:none;display:inline-block;transition:all .3s;}
+.us13{background:none;border:none;color:rgba(250,246,240,0.5);font-size:16px;cursor:pointer;transition:color 0.3s;}
+.us14{font-family:var(--fd);font-size:22px;color:var(--gold);margin-bottom:4px;}
+.us15{font-family:var(--fb);font-size:9px;font-weight:200;color:var(--muted);line-height:1.4;}
+.us16{font-family:var(--fb);font-size:12px;font-weight:200;color:var(--muted);line-height:1.9;}
+.us17{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(201,169,110,0.5);background:none;border:1px solid rgba(201,169,110,0.15);padding:7px 14px;cursor:pointer;transition:all 0.3s;}
+.us18{color:var(--muted);font-size:8px;font-family:var(--fb);font-weight:200;}
+.us19{font-size:28px;display:flex;align-items:center;justify-content:center;}
+.us20{font-family:var(--fb);font-size:10px;font-weight:200;color:var(--muted);}
+.us21{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
+.us22{font-family:var(--fd);font-size:28px;font-weight:300;color:var(--cream);margin-bottom:32px;}
+.us23{background:var(--char);border:1px solid var(--border);padding:28px;}
+.us24{font-family:var(--fd);font-size:18px;color:var(--cream);margin-bottom:10px;}
+.us25{font-family:var(--fb);font-size:12px;font-weight:200;color:var(--muted);line-height:1.8;}
+.us26{font-family:var(--fb);font-size:11px;font-weight:200;color:var(--muted);margin-top:10px;line-height:1.7;}
+.us27{font-family:var(--fl);font-size:8px;letter-spacing:.22em;color:var(--gold);border:1px solid rgba(201,169,110,.25);padding:8px 16px;}
+.us28{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.32em;text-transform:uppercase;color:rgba(201,169,110,0.5);margin-bottom:6px;}
+.us29{font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:#FAF6F0;}
+.us30{background:rgba(201,169,110,0.05);border:1px solid rgba(201,169,110,0.15);padding:20px;text-align:center;}
+.us31{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#C9A96E;margin-bottom:8px;}
+.us32{font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,169,110,0.5);margin-bottom:8px;}
+.us33{font-family:'Jost',sans-serif;font-size:11px;font-weight:200;color:rgba(250,246,240,0.45);line-height:1.6;}
+.us34{background:none;border:none;color:#C9A96E;padding:10px 16px;cursor:pointer;font-size:16px;}
+.us35{font-family:Jost,sans-serif;font-size:10px;color:rgba(250,246,240,0.4);letter-spacing:0.05em;}
+
+/* ── CHATBOT CONTAINER ── */
+#ut-chatbot-btn {
+  position: fixed;
+  bottom: 28px;
+  left: 24px;
+  z-index: 8001;
+  pointer-events: auto;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(201,169,110,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+  font-size: 22px;
+}
+#ut-chatbot-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 32px rgba(201,169,110,0.6);
+}
+#ut-chatbot-btn .ut-chat-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: #8B3A52;
+  color: #FAF6F0;
+  font-family: 'Cinzel', serif;
+  font-size: 7px;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  animation: ut-pulse 2s ease-in-out infinite;
+}
+@keyframes ut-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* ── CHAT WINDOW ── */
+#ut-chatbot-window {
+  position: fixed;
+  bottom: 100px;
+  left: 24px;
+  width: 380px;
+  max-height: 580px;
+  background: #0F0D0B;
+  border: 1px solid rgba(201,169,110,0.25);
+  border-radius: 16px;
+  z-index: 8002;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  overflow: hidden;
+  animation: ut-chat-open 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+#ut-chatbot-window.open {
+  display: flex;
+}
+@keyframes ut-chat-open {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (max-width: 440px) {
+  #ut-chatbot-window {
+    left: 8px;
+    right: 8px;
+    width: auto;
+    bottom: 90px;
+  }
+}
+
+/* ── CHAT HEADER ── */
+.ut-chat-header {
+  background: linear-gradient(135deg, #1A1410, #141210);
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.ut-chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  position: relative;
+}
+.ut-chat-avatar::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  background: #4CAF50;
+  border-radius: 50%;
+  border: 2px solid #141210;
+}
+.ut-chat-header-info { flex: 1; }
+.ut-chat-header-name {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: #C9A96E;
+  text-transform: uppercase;
+  display: block;
+}
+.ut-chat-header-status {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 200;
+  color: rgba(250,246,240,0.4);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+}
+.ut-chat-header-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #4CAF50;
+  border-radius: 50%;
+  display: inline-block;
+}
+.ut-chat-close {
+  background: none;
+  border: none;
+  color: rgba(250,246,240,0.4);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.ut-chat-close:hover { color: #C9A96E; }
+
+/* ── QUICK ACTIONS ── */
+.ut-chat-quick {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(201,169,110,0.08);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  background: rgba(20,18,16,0.5);
+}
+.ut-quick-btn {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  letter-spacing: 0.08em;
+  color: rgba(201,169,110,0.7);
+  background: rgba(201,169,110,0.06);
+  border: 1px solid rgba(201,169,110,0.15);
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.ut-quick-btn:hover {
+  background: rgba(201,169,110,0.12);
+  border-color: rgba(201,169,110,0.4);
+  color: #C9A96E;
+}
+
+/* ── MESSAGES ── */
+.ut-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,169,110,0.2) transparent;
+}
+.ut-chat-messages::-webkit-scrollbar { width: 3px; }
+.ut-chat-messages::-webkit-scrollbar-thumb { background: rgba(201,169,110,0.2); border-radius: 2px; }
+
+.ut-msg {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  max-width: 88%;
+}
+.ut-msg.bot { align-self: flex-start; }
+.ut-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+
+.ut-msg-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.ut-msg-bubble {
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 200;
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+}
+.ut-msg.bot .ut-msg-bubble {
+  background: rgba(201,169,110,0.08);
+  border: 1px solid rgba(201,169,110,0.12);
+  color: rgba(250,246,240,0.85);
+  border-bottom-left-radius: 4px;
+}
+.ut-msg.user .ut-msg-bubble {
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  color: #0A0908;
+  font-weight: 300;
+  border-bottom-right-radius: 4px;
+}
+
+/* Typing indicator */
+.ut-typing {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 12px 16px;
+}
+.ut-typing span {
+  width: 6px;
+  height: 6px;
+  background: rgba(201,169,110,0.5);
+  border-radius: 50%;
+  animation: ut-typing-dot 1.4s ease-in-out infinite;
+}
+.ut-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ut-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes ut-typing-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ── INPUT AREA ── */
+.ut-chat-input-area {
+  border-top: 1px solid rgba(201,169,110,0.12);
+  padding: 12px 14px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  background: rgba(10,9,8,0.6);
+  flex-shrink: 0;
+}
+#ut-chat-input {
+  flex: 1;
+  background: rgba(201,169,110,0.05);
+  border: 1px solid rgba(201,169,110,0.15);
+  color: rgba(250,246,240,0.9);
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 200;
+  padding: 10px 14px;
+  border-radius: 24px;
+  outline: none;
+  resize: none;
+  max-height: 80px;
+  min-height: 40px;
+  line-height: 1.5;
+  transition: border-color 0.2s;
+  scrollbar-width: none;
+}
+#ut-chat-input:focus { border-color: rgba(201,169,110,0.4); }
+#ut-chat-input::placeholder { color: rgba(250,246,240,0.25); }
+
+#ut-chat-send {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C9A96E, #9A7840);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: transform 0.2s, opacity 0.2s;
+  flex-shrink: 0;
+  color: #0A0908;
+}
+#ut-chat-send:hover { transform: scale(1.08); }
+#ut-chat-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.ut-chat-footer {
+  text-align: center;
+  padding: 6px 14px 10px;
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 200;
+  color: rgba(250,246,240,0.2);
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+</style>
+
+<button id="ut-chatbot-btn" onclick="utChatToggle()" aria-label="Chat with Urban Trend AI">
+  ✦
+  <span class="ut-chat-badge">AI</span>
+</button>
+
+<div id="ut-chatbot-window" role="dialog" aria-label="Urban Trend AI Assistant">
+
+  <div class="ut-chat-header">
+    <div class="ut-chat-avatar">✦</div>
+    <div class="ut-chat-header-info">
+      <span class="ut-chat-header-name">Priya — Urban Trend AI</span>
+      <span class="ut-chat-header-status">Online · Replies instantly</span>
+    </div>
+    <button class="ut-chat-close" onclick="utChatToggle()" aria-label="Close chat">✕</button>
+  </div>
+
+
+  <div class="ut-chat-quick">
+    <button class="ut-quick-btn" onclick="utQuickAsk('What are your bestsellers?')">🔥 Bestsellers</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('Track my order')">📦 Track Order</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('Skincare routine for Indian skin')">✨ Skincare Tips</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('What is your return policy?')">↩️ Returns</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('Recommend a fragrance for gifting')">🎁 Gifting</button>
+    <button class="ut-quick-btn" onclick="utQuickAsk('Offer and discounts available today')">🏷️ Offers</button>
+  </div>
+
+
+  <div class="ut-chat-messages" id="ut-chat-messages"></div>
+
+
+  <div class="ut-chat-input-area">
+    <textarea
+      id="ut-chat-input"
+      placeholder="Ask anything about our products..."
+      rows="1"
+      onkeydown="utChatKeydown(event)"
+      oninput="utChatAutoResize(this)"
+      aria-label="Type your message"
+    ></textarea>
+    <button id="ut-chat-send" onclick="utChatSend()" aria-label="Send message">➤</button>
+  </div>
+  <div class="ut-chat-footer">Powered by Urban Trend AI · Always here for you</div>
+</div>
+
+<script>
+(function() {
+
+  const UT_SYSTEM = `You are Priya, Urban Trend's expert AI beauty advisor. Urban Trend is a 50-year-old family cosmetics business (Est. 1975) from Sirsa, Haryana — India's trusted beauty problem solver. We are a reseller, NOT a manufacturer. We curate authentic products from trusted brands including O3+, WOW, Mamaearth, L'Oréal, SkinPlus, Urbanmac, Mocallure, Huda Girl, TG Girl, Tulip, and Urban Nova. We were featured in the Economic Times. All products are 100% authentic, sourced from brands or authorised Indian distributors. Our USP: unlike Nykaa or Amazon, we carry only brands we personally trust, provide real human support via WhatsApp, and have never sold a fake product in 50 years. Help customers find solutions to their specific beauty problems — dark spots, hair fall, acne, oily skin, wedding makeup, bridal prep, mature skin, dusky skin makeup, and more. Be warm, knowledgeable, honest, and solution-focused.
+
+YOUR PERSONALITY:
+- Warm, knowledgeable, like a trusted beauty expert friend
+- Use occasional Hindi words naturally (like "bilkul", "zaroor", "ek second")
+- Be enthusiastic about beauty but precise with product info
+- Always helpful, never pushy
+
+YOUR KNOWLEDGE BASE:
+
+BRAND:
+- Founded: 2010, Mumbai by Our Founder
+- PETA certified cruelty-free, dermatologist-tested
+- 4M+ happy customers across India
+- Free shipping above ₹799, 30-day returns, COD available
+- Payment: UPI, cards, net banking, COD
+
+BESTSELLING PRODUCTS:
+1. Vitamin C Brightening Serum (₹3,499) - Vitamin C + Saffron, 4.2M views, 30% off currently, bestseller for brightening
+2. Foundation for Indian Skin Tones Foundation (₹1,899) - 12 Indian skin shades, 24% off, skin-blur perfection
+3. Rose & Jasmine EDP Fragrance (₹4,999) - Oud & Amber, 12+ hour lasting, Old Delhi inspired
+4. Caffeine Eye Cream (₹2,299) - De-puff overnight, 23% off
+5. Onion Hair Growth Mask (₹1,499) - 210% trending, weekly treatment
+6. Niacinamide Toner 10% (₹999) - Bestseller, 128% trending
+7. Bronze Glow Highlighter (₹1,499) - Limited edition, 380% trending
+8. Vitamin C Serum 15% (₹2,799) - 20% off, 155% trending
+9. Long-Wear Kajal Set (₹1,799) - 140% trending
+10. Caffeine Eye Cream (₹2,299) - 3,024 reviews, 79% claimed
+
+SKINCARE CATEGORIES:
+- Serums: Vitamin C, Peptide, Hyaluronic Acid
+- Moisturisers: All skin types, SPF variants
+- Cleansers: Gel, foam, micellar
+- Toners: Rose, AHA/BHA
+- Sunscreens: SPF 30, 50, tinted
+- Eye care: Peptide, caffeine
+- Face masks: Saffron, clay, sheet
+
+MAKEUP CATEGORIES:
+- Foundation: 12 Indian skin shades, dewy & matte finish
+- Kajal: Smudge-proof, waterproof, 24-hour
+- Lipstick: 40+ shades, matte & glossy
+- Eyeshadow: Pigmented palettes for Indian skin
+- Blush & bronzer, highlighter, mascara
+
+FRAGRANCE:
+- Oud & amber, saffron, sandalwood, rose, jasmine
+- 12+ hour longevity on EDP range
+- India-inspired compositions
+
+LOYALTY PROGRAMME:
+- Urban tier: 0-999 points
+- Prestige tier: 1000-4999 points (10% discount, early access)
+- Elite tier: 5000+ points (15% discount, free shipping always, exclusive products)
+
+CURRENT OFFERS:
+- Use code GLOW15 for 15% off
+- Free shipping above ₹799
+- Flash sales running on select items
+
+POLICIES:
+- Free 30-day returns
+- COD available pan-India
+- Delivery 3-7 business days
+- Track at urbantrend.in/pages/tracking
+
+SKINCARE ADVICE FOR INDIAN SKIN:
+- Morning routine: Cleanser → Vitamin C serum → Moisturiser → SPF
+- Evening routine: Double cleanse → Treatment serum → Night moisturiser
+- Concerns: hyperpigmentation (Vitamin C), dullness (saffron), oiliness (niacinamide), acne (salicylic acid)
+- Indian skin needs: SPF daily even indoors, antioxidant protection from pollution, hydration in dry seasons
+
+RULES:
+- If asked about order tracking, direct to urbantrend.in/pages/tracking
+- If asked about specific order details you don't have, ask for order number and offer to help
+- For complaints, be empathetic and offer to escalate
+- Never make up prices — if unsure, say "check our website for current pricing"
+- Keep responses concise (2-4 sentences usually) unless detailed info needed
+- Suggest products when relevant but don't be pushy
+- Use ₹ symbol for prices always`;
+
+  let utMessages = [];
+  let utIsOpen = false;
+  let utIsLoading = false;
+  let utGreeted = false;
+
+  window.utChatToggle = function() {
+    utIsOpen = !utIsOpen;
+    const win = document.getElementById('ut-chatbot-window');
+    if (utIsOpen) {
+      win.classList.add('open');
+      if (!utGreeted) {
+        utGreeted = true;
+        setTimeout(() => {
+          utAddMessage('bot', 'Namaste! 🌸 I\'m Priya, your Urban Trend beauty advisor.\n\nHow can I help you today? Whether it\'s finding the perfect serum for Indian skin, tracking your order, or knowing about our latest offers — I\'m here!');
+        }, 300);
+      }
+      setTimeout(() => document.getElementById('ut-chat-input').focus(), 400);
+    } else {
+      win.classList.remove('open');
+    }
+  };
+
+  window.utQuickAsk = function(text) {
+    document.getElementById('ut-chat-input').value = text;
+    utChatSend();
+  };
+
+  function utAddMessage(role, text) {
+    utMessages.push({ role, content: text });
+    const container = document.getElementById('ut-chat-messages');
+
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'ut-msg ' + (role === 'bot' ? 'bot' : 'user');
+
+    if (role === 'bot') {
+      msgDiv.innerHTML = `
+        <div class="ut-msg-avatar">✦</div>
+        <div class="ut-msg-bubble">${utFormatText(text)}</div>`;
+    } else {
+      msgDiv.innerHTML = `<div class="ut-msg-bubble">${utEscape(text)}</div>`;
+    }
+
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function utShowTyping() {
+    const container = document.getElementById('ut-chat-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'ut-msg bot';
+    typingDiv.id = 'ut-typing-indicator';
+    typingDiv.innerHTML = `
+      <div class="ut-msg-avatar">✦</div>
+      <div class="ut-msg-bubble ut-typing">
+        <span></span><span></span><span></span>
+      </div>`;
+    container.appendChild(typingDiv);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function utHideTyping() {
+    const el = document.getElementById('ut-typing-indicator');
+    if (el) el.remove();
+  }
+
+  function utFormatText(text) {
+    return utEscape(text)
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\n/g, '<br>');
+  }
+
+  function utEscape(text) {
+    return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  window.utChatSend = async function() {
+    const input = document.getElementById('ut-chat-input');
+    const text = input.value.trim();
+    if (!text || utIsLoading) return;
+
+    input.value = '';
+    utChatAutoResize(input);
+    utAddMessage('user', text);
+
+    utIsLoading = true;
+    document.getElementById('ut-chat-send').disabled = true;
+    utShowTyping();
+
+    try {
+
+      const apiMessages = utMessages
+        .filter(m => m.role !== 'system')
+        .map(m => ({
+          role: m.role === 'bot' ? 'assistant' : 'user',
+          content: m.content
+        }));
+
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 400,
+          system: UT_SYSTEM,
+          messages: apiMessages
+        })
+      });
+
+      const data = await response.json();
+      utHideTyping();
+
+      if (data.content && data.content[0]) {
+        const reply = data.content[0].text;
+        utAddMessage('bot', reply);
+      } else {
+        utAddMessage('bot', 'Ek second! Kuch technical issue ho gaya. Please try again ya WhatsApp karo hume!');
+      }
+    } catch (err) {
+      utHideTyping();
+      utAddMessage('bot', 'Sorry, abhi connect nahi ho pa raha. Please refresh karke try karein ya WhatsApp karo: +91-XXXXXXXXXX');
+    } finally {
+      utIsLoading = false;
+      document.getElementById('ut-chat-send').disabled = false;
+      input.focus();
+    }
+  };
+
+  window.utChatKeydown = function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      utChatSend();
+    }
+  };
+
+  window.utChatAutoResize = function(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+  };
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Urban Trend Homepage",
+  "tag": "div",
+  "class": "urban-trend-homepage",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_model_image",
+      "label": "Hero Model Image"
+    }
+  ]
+}
+{% endschema %}
