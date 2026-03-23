@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "urban-trend-homepage",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
